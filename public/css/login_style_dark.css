@@ -1,0 +1,110 @@
+body.dark,
+body.dark .top-nav .profile-nav .dropdown-menu {
+    background: #232A3B!important;
+}
+
+body.dark .sidemenu-links .linkItem-body {
+    background-color: #fff1!important;
+}
+
+body.dark main,
+body.dark .sidemenu-links li.active .side_link {
+    background: #293145!important;
+}
+
+body.dark .sidemenu-links li.active .side_link::before,
+body.dark .sidemenu-links li.active .side_link::after {
+    background-image: url(../images/side_link_shap_dark.png)!important;
+}
+
+body.dark .home .general-report .items,
+body.dark .border_items,
+body.dark .product_table table tbody tr:nth-of-type(odd),
+body.dark .product_table table tbody tr {
+    background-color: #fff1!important;
+}
+
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6,
+body.dark p {
+    color: #f9f9f9!important;
+}
+
+body.dark .home .general-report .items .top h2,
+body.dark .home .general-report .items .bottom .item span,
+body.dark .chart1_det .items h2,
+body.dark .sidemenu-links li.active a span,
+body.dark .chart1_det .head a,
+body.dark .pie-det li,
+body.dark table.table-bordered.dataTable th,
+body.dark table.table-bordered.dataTable td,
+body.dark footer a,
+body.dark .top-nav .links a,
+body.dark .top-nav .r_side_menu_btn,
+body.dark .top-nav .notivacations .items .icon {
+    color: #f3f3f3!important;
+}
+
+body.dark .custom-select,
+body.dark .chartLine1 .head input,
+body.dark div.dataTables_wrapper div.dataTables_length select,
+body.dark .product_table .page-item.active .page-link {
+    background: #fff3 !important;
+    color: #000!important;
+}
+
+body.dark #chart1 {
+    filter: brightness(0.7)!important;
+}
+
+body.dark #chart1 svg {
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(1002%) contrast(102%)!important;
+}
+
+body.dark .r_side_menu .nav-pills .nav-link {
+    background-color: #fff2!important;
+    color: #fff!important;
+}
+
+body.dark .top-nav .links .dropdown.lang .dropdown-menu a {
+    color: #444!important;
+}
+
+body.dark .notes {
+    color: #fff!important;
+}
+
+body.dark .login_page,
+body.dark .login_page .card {
+    background-color: #232A3B!important;
+    color: #fff!important;
+}
+
+body.dark .login_page .btn-google {
+    color: #fff!important;
+}
+
+body.dark .panel {
+    background-color: #232A3B!important;
+    color: #fff!important;
+}
+
+body.dark .wizard-content .wizard>.steps>ul>li.current>a {
+    color: #fff!important;
+}
+
+.dark .login_page {
+    min-height: 100vh!important;
+    background: url(../images/dark_login_bg2.png)!important;
+    background-repeat: no-repeat!important;
+    background-attachment: fixed!important;
+    background-position: left center!important;
+    background-size: 50% 100%!important;
+    -moz-background-size: 50% 100%!important;
+    -webkit-background-size: 50% 100%!important;
+    position: relative!important;
+}

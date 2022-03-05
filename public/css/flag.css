@@ -1,0 +1,127 @@
+.flag-en {
+    background-image: url('/images/flags/1.jpg');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-es {
+    background-image: url('/images/flags/3.jpg');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-sq {
+    background-image: url('/images/flags/sq.png');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-hi {
+    background-image: url('/images/flags/hi.png');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-nl {
+    background-image: url('/images/flags/nl.png');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-fr {
+    background-image: url('/images/flags/fr.webp');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-de {
+    background-image: url('/images/flags/de.webp');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-ar {
+    background-image: url('/images/flags/ar.svg');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-tr {
+    background-image: url('/images/flags/tr.png');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-id {
+    background-image: url('/images/flags/id.jpg');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-ps {
+    background-image: url('/images/flags/ps.jpg');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-pt {
+    background-image: url('/images/flags/pt.png');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-vi {
+    background-image: url('/images/flags/vi.png');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-ce {
+    background-image: url('/images/flags/ce.png');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-ro {
+    background-image: url('/images/flags/ro.webp');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.flag-lo {
+    background-image: url('/images/flags/lo.png');
+    background-size: cover;
+    width: 20px;
+    height: 13px;
+    margin-right: 5px;
+}

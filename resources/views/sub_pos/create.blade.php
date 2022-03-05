@@ -1,0 +1,286 @@
+@extends('layouts.app')
+
+@section('css')
+    <style>
+        .main-header {}
+
+        body {
+            background: linear-gradient(-45deg, rgb(241, 245, 248), rgb(241, 245, 248)) !important;
+        }
+
+        #product_list_body {
+            overflow: hidden !important;
+            max-height: inherit !important;
+        }
+
+        .btn .caret {
+            display: none;
+        }
+
+
+        /** scroll styles **/
+
+
+        /* width */
+        .pos-scroll::-webkit-scrollbar {
+            width: 5px !important;
+            height: 8px !important;
+        }
+
+
+        /* Track */
+
+        .pos-scroll::-webkit-scrollbar-track {
+            background: #dedcdc94 !important;
+            border-radius: 5px !important;
+        }
+
+
+        /* Handle */
+
+        .pos-scroll::-webkit-scrollbar-thumb {
+            background: #030504 !important;
+            width: 5px;
+            border-radius: 5px !important;
+        }
+
+
+        /* Handle on hover */
+
+        .pos-scroll::-webkit-scrollbar-thumb:hover {
+            background: #000000 !important;
+        }
+
+        .col-md-1,
+        .col-md-10,
+        .col-md-11,
+        .col-md-12,
+        .col-md-2,
+        .col-md-3,
+        .col-md-4,
+        .col-md-5,
+        .col-md-6,
+        .col-md-7,
+        .col-md-8,
+        .col-md-9 {
+            z-index: inherit !important;
+        }
+ 
+
+    </style>
+    <!-- include module css -->
+    @if (!empty($pos_module_data))
+        @foreach ($pos_module_data as $key => $value)
+            @if (!empty($value['module_css_path']))
+                @includeIf($value['module_css_path'])
+            @endif
+        @endforeach
+    @endif
+
+    <style>
+        .main-header {
+            display: block !important;
+        }
+
+    </style>
+@endsection
+
+@section('title', __('sale.pos_sale'))
+
+@section('content')
+    <section class="content no-print">
+        <input type="hidden" id="amount_rounding_method" value="{{ $pos_settings['amount_rounding_method'] ?? '' }}">
+        @if (!empty($pos_settings['allow_overselling']))
+            <input type="hidden" id="is_overselling_allowed">
+        @endif
+        @if (session('business.enable_rp') == 1)
+            <input type="hidden" id="reward_point_enabled">
+        @endif
+        @php
+            $is_discount_enabled = $pos_settings['disable_discount'] != 1 ? true : false;
+            $is_rp_enabled = session('business.enable_rp') == 1 ? true : false;
+        @endphp
+        {!! Form::open(['url' => action('SubSellPosController@store'), 'method' => 'post', 'id' => 'add_pos_sell_form']) !!}
+        <input type="hidden" name="cod" id="cod" value="0">
+        <div class="row mb-12">
+            <div class="col-md-12">
+                <div class="w3-">
+                    <div class="row">
+                        <div
+                            class="@if (empty($pos_settings['hide_product_suggestion'])) col-md-7 @else col-md-10 col-md-offset-1 @endif no-padding pr-12">
+                            <div class="box box-solid mb-12 pos-border  full-height-pos">
+                                <div class="box-body pb-0">
+                                    {!! Form::hidden('location_id', $default_location->id ?? null, ['id' => 'location_id', 'data-receipt_printer_type' => !empty($default_location->receipt_printer_type) ? $default_location->receipt_printer_type : 'browser', 'data-default_payment_accounts' => $default_location->default_payment_accounts ?? '']) !!}
+                                    <!-- sub_type -->
+                                    {!! Form::hidden('sub_type', isset($sub_type) ? $sub_type : null) !!}
+                                    <input type="hidden" id="item_addition_method"
+                                        value="{{ $business_details->item_addition_method }}">
+                                    @include('sub_pos.partials.pos_form')
+
+
+                                    @include('sub_pos.partials.payment_modal')
+
+                                    @if (empty($pos_settings['disable_suspend']))
+                                        @include(
+                                            'sub_pos.partials.suspend_note_modal'
+                                        )
+                                    @endif
+
+                                    @if (empty($pos_settings['disable_recurring_invoice']))
+                                        @include(
+                                            'sub_pos.partials.recurring_invoice_modal'
+                                        )
+                                    @endif
+
+                                    <div class=" full-height-pos2 w3-block w3-margin-bottom w3-white w3-border-light-gray pos-border pos-scroll"
+                                        style="overflow-x: hidden;overflow-y: auto">
+                                        @include('sub_pos.partials.pos_table')
+                                    </div>
+
+                                    @if (empty($pos_settings['hide_product_suggestion']) && !isMobile())
+                                        <div class="w3-block w3-margin-bottom pos-scroll hidden"
+                                            style="height: 500px;overflow: auto">
+                                            @include('sub_pos.partials.pos_sidebar')
+                                        </div>
+                                    @endif
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 no-padding" style="z-index: 1!important">
+                            <div class="w3-white w3-round w3-padding w3-border w3-border-light-gray w3-margin-bottom pos-border w3-block"
+                                style="height: 190px;overflow: auto">
+                                <style>
+                                    .table tr {
+                                        border-bottom: 0px !important;
+                                    }
+
+                                    .customer-pos-table-info th,
+                                    .customer-pos-table-info td {
+                                        border-bottom: 0px !important;
+                                        border-top: 0px !important;
+                                    } 
+
+                                </style>
+                                <table class="table table-responsive customer-pos-table-info">
+                                    <tr>
+                                        <th style="padding: 0px!important">@trans('name')</th>
+                                        <td style="padding: 0px!important"><span class="customer_name">{{ $walk_in_customer['name'] }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="padding: 0px!important">@trans('email')</th>
+                                        <td style="padding: 0px!important"><span class="customer_email">{{ $walk_in_customer['email'] }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="padding: 0px!important">@trans('mobile')</th>
+                                        <td style="padding: 0px!important"><span class="customer_mobile">{{ $walk_in_customer['mobile'] }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="padding: 0px!important">@trans('address')</th>
+                                        <td style="padding: 0px!important"><span class="customer_address">{{ $walk_in_customer['address_line_1'] }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="padding: 0px!important">@trans('city')</th>
+                                        <td style="padding: 0px!important"><span class="customer_city">{{ $walk_in_customer['city'] }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="padding: 0px!important">@trans('country')</th>
+                                        <td style="padding: 0px!important"><span class="customer_country">{{ $walk_in_customer['country'] }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="padding: 0px!important">@trans('zipcode')</th>
+                                        <td style="padding: 0px!important"><span class="customer_zipcode">{{ $walk_in_customer['zip_code'] }}</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div
+                                class="w3-white w3-round w3-padding w3-border w3-border-light-gray w3-margin-bottom pos-border">
+                                @include('sub_pos.partials.pos_form_totals')
+                            </div>
+                            @include('sub_pos.partials.pos_form_actions')
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {!! Form::close() !!}
+    </section>
+
+    <!-- This will be printed -->
+    <section class="invoice print_section" id="receipt_section">
+    </section>
+    <div class="modal fade contact_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        @include('contact.create', ['quick_add' => true])
+    </div>
+    @if (empty($pos_settings['hide_product_suggestion']) && isMobile())
+        @include('sub_pos.partials.mobile_product_suggestions')
+    @endif
+    <!-- /.content -->
+    <div class="modal fade register_details_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    </div>
+    <div class="modal fade close_register_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    </div>
+    <!-- quick product modal -->
+    <div class="modal fade quick_add_product_modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle"></div>
+
+    @include('sub_pos.partials.configure_search_modal')
+
+    @include('sub_pos.partials.recent_transactions_modal')
+
+    @include('sub_pos.partials.weighing_scale_modal')
+
+@stop
+
+@section('javascript')
+    <script src="{{ asset('js/sub_pos.js?v=' . $asset_v) }}"></script>
+    <script src="{{ asset('js/printer.js?v=' . $asset_v) }}"></script>
+    <script src="{{ asset('js/product.js?v=' . $asset_v) }}"></script>
+    <script src="{{ asset('js/opening_stock.js?v=' . $asset_v) }}"></script>
+    @include('sub_pos.partials.keyboard_shortcuts')
+
+    <!-- Call restaurant module if defined -->
+    @if (in_array('tables', $enabled_modules) || in_array('modifiers', $enabled_modules) || in_array('service_staff', $enabled_modules))
+        <script src="{{ asset('js/restaurant.js?v=' . $asset_v) }}"></script>
+    @endif
+    <!-- include module js -->
+    @if (!empty($pos_module_data))
+        @foreach ($pos_module_data as $key => $value)
+            @if (!empty($value['module_js_path']))
+                @includeIf($value['module_js_path'], ['view_data' => $value['view_data']])
+            @endif
+        @endforeach
+    @endif
+
+    <script>
+        $(document.body).addClass('pos-body');
+
+        function chooseProduct(modalId, replace = null) {
+            if ($(modalId).find(".product_box").length > 1) {
+                $(modalId).modal('show');
+            } else {
+                $(modalId).find(".product_box").click();
+            }
+
+            if (replace) {
+                $(modalId).find(".product_box").attr('replace', replace);
+            } else {
+                $(modalId).find(".product_box").attr('replace', '0');
+            }
+        }
+
+        window.disable_pre_modal = true;
+
+        // pre config modal
+        preModals2($('#configure_search_modal'));
+        preModals2($('#weighing_scale_modal'));
+        preModals2($('.quick_add_product_modal'));
+        preModals2($('.close_register_modal'));
+        preModals2($('.register_details_modal'));
+        preModals2($('#mobile_product_suggestion_modal'));
+
+        // set sales commission if exists 
+        $('select[name=commission_agent]').val('{{ session('business.select_sales_commission_id') }}');
+
+        changePos('subscription');
+    </script>
+@endsection

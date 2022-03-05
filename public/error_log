@@ -1,0 +1,1 @@
+[29-Apr-2021 20:34:12 Asia/Kolkata] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/vauxerp/app.vauxerp.com/app/Http/Controllers/BrandController.php on line 3

@@ -1,0 +1,83 @@
+
+body.dark,
+body.dark .top-nav .profile-nav .dropdown-menu {
+    background: #232A3B;
+}
+
+body.dark .sidemenu-links .linkItem-body {
+    background-color: #fff1;
+}
+
+body.dark main,
+body.dark .sidemenu-links li.active .side_link {
+    background: #293145;
+}
+
+body.dark .sidemenu-links li.active .side_link::before,
+body.dark .sidemenu-links li.active .side_link::after {
+    background-image: url(../images/side_link_shap_dark.png);
+}
+
+body.dark .home .general-report .items,
+body.dark .border_items,
+body.dark .product_table table tbody tr:nth-of-type(odd),
+body.dark .product_table table tbody tr {
+    background-color: #fff1;
+}
+
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6,
+body.dark p {
+    color: #f9f9f9;
+}
+
+body.dark .home .general-report .items .top h2,
+body.dark .home .general-report .items .bottom .item span,
+body.dark .chart1_det .items h2,
+body.dark .sidemenu-links li.active a span,
+body.dark .chart1_det .head a,
+body.dark .pie-det li,
+body.dark table.table-bordered.dataTable th,
+body.dark table.table-bordered.dataTable td,
+body.dark footer a,
+body.dark .top-nav .links a,
+body.dark .top-nav .r_side_menu_btn,
+body.dark .top-nav .notivacations .items .icon {
+    color: #f3f3f3;
+}
+
+body.dark .custom-select,
+body.dark .chartLine1 .head input,
+body.dark div.dataTables_wrapper div.dataTables_length select,
+body.dark .product_table .page-item.active .page-link {
+    background: #fff3 !important;
+    color: #000;
+}
+
+body.dark #chart1 {
+    filter: brightness(0.7);
+}
+
+body.dark #chart1 svg {
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(1002%) contrast(102%);
+}
+
+body.dark .r_side_menu {
+    background-color: #232A3B;
+}
+
+body.dark .r_side_menu .nav-pills .nav-link {
+    background-color: #fff2;
+    color: #fff;
+}
+
+body.dark .top-nav .links .dropdown.lang .dropdown-menu a {
+    color: #444;
+}
+body.dark .notes {
+    color:#fff
+}
