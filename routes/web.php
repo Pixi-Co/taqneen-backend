@@ -55,8 +55,7 @@ Route::get('/migrate', function(){
 
 Route::middleware(['setData'])->group(function () {
 
-    Route::get('/invoice/{token}', 'SellPosController@showInvoice')
-        ->name('show_invoice');
+    Route::get('/invoice/{token}', 'SellPosController@showInvoice')->name('show_invoice');
         
     Auth::routes();
     
@@ -79,8 +78,13 @@ Route::middleware(['setData'])->group(function () {
 
 //Routes for authenticated users only
 Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'CheckUserLogin'])->group(function () {
-    
+     
+
     Route::get('/', 'HomeController@index');
+    Route::get('/support', 'HomeController@support');
+    Route::resource('services', 'taqneen\ServiceController');
+    Route::resource('packages', 'taqneen\PackageController');
+
     Route::get('/settings', 'BusinessController@settings')->name('settings.page');
     
     // translation routes

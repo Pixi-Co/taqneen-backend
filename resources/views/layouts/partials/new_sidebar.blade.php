@@ -173,30 +173,30 @@ $enabled_modules = !empty(session('business.enabled_modules')) ? session('busine
             </li>
             @endcan
             @endcan_bt
-     
-
-  
-
- 
-
- 
-
-            <!--
+      
             <li>
-                <a class="sidemen-item-a" href="{{ url('/') }}/notification-templates">
-                    <img class="fa sidebar-img" src="{{ asset('/images/menu/16.svg') }}" alt="">
-                    <span>Notification Templates</span>
+                <a class="sidemen-item-a" href="{{ url('/supportboard/admin.php') }}">
+                    <img class="fa sidebar-img" src="{{ asset('/images/menu/3.svg') }}" alt="">
+                    <span>@trans('support')</span>
                 </a>
             </li>
-        -->
+  
+            <!--
+                <li>
+                    <a class="sidemen-item-a" href="{{ url('/') }}/notification-templates">
+                        <img class="fa sidebar-img" src="{{ asset('/images/menu/16.svg') }}" alt="">
+                        <span>Notification Templates</span>
+                    </a>
+                </li>
+            -->
 
 
             @if (auth()->user()->can('business_settings.access') ||
-    auth()->user()->can('barcode_settings.access') ||
-    auth()->user()->can('invoice_settings.access') ||
-    auth()->user()->can('tax_rate.view') ||
-    auth()->user()->can('tax_rate.create') ||
-    auth()->user()->can('access_package_subscriptions'))
+                    auth()->user()->can('barcode_settings.access') ||
+                    auth()->user()->can('invoice_settings.access') ||
+                    auth()->user()->can('tax_rate.view') ||
+                    auth()->user()->can('tax_rate.create') ||
+                    auth()->user()->can('access_package_subscriptions'))
                 <li id="">
                     <a href="{{ url('/') }}/settings" class="sidemen-item-a">
                         <img class="fa sidebar-img" src="{{ asset('/images/menu/18.svg') }}" alt="">
