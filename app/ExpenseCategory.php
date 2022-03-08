@@ -22,6 +22,18 @@ class ExpenseCategory extends Model
      * @var array
      */
     protected $guarded = ['id'];
+ 
+
+    public static function getObject() {
+        $business_id = session('business.id');
+        $objects = [];
+        $arr = self::where('business_id', $business_id)->get();
+
+        foreach($arr as $item)
+            $objects[$item->id] = $item;
+
+        return $objects;
+    }
 
     /**
      * 

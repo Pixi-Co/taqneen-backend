@@ -36,6 +36,17 @@ class Contact extends Authenticatable
         return $this->attributes['mobile'];
     }
 
+    public static function getObject() {
+        $business_id = session('business.id');
+        $objects = [];
+        $arr = self::where('business_id', $business_id)->onlyCustomers()->get();
+
+        foreach($arr as $item)
+            $objects[$item->id] = $item;
+
+        return $objects;
+    }
+
     /**
     * Get the business that owns the user.
     */

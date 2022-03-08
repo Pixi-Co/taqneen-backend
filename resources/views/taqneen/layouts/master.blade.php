@@ -53,7 +53,7 @@
         <!-- Page Sidebar Start-->
         @include('taqneen.layouts.sidebar')
         <!-- Page Sidebar Ends-->
-        <div class="page-body">
+        <div class="page-body" id="app-root" >
           <div class="container-fluid">
             <div class="page-title">
               <div class="row">
