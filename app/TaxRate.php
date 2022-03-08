@@ -22,6 +22,18 @@ class TaxRate extends Model
      */
     protected $guarded = ['id'];
 
+    
+    public static function getObject() {
+        $business_id = session('business.id');
+        $objects = [];
+        $arr = self::where('business_id', $business_id)->get();
+
+        foreach($arr as $item)
+            $objects[$item->id] = $item;
+
+        return $objects;
+    }
+
     /**
      * Return list of tax rate dropdown for a business
      *
