@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\DB;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('customer-sub', function(){
+    return view('taqneen.customer_forms.edit_subscribe_muqeem_model'); 
+});
 
 Route::get('/remove_notfound_img', function(){
     foreach(DB::table('media')->get() as $item) {

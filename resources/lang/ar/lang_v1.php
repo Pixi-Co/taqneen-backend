@@ -1169,4 +1169,6 @@ return [
 "price_calculation_type"=>"نوع حساب السعر",
 "show_pricing_on_product_sugesstion"=>"عرض التسعير على تلميح اقتراح المنتج",
 "profile_updated_successfully" => "تم تحديث الملف الشخصي بنجاح",
+
+
 ];
