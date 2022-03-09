@@ -31,6 +31,17 @@
                         </ul>
                     </li>
 					
+					{{------------------------ customers button -----------------------------}}
+					<li   class=" sidebar-list">
+                        <a class="sidebar-link    sidebar-title" href="#">
+                            <i data-feather="user"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('customers') }}</span>
+                            <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/customers' ? 'down' : 'right' }}"></i></div>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/customers')}}" >@trans('view')</a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/customers/create')}}" >@trans('add') </a></li>
+                        </ul>
+                    </li>
                     {{------------------------ settings button -----------------------------}}
 					<li   class=" sidebar-list">
                         <a class="sidebar-link    sidebar-title" href="#">
