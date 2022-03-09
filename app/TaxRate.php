@@ -13,13 +13,13 @@ class TaxRate extends Model
      *
      * @var array
      */
-    
+    protected $table = "tax_rates";
     
     /**
      * The attributes that aren't mass assignable.
      *
      * @var array
-     */
+     */ 
     protected $guarded = ['id'];
 
     

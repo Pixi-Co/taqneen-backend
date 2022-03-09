@@ -39,6 +39,8 @@
                         </a>
                         <ul class="sidebar-submenu" >
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/packages')}}" >@trans('packages')</a></li> 
+							<li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/categories')}}" >@trans('Categories')</a></li>
+							 <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/taxs')}}" >@trans('Taxs')</a></li> 
                         </ul>
                     </li>
 					

@@ -86,7 +86,9 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/', 'HomeController@index');
     Route::get('/support', 'HomeController@support');
     Route::resource('services', 'taqneen\ServiceController');
-    Route::resource('packages', 'taqneen\PackageController');
+    Route::resource('packages', 'taqneen\PackageController'); 
+    Route::resource('categories', 'taqneen\ExpensesCategoryController'); 
+    Route::resource('taxs', 'taqneen\TaxsController'); 
     Route::resource('subscriptions', 'taqneen\SubscriptionController');
 
     Route::get('/settings', 'BusinessController@settings')->name('settings.page');

@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
-
+ 
 class ExpenseCategory extends Model
 {
     use SoftDeletes;
@@ -14,7 +14,7 @@ class ExpenseCategory extends Model
      *
      * @var array
      */
-    
+    protected $table = "expense_categories";
 
     /**
      * The attributes that aren't mass assignable.
