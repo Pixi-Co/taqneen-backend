@@ -14,12 +14,12 @@
 @endsection
 
 @section('breadcrumb-title')
-<h3>@trans('customers')</h3>
+<h3>@trans('opportunities')</h3>
 @endsection
 
 @section('breadcrumb-items')
 <li class="breadcrumb-item">@lang('lang.Dashboard')</li>
-<li class="breadcrumb-item active">@trans('customers')</li> 
+<li class="breadcrumb-item active">@trans('opportunities')</li> 
 @endsection
 
 @section('content') 
@@ -43,37 +43,33 @@
                                         <h5>@lang('lang.Opportunities')</h5>
                                     </div> --}}
                                     <div class="card-body">
-                                        <a role="button" href="/customers/create" class="btn btn-primary" >@trans('add new')</a>
+                                        <a role="button" href="/opportunities/create" class="btn btn-primary" >@trans('add new')</a>
 
                                         <div class="table-responsive pt-3">
                                             <table class="display" id="advance-4">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>@trans('company name')</th>
-                                                        <th>@trans(' name')</th>
-                                                        <th>@trans('sales commission')</th>
-                                                        <th>@trans('subscription status ')</th>
-                                                        <th>@trans('email ')</th>
-                                                        <th>@trans('accoutant no')</th>
+                                                        <th>@trans(' Name')</th>
+                                                        <th>@trans(' Phone')</th>
+                                                        <th>@trans('Email ')</th>
+                                                        <th>@trans('User')</th>
                                                         
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($customers as $item)
+                                                    @foreach($opportunities as $item)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
-                                                        <td>{{  $item->supplier_business_name  }}</td>          
-                                                        <td><a href="{{ route('profile.show',$item->id)}}">{{  $item->name  }}</a></td>          
-                                                        <td>test</td>          
-                                                        <td>test</td>          
+                                                        <td>{{  $item->name  }}</td>          
+                                                        <td>{{  $item->mobile  }}</td>          
                                                         <td>{{  $item->email  }}</td>          
-                                                        <td>{{  $item->custom_field1  }}</td>          
+                                                        <td>{{  $item->created_by }}</td>          
                                                          
                                                         <td class="d-flex">
-                                                            <a role="button" href="/customers/{{ $item->id }}/edit" class="m-1 btn btn-primary btn-sm" >@trans('edit')</a>
-                                                            <button onclick="destroy('/customers/{{ $item->id }}')" class="m-1 btn btn-danger bt-sm" >@trans('remove')</button>
+                                                            <a role="button" href="/opportunities/{{ $item->id }}/edit" class="m-1 btn btn-primary btn-sm" >@trans('edit')</a>
+                                                            <button onclick="destroy('/opportunities/{{ $item->id }}')" class="m-1 btn btn-danger bt-sm" >@trans('remove')</button>
                                                         </td>     
                                                     </tr> 
                                                     @endforeach

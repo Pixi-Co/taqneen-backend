@@ -73,7 +73,7 @@
 
                                              <div class="form-group col-md-6 pt-3">
                                                  <label>@trans('Email ')</label>
-                                                 <input type="text" name="email" class="form-control" placeholder="@trans('Email ')" value="{{ $customer->email }}" required>
+                                                 <input type="email" name="email" class="form-control" placeholder="@trans('Email ')" value="{{ $customer->email }}" required>
                                              </div>
 
                                              <div class="form-group col-md-6 pt-3">
