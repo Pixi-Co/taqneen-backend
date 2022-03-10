@@ -90,6 +90,9 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::resource('categories', 'taqneen\ExpensesCategoryController'); 
     Route::resource('taxs', 'taqneen\TaxsController'); 
     Route::resource('subscriptions', 'taqneen\SubscriptionController');
+    Route::post('subscriptions/save', 'taqneen\SubscriptionController@save');
+    Route::post('subscriptions/add-note/{id}', 'taqneen\SubscriptionController@addNote');
+    Route::get('subscriptions/data', 'taqneen\SubscriptionController@data');
 
     Route::get('/settings', 'BusinessController@settings')->name('settings.page');
     

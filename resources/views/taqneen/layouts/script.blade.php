@@ -24,6 +24,7 @@
 <!-- Plugins JS Ends-->
 <!-- Theme js-->
 <script src="{{ asset('assets/js/script.js') }}"></script>
+<script src="{{ asset('js/formajax.js') }}"></script>
 <script src="{{ asset('assets/js/theme-customizer/customizer.js') }}"></script>
 
 
@@ -132,4 +133,10 @@
             });
         @endif
     @endif
+
+
+    var toastr = {
+        success: message,
+        error: message 
+    };
 </script>
