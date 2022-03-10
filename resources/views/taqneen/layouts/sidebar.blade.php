@@ -44,6 +44,29 @@
                         </ul>
                     </li>
 					
+					{{------------------------ customers button -----------------------------}}
+					<li   class=" sidebar-list">
+                        <a class="sidebar-link    sidebar-title" href="#">
+                            <i data-feather="user"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('customers') }}</span>
+                            <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/customers' ? 'down' : 'right' }}"></i></div>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/customers')}}" >@trans('view')</a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/customers/create')}}" >@trans('add') </a></li>
+                        </ul>
+                    </li>
+
+					{{------------------------ opportunities button -----------------------------}}
+					<li   class=" sidebar-list">
+                        <a class="sidebar-link    sidebar-title" href="#">
+                            <i data-feather="star"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('opportunities') }}</span>
+                            <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/opportunities' ? 'down' : 'right' }}"></i></div>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/opportunities')}}" >@trans('view')</a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/opportunities/create')}}" >@trans('add') </a></li>
+                        </ul>
+                    </li>
                     {{------------------------ settings button -----------------------------}}
 					<li   class=" sidebar-list">
                         <a class="sidebar-link    sidebar-title" href="#">
@@ -138,16 +161,16 @@
                     </li>
 
                     {{------------------------ Opportunities button -----------------------------}}
-                    <li class="sidebar-list">
+                    {{-- <li class="sidebar-list">
 						<a class="sidebar-link    sidebar-title {{request()->segments() == '/users' ? 'active' : '' }}" href="#">
 							<i data-feather="star"></i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('lang.Opportunities') }}</span>
 							<div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/users' ? 'down' : 'right' }}"></i></div>
 						</a>
 						<ul class="sidebar-submenu" style="display: {{request()->segments() == '/users' ? 'block' : 'none;' }};">
 		                    <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('viewOpportunities')}}" class="{{ Route::currentRouteName()=='viewOpportunities' ? 'active' : '' }}">@trans('lang.ViewOpportunities')</a></li>
-		                    {{-- <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('addOpportunities')}}" class="{{ Route::currentRouteName()=='addOpportunities' ? 'active' : '' }}">@trans('lang.AddOpportunities') </a></li> --}}
+		                    <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('addOpportunities')}}" class="{{ Route::currentRouteName()=='addOpportunities' ? 'active' : '' }}">@trans('lang.AddOpportunities') </a></li>
 		                </ul>
-					</li>
+					</li> --}}
 
                     {{------------------------ subscription button -----------------------------}}
                     <li class="sidebar-list">

@@ -3,6 +3,7 @@
 use App\Account;
 use App\BusinessType;
 use App\ExpenseCategory;
+use App\Http\Controllers\taqneen\CustomerController;
 use App\ShippingFees;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -86,6 +87,9 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/', 'HomeController@index');
     Route::get('/support', 'HomeController@support');
     Route::resource('services', 'taqneen\ServiceController');
+    Route::resource('customers', 'taqneen\CustomerController');
+    Route::get('profile/{id}',[CustomerController::class,'show'])->name('profile.show');
+    Route::resource('opportunities', 'taqneen\OpportunitController'); 
     Route::resource('packages', 'taqneen\PackageController'); 
     Route::resource('categories', 'taqneen\ExpensesCategoryController'); 
     Route::resource('taxs', 'taqneen\TaxsController'); 
@@ -93,6 +97,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::post('subscriptions/save', 'taqneen\SubscriptionController@save');
     Route::post('subscriptions/add-note/{id}', 'taqneen\SubscriptionController@addNote');
     Route::get('subscriptions/data', 'taqneen\SubscriptionController@data');
+    
 
     Route::get('/settings', 'BusinessController@settings')->name('settings.page');
     
