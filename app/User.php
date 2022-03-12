@@ -25,7 +25,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $guarded = ['id'];
-    
+    protected $appends = ['image_path']; 
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -40,7 +41,10 @@ class User extends Authenticatable
      *
      * @var array
      */
-    
+    public function getImagePathAttribute(){
+        return asset('uploads/users_images/' .$this->custom_field_1);
+    }//end of get images
+
     public function requireActivation() {
         $token = randToken();
         $this->remember_token = $token;

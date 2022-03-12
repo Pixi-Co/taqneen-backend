@@ -34,7 +34,7 @@
 
 @section('content') 
     <div class="container-fluid">
-        <form action="{{ $customer->id? '/customers/' . $customer->id : '/customers' }}" method="post" >
+        <form action="{{ $customer->id? '/customers/' . $customer->id : '/customers' }}" method="post"  enctype="multipart/form-data">
             @csrf
             @if ($customer->id)
                 @method("put")

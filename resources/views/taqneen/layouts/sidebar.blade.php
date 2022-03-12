@@ -21,11 +21,11 @@
 
                     {{------------------------ services button -----------------------------}}
 					<li   class=" sidebar-list">
-                        <a class="sidebar-link    sidebar-title" href="#">
+                        <a class="sidebar-link    sidebar-title {{request()->segments() == '/services' ? 'active' : '' }}" href="#">
                             <i data-feather="server"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('services') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/services' ? 'down' : 'right' }}"></i></div>
                         </a>
-                        <ul class="sidebar-submenu">
+                        <ul class="sidebar-submenu" style="display: {{request()->segments() == '/services' ? 'block' : 'none;' }};">
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/services')}}" >@trans('view')</a></li>
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/services/create')}}" >@trans('add') </a></li>
                         </ul>
@@ -33,39 +33,68 @@
 					
 					{{------------------------ customers button -----------------------------}}
 					<li   class=" sidebar-list">
-                        <a class="sidebar-link    sidebar-title" href="#">
-                            <i data-feather="user"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('customers') }}</span>
+                        <a class="sidebar-link    sidebar-title {{request()->segments() == '/customers' ? 'active' : '' }}" href="#">
+                            <i data-feather="users"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('customers') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/customers' ? 'down' : 'right' }}"></i></div>
                         </a>
-                        <ul class="sidebar-submenu">
+                        <ul class="sidebar-submenu" style="display: {{request()->segments() == '/customers' ? 'block' : 'none;' }};">
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/customers')}}" >@trans('view')</a></li>
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/customers/create')}}" >@trans('add') </a></li>
                         </ul>
                     </li>
 
+                    {{------------------------ users button -----------------------------}}
+                    <li class="sidebar-list">
+                        <a class="sidebar-link    sidebar-title {{request()->segments() == '/userstaq' ? 'active' : '' }}" href="#">
+                            <i data-feather="users"></i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('users') }}</span>
+                            <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/userstaq' ? 'down' : 'right' }}"></i></div>
+                        </a>
+                        <ul class="sidebar-submenu" style="display: {{request()->segments() == '/userstaq' ? 'block' : 'none;' }};">
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/userstaq')}}" >@trans('view')</a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/userstaq/create')}}" >@trans('add') </a></li>
+                        </ul>
+                    </li>
+
+
 					{{------------------------ opportunities button -----------------------------}}
 					<li   class=" sidebar-list">
-                        <a class="sidebar-link    sidebar-title" href="#">
+                        <a class="sidebar-link    sidebar-title {{request()->segments() == '/opportunities' ? 'active' : '' }}" href="#">
                             <i data-feather="star"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('opportunities') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/opportunities' ? 'down' : 'right' }}"></i></div>
                         </a>
-                        <ul class="sidebar-submenu">
+                        <ul class="sidebar-submenu" style="display: {{request()->segments() == '/users' ? 'block' : 'none;' }};">
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/opportunities')}}" >@trans('view')</a></li>
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/opportunities/create')}}" >@trans('add') </a></li>
                         </ul>
                     </li>
                     {{------------------------ settings button -----------------------------}}
 					<li   class=" sidebar-list">
-                        <a class="sidebar-link    sidebar-title" href="#">
+                        <a class="sidebar-link    sidebar-title {{request()->segments() == '/settings' ? 'active' : '' }}" href="#">
                             <i data-feather="settings"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('settings') }}</span>
-                            <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/services' ? 'down' : 'right' }}"></i></div>
+                            <div class="according-menu"><i class="fa fa-angle-"></i></div>
                         </a>
-                        <ul class="sidebar-submenu" >
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/packages')}}" >@trans('packages')</a></li> 
-							<li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/categories')}}" >@trans('Categories')</a></li>
-							 <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/taxs')}}" >@trans('Taxs')</a></li> 
+                        <ul class="sidebar-submenu"  >
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('settings/packages')}}" >@trans('packages')</a></li> 
+							<li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('settings/categories')}}" >@trans('Categories')</a></li>
+							 <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('settings/taxs')}}" >@trans('Taxs')</a></li> 
                         </ul>
                     </li>
+
+                    {{------------------------ reporting button -----------------------------}}
+                    <li class="sidebar-list">
+						<a class="sidebar-link   sidebar-title " href="#">
+							<i data-feather="file-text"></i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('lang.reporting') }}</span>
+							<div class="according-menu"><i class="fa fa-angle-"></i></div>
+						</a>
+						<ul class="sidebar-submenu" >
+		                    {{-- <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('mainreport')}}" class="{{ Route::currentRouteName()=='mainreport' ? 'active' : '' }}">تقرير</a></li> --}}
+		                    <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('servicesReport')}}" class="{{ Route::currentRouteName()=='averagereport' ? 'active' : '' }}">@trans('services report')</a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('saleCommisionReport')}}" class="{{ Route::currentRouteName()=='financialreport' ? 'active' : '' }}">@trans('sale Commision Report') </a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('billreport')}}" class="{{ Route::currentRouteName()=='billreport' ? 'active' : '' }}">الفواتير</a></li>
+		                </ul>
+					</li>
+                   
+
 					
                     {{------------------------ support button -----------------------------}}
 					<li   class=" sidebar-list">
@@ -135,18 +164,7 @@
                         </ul>
                     </li>
 
-                    {{------------------------ users button -----------------------------}}
-                    <li class="sidebar-list">
-                        <a class="sidebar-link    sidebar-title {{request()->segments() == '/users' ? 'active' : '' }}" href="#">
-                            <i data-feather="users"></i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('lang.users') }}</span>
-                            <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/users' ? 'down' : 'right' }}"></i></div>
-                        </a>
-                        <ul class="sidebar-submenu" style="display: {{request()->segments() == '/users' ? 'block' : 'none;' }};">
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('viewusers')}}" class="{{ Route::currentRouteName()=='viewusers' ? 'active' : '' }}">@trans('lang.viewusers')</a></li>
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('addusers')}}" class="{{ Route::currentRouteName()=='addusers' ? 'active' : '' }}">@trans('lang.addusers') </a></li>
-                        </ul>
-                    </li>
-
+                    {
                     {{------------------------ Opportunities button -----------------------------}}
                     {{-- <li class="sidebar-list">
 						<a class="sidebar-link    sidebar-title {{request()->segments() == '/users' ? 'active' : '' }}" href="#">
@@ -171,20 +189,7 @@
 		                </ul>
 					</li>
 
-                    {{------------------------ reporting button -----------------------------}}
-                    <li class="sidebar-list">
-						<a class="sidebar-link   sidebar-title {{request()->segments() == '/users' ? 'active' : '' }}" href="#">
-							<i data-feather="file-text"></i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('lang.reporting') }}</span>
-							<div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/users' ? 'down' : 'right' }}"></i></div>
-						</a>
-						<ul class="sidebar-submenu" style="display: {{request()->segments() == '/users' ? 'block' : 'none;' }};">
-		                    {{-- <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('mainreport')}}" class="{{ Route::currentRouteName()=='mainreport' ? 'active' : '' }}">تقرير</a></li> --}}
-		                    <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('averagereport')}}" class="{{ Route::currentRouteName()=='averagereport' ? 'active' : '' }}">تقرير المعدل</a></li>
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('financialreport')}}" class="{{ Route::currentRouteName()=='financialreport' ? 'active' : '' }}">تقرير المبيعات</a></li>
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('billreport')}}" class="{{ Route::currentRouteName()=='billreport' ? 'active' : '' }}">الفواتير</a></li>
-		                </ul>
-					</li>
-                   
+                    
                     {{------------------------ permissions button -----------------------------}}
 					<li class="sidebar-list"><a class="sidebar-link   sidebar-title link-nav {{ Route::currentRouteName()=='permissions' ? 'active' : '' }} " href="{{url('permissions')}}"><i data-feather="calendar"> </i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('lang.permissions') }}</span></a></li>
 					{{------------------------ settings button -----------------------------}}

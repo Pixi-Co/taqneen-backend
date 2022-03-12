@@ -89,11 +89,14 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::resource('services', 'taqneen\ServiceController');
     Route::resource('customers', 'taqneen\CustomerController');
     Route::get('profile/{id}',[CustomerController::class,'show'])->name('profile.show');
+    Route::resource('userstaq', 'taqneen\UserController'); 
     Route::resource('opportunities', 'taqneen\OpportunitController'); 
-    Route::resource('packages', 'taqneen\PackageController'); 
-    Route::resource('categories', 'taqneen\ExpensesCategoryController'); 
-    Route::resource('taxs', 'taqneen\TaxsController'); 
+    Route::resource('settings/packages', 'taqneen\PackageController'); 
+    Route::resource('settings/categories', 'taqneen\ExpensesCategoryController'); 
+    Route::resource('settings/taxs', 'taqneen\TaxsController'); 
     Route::resource('subscriptions', 'taqneen\SubscriptionController');
+    Route::resource('servicesReport', 'taqneen\ServiceReportController');
+    Route::resource('saleCommisionReport', 'taqneen\SaleCommisionController');
     
 
     Route::get('/settings', 'BusinessController@settings')->name('settings.page');

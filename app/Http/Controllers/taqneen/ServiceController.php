@@ -22,7 +22,7 @@ class ServiceController extends Controller
         $services = Category::forDropdown(session('user.business_id'), "service"); 
         return view('taqneen.services.form', compact("service", "services"));
     }
-    
+     
     public function edit($id) {
         $service = Category::find($id);
         $services = Category::forDropdown(session('user.business_id'), "service"); 

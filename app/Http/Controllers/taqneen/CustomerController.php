@@ -19,6 +19,14 @@ class CustomerController extends Controller
         return view('taqneen.customers.form',compact('customer'));
     }
 
+    
+    public function show($id){
+        $customer = Contact::find($id);
+        //dd($customer);
+        return view('taqneen.customers.profile',compact('customer'));
+    }
+
+    
     public function edit($id){
         $customer = Contact::find($id);
         return view('taqneen.customers.form',compact('customer'));
@@ -155,9 +163,4 @@ class CustomerController extends Controller
 
 
 
-    public function show($id){
-        $customer = Contact::find($id);
-        //dd($customer);
-        return view('taqneen.customers.profile',compact('customer'));
-    }
 }

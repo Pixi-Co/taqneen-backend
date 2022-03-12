@@ -79,7 +79,7 @@ class ExpensesCategoryController extends Controller
 
     public function destroy($id) {
         try { 
-            DB::table('expense_categories')->where("id", $id)->delete();
+           ExpenseCategory::find($id)->delete();
 
             $output = [
                 "success" => 1,
@@ -92,7 +92,7 @@ class ExpensesCategoryController extends Controller
             ];
         }
 
-        return $output; 
+     return  $output; 
     }// end destroy
 
 }
