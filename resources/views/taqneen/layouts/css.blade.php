@@ -25,3 +25,10 @@
 <!-- Responsive css-->
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/responsive.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/select2.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('css/w3.css')}}">
+
+<style>
+    .material-shadow {
+        box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%)!important;
+    }
+</style>

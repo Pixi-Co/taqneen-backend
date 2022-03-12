@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Image;
 
@@ -125,15 +126,43 @@ class Media extends Model
      */
     public static function uploadFile($file)
     {
-        $fileWebp = self::convertToWebp($file); 
+        $extensions = array(
+           "gif",
+            "jpg",
+            "png",
+            "swf",
+            "psd",
+            "bmp",
+            "tiff",
+            "tiff",
+            "jpc",
+            "jp2",
+            "jpx",
+            "jb2",
+            "swc",
+            "iff",
+            "wbmp",
+            "xbm",
+            "ico"
+        );
+        $fileWebp = in_array($file->getExtension(), $extensions)? self::convertToWebp($file) : $file; 
         $file_name = null;
         if ($file->getSize() <= config('constants.document_size_limit')) {
             $new_file_name = time() . '_' . mt_rand() . '_' . str_replace(' ', '_', $file->getClientOriginalName()) . ".webp";
             $file_path = 'uploads/media/'. $new_file_name;
               
-            if ($fileWebp->save($file_path, config('image.quality'))) {
-                $file_name = $new_file_name;
+            if (in_array($file->getExtension(), $extensions)) { 
+                if ($fileWebp->save($file_path, config('image.quality'))) {
+                    $file_name = $new_file_name;
+                }
+            } else { 
+                //$new_file_name = time() . '_' . mt_rand() . '_' . str_replace(' ', '_', $file->getClientOriginalName()) . "." . $file->getExtension();
+                $file_path = 'media/';
+                $res = Storage::disk('local')->put($file_path, $file);
+ 
+                $file_name = str_replace("media//", "", $res);//$new_file_name;
             }
+
         }
 
         return $file_name;
@@ -167,29 +196,82 @@ class Media extends Model
             if (is_array($uploaded_files)) {
                 $media_obj = [];
                 foreach ($uploaded_files as $value) {
-                    $media_obj[] = new \App\Media([
+                    /*$media_obj[] = new \App\Media([
                             'file_name' => $value,
                             'business_id' => $business_id,
+                            'model_id' => $model->id,
                             'description' => !empty($request->description) ? $request->description : null,
                             'uploaded_by' => !empty($request->uploaded_by) ? $request->uploaded_by : auth()->user()->id,
-                            'model_media_type' => $model_media_type
+                            'model_media_type' => $model_media_type,
+                            'model_type' => $model_media_type
                         ]);
+                    $media_obj->insert();*/
+                    
+                    DB::table('media')->insert([
+                        'file_name' => $value,
+                        'business_id' => $business_id,
+                        'model_id' => $model->id,
+                        'description' => !empty($request->description) ? $request->description : null,
+                        'uploaded_by' => !empty($request->uploaded_by) ? $request->uploaded_by : auth()->user()->id,
+                        'model_media_type' => $model_media_type,
+                        'model_type' => $model_media_type
+                    ]);
                 }
                 
-                $model->media()->saveMany($media_obj);
+
+                //$model->media()->saveMany($media_obj);
             } else {
                 //delete previous media if exists
                 $model->media()->delete();
-                
+                /*
                 $media_obj = new \App\Media([
                         'file_name' => $uploaded_files,
                         'business_id' => $business_id,
+                        'model_id' => $model->id,
                         'description' => !empty($request->description) ? $request->description : null,
                         'uploaded_by' => !empty($request->uploaded_by) ? $request->uploaded_by : auth()->user()->id,
-                        'model_media_type' => $model_media_type
-                    ]);
-                $model->media()->save($media_obj);
+                        'model_media_type' => $model_media_type,
+                        'model_type' => $model_media_type
+                    ]);*/
+                //$model->media()->save($media_obj);
+
+                DB::table('media')->insert([
+                    'file_name' => $uploaded_files,
+                    'business_id' => $business_id,
+                    'model_id' => $model->id,
+                    'description' => !empty($request->description) ? $request->description : null,
+                    'uploaded_by' => !empty($request->uploaded_by) ? $request->uploaded_by : auth()->user()->id,
+                    'model_media_type' => $model_media_type,
+                    'model_type' => $model_media_type
+                ]);
             }
         }
+    }
+
+ 
+    public function isImage() {
+        $extensions = array(
+           "gif",
+            "jpg",
+            "png",
+            "swf",
+            "psd",
+            "bmp",
+            "tiff",
+            "tiff",
+            "jpc",
+            "jp2",
+            "jpx",
+            "jb2",
+            "swc",
+            "iff",
+            "wbmp",
+            "xbm",
+            "ico"
+        );
+
+        $filename = $this->file_name;
+        $ext = explode(".", $filename)[1]; 
+        return in_array($ext, $extensions);
     }
 }

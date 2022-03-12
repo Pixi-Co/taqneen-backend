@@ -19,6 +19,19 @@
 
 					<li class="sidebar-list"><a class="sidebar-link   mt-5  sidebar-title link-nav {{ Route::currentRouteName()=='index' ? 'active' : '' }} " href="{{url('/')}}"><i data-feather="home"> </i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('lang.dashboard') }}</span></a></li>
 
+					
+                    {{------------------------ subscription button -----------------------------}}
+					<li   class=" sidebar-list">
+                        <a class="sidebar-link sidebar-title" href="#">
+                            <i data-feather="message-circle"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('subscriptions') }}</span>
+                            <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/subscriptions' ? 'down' : 'right' }}"></i></div>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/subscriptions')}}" >@trans('view')</a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/subscriptions/create')}}" >@trans('add') </a></li>
+                        </ul>
+                    </li>
+
                     {{------------------------ services button -----------------------------}}
 					<li   class=" sidebar-list">
                         <a class="sidebar-link    sidebar-title {{request()->segments() == '/services' ? 'active' : '' }}" href="#">
