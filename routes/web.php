@@ -96,8 +96,8 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::resource('taxs', 'taqneen\TaxsController'); 
     Route::resource('subscriptions', 'taqneen\SubscriptionController'); 
 
-    Route::get('servicesReport', 'taqneen\ServiceReportController');
-    Route::get('saleCommisionReport', 'taqneen\SaleCommisionController');
+    Route::get('reports/services', 'taqneen\ReportController@services');
+    Route::get('reports/sales-commissions', 'taqneen\ReportController@salesComissions');
     Route::post('subscriptions/save', 'taqneen\SubscriptionController@save');
     Route::post('subscriptions/add-note/{id}', 'taqneen\SubscriptionController@addNote');
     Route::get('subscriptions/data', 'taqneen\SubscriptionController@data');

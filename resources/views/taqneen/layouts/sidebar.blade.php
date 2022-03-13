@@ -101,9 +101,9 @@
 						</a>
 						<ul class="sidebar-submenu" >
 		                    {{-- <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('mainreport')}}" class="{{ Route::currentRouteName()=='mainreport' ? 'active' : '' }}">تقرير</a></li> --}}
-		                    <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('servicesReport')}}" class="{{ Route::currentRouteName()=='averagereport' ? 'active' : '' }}">@trans('services report')</a></li>
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('saleCommisionReport')}}" class="{{ Route::currentRouteName()=='financialreport' ? 'active' : '' }}">@trans('sale Commision Report') </a></li>
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('billreport')}}" class="{{ Route::currentRouteName()=='billreport' ? 'active' : '' }}">الفواتير</a></li>
+		                    <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/reports/services')}}" class="{{ Route::currentRouteName()=='averagereport' ? 'active' : '' }}">@trans('services report')</a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/reports/sales-commissions')}}" class="{{ Route::currentRouteName()=='financialreport' ? 'active' : '' }}">@trans('sale Commision Report') </a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/billreport')}}" class="{{ Route::currentRouteName()=='billreport' ? 'active' : '' }}">الفواتير</a></li>
 		                </ul>
 					</li>
                    
