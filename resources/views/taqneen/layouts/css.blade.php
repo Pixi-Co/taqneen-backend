@@ -26,6 +26,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/responsive.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/select2.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/w3.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('css/daterangepicker.css')}}">
 
 <style>
     .material-shadow {

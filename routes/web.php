@@ -95,10 +95,15 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::resource('categories', 'taqneen\ExpensesCategoryController'); 
     Route::resource('taxs', 'taqneen\TaxsController'); 
     Route::resource('subscriptions', 'taqneen\SubscriptionController');
+<<<<<<< HEAD
 //<<<HEAD
     Route::resource('servicesReport', 'taqneen\ServiceReportController');
     Route::resource('saleCommisionReport', 'taqneen\SaleCommisionController');
 
+=======
+    Route::get('servicesReport', 'taqneen\ServiceReportController');
+    Route::get('saleCommisionReport', 'taqneen\SaleCommisionController');
+>>>>>>> f08479d0da7ff638adc88d13bab3535fe2bbb14c
     Route::post('subscriptions/save', 'taqneen\SubscriptionController@save');
     Route::post('subscriptions/add-note/{id}', 'taqneen\SubscriptionController@addNote');
     Route::get('subscriptions/data', 'taqneen\SubscriptionController@data');
