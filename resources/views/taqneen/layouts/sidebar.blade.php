@@ -34,11 +34,11 @@
 
                     {{------------------------ services button -----------------------------}}
 					<li   class=" sidebar-list">
-                        <a class="sidebar-link    sidebar-title {{request()->segments() == '/services' ? 'active' : '' }}" href="#">
+                        <a class="sidebar-link    sidebar-title " href="#">
                             <i data-feather="server"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('services') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/services' ? 'down' : 'right' }}"></i></div>
                         </a>
-                        <ul class="sidebar-submenu" style="display: {{request()->segments() == '/services' ? 'block' : 'none;' }};">
+                        <ul class="sidebar-submenu" >
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/services')}}" >@trans('view')</a></li>
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/services/create')}}" >@trans('add') </a></li>
                         </ul>
@@ -46,11 +46,11 @@
 					
 					{{------------------------ customers button -----------------------------}}
 					<li   class=" sidebar-list">
-                        <a class="sidebar-link    sidebar-title {{request()->segments() == '/customers' ? 'active' : '' }}" href="#">
+                        <a class="sidebar-link    sidebar-title " href="#">
                             <i data-feather="users"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('customers') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/customers' ? 'down' : 'right' }}"></i></div>
                         </a>
-                        <ul class="sidebar-submenu" style="display: {{request()->segments() == '/customers' ? 'block' : 'none;' }};">
+                        <ul class="sidebar-submenu" >
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/customers')}}" >@trans('view')</a></li>
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/customers/create')}}" >@trans('add') </a></li>
                         </ul>
@@ -58,11 +58,11 @@
 
                     {{------------------------ users button -----------------------------}}
                     <li class="sidebar-list">
-                        <a class="sidebar-link    sidebar-title {{request()->segments() == '/userstaq' ? 'active' : '' }}" href="#">
+                        <a class="sidebar-link    sidebar-title 23" href="#">
                             <i data-feather="users"></i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('users') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/userstaq' ? 'down' : 'right' }}"></i></div>
                         </a>
-                        <ul class="sidebar-submenu" style="display: {{request()->segments() == '/userstaq' ? 'block' : 'none;' }};">
+                        <ul class="sidebar-submenu" >
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/userstaq')}}" >@trans('view')</a></li>
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/userstaq/create')}}" >@trans('add') </a></li>
                         </ul>
@@ -71,25 +71,25 @@
 
 					{{------------------------ opportunities button -----------------------------}}
 					<li   class=" sidebar-list">
-                        <a class="sidebar-link    sidebar-title {{request()->segments() == '/opportunities' ? 'active' : '' }}" href="#">
+                        <a class="sidebar-link    sidebar-title " href="#">
                             <i data-feather="star"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('opportunities') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/opportunities' ? 'down' : 'right' }}"></i></div>
                         </a>
-                        <ul class="sidebar-submenu" style="display: {{request()->segments() == '/users' ? 'block' : 'none;' }};">
+                        <ul class="sidebar-submenu" >
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/opportunities')}}" >@trans('view')</a></li>
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/opportunities/create')}}" >@trans('add') </a></li>
                         </ul>
                     </li>
                     {{------------------------ settings button -----------------------------}}
 					<li   class=" sidebar-list">
-                        <a class="sidebar-link    sidebar-title {{request()->segments() == '/settings' ? 'active' : '' }}" href="#">
+                        <a class="sidebar-link    sidebar-title " href="#">
                             <i data-feather="settings"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('settings') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-"></i></div>
                         </a>
                         <ul class="sidebar-submenu"  >
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('settings/packages')}}" >@trans('packages')</a></li> 
-							<li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('settings/categories')}}" >@trans('Categories')</a></li>
-							 <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('settings/taxs')}}" >@trans('Taxs')</a></li> 
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('packages')}}" >@trans('packages')</a></li> 
+							<li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('categories')}}" >@trans('Categories')</a></li>
+							 <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('taxs')}}" >@trans('Taxs')</a></li> 
                         </ul>
                     </li>
 

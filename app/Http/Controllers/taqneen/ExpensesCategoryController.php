@@ -35,7 +35,7 @@ class ExpensesCategoryController extends Controller
                 "business_id" =>session('business.id'),
             ];
             
-            DB::table('expense_categories')->insert($date);
+           ExpenseCategory::create($date);
 
             $output = [
                 "success" => 1,
@@ -48,7 +48,7 @@ class ExpensesCategoryController extends Controller
                 "msg" => $th->getMessage()
             ];
         }
-        // dd($output);
+        dd($output);
         return back()->with('status', $output); 
     }//end store
 

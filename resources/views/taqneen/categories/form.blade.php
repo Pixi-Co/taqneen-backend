@@ -12,7 +12,7 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@trans('add category')</h3>
+    <h3>@trans(' category')</h3>
     @if ($category->id)
     <h3>@trans('edit category')</h3>
     @else

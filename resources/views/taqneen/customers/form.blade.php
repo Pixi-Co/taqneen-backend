@@ -12,7 +12,7 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@trans('add customer')</h3>
+    <h3>@trans('customer')</h3>
     @if ($customer->id)
     <h3>@trans('edit customer')</h3>
     @else
