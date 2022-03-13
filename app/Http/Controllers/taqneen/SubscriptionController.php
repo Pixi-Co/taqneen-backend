@@ -28,7 +28,10 @@ class SubscriptionController extends Controller
             return $this->data();
         }
 
-        return view('taqneen.subscription.index');
+        $business_id = session('business.id');
+        $services = Category::where("business_id", $business_id)->where('category_type', 'service')->get();
+
+        return view('taqneen.subscription.index', compact("services"));
     }
 
     public function data()

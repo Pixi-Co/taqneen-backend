@@ -25,6 +25,8 @@
 <!-- Theme js-->
 <script src="{{ asset('assets/js/script.js') }}"></script>
 <script src="{{ asset('js/formajax.js') }}"></script>
+<script src="{{ asset('js/moment.min.js') }}"></script>
+<script src="{{ asset('js/daterangepicker.min.js') }}"></script>
 <script src="{{ asset('assets/js/theme-customizer/customizer.js') }}"></script>
 
 
@@ -32,8 +34,8 @@
     $(document).ready(function() {
         setActiveForSidebarList();
 
-		// 
-		$('.select2').select2();
+        // 
+        $('.select2').select2();
     });
 
     function message(message) {
@@ -94,14 +96,39 @@
                     };
                     $.post(link, $.param(data), function(res) {
                         message(res.msg);
-						if (res.success == 1) {
-							window.location.reload();
-						}
-                    }); 
+                        if (res.success == 1) {
+                            window.location.reload();
+                        }
+                    });
                 } else {
                     // nothing
                 }
             })
+    }
+
+    function initDateRanger() {
+        $('.dateranger').each(function(){
+            var self = this;
+            $(this).daterangepicker({
+                opens: 'left',
+                ranges: {
+                    "Today": [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment()
+                        .subtract(1, 'month').endOf('month')
+                    ]
+                }
+            }, function(start, end, label) {
+                var start_date = start.format('YYYY-MM-DD');
+                var end_date = end.format('YYYY-MM-DD');
+                
+                $(self).attr('data-start', start_date);
+                $(self).attr('data-end', end_date);
+            });
+        }); 
     }
 
     @if (session('status'))
@@ -137,6 +164,6 @@
 
     var toastr = {
         success: message,
-        error: message 
+        error: message
     };
 </script>

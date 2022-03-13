@@ -38,10 +38,13 @@
                           <div class="row">
                             <div class="col-sm-12">
                                 <div class="card">
+                                    
                                     {{-- <div class="card-header">
                                         <h5>@lang('lang.Opportunities')</h5>
                                     </div> --}}
                                     <div class="card-body">
+                                        @include("taqneen.subscription.filter")
+                                        <br>
                                         <a role="button" href="/subscriptions/create" class="btn btn-primary" >@trans('add new')</a>
                                         <div class="table-responsive">
                                             <table class="display" id="subscriptionTable">
@@ -161,6 +164,10 @@ var session_layout = '{{ session()->get('layout') }}';
             { data: 'action', name: 'action' },
             { data: 'share', name: 'share' },
         ],
+    });
+
+    $(document).ready(function(){
+        initDateRanger();
     });
 </script>
 @endsection
