@@ -73,8 +73,8 @@
                                                         @endphp
                                                         {!! Form::select('contact_id', $customerList, $subscription->contact_id, ['class' => 'form-control select2', 'placeholder' => __('customer'), 'list' => 'customers', 'id' => 'contact_id', 'onchange' => 'subscription.changeContact()']) !!}
                                                         <!--
-                                                                        {!! Form::text('contact_id', $subscription->contact_id, ['class' => 'form-control', 'placeholder' => __('customer'), 'list' => 'customers', 'id' => 'contact_id', 'onchange' => 'subscription.changeContact()']) !!}
-                                                                        -->
+                                                                                {!! Form::text('contact_id', $subscription->contact_id, ['class' => 'form-control', 'placeholder' => __('customer'), 'list' => 'customers', 'id' => 'contact_id', 'onchange' => 'subscription.changeContact()']) !!}
+                                                                                -->
                                                         <datalist id="customers">
                                                             @foreach ($customers as $customer)
                                                                 <option value="{{ $customer->id }}">
@@ -83,8 +83,9 @@
                                                             @endforeach
                                                         </datalist>
                                                     </div>
-                                                    <button class="btn btn-primary mx-1 " data-bs-toggle="modal"
-                                                        data-bs-target="#myModal">@trans('add new')</button>
+                                                    <button type="button" class="btn btn-primary mx-1 "
+                                                        data-bs-toggle="modal" data-bs-target="#myModal">@trans('add
+                                                        new')</button>
                                                 </div>
 
 
@@ -211,6 +212,19 @@
                                                 </div>
 
                                                 <div class="form-group mb-3">
+                                                    <label class="my-2" for="inputName">@trans('photo of transform')</label>
+                                                    {!! Form::file('custom_field_3', ['class' => 'form-control']) !!}
+                                                    @if ($subscription->transform_photo_url)
+                                                    <img src="{{ $subscription->transform_photo_url }}" width="100px" alt="">
+                                                    @endif
+                                                </div>
+
+                                                <div class="form-group mb-3">
+                                                    <label class="my-2" for="inputName">@trans('number of transform')</label>
+                                                    {!! Form::text('custom_field_4', $subscription->custom_field_4, ['class' => 'form-control']) !!}
+                                                </div>
+
+                                                <div class="form-group mb-3">
                                                     <label class="my-2" for="inputName">@trans('pay date')</label>
                                                     {!! Form::datetimeLocal('payment[paid_on]', $payment->paid_on, ['class' => 'form-control']) !!}
                                                 </div>
@@ -258,8 +272,7 @@
 
 
                                                 </div>
-                                                <textarea class="form-control my-3" name="notes"
-                                                    placeholder="@trans('notes')"></textarea>
+                                                <textarea class="form-control my-3" name="notes" placeholder="@trans('notes')"></textarea>
 
 
 
@@ -325,26 +338,29 @@
 
                                                     </div>
 
+                                                    <!--
                                                     <div class="mt-5 text-center"><button
                                                             class="btn btn-primary profile-button"
                                                             type="button">@trans('save')</button>
                                                     </div>
+                                                -->
                                                     <br>
                                                     <div class="row mt-3">
                                                         <h3>@trans('notes log')</h3>
                                                         @foreach ($subscription->subscription_notes()->get() as $item)
-                                                            <div class="card  "  style="padding: 5px!important;margin-bottom: 8px!important" > 
-                                                                <div class="card-body"  style="padding: 5px!important">
+                                                            <div class="card  "
+                                                                style="padding: 5px!important;margin-bottom: 8px!important">
+                                                                <div class="card-body" style="padding: 5px!important">
                                                                     <h6 class="card-title">
                                                                         <i data-feather="message-circle"></i>
                                                                         {{ $item->notes }}
                                                                     </h6>
                                                                     <p class="card-text">
                                                                     </p>
-                                                                    <b>@trans('by'): {{ $item->user->first_name }}</b> 
+                                                                    <b>@trans('by'): {{ $item->user->first_name }}</b>
                                                                     <p></p>
                                                                 </div>
-                                                            </div> 
+                                                            </div>
                                                         @endforeach
                                                     </div>
                                                 </div>
@@ -375,48 +391,99 @@
 
 {{-- pop up add new customer --}}
 <div class="modal" id="myModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">اضافة عميل جديد</h5>
+                <h5 class="modal-title">@trans('add Customer')</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="row mt-2">
-                        <div class="col-md-6"><label class="labels">الاسم الاول</label><input
-                                type="text" class="form-control" value=""></div>
-                        <div class="col-md-6"><label class="labels">الاسم الاخير</label><input
-                                type="text" class="form-control" value=""></div>
-                    </div>
+                <div class="container-fluid">
+                    <form action="/subscriptions/customer-api" method="post" class="form" enctype="multipart/form-data">
+                        @csrf
+                        <fieldset>
+                            <legend>@trans('Company Info')</legend>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label>@trans('Company Name')</label>
+                                    <input type="text" name="supplier_business_name" class="form-control"
+                                        placeholder="@trans('company name')"
+                                        value="{{ $customer->supplier_business_name }}" required>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>@trans('Acountant No')</label>
+                                    <input type="text" name="custom_field1" class="form-control"
+                                        placeholder="@trans('acountant no')">
+                                </div>
 
-                    <div class="row mt-3">
-                        <div class="col-md-12"><label class="labels">رقم الجوال</label><input type="text"
-                                class="form-control" value=""></div>
-                        <div class="col-md-12 mt-3"><label class="labels">البريدالالكترونى</label><input
-                                type="text" class="form-control" value=""></div>
+                                <div class="form-group col-md-4">
+                                    <label>@trans('Phone ')</label>
+                                    <input type="text" name="mobile" class="form-control"
+                                        placeholder="@trans('phone ')" required>
+                                </div>
 
-                        <div class="row mt-3">
-                            <div class="col-md-6"><label class="labels">الدولة</label><input type="text"
-                                    class="form-control" value=""></div>
-                            <div class="col-md-6"><label class="labels">المدينة</label><input
-                                    type="text" class="form-control" value=""></div>
+                                <div class="form-group col-md-6 pt-3">
+                                    <label>@trans('Email ')</label>
+                                    <input type="email" name="email" class="form-control"
+                                        placeholder="@trans('Email ')" required>
+                                </div>
+
+                                <div class="form-group col-md-6 pt-3">
+                                    <label>@trans('State ')</label>
+                                    <input type="text" name="state" class="form-control"
+                                        placeholder="@trans('state ')">
+                                </div>
+
+                                <div class="form-group col-md-4 pt-3">
+                                    <label>@trans('Streat ')</label>
+                                    <input type="text" name="address_line_1" class="form-control"
+                                        placeholder="@trans('streat  ')">
+                                </div>
+
+                                <div class="form-group col-md-4 pt-3">
+                                    <label>@trans('Appartment No ')</label>
+                                    <input type="text" name="address_line_2" class="form-control"
+                                        placeholder="@trans('appartment no ')">
+                                </div>
+
+                                <div class="form-group col-md-4 pt-3">
+                                    <label>@trans('Zip Code ')</label>
+                                    <input type="text" name="zip_code" class="form-control"
+                                        placeholder="@trans(' Zip Code  ')">
+                                </div>
+
+
+                            </div>
+
+                        </fieldset><br>
+
+                        <fieldset>
+                            <legend>@trans('Customer Info')</legend>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label>@trans('First Name')</label>
+                                    <input type="text" name="first_name" class="form-control"
+                                        placeholder="@trans('first name')" required>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>@trans('Last Name')</label>
+                                    <input type="text" name="last_name" class="form-control"
+                                        placeholder="@trans('last name')" required>
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+                        <div class="row">
+                            <div class="col-12 my-3 text-center">
+                                <input type="submit" value="@trans('submit')" class="btn btn-primary"
+                                    data-bs-original-title="" title="">
+                            </div>
                         </div>
-
-                        <div class="col-md-12 mt-3"><label class="labels">عنوان الشارع</label><input
-                                type="text" class="form-control" value=""></div>
-                        <div class="col-md-12 mt-3"><label class="labels">رقم الشقة</label><input type="text"
-                                class="form-control" value=""></div>
-                        <div class="col-md-12 mt-3"><label class="labels">رمز البريد</label><input type="text"
-                                class="form-control" value=""></div>
-                        <div class="col-md-12 mt-3"><label class="labels">رقم الحاسب</label><input type="text"
-                                class="form-control" value=""></div>
-                    </div>
-
-                </form>
+                    </form>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">اضافة</button>
             </div>
         </div>
     </div>
@@ -523,11 +590,30 @@
                 }
 
                 app.resource.contact = contact;
+            },
+            observeCustomers: function(){
+                var customerSelect = $('#contact_id');
+                var html = "<option>@trans('select customer')</option>";
+
+                Object.keys(this.customerObject).forEach(function(element){
+                    var customer = subscription.customerObject[element];
+                    html += `<option value="${customer.id}" >${customer.name}-${customer.mobile}</option>`;
+                });
+                
+                customerSelect.html(html);
+                customerSelect.select2();
             }
         };
 
 
         $(document).ready(function() {
+            formAjax(false, function(res){
+                if (res.status == 1) {
+                    subscription.customerObject[res.data.id] = res.data; 
+                    subscription.observeCustomers();
+                } else { 
+                }
+            });
 
             $('.select2').select2();
 
@@ -572,9 +658,9 @@
             el: '#app-root',
             data: {
                 resource: {
-                    tax_id: {{ $subscription->tax_id? $subscription->tax_id : 'null' }},
+                    tax_id: {{ $subscription->tax_id ? $subscription->tax_id : 'null' }},
                     transaction_date: '{{ $subscription->transaction_date }}',
-                    custom_field_2: {{ $subscription->custom_field_2? $subscription->custom_field_2  : 0 }},
+                    custom_field_2: {{ $subscription->custom_field_2 ? $subscription->custom_field_2 : 0 }},
                     tax_amount: {{ $subscription->tax_amount ? $subscription->tax_amount : 0 }},
                     total: {{ $subscription->getTotal() ? $subscription->getTotal() : 0 }},
                     final_total: {{ $subscription->final_total ? $subscription->final_total : 0 }},
