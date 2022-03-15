@@ -125,6 +125,12 @@ class SubscriptionController extends Controller
     }
 
 
+    public function show($id)
+    { 
+        $resource = Subscription::find($id); 
+        return view('taqneen.subscription.show', compact("resource"));
+    }
+
     public function create()
     {
         $business_id = session('business.id');
@@ -296,9 +302,11 @@ class SubscriptionController extends Controller
 
         $resource = Subscription::find($id);
         $resource->update([
-            "is_renew" => '1'
+            "is_renew" => '1',
+            'renew_date' => date('Y-m-d')
         ]);
         $resource->is_renew = '1';
+        $resource->renew_date = date('Y-m-d');
         $resource->update();
         return responseJson(0, __('done'));
     }

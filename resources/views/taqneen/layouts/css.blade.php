@@ -42,4 +42,8 @@
 
     .modal-backdrop{ 
     }
+
+    .customizer-links {
+        display: none!important;
+    }
 </style>

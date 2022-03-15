@@ -100,6 +100,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
 
     Route::get('reports/services', 'taqneen\ReportController@services');
     Route::get('reports/sales-commissions', 'taqneen\ReportController@salesComissions');
+    Route::get('reports/subscriptions', 'taqneen\ReportController@subscriptions');
     Route::post('subscriptions/save', 'taqneen\SubscriptionController@save');
     Route::post('subscriptions/customer-api', 'taqneen\SubscriptionController@customerApi');
     Route::post('subscriptions/add-note/{id}', 'taqneen\SubscriptionController@addNote');

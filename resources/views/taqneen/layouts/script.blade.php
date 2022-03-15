@@ -55,6 +55,7 @@
     }
 
     function setActiveForSidebarList() {
+        $('.sidebar-link').click();
         var link = window.location.href
             .replace(window.location.origin, '')
             .replace('#', '')
@@ -63,7 +64,7 @@
         if (link == '')
             link = "home";
 
-        $('.sidebar-links li').each(function() {
+        $('.sidebar-list').each(function() {
             var currentLink = $(this).find('a').attr('href')
                 .replace(window.location.origin, '')
                 .replace('#', '')
@@ -167,4 +168,6 @@
         success: message,
         error: message
     };
+    
+    //setActiveForSidebarList();
 </script>
