@@ -23,7 +23,7 @@
                     {{------------------------ subscription button -----------------------------}}
 					<li   class=" sidebar-list">
                         <a class="sidebar-link sidebar-title" href="#">
-                            <i data-feather="message-circle"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('subscriptions') }}</span>
+                            <i data-feather="list"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('subscriptions') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/subscriptions' ? 'down' : 'right' }}"></i></div>
                         </a>
                         <ul class="sidebar-submenu">
@@ -92,6 +92,10 @@
 							 <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('taxs')}}" >@trans('Taxs')</a></li> 
                         </ul>
                     </li>
+
+                    {{------------------------ calendar button -----------------------------}}
+					<li class="sidebar-list"><a class="sidebar-link   sidebar-title link-nav " href="{{url('/taqneen-calendar')}}"><i data-feather="calendar"> </i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('lang.Calendar') }}</span></a></li>
+                    
 
                     {{------------------------ reporting button -----------------------------}}
                     <li class="sidebar-list">
@@ -212,8 +216,6 @@
                         <span style="font-family:  'Tajawal', sans-serif;">الاعدادات</span>
                         </a>
                     </li>
-                    {{------------------------ calendar button -----------------------------}}
-					<li class="sidebar-list"><a class="sidebar-link   sidebar-title link-nav {{ Route::currentRouteName()=='calendar-basic' ? 'active' : '' }} " href="{{url('calendar-basic')}}"><i data-feather="calendar"> </i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('lang.Calendar') }}</span></a></li>
                     {{------------------------ network button -----------------------------}}
 					<li class="sidebar-list"><a class="sidebar-link   sidebar-title link-nav {{ Route::currentRouteName()=='network' ? 'active' : '' }} " href="{{url('network')}}"><i data-feather="calendar"> </i><span style="font-family:  'Tajawal', sans-serif;">ادارة علاقات عامة</span></a></li>
                     

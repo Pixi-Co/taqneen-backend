@@ -2,7 +2,7 @@
     <div class="col-md-4">
         <div class="form-group">
             <label for="">@trans('service')</label>
-            <select class="form-select  mb-3 " v-model="filter.service_id" >
+            <select class="form-select  mb-3 service_id"  >
                 <option value="">@trans('all')</option>
                 @foreach ($services as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option> 
@@ -13,7 +13,7 @@
     <div class="col-md-4">
         <div class="form-group">
             <label for="">@trans('subscription type')</label>
-            <select class="form-select  mb-3 " v-model="filter.service_id" >
+            <select class="form-select  mb-3 subscription_type"  >
                 <option value="">@trans('all')</option>
                 <option value="new">@trans('new')</option> 
                 <option value="renew">@trans('renew')</option> 
@@ -40,8 +40,8 @@
     </div>
     <div class="col-md-4">
         <br>
-        <button class="btn btn-primary">@trans('search')</button>
-        <button class="btn btn-primary">@trans('clear')</button>
+        <button class="btn btn-primary" onclick="filter()" >@trans('search')</button>
+        <button class="btn btn-primary" onclick="clearSearch()">@trans('clear')</button>
     </div>    
  
 

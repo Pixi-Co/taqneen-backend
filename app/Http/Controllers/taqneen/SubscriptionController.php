@@ -10,12 +10,14 @@ use App\Http\Controllers\Controller;
 use App\Media;
 use App\ServicePackage;
 use App\Subscription;
+use App\SubscriptionLine;
 use App\TaxRate;
 use App\TransactionPayment;
 use App\User;
 use App\Utils\ContactUtil;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Facades\Storage;
 use Mpdf\Tag\Sub;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -40,15 +42,65 @@ class SubscriptionController extends Controller
 
         $query = Subscription::where('business_id', $business_id);
 
+        if (request()->service_id > 0) {
+            $ids = DB::table('subscription_lines')
+                ->where('service_id', request()->service_id)
+                ->select('transaction_id')
+                ->distinct()
+                ->pluck('transaction_id')->toArray();
+            $query->whereIn("id", $ids);
+        }
+
+        if (request()->subscription_type) {
+            if (request()->subscription_type == 'new')
+                $query->where('is_renew', '0');
+            else
+                $query->where('is_renew', '1');
+        }
+
+        if (request()->transaction_date_start && request()->transaction_date_end) {
+            $dates = [
+                request()->transaction_date_start . " 01:00:00",
+                request()->transaction_date_end . " 00:00:00"
+            ];
+            $query->whereBetween('transaction_date', $dates);
+        }
+
+        if (request()->expire_date_start && request()->expire_date_end) {
+            $dates = [
+                request()->expire_date_start,
+                request()->expire_date_end
+            ];
+            $query->whereBetween('expire_date', $dates);
+        }
+
+        if (request()->payment_date_start && request()->payment_date_end) {
+            $dates = [
+                request()->payment_start . " 01:00:00",
+                request()->payment_date_end . " 00:00:00"
+            ];
+            $ids = DB::table('transaction_payments')
+                ->where('business_id', session('business.id'))
+                ->whereBetween('paid_on', $dates)
+                ->whereNotNull('transaction_id')
+                ->select('transaction_id')
+                ->distinct()
+                ->pluck('transaction_id')->toArray();
+            $query->whereIn("id", $ids);
+        }
+
         return DataTables::of($query)
             ->addColumn('action', function ($row) {
-                return view('taqneen.subscription.actions', compact('row'));
+
+                $payment_methods = [
+                    "transform_from_taqneen" => __('transform_from_taqneen'),
+                    "for_elm" => __('for_elm'),
+                    "direct_pay" => __('direct_pay')
+                ];
+                return view('taqneen.subscription.actions', compact('row', 'payment_methods'));
             })
             ->addColumn('supplier_business_name', function ($row) {
                 return optional($row->contact)->supplier_business_name;
-            })
-            ->addColumn('expire_date', function ($row) {
-                return $row->expire_date;
             })
             ->addColumn('first_name', function ($row) {
                 return optional($row->contact)->first_name;
@@ -130,7 +182,7 @@ class SubscriptionController extends Controller
     {
         $business_id = session('business.id');
         $subscription = Subscription::find($id);
-        $payment = TransactionPayment::where('transaction_no', $id)->first();
+        $payment = TransactionPayment::where('transaction_id', $id)->first();
         $customers = Contact::where('business_id', $business_id)->onlyCustomers()->get();
         $customerObject = Contact::getObject();
         $services = Category::forDropdown(session('user.business_id'), "service");
@@ -182,7 +234,7 @@ class SubscriptionController extends Controller
     }
 
     public function addNote(Request $request, $id)
-    { 
+    {
         // insert lines
         if ($request->notes)
             DB::table('subscription_notes')->insert([
@@ -191,6 +243,63 @@ class SubscriptionController extends Controller
                 "notes" => $request->notes,
             ]);
 
+        return responseJson(0, __('done'));
+    }
+
+    public function renew(Request $request, $id)
+    {
+        $resource = Subscription::find($id);
+
+        // copy 
+        $newSubscription = Subscription::create($resource->toArray());
+        $newSubscription = $newSubscription->refresh();
+        $newSubscription->custom_field_4 = $request->custom_field_4;
+        $newSubscription->created_by = session('user.id');
+        $newSubscription->update();
+
+        // copy all subscription lines
+        foreach ($resource->subscription_lines()->get() as $item) { 
+            DB::table('subscription_lines')->insert([
+                "transaction_id" => $newSubscription->id,
+                "service_id" => $item->service_id,
+                "package_id" => $item->package_id,
+                "total" => $item->total
+            ]);
+        }
+
+        // copy all subscription notes
+        foreach ($resource->subscription_notes()->get() as $item) { 
+            DB::table('subscription_notes')->insert([
+                "transaction_id" => $newSubscription->id,
+                "user_id" => session('user.id'),
+                "notes" => $item->notes,
+            ]);
+        }
+ 
+        // upload transform photo
+        if ($request->hasFile('custom_field_3')) {
+            $file = Storage::put("/subscriptions", $request->file('custom_field_3'));
+            $newSubscription->custom_field_3 = $file;
+            $newSubscription->update();
+        }
+
+        // copy payment
+        $payment = DB::table('transaction_payments')->where('transaction_id', $resource->id)->first();    
+        DB::table('transaction_payments')->insert([
+            "transaction_id" => $newSubscription->id,
+            "business_id" => session('business.id'),
+            "created_by" => session('user.id'),
+            "amount" => $newSubscription->final_total,
+            "method" => $request->method,
+            "paid_on" => $payment->paid_on,
+        ]);
+
+        $resource = Subscription::find($id);
+        $resource->update([
+            "is_renew" => '1'
+        ]);
+        $resource->is_renew = '1';
+        $resource->update();
         return responseJson(0, __('done'));
     }
 
@@ -213,6 +322,7 @@ class SubscriptionController extends Controller
                 "tax_amount" => $request->tax_amount,
                 "custom_field_1" => $request->custom_field_1,  // expenses ids
                 "custom_field_2" => $request->custom_field_2,  // expenses amount
+                "custom_field_4" => $request->custom_field_4,  // expenses amount
                 "final_total" => $request->final_total,  // expenses amount
                 "transaction_date" => $request->transaction_date,  // expenses amount
                 "sub_type" => $request->sub_type,  // expenses amount
@@ -223,6 +333,8 @@ class SubscriptionController extends Controller
 
             // insert transactions
             $resource = Subscription::create($data);
+            $resource->expire_date = $resource->getExpireDate();
+            $resource->update();
 
             // insert subscription lines
             foreach ($request->subscription_lines as $item) {
@@ -243,7 +355,7 @@ class SubscriptionController extends Controller
 
             // insert payment 
             DB::table('transaction_payments')->insert([
-                "transaction_no" => $resource->id,
+                "transaction_id" => $resource->id,
                 "business_id" => session('business.id'),
                 "created_by" => session('user.id'),
                 "amount" => $request->final_total,
@@ -254,6 +366,13 @@ class SubscriptionController extends Controller
             // insert media
             Media::uploadMedia(session('business.id'), $resource, $request, "file", false, "App\Transaction");
 
+            // upload transform photo
+            if ($request->hasFile('custom_field_3')) {
+                $file = Storage::put("/subscriptions", $request->file('custom_field_3'));
+                $resource->custom_field_3 = $file;
+                $resource->update();
+            }
+
             $output = [
                 "success" => 1,
                 "msg" => @trans('done')
@@ -263,8 +382,6 @@ class SubscriptionController extends Controller
                 "success" => 0,
                 "msg" => $th->getMessage()
             ];
-
-            dd($output);
         }
         return back()->with('status', $output);
     }
@@ -280,6 +397,7 @@ class SubscriptionController extends Controller
                 "tax_amount" => $request->tax_amount,
                 "custom_field_1" => $request->custom_field_1,  // expenses ids
                 "custom_field_2" => $request->custom_field_2,  // expenses amount
+                "custom_field_4" => $request->custom_field_4,  // transform number
                 "final_total" => $request->final_total,  // expenses amount
                 "transaction_date" => $request->transaction_date,  // expenses amount
                 "sub_type" => $request->sub_type,  // expenses amount
@@ -289,6 +407,7 @@ class SubscriptionController extends Controller
             // get subscription
             $oldResource =  Subscription::find($id);
             $resource = Subscription::find($id);
+            $data['expire_date'] = $resource->getExpireDate();
 
             // insert transactions
             $resource->update($data);
@@ -329,11 +448,11 @@ class SubscriptionController extends Controller
 
             // insert payment  
             // remove old payment
-            TransactionPayment::where('transaction_no', $id)->delete();
+            TransactionPayment::where('transaction_id', $id)->delete();
 
             // insert new
             DB::table('transaction_payments')->insert([
-                "transaction_no" => $resource->id,
+                "transaction_id" => $resource->id,
                 "business_id" => session('business.id'),
                 "created_by" => session('user.id'),
                 "amount" => $request->final_total,
@@ -343,6 +462,13 @@ class SubscriptionController extends Controller
 
             // insert media
             Media::uploadMedia(session('business.id'), $resource, $request, "file", false, "App\Transaction");
+
+            // upload transform photo
+            if ($request->hasFile('custom_field_3')) {
+                $file = Storage::put("/subscriptions", $request->file('custom_field_3'));
+                $resource->custom_field_3 = $file;
+                $resource->update();
+            }
 
             $output = [
                 "success" => 1,
@@ -358,8 +484,6 @@ class SubscriptionController extends Controller
         }
         return back()->with('status', $output);
     }
-
-
 
     public function destroy($id)
     {
@@ -380,5 +504,43 @@ class SubscriptionController extends Controller
 
         return $output;
         return back()->with('status', $output);
+    }
+
+
+    public function customerApi(Request $request)
+    {
+        // dd($request->all());
+        $contact = null;
+
+        try {
+            $data = [
+                "supplier_business_name" => $request->supplier_business_name,
+                "custom_field1" => $request->custom_field1,
+                "mobile" => $request->mobile,
+                "email" => $request->email,
+                "state" => $request->state,
+                "address_line_1" => $request->address_line_1,
+                "address_line_2" => $request->address_line_2,
+                "zip_code" => $request->zip_code,
+                "first_name" => $request->first_name,
+                "last_name" => $request->last_name,
+                "name" => $request->first_name . ' ' . $request->last_name,
+                "business_id" => session('business.id'),
+                "created_by" => session('user.id'),
+                "type" => 'customer',
+            ];
+            $contact = Contact::create($data);
+            $output = [
+                "success" => 1,
+                "msg" => __('done')
+            ];
+        } catch (\Exception $th) {
+            $output = [
+                "success" => 0,
+                "msg" => $th->getMessage()
+            ];
+        }
+
+        return responseJson($output['success'], $output['msg'],  $contact->fresh());
     }
 }

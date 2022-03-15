@@ -129,7 +129,41 @@ var session_layout = '{{ session()->get('layout') }}';
         $('#subscriptionNote' + id).modal('show');
     }
 
+    function filter() {
+        var data = {
+            service_id: $('.service_id').val(),
+            subscription_type: $('.subscription_type').val(),
+            transaction_date_start: $('.transaction_date').attr('data-start'),
+            transaction_date_end: $('.transaction_date').attr('data-end'),
+            expire_date_end: $('.expire_date').attr('data-end'),
+            expire_date_start: $('.expire_date').attr('data-start'),
+            payment_date_end: $('.payment_date').attr('data-end'),
+            payment_date_start: $('.payment_date').attr('data-start'),
+        };
+        subscriptionTable.ajax.url('/subscriptions?' + $.param(data));
+        subscriptionTable.ajax.reload();
+    }
 
+    function clearSearch() {
+        $('.service_id').val('');
+        $('.subscription_type').val('');
+
+        $('.transaction_date').val('');
+        $('.transaction_date').attr('data-start', '');
+        $('.transaction_date').attr('data-end', '');
+        
+        $('.expire_date').val('');
+        $('.expire_date').attr('data-start', '');
+        $('.expire_date').attr('data-end', '');
+        
+        $('.payment_date').val('');
+        $('.payment_date').attr('data-start', '');
+        $('.payment_date').attr('data-end', '');
+
+        subscriptionTable.ajax.url('/subscriptions');
+        subscriptionTable.ajax.reload();
+    }
+ 
     var subscriptionTable = $('#subscriptionTable').DataTable({
         processing: true,
         serverSide: true,

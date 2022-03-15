@@ -85,6 +85,8 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
      
 
     Route::get('/', 'HomeController@index');
+    Route::get('/taqneen-calendar', 'taqneen\CalendarController@index');
+    Route::get('/taqneen-calendar-api', 'taqneen\CalendarController@get');
     Route::get('/support', 'HomeController@support');
     Route::resource('services', 'taqneen\ServiceController');
     Route::resource('customers', 'taqneen\CustomerController');
@@ -99,7 +101,9 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('reports/services', 'taqneen\ReportController@services');
     Route::get('reports/sales-commissions', 'taqneen\ReportController@salesComissions');
     Route::post('subscriptions/save', 'taqneen\SubscriptionController@save');
+    Route::post('subscriptions/customer-api', 'taqneen\SubscriptionController@customerApi');
     Route::post('subscriptions/add-note/{id}', 'taqneen\SubscriptionController@addNote');
+    Route::post('subscriptions/renew/{id}', 'taqneen\SubscriptionController@renew');
     Route::get('subscriptions/data', 'taqneen\SubscriptionController@data');
     
 
