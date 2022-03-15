@@ -314,4 +314,9 @@ class Contact extends Authenticatable
 
         return $query;
     }
+
+     
+    function loginUser() {
+        return $this->belongsTo(User::class, "converted_by");
+    }
 }

@@ -52,7 +52,15 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card card-primary"> 
-    
+                                    @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                                     <div class="card-body">
                                         <fieldset>
                                             <legend>@trans('Company Info')</legend>
@@ -69,11 +77,6 @@
                                              <div class="form-group col-md-4">
                                                  <label>@trans('Phone ')</label>
                                                  <input type="text" name="mobile" class="form-control" placeholder="@trans('phone ')" value="{{ $customer->mobile }}" required>
-                                             </div>
-
-                                             <div class="form-group col-md-6 pt-3">
-                                                 <label>@trans('Email ')</label>
-                                                 <input type="email" name="email" class="form-control" placeholder="@trans('Email ')" value="{{ $customer->email }}" required>
                                              </div>
 
                                              <div class="form-group col-md-6 pt-3">
@@ -112,6 +115,32 @@
                                                  <label>@trans('Last Name')</label>
                                                  <input type="text" name="last_name" class="form-control" placeholder="@trans('last name')" value="{{ $customer->last_name }}" required>
                                              </div>
+                                         </div>
+                                         
+                                        </fieldset> <br><br>
+
+                                        <fieldset >
+                                            <legend>@trans('User Info')</legend>
+                                            <div class="row">
+                                             
+                                                <div class="form-group col-md-12 pt-3">
+                                                    <label>@trans('Email ')</label>
+                                                    <input type="email" name="email" class="form-control" placeholder="@trans('Email ')" value="{{ $customer->email }}" required>
+                                                </div>
+                                                <div class="form-group col-md-12 pt-3">
+                                                    <label>@trans('select roles  ')</label>
+                                                    {!! Form::select("roles", $roles, $customer->role, ["class" => "form-select"]) !!} 
+                                                </div>
+
+                                                <div class="form-group col-md-12 pt-3">
+                                                    <label>@trans('password ')</label>
+                                                    <input type="password" name="password" class="form-control image" placeholder="@trans('password ')">
+                                                </div>
+    
+                                                <div class="form-group col-md-12 pt-3">
+                                                    <label>@trans('confirm password  ')</label>
+                                                    <input type="password" name="confirm_password" class="form-control" placeholder="@trans('confirm password  ')" >
+                                                </div>
                                          </div>
                                          
                                         </fieldset>

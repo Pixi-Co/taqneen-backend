@@ -5,6 +5,11 @@ namespace App\Http\Controllers\taqneen;
 use App\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Contracts\Permission;
+use Spatie\Permission\Models\Role;
 
 class CustomerController extends Controller
 {
@@ -16,7 +21,10 @@ class CustomerController extends Controller
 
     public function create(){
         $customer = new Contact();
-        return view('taqneen.customers.form',compact('customer'));
+        $roles = Role::where('business_id', session('business.id'))->pluck('name','name')->all();
+
+
+        return view('taqneen.customers.form',compact('customer','roles'));
     }
 
     
@@ -28,14 +36,25 @@ class CustomerController extends Controller
 
     
     public function edit($id){
+       
         $customer = Contact::find($id);
-        return view('taqneen.customers.form',compact('customer'));
+        $user = $customer->loginUser;
+        $roles = Role::where('business_id', session('business.id'))->pluck('name','name')->all();
+        $userRole = $user->roles()->first();
+        $customer->role = $userRole->name;
+
+        //dd($customer->toArray());
+        return view('taqneen.customers.form',compact('customer','userRole','roles'));
 
     }
 
     public function store(Request $request){
        // dd($request->all());
-
+       $this->validate($request, [
+        'password' => 'required|same:confirm_password',
+        'roles' => 'required',
+    ]);
+ 
         try{
             $data=[
                 "supplier_business_name" => $request->supplier_business_name,
@@ -54,7 +73,8 @@ class CustomerController extends Controller
                 "type" => 'customer',
             ];
             
-            Contact::create($data);
+            $contact = Contact::create($data);
+            $this->createOrUpdateUser($contact, $request);
 
             $output = [
                 "success" => 1,
@@ -67,12 +87,17 @@ class CustomerController extends Controller
                 "msg" => $th->getMessage()
             ];
         }
-       
+       //dd($output);
         return back()->with('status', $output); 
     }
 
 
     public function update(Request $request,$id){
+        // $this->validate($request, [
+        //     'password' => 'required|same:confirm_password',
+        //     'roles' => 'required',
+        // ]);
+
         if($request->profile == 'profile'){
 
             try{
@@ -92,6 +117,7 @@ class CustomerController extends Controller
                 //dd($data);
                 $contact = Contact::find($id);
                 $contact->update($data);
+                
                 $output = [
                     "success" => 1,
                     "msg" => __('done')
@@ -126,6 +152,7 @@ class CustomerController extends Controller
                 //dd($data);
                 $contact = Contact::find($id);
                 $contact->update($data);
+                $this->createOrUpdateUser($contact, $request);
                 $output = [
                     "success" => 1,
                     "msg" => __('done')
@@ -161,6 +188,58 @@ class CustomerController extends Controller
         return $output; 
     }// end destroy
 
+
+    public function createOrUpdateUser(Contact $customer, Request $request) { 
+        $user = $customer->loginUser;
+
+        if ($user) {
+            // update 
+           
+            $data=[
+                "first_name" => $request->first_name,
+                "last_name" => $request->last_name,
+                "email" => $request->email,
+                "contact_number" => $request->contact_number,
+                "address" => $request->address_line_1,
+                "password" => bcrypt($request->password),
+            ];
+
+            if(!empty($data["password"])){
+                $data["password"] = bcrypt($request->password);
+            }else{
+                $data = Arr::except($data,array('password'));
+            } 
+            $user->update($data);   
+ 
+            $role = $user->roles()->first();  
+            $newRole = Role::find($request->input('roles'));
+            //
+            $user->removeRole($user->roles()->pluck('name')->toArray()); 
+            $user->roles()->detach();
+            $user->forgetCachedPermissions();
+            $user->assignRole($newRole->name); 
+        } else {
+            // create
+           
+           
+            $user= User::create([
+                "first_name" => $request->first_name,
+                "last_name" => $request->last_name,
+                "email" => $request->email,
+                "contact_number" => $request->contact_number,
+                "address" => $request->address_line_1,
+                "password" => bcrypt($request->password),
+                "business_id" =>session('business.id'),
+                "user_type" => 'user_customer',
+            ]);     
+            $user->assignRole($request->input('roles'));
+
+            $customer->converted_by = $user->id;
+            $customer->update();
+        }
+
+        return $user;
+    }
 
 
 }

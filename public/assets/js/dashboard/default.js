@@ -1,3 +1,5 @@
+const { sum } = require("lodash");
+
 // greeting
 var today = new Date()
 var curHr = today.getHours()
@@ -32,14 +34,17 @@ function checkTime(i) {
 }
 
 // currently sale
+
+var url ='http://127.0.0.1:8000/api';
+$.getJSON(url, function(response) {
+    chart.updateSeries([{
+      name: 'total',
+      data: [response]
+    }])
+  });
 var options = {
-    series: [{
-        name: 'series1',
-        data: [6, 20, 15, 40, 18, 20, 18, 23, 18, 35, 30, 55, 0]
-    }, {
-        name: 'series2',
-        data: [2, 22, 35, 32, 40, 25, 50, 38, 42, 28, 20, 45, 0]
-    }],
+    
+    series: [],
     chart: {
         height: 240,
         type: 'area',
@@ -123,6 +128,8 @@ var options = {
         },
     },
 };
+
+
 
 var chart = new ApexCharts(document.querySelector("#chart-currently"), options);
 chart.render();

@@ -41,7 +41,7 @@
 						<h4 class="invisible f-w-600"><span id="greeting">مرحبا</span> <span class="right-circle"><i class="fa fa-check-circle f-14 middle"></i></span></h4>
                         <h1 class="text-white f-w-600"><span id="greeting">مرحبا</span> <span class="right-circle"><i class="fa fa-check-circle f-14 middle"></i></span></h1>
 
-                        <p><span> ارباح اليوم هو 405 ريال سعودي ومعدل زيادة المبيعات 3.7 خلال الـ 24 ساعة الماضية</span></p>
+                        <p><span> ارباح اليوم هو {{ round($todaySubscriptionTotal ,2)}} ريال سعودي ومعدل زيادة المبيعات {{ $todaySubscriptionCount }} خلال الـ 24 ساعة الماضية</span></p>
 						<div class="whatsnew-btn"><a class="btn btn-primary">ما هو الجديد !</a></div>
 						<div class="left-icon"><i class="fa fa-bell"> </i></div>
 					</div>
@@ -59,15 +59,15 @@
 									<p class="font-roboto">نظرة عامة على الشهر الماضي</p>
 								</div>
 								<div class="col-xl-12 p-0 left_side_earning">
-									<h5>SAR 4055.56 </h5>
+									<h5>SAR {{ $totalSalesMonth }} </h5>
 									<p class="font-roboto">ارباح الشهر الحالي</p>
 								</div>
 								<div class="col-xl-12 p-0 left_side_earning">
-									<h5>SAR 1004.11</h5>
+									<h5>SAR {{ $totalSalesMonth }}</h5>
 									<p class="font-roboto">مبيعات الشهر الحالى</p>
 								</div>
 								<div class="col-xl-12 p-0 left_side_earning">
-									<h5>90%</h5>
+									<h5>{{ round($totalSalesMonth / $totalSales * 100 ,3)}}%</h5>
 									<p class="font-roboto">نسبة المبيعات</p>
 								</div>
 								<div class="col-xl-12 p-0 left-btn"><a class="btn btn-gradient">ملخص</a></div>
@@ -78,12 +78,12 @@
 								<div class="row m-0 p-tb">
 									<div class="col-xl-8 col-md-8 col-sm-8 col-12 p-0">
 										<div class="inner-top-left">
-											<ul class="d-flex list-unstyled">
+											{{-- <ul class="d-flex list-unstyled">
 												<li>يومى</li>
 												<li class="active">اسبوعى</li>
 												<li>شهرى</li>
 												<li>سنوى</li>
-											</ul>
+											</ul> --}}
 										</div>
 									</div>
 									<div class="col-xl-4 col-md-4 col-sm-4 col-12 p-0 justify-content-end">
@@ -111,7 +111,7 @@
 										<div class="media-left"><i class="icofont icofont-crown"></i></div>
 										<div class="media-body">
 											<h6>صافى الارباح</h6>
-											<p>SAR 5,000.20</p>
+											<p>SAR {{round( $totalSales - $totalExepnses ,2)}}</p>
 										</div>
 									</div>
 								</div>
@@ -120,7 +120,7 @@
 										<div class="media-left bg-secondary"><i class="icofont icofont-heart-alt"></i></div>
 										<div class="media-body">
 											<h6>اجمالى المصروفات </h6>
-											<p>SAR 2,657.21</p>
+											<p>SAR {{ round($totalExepnses,2) }}</p>
 										</div>
 									</div>
 								</div>
@@ -129,7 +129,7 @@
 										<div class="media-left"><i class="icofont icofont-cur-dollar"></i></div>
 										<div class="media-body">
 											<h6>اجمالى المبيعات</h6>
-											<p>SAR 9,478.50     </p>
+											<p>SAR {{ round($totalSales ,2)}}     </p>
 										</div>
 									</div>
 								</div>
@@ -152,8 +152,8 @@
 								</div>
 								<div class="media-body">
 									<div class="right-chart-content">
-										<h4>1001</h4>
-										<span>اجمالى الاشتراكات </span>
+										<h4>{{ $subscriptions }}</h4>
+										<span>@trans(' subscriptions total') </span>
 									</div>
 								</div>
 							</div>
@@ -182,8 +182,8 @@
 								</div>
 								<div class="media-body">
 									<div class="right-chart-content">
-										<h4>900</h4>
-										<span>الاشتراكات النشطة</span>
+										<h4>{{ $subscriptionsActive }}</h4>
+										<span>@trans('active subscriptions ')</span>
 									</div>
 								</div>
 							</div>
@@ -197,8 +197,8 @@
 								</div>
 								<div class="media-body">
 									<div class="right-chart-content">
-										<h4>101</h4>
-										<span>الاشتراكات المنتهية</span>
+										<h4>{{ $subscriptionsExpire }}</h4>
+										<span>@trans('expire subscriptions ')</span>
 									</div>
 								</div>
 							</div>
@@ -212,11 +212,11 @@
 				<div class="card-body">
 					<div class="media align-items-center">
 						<div class="media-body right-chart-content">
-							<h4>SAR 95,900</h4>
-							<span>قيمة الاشتراكات</span>
+							<h4>SAR {{ round($totalSales,2) }}</h4>
+							<span>@trans('subscriptions amount')</span>
 						</div>
 						<div class="knob-block text-center">
-							<input class="knob1" data-width="10" data-height="70" data-thickness=".3" data-angleoffset="0" data-linecap="round" data-fgcolor="#7366ff" data-bgcolor="#eef5fb" value="60">
+							{{-- <input class="knob1" data-width="10" data-height="70" data-thickness=".3" data-angleoffset="0" data-linecap="round" data-fgcolor="#7366ff" data-bgcolor="#eef5fb" value="60"> --}}
 						</div>
 					</div>
 				</div>
@@ -231,13 +231,13 @@
 							<span>Product Order Value</span>
 						</div>
 						<div class="knob-block text-center">
-							<input class="knob1" data-width="50" data-height="70" data-thickness=".3" data-fgcolor="#7366ff" data-linecap="round" data-angleoffset="0" value="60">
+							{{-- <input class="knob1" data-width="50" data-height="70" data-thickness=".3" data-fgcolor="#7366ff" data-linecap="round" data-angleoffset="0" value="60"> --}}
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-xl-4 xl-50 news box-col-6">
+		{{-- <div class="col-xl-4 xl-50 news box-col-6">
 			<div class="card">
 				<div class="card-header">
 					<div class="header-top">
@@ -269,10 +269,10 @@
 					<div class="bottom-btn"><a href="#">More...</a></div>
 				</div>
 			</div>
-		</div>
+		</div> --}}
 		<div class="col-xl-4 xl-50 appointment-sec box-col-6">
 			<div class="row">
-				<div class="col-xl-12 appointment">
+				{{-- <div class="col-xl-12 appointment">
 					<div class="card">
 						<div class="card-header card-no-border">
 							<div class="header-top">
@@ -321,19 +321,19 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> --}}
 				<div class="col-xl-12 alert-sec">
 					<div class="card">
 						<div class="card-header">
 							<div class="header-top">
 
-								<h2 class="m-0 ">تنبية</h2>
+								<h2 class="m-0 ">@trans('alert')</h2>
 								<a href="{{url('mainreport')}}" class="btn btn-primary">عرض</a>
 							</div>
 						</div>
 						<div class="card-body">
 							<div class="body-bottom">
-								<h4>يوجد 10 عملاء سوف ينتهى اشتراكهم قريبا</h4>
+								<h4>يوجد {{ $subscriptionsExpire }} عملاء سوف ينتهى اشتراكهم قريبا</h4>
 							</div>
 						</div>
 					</div>
@@ -355,37 +355,20 @@
 					</div>
 				</div>
 				<div class="card-body pt-0">
-					<div class="media">
-						<div class="media-body">
-							<p>20-04-2020<span class="ps-1">اليوم</span></p>
-                            <div class="d-flex justify-content-between">
-                                <h6>فرصة عميل خدمة مقيم</h6>
-                                <button class="btn btn-success">انتهز الفرصة</button>
-                            </div>
-							<span>... فرصة عميل خدمة مقيم فرصة عميل خدمة مقيم </span>
+					@foreach ($opportunities as $item)
+						<div class="media">
+							<div class="media-body">
+								<p>{{ $item->created_at }} <span class="ps-1">@trans('day')</span></p>
+								<div class="d-flex justify-content-between">
+									<h6>{{ $item->name }}</h6>
+									<button class="btn btn-success">@trans('take opportunity')</button>
+								</div>
+								<span>{{ $item->mobile }}</span>
+							</div>
 						</div>
-					</div>
-					<div class="media">
-						<div class="media-body">
-							<p>20-04-2020<span class="ps-1">اليوم</span></p>
-                            <div class="d-flex justify-content-between">
-                                <h6>فرصة عميل خدمة مقيم</h6>
-                                <button class="btn btn-success">انتهز الفرصة</button>
-                            </div>
-							<span>... فرصة عميل خدمة مقيم فرصة عميل خدمة مقيم </span>
-						</div>
-					</div>
-                    <div class="media">
-						<div class="media-body">
-							<p>20-04-2020<span class="ps-1">اليوم</span></p>
-                            <div class="d-flex justify-content-between">
-                                <h6>فرصة عميل خدمة مقيم</h6>
-                                <button class="btn btn-success">انتهز الفرصة</button>
-                            </div>
-							<span>... فرصة عميل خدمة مقيم فرصة عميل خدمة مقيم </span>
-						</div>
-					</div>
-
+					@endforeach
+					
+                    
 				</div>
 			</div>
 		</div>

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 use Intervention\Image\Facades\Image;
-
+ 
 class UserController extends Controller
 {
     public function index(){
