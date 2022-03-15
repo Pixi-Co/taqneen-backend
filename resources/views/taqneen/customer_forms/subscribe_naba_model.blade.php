@@ -90,20 +90,23 @@ input[type=submit]:hover{
         </div>
     </div>
     <div class="row">
-        <form class="form-group" action="" method="" enctype="multipart/form-data">
+        <form class="form-group" action="{{ route('createcustomernaba.store') }}" method="post" enctype="multipart/form-data">
+           @csrf
+          @method('post')
+            <input type="hidden" name="customer_type" value="naba">
             <div class="ginput_container ginput_container_checkbox">
                 <legend class="gsection_title">الباقة </legend>
                 <div class="gfield_checkbox" id="input_1_4">
                     <div class="gchoice" style="display: inline;">
-                        <input class="gfield-choice-input" name="form['portal_naba']" type="checkbox" value="بوابة نبأ" checked="checked" id="portal_naba">
+                        <input class="gfield-choice-input" name="form[portal_naba]" type="checkbox" value="بوابة نبأ" checked="checked" id="portal_naba">
                         <label for="choice" >بوابة نبأ</label>
                     </div>
                     <div class="gchoice " style="display: inline;">
-                        <input class="gfield-choice-input" name="form['naba_live']" type="checkbox" value="نبأ المباشرة" id="naba_live">
+                        <input class="gfield-choice-input" name="form[naba_live]" type="checkbox" value="نبأ المباشرة" id="naba_live">
                         <label for="choice" >نبأ المباشرة</label>
                     </div>
                     <div class="gchoice " style="display: inline;">
-                        <input class="gfield-choice-input" name="form['naba_main']" type="checkbox" value=" نبأ الأساسية" id="naba_main">
+                        <input class="gfield-choice-input" name="form[naba_main]" type="checkbox" value=" نبأ الأساسية" id="naba_main">
                         <label for="choice" > نبأ الأساسية</label>
                     </div>
                 </div>
@@ -118,7 +121,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label>                       
-                        <input class="form-control" name="form['pc_num']" type="text" value="" required placeholder="70xxxxxxxxxxx" id="pc_num" >
+                        <input class="form-control" name="form[pc_num]" type="text" value="" required placeholder="70xxxxxxxxxxx" id="pc_num" >
                         {{-- <div class="charleft ginput_counter warningTextareaInfo" aria-live="polite">0 من  10 حرف كحد أقصى</div> --}}
                     </div>
                     <div class="col-md-3 " >
@@ -127,7 +130,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['name_ar']" type="text" value="" id="namr_ar">
+                        <input class="form-control" name="form[name_ar]" type="text" value="" id="namr_ar">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">الإسم بالانجليزي
@@ -135,7 +138,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['name_en']" type="text" value="" id="name_en">
+                        <input class="form-control" name="form[name_en]" type="text" value="" id="name_en">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">المدينة
@@ -143,7 +146,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['city']" type="text" value="" id="city">
+                        <input class="form-control" name="form[city]" type="text" value="" id="city">
                     </div> 
                     
                 </div>
@@ -155,7 +158,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['owner_name']" type="text" value="" id="enterprise_phone" required>
+                        <input class="form-control" name="form[owner_name]" type="text" value="" id="enterprise_phone" required>
                     </div>
                     <div class="col-md-4 " >
                         <label class="gfield_label pb-1" for="">موقع الشركة الالكتروني :
@@ -163,7 +166,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['company_website']" type="text" value="" id="company_website" required placeholder="  ">
+                        <input class="form-control" name="form[company_website]" type="text" value="" id="company_website" required placeholder="  ">
                     </div>
                     <div class="col-md-4 " >
                         <label class="gfield_label pb-1" for="">البريد الإلكتروني :
@@ -171,7 +174,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['company_email']" type="text" value="" id="company_email" required placeholder="">
+                        <input class="form-control" name="form[company_email]" type="text" value="" id="company_email" required placeholder="">
                     </div>
                     
                 </div>
@@ -182,7 +185,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['owner_name']" type="text" value="" id="phone" required>
+                        <input class="form-control" name="form[owner_name]" type="text" value="" id="phone" required>
                     </div>
                     <div class="col-md-4 " >
                         <label class="gfield_label pb-1" for="">رقم السجل التجاري
@@ -190,7 +193,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['commercial_number']" type="text" value="" id="commercial_number" required>
+                        <input class="form-control" name="form[commercial_number]" type="text" value="" id="commercial_number" required>
                     </div>
                     <div class="col-md-4 " >
                         <div class="row ">
@@ -200,7 +203,7 @@ input[type=submit]:hover{
                                 </span>
                             </label> 
                             <div class="col-sm-10">
-                                <input name="form['end_date']" id="end_date" type="text" value="" class="form-control  fc-datepicker" placeholder="yyyy/mm/dd" >
+                                <input name="form[end_date]" id="end_date" type="text" value="" class="form-control  fc-datepicker" placeholder="yyyy/mm/dd" >
                             </div>
                             <div class="col-sm-2 pt-1">
                                 <img class="ui-datepicker-trigger" src="https://taqneen.com/wp-content/plugins/gravityforms/images/datepicker/datepicker.svg" alt="" title="">
@@ -220,7 +223,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['building_num']" type="text" value="" id="building_num" required placeholder=" ">
+                        <input class="form-control" name="form[building_num]" type="text" value="" id="building_num" required placeholder=" ">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">الشارع
@@ -228,7 +231,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['street']" type="text" value="" id="street" placeholder="" required>
+                        <input class="form-control" name="form[street]" type="text" value="" id="street" placeholder="" required>
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">الحي
@@ -236,7 +239,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['district']" type="text" value="" id="district" required>
+                        <input class="form-control" name="form[district]" type="text" value="" id="district" required>
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">
@@ -245,7 +248,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['postal_code']" type="text" value="" id="postal_code" required>
+                        <input class="form-control" name="form[postal_code]" type="text" value="" id="postal_code" required>
                     </div>
                 </div>
                 <div class="row pt-3">
@@ -256,7 +259,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['leader_name']" type="text" value="" id="leader_name" required placeholder="">
+                        <input class="form-control" name="form[leader_name]" type="text" value="" id="leader_name" required placeholder="">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهوية
@@ -264,7 +267,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['leader_idenitiy']" type="text" value="" id="leader_idenitiy" required placeholder="">
+                        <input class="form-control" name="form[leader_idenitiy]" type="text" value="" id="leader_idenitiy" required placeholder="">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الجوال الاساسي
@@ -272,7 +275,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['leader_phone']" type="text" value="" id="leader_phone" required placeholder="">
+                        <input class="form-control" name="form[leader_phone]" type="text" value="" id="leader_phone" required placeholder="">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهاتف الثانوي
@@ -280,7 +283,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['leader_phone2']" type="text" value="" id="leader_phone2" required>
+                        <input class="form-control" name="form[leader_phone2]" type="text" value="" id="leader_phone2" required>
                     </div>
                     <div class="col-sm-12 pt-3">
                         <label class="gfield_label pb-1" for="">البريد الالكتروني
@@ -288,7 +291,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['leader_email']" type="text" value="" id="leader_email" required>
+                        <input class="form-control" name="form[leader_email]" type="text" value="" id="leader_email" required>
                     </div>
                     
                 </div>
@@ -300,7 +303,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['user_name']" type="text" value="" id="user_name" required placeholder="">
+                        <input class="form-control" name="form[user_name]" type="text" value="" id="user_name" required placeholder="">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهوية
@@ -308,7 +311,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['user_idenitiy']" type="text" value="" id="user_idenitiy" required placeholder="">
+                        <input class="form-control" name="form[user_idenitiy]" type="text" value="" id="user_idenitiy" required placeholder="">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الجوال الاساسي
@@ -316,7 +319,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['user_phone']" type="text" value="" id="user_phone" required placeholder="">
+                        <input class="form-control" name="form[user_phone]" type="text" value="" id="user_phone" required placeholder="">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهاتف الثانوي
@@ -324,7 +327,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['user_phone2']" type="text" value="" id="user_phone2" required>
+                        <input class="form-control" name="form[user_phone2]" type="text" value="" id="user_phone2" required>
                     </div>
                     <div class="col-sm-12 pt-3">
                         <label class="gfield_label pb-1" for="">البريد الالكتروني
@@ -332,7 +335,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['user_email']" type="text" value="" id="user_email" required>
+                        <input class="form-control" name="form[user_email]" type="text" value="" id="user_email" required>
                     </div>
                 </div>
                 <div class="row pt-3">
@@ -343,7 +346,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['sub_represent_name']" type="text" value="" id="sub_represent_name" required placeholder="">
+                        <input class="form-control" name="form[sub_represent_name]" type="text" value="" id="sub_represent_name" required placeholder="">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهوية
@@ -351,7 +354,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['sub_represent_idenitiy']" type="text" value="" id="sub_represent_idenitiy" required placeholder="">
+                        <input class="form-control" name="form[sub_represent_idenitiy]" type="text" value="" id="sub_represent_idenitiy" required placeholder="">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الجوال الاساسي
@@ -359,7 +362,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['sub_represent_phone']" type="text" value="" id="sub_represent_phone" required placeholder="">
+                        <input class="form-control" name="form[sub_represent_phone]" type="text" value="" id="sub_represent_phone" required placeholder="">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهاتف الثانوي
@@ -367,7 +370,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['sub_represent_phone2']" type="text" value="" id="sub_represent_phone2" required>
+                        <input class="form-control" name="form[sub_represent_phone2]" type="text" value="" id="sub_represent_phone2" required>
                     </div>
                     <div class="col-sm-12 pt-3">
                         <label class="gfield_label pb-1" for="">البريد الالكتروني
@@ -375,7 +378,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['sub_represent_email']" type="text" value="" id="sub_represent_email" required>
+                        <input class="form-control" name="form[sub_represent_email]" type="text" value="" id="sub_represent_email" required>
                     </div>
                 </div>
 
@@ -388,7 +391,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['sub_type']" type="text" value="" id="sub_type" required placeholder="">
+                        <input class="form-control" name="form[sub_type]" type="text" value="" id="sub_type" required placeholder="">
                     </div>
                     <div class="col-md-6 " >
                         <label class="gfield_label pb-1" for="">بيانات التكلفة أن وجدت
@@ -396,7 +399,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['cost_data']" type="text" value="" placeholder="" id="cost_data" required>
+                        <input class="form-control" name="form[cost_data]" type="text" value="" placeholder="" id="cost_data" required>
                     </div>
                     <div class="col-md-12 pt-3 " >
                         <label class="gfield_label pb-1" for="">سبب أستخدام الخدمة
@@ -404,7 +407,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['reason']" type="text" value="" placeholder="" id="reason" required>
+                        <input class="form-control" name="form[reason]" type="text" value="" placeholder="" id="reason" required>
                     </div>
                  
                     

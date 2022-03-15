@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\taqneen\MainDashboardController;
 use App\User;
 use Illuminate\Http\Request; 
 
@@ -32,3 +33,5 @@ Route::post('/validate-email', function(){
 Route::get('/verify', "UserController@verifyEmail");
 Route::get('/invoice/{token}', 'SellPosController@showInvoice')->name('show_invoice_api');
 Route::get('/business-types', "BussinessTypeController@get");
+
+Route::get('/',[MainDashboardController::class,'getTotalSubscription']);

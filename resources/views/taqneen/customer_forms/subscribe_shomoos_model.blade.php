@@ -100,7 +100,9 @@ input[type=submit]:hover{
         </div>
     </div>
     <div class="row">
-        <form class="form-group" action="" method="" enctype="multipart/form-data">
+        <form class="form-group" action="{{ route('createcustomershomoos.store') }}" method="post" enctype="multipart/form-data">
+           @csrf
+          @method('post')
             {{-- <div class="ginput_container ginput_container_checkbox">
                 <legend class="gsection_title">نوع الطلب</legend>
                 <div class="gfield_checkbox" id="input_1_4">
@@ -114,6 +116,9 @@ input[type=submit]:hover{
                     </div>
                 </div>
             </div> --}}
+
+            <input type="hidden" name="customer_type" value="shomoos">
+
 
             <div class="ginput_container ">
                 <h3 class="gsection_title">بيانات المنشأة</h3>

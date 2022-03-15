@@ -19,7 +19,7 @@
 
 					<li class="sidebar-list"><a class="sidebar-link   mt-5  sidebar-title link-nav {{ Route::currentRouteName()=='index' ? 'active' : '' }} " href="{{url('/')}}"><i data-feather="home"> </i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('dashboard') }}</span></a></li>
 
-					
+					 
                     {{------------------------ subscription button -----------------------------}}
 					<li   class=" sidebar-list">
                         <a class="sidebar-link sidebar-title" href="#">
@@ -56,6 +56,21 @@
                         </ul>
                     </li>
 
+                    {{------------------------ customers formes -----------------------------}}
+					<li   class=" sidebar-list">
+                        <a class="sidebar-link    sidebar-title " href="#">
+                            <i data-feather="users"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('customers forms') }}</span>
+                            <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == 'customerForm/createCustomerMasarat' ? 'down' : 'right' }}"></i></div>
+                        </a>
+                        <ul class="sidebar-submenu" >
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customerForm/createcustomermasarat')}}" >@trans('new customer masarat') </a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customerForm/createcustomermuqeem')}}" >@trans('new customer muqeem') </a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customerForm/createcustomernaba')}}" >@trans('new customer naba') </a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customerForm/createcustomershomoos')}}" >@trans('new customer shomoos') </a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customerForm/createcustomertamm')}}" >@trans('new customer tamm') </a></li>
+                        </ul>
+                    </li>
+
                     {{------------------------ users button -----------------------------}}
                     <li class="sidebar-list">
                         <a class="sidebar-link    sidebar-title 23" href="#">
@@ -87,9 +102,12 @@
                         <a class="sidebar-link sidebar-title" href="#">
                             <i data-feather="message-circle"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('support') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/support' ? 'down' : 'right' }}"></i></div>
-                        </a>
-                        <ul class="sidebar-submenu" >
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/support')}}" >@trans('support board')</a></li> 
+                        </a> 
+                        <ul class="sidebar-submenu"  >
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('packages')}}" >@trans('packages')</a></li> 
+							<li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('categories')}}" >@trans('Categories')</a></li>
+							 <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('taxs')}}" >@trans('Taxs')</a></li> 
+							 <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('role')}}" >@trans('roles')</a></li> 
                         </ul>
                     </li>
 

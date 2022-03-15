@@ -90,7 +90,11 @@ input[type=submit]:hover{
         </div>
     </div>
     <div class="row">
-        <form class="form-group" action="" method="" enctype="multipart/form-data">
+        <form class="form-group" action="{{ route('createcustomertamm.store') }}" method="post" enctype="multipart/form-data">
+           @csrf
+          @method('post')
+          <input type="hidden" name="customer_type" value="tamm">
+
             <div class="ginput_container ginput_container_checkbox">
                 <legend class="gsection_title">نوع الطلب</legend>
                 <div class="gfield_checkbox" id="input_1_4">

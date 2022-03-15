@@ -4,6 +4,7 @@ use App\Account;
 use App\BusinessType;
 use App\ExpenseCategory;
 use App\Http\Controllers\taqneen\CustomerController;
+use App\Http\Controllers\taqneen\CustomerFormController;
 use App\ShippingFees;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,10 @@ use Illuminate\Support\Facades\DB;
 |
 */
 Route::get('customer-sub', function(){
-    return view('taqneen.customer_forms.edit_subscribe_muqeem_model'); 
+    dd();
+    $key = 'subscribe_masarat_model';
+    $formStirng = json_encode(request()->form);
+    return view('taqneen.customer_forms.subscribe_masarat_model'); 
 });
 
 Route::get('/remove_notfound_img', function(){
@@ -84,7 +88,8 @@ Route::middleware(['setData'])->group(function () {
 Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'CheckUserLogin'])->group(function () {
      
 
-    Route::get('/', 'HomeController@index');
+    Route::get('/', 'taqneen\MainDashboardController@index');
+    //Route::get('/', 'HomeController@index');
     Route::get('/taqneen-calendar', 'taqneen\CalendarController@index');
     Route::get('/taqneen-calendar-api', 'taqneen\CalendarController@get');
     Route::get('/support', 'HomeController@support');
@@ -96,8 +101,19 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::resource('packages', 'taqneen\PackageController'); 
     Route::resource('categories', 'taqneen\ExpensesCategoryController'); 
     Route::resource('taxs', 'taqneen\TaxsController'); 
+    Route::resource('role', 'taqneen\RoleController'); 
     Route::resource('subscriptions', 'taqneen\SubscriptionController'); 
-
+    Route::get('customerForm/createcustomermasarat', [CustomerFormController::class,'createCustomerMasarat']); 
+    Route::get('customerForm/createcustomermuqeem', [CustomerFormController::class,'createCustomerMuqeem']); 
+    Route::get('customerForm/createcustomernaba', [CustomerFormController::class,'createCustomerNaba']); 
+    Route::get('customerForm/createcustomershomoos', [CustomerFormController::class,'createCustomerShomoos']); 
+    Route::get('customerForm/createcustomertamm', [CustomerFormController::class,'createCustomerTamm']); 
+    Route::post('customerForm/createCustomerMasarat', [CustomerFormController::class,'store'])->name('createCustomerMasarat.store'); 
+    Route::post('customerForm/createcustomermuqeem', [CustomerFormController::class,'store'])->name('createCustomerMuqeem.store'); 
+    Route::post('customerForm/createcustomernaba', [CustomerFormController::class,'store'])->name('createcustomernaba.store'); 
+    Route::post('customerForm/createcustomershomoos', [CustomerFormController::class,'store'])->name('createcustomershomoos.store'); 
+    Route::post('customerForm/createcustomertamm', [CustomerFormController::class,'store'])->name('createcustomertamm.store'); 
+    
     Route::get('reports/services', 'taqneen\ReportController@services');
     Route::get('reports/sales-commissions', 'taqneen\ReportController@salesComissions');
     Route::get('reports/subscriptions', 'taqneen\ReportController@subscriptions');
