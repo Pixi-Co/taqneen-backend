@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\taqneen;
 
+use App\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -18,6 +19,25 @@ class UserController extends Controller
     public function index(){
         $users = User::where('user_type','user')->where('business_id', session('business.id'))->latest()->get();
         return view('taqneen.users.index',compact('users'));
+    }
+
+
+    public function show(Contact $customer){
+        $userinfo = $customer->loginUser;
+
+        //dd($userinfo);
+        $user = User::find(session('user.id'));
+        $roles = Role::where('business_id', session('business.id'))->pluck('name','name')->all();
+        $userRole = $user->roles->pluck('name','name')->first();
+
+        if($user->user_type == 'user'){
+            return view('taqneen.users.profile',compact('user','roles','userRole'));
+        }else{
+            $customer= Contact::where('converted_by',session('user.id'))->first();
+            //dd($customer);
+            return view('taqneen.customers.profile',compact('customer'));
+
+        }
     }
 
     public function create(){
@@ -152,4 +172,41 @@ class UserController extends Controller
 
         return $output; 
     }// end destroy
+
+    public function updateProfile(Request $request){
+        $user = User::Find(session('user.id'));
+        try{
+            $data=[
+                "first_name" => $request->first_name,
+                "email" => $request->email,
+                "contact_number" => $request->contact_number,
+                "address" => $request->address,
+                "password" => $request->password,
+            ];
+            if(!empty($data["password"])){
+                $data["password"] = bcrypt($request->password);
+            }else{
+                $data = Arr::except($data,array('password'));
+            }
+            
+
+           
+            $user->update($data);
+            DB::table('model_has_roles')->where('model_id',session('user.id'))->delete();
+    
+            $user->assignRole($request->input('roles'));
+            $output = [
+                "success" => 1,
+                "msg" => __('done')
+            ];
+
+        } catch (\Exception $th) {
+            $output = [
+                "success" => 0,
+                "msg" => $th->getMessage()
+            ];
+        }
+
+        return back()->with('status', $output); 
+    }
 }

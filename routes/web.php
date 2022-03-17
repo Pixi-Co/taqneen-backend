@@ -5,6 +5,7 @@ use App\BusinessType;
 use App\ExpenseCategory;
 use App\Http\Controllers\taqneen\CustomerController;
 use App\Http\Controllers\taqneen\CustomerFormController;
+use App\Http\Controllers\taqneen\UserController;
 use App\ShippingFees;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -102,6 +103,9 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::post('upload_file',[CustomerController::class,'importFile']);
     Route::get('profile/{id}',[CustomerController::class,'show'])->name('profile.show');
     Route::resource('userstaq', 'taqneen\UserController'); 
+    Route::get('user-profile',[UserController::class,'show'])->name('user-profile.show');
+    Route::put('user-profile-update',[UserController::class,'updateProfile'])->name('user-profile-update.updateProfile');
+
     Route::resource('opportunities', 'taqneen\OpportunitController'); 
     Route::resource('packages', 'taqneen\PackageController'); 
     Route::resource('categories', 'taqneen\ExpensesCategoryController'); 

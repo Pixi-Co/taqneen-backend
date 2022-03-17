@@ -43,7 +43,7 @@ class CustomerController extends Controller
         $customer = Contact::find($id);
         $user = $customer->loginUser;
         $roles = Role::where('business_id', session('business.id'))->pluck('name','name')->all();
-        $userRole = $user->roles()->first();
+        $userRole = $user? $user->roles()->first() : new Role();
         $customer->role = $userRole->name;
 
         //dd($customer->toArray());
@@ -204,14 +204,9 @@ class CustomerController extends Controller
                 "email" => $request->email,
                 "contact_number" => $request->contact_number,
                 "address" => $request->address_line_1,
-                "password" => bcrypt($request->password),
+                "password" => $request->password? bcrypt($request->password) : '',
             ];
-
-            if(!empty($data["password"])){
-                $data["password"] = bcrypt($request->password);
-            }else{
-                $data = Arr::except($data,array('password'));
-            } 
+ 
             $user->update($data);   
  
             $role = $user->roles()->first();  
