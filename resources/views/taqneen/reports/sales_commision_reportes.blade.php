@@ -39,32 +39,37 @@
                           <div class="row">
                             <div class="col-sm-12">
                                 <div class="card">
-                                    <div class="card-header">
-                                        <div class="row">
-                                            <div class="form-group mx-2 p-0 mb-3" style="width: 400px; height: 40px">
-                                                <label for="">@trans('oportunities type')</label>
-                                                <select class="form-select  mb-3 ">
-                                                    <option selected  value="1">مقيم</option>
-                                                    <option value="2">تم</option>
-                                                    <option value="3">شموس</option>
-                                                </select>
-                                            </div>
+                                    <form action="" method="GET">
+                                        <div class="card-header">
+                                            <div class="row">
+                                                <div class="form-group mx-2 p-0 mb-3"
+                                                    style="width: 400px; height: 40px">
+                                                    <label for="">@trans('service')</label>
+                                                    <select name="service_id" class="form-select  mb-3 ">
+                                                        <option value="">@trans('all')</option>
+                                                        @foreach ($services as $item)
+                                                            <option value="{{ $item->id }}">{{ $item->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
 
-                                            <div class="form-group mx-2 p-0 mb-3" style="width: 400px; height: 40px">
-                                                <label for=""> @trans('subscription type')</label>
-                                                <select class="form-select mb-3" >
-                                                    <option selected value="1">جديد</option>
-                                                    <option value="2">منتهى</option>
-                                                    <option value="3">نشط</option>
-                                                    <option value="3">قارب على الانتهاء</option>
-                                                </select>
-                                              </div>
+                                                <div class="form-group mx-2 p-0 mb-3"
+                                                    style="width: 400px; height: 40px">
+                                                    <label for="">@trans('service type')</label>
+                                                    <select name="type" class="form-select  mb-3 ">
+                                                        <option value="">@trans('all')</option>
+                                                        <option value="include">@trans('include')</option>
+                                                        <option value="process">@trans('process')</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mt-4" style="width: 400px; height: 40px">
+                                                <input type="submit" class="btn btn-primary" value="@trans('submit')">
+                                                <button type="reset" class="btn btn-primary"> @trans('reset')</button>
+                                            </div>
                                         </div>
-                                        <div class="form-group mt-4" style="width: 400px; height: 40px">
-                                            <input type="submit" class="btn btn-primary" value="@trans('edit')">
-                                            <button  class="btn btn-primary"> @trans('reset')</button>
-                                        </div>
-                                    </div>
+                                    </form>
                                     <div class="card-body">
 
                                         <div class="table-responsive pt-3">
@@ -78,38 +83,23 @@
                                                         <th>@trans(' renew subscription  before expire')</th>
                                                         <th>@trans(' total subscription before tax')</th>
                                                         <th>@trans('subscription total after taxs')</th>
-                                                        <th>@trans('total of oportunities ')</th>
-                                                        
-                                                       
-                                                        
-                                                       
+                                                        <th>@trans('total of oportunities ')</th>  
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {{-- @foreach($customers as $item) --}}
+                                                    @foreach ($resources as $resource)
                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>test</td>
-                                                        <td>5</td>          
-                                                        <td>22</td>          
-                                                        <td>33</td>          
-                                                        <td>55</td>          
-                                                        <td>32</td>          
-                                                        <td>{{ $opportunities->count() }}</td>          
-                                                           
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $resource->first_name }} {{ $resource->last_name }}</td>
+                                                        <td>{{ $resource->subscription_new_total }}</td>
+                                                        <td>{{ $resource->subscription_renew_after_expire_total }}</td>
+                                                        <td>{{ $resource->subscription_renew_before_expire_total }}</td>
+                                                        <td>{{ $resource->subscription_before_tax_total }}</td>
+                                                        <td>{{ $resource->subscription_after_tax_total }}</td>
+                                                        <td>{{ $resource->opportunity_count }}</td>       
                                                     </tr> 
-                                                    {{-- @endforeach --}}
-                                                </tbody>
-                                                {{-- <tfoot>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>@trans('name')</th>
-                                                        <th>@trans('description')</th>
-                                                        <th>@trans('parent package')</th>
-                                                        <th>@trans('created_by')</th>
-                                                        <th>@trans('actions')</th>
-                                                    </tr>
-                                                </tfoot> --}}
+                                                    @endforeach 
+                                                </tbody> 
                                             </table>
                                         </div>
                                     </div>

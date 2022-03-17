@@ -115,7 +115,8 @@ class SubscriptionController extends Controller
                 return optional($row->user)->first_name;
             })
             ->addColumn('services', function ($row) {
-                return implode(", ", $row->subscription_lines()->select('*', DB::raw('(select name from categories where categories.id = service_id) as service'))->pluck('service')->toArray());
+                return $row->service_names;
+                //return implode(", ", $row->subscription_lines()->select('*', DB::raw('(select name from categories where categories.id = service_id) as service'))->pluck('service')->toArray());
             })
             ->addColumn('share', function ($row) {
                 return view('layouts.partials.share', ["phone" => optional($row->contact)->mobile, "email" => optional($row->contact)->email]);
@@ -124,6 +125,12 @@ class SubscriptionController extends Controller
             ->make(true);
     }
 
+
+    public function show($id)
+    { 
+        $resource = Subscription::find($id); 
+        return view('taqneen.subscription.show', compact("resource"));
+    }
 
     public function create()
     {
@@ -243,7 +250,7 @@ class SubscriptionController extends Controller
                 "notes" => $request->notes,
             ]);
 
-        return responseJson(0, __('done'));
+        return responseJson(1, __('done'));
     }
 
     public function renew(Request $request, $id)
@@ -296,9 +303,11 @@ class SubscriptionController extends Controller
 
         $resource = Subscription::find($id);
         $resource->update([
-            "is_renew" => '1'
+            "is_renew" => '1',
+            'renew_date' => date('Y-m-d')
         ]);
         $resource->is_renew = '1';
+        $resource->renew_date = date('Y-m-d');
         $resource->update();
         return responseJson(0, __('done'));
     }
@@ -333,6 +342,7 @@ class SubscriptionController extends Controller
 
             // insert transactions
             $resource = Subscription::create($data);
+            $resource = $resource->refresh();
             $resource->expire_date = $resource->getExpireDate();
             $resource->update();
 
@@ -350,12 +360,13 @@ class SubscriptionController extends Controller
             DB::table('subscription_notes')->insert([
                 "transaction_id" => $resource->id,
                 "user_id" => session('user.id'),
-                "notes" => $request->notes,
+                "notes" => $request->notes 
             ]);
 
             // insert payment 
             DB::table('transaction_payments')->insert([
                 "transaction_id" => $resource->id,
+                "transaction_no" => $resource->id,
                 "business_id" => session('business.id'),
                 "created_by" => session('user.id'),
                 "amount" => $request->final_total,

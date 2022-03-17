@@ -1,0 +1,4 @@
+ID,"User ID",Message,"Creation date",Attachments,Payload
+186,2,"Welcome to our newsletter 🌹  *membership@vauxerp.com*","2021-11-23 05:55:53",,"{""event"":""update-user"",""rich-messages"":{""sb-subscribe-form"":{""type"":""email"",""result"":{""first_name"":[""Membership"",""Name""],""email"":[""membership@vauxerp.com"",""Email""]}}}}"
+187,2,"Hi, I'm here for any help 👋","2021-11-23 05:55:26",,
+188,53,Thanks,"2021-11-23 06:02:38",,

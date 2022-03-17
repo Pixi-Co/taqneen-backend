@@ -23,11 +23,13 @@
 
 <!-- Plugins JS Ends-->
 <!-- Theme js-->
+<script src="{{ asset('assets/js/notify/notify-script.js') }}"></script>
+<script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
 <script src="{{ asset('js/formajax.js') }}"></script>
 <script src="{{ asset('js/moment.min.js') }}"></script>
-<script src="{{ asset('js/daterangepicker.min.js') }}"></script>
-<script src="{{ asset('js/vendor.js') }}"></script>
+<script src="{{ asset('js/daterangepicker.min.js') }}"></script> 
+<script src="{{ asset('js/iziToast.js') }}"></script>
 <script src="{{ asset('assets/js/theme-customizer/customizer.js') }}"></script>
 
 
@@ -55,6 +57,7 @@
     }
 
     function setActiveForSidebarList() {
+        $('.sidebar-link').click();
         var link = window.location.href
             .replace(window.location.origin, '')
             .replace('#', '')
@@ -63,7 +66,7 @@
         if (link == '')
             link = "home";
 
-        $('.sidebar-links li').each(function() {
+        $('.sidebar-list').each(function() {
             var currentLink = $(this).find('a').attr('href')
                 .replace(window.location.origin, '')
                 .replace('#', '')
@@ -163,8 +166,10 @@
     @endif
 
 
-    var toastr = {
-        success: message,
-        error: message
+    var toastr = { 
     };
+    
+    //setActiveForSidebarList();
 </script>
+
+@include("layouts.js.iziToast")

@@ -37,18 +37,17 @@ class MainDashboardController extends Controller
         
         // get all opportunities
         $opportunities = Contact::where('type','opportunity')->where('business_id', session('business.id'))->latest()->get();
-
         
-        return view("taqneen.home.index",compact('subscriptions','subscriptionsActive','subscriptionsExpire','todaySubscriptionCount','todaySubscriptionTotal','totalSalesMonth','totalSales','totalExepnses','opportunities')); 
+        $data = [
+            'chart' => Transaction::where('business_id', session('business.id'))->pluck('transaction_date', 'final_total')->toArray(),
+        ];
+        
+        return view("taqneen.home.index",compact('subscriptions','subscriptionsActive','subscriptionsExpire','todaySubscriptionCount','todaySubscriptionTotal','totalSalesMonth','totalSales','totalExepnses','opportunities', 'data')); 
     } 
 
     public function getTotalSubscription(){
         //get total of subscription groupbry month 
-        $totalSubscriptionsMonth = Transaction::select(
-            DB::raw('YEAR(created_at) as year'),
-            DB::raw('MONTH(created_at) as month'),
-            DB::raw('SUM(final_total) as sum')
-        )->groupBy('year','month')->get();
+        $totalSubscriptionsMonth = Transaction::pluck('final_total')->toArray();
         
         return $totalSubscriptionsMonth;
        

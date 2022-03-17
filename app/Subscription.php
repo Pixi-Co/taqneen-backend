@@ -58,7 +58,7 @@ class Subscription extends Transaction
     }
 
     public function payment() {
-        return $this->belongsTo(TransactionPayment::class, "transaction_no");
+        return $this->belongsTo(TransactionPayment::class, "transaction_id");
     }
 
     public function user() {

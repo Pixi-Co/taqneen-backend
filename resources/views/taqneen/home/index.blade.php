@@ -99,7 +99,7 @@
 									<div class="col-xl-12">
 										<div class="card-body p-0">
 											<div class="current-sale-container">
-												<div id="chart-currently"></div>
+												<div id="subscription_chart"></div>
 											</div>
 										</div>
 									</div>
@@ -398,4 +398,111 @@
 <script src="{{asset('assets/js/typeahead/typeahead.custom.js')}}"></script>
 <script src="{{asset('assets/js/typeahead-search/handlebars.js')}}"></script>
 <script src="{{asset('assets/js/typeahead-search/typeahead-custom.js')}}"></script>
+
+<script>
+	// currently sale
+	var options = {
+		series: [
+			{
+			name: 'subscriptions',
+			data: [
+				@foreach ($data['chart'] as $key => $value)
+					{{ $key }},
+				@endforeach
+			]
+		} 
+		],
+		chart: {
+			height: 240,
+			type: 'area',
+			toolbar: {
+				show: false
+			},
+		},
+		dataLabels: {
+			enabled: false
+		},
+		stroke: {
+			curve: 'smooth'
+		},
+		xaxis: {
+			type: 'category',
+			low: 0,
+			offsetX: 0,
+			offsetY: 0,
+			show: false,
+			categories: [ 
+				@foreach ($data['chart'] as $key => $value)
+					'{{ $value }}',
+				@endforeach
+			],
+			labels: {
+				low: 0,
+				offsetX: 0,
+				show: false,
+			},
+			axisBorder: {
+				low: 0,
+				offsetX: 0,
+				show: false,
+			},
+		},
+		markers: {
+			strokeWidth: 3,
+			colors: "#ffffff",
+			strokeColors: [CubaAdminConfig.primary, CubaAdminConfig.secondary],
+			hover: {
+				size: 6,
+			}
+		},
+		yaxis: {
+			low: 0,
+			offsetX: 0,
+			offsetY: 0,
+			show: false,
+			labels: {
+				low: 0,
+				offsetX: 0,
+				show: false,
+			},
+			axisBorder: {
+				low: 0,
+				offsetX: 0,
+				show: false,
+			},
+		},
+		grid: {
+			show: false,
+			padding: {
+				left: 0,
+				right: 0,
+				bottom: -15,
+				top: -40
+			}
+		},
+		colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary],
+		fill: {
+			type: 'gradient',
+			gradient: {
+				shadeIntensity: 1,
+				opacityFrom: 0.7,
+				opacityTo: 0.5,
+				stops: [0, 80, 100]
+			}
+		},
+		legend: {
+			show: false,
+		},
+		tooltip: {
+			x: {
+				format: 'MM'
+			},
+		},
+	};
+
+	var chart = new ApexCharts(document.querySelector("#subscription_chart"), options);
+	chart.render();
+</script>
+
 @endsection
+
