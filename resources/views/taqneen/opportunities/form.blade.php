@@ -57,25 +57,34 @@
                                         <fieldset>
                                             <legend>@trans('opportunity Info')</legend>
                                             <div class="row">
-                                             
-                                             <div class="form-group col-md-4">
-                                                 <label>@trans('Name')</label>
-                                                 <input type="text" name="name" class="form-control" placeholder="@trans('Name')" value="{{ $opportunity->name }}" required >
-                                             </div>
-                                             
-                                             <div class="form-group col-md-4">
-                                                 <label>@trans('Phone ')</label>
-                                                 <input type="text" name="mobile" class="form-control" placeholder="@trans('phone ')" value="{{ $opportunity->mobile }}" required>
-                                             </div>
+                                            
+                                            <div class="form-group col-md-4">
+                                                <b>@trans('name') *</b>
+                                                <input type="text" name="name" class="form-control" placeholder="@trans('Name')" value="{{ $opportunity->name }}" required >
+                                            </div>
+                                            
+                                            <div class="form-group col-md-4">
+                                                <b>@trans('phone ') *</b>
+                                                <input type="text" name="mobile" class="form-control" placeholder="@trans('phone ')" value="{{ $opportunity->mobile }}" required>
+                                            </div>
 
-                                             <div class="form-group col-md-4">
-                                                 <label>@trans('Email ')</label>
-                                                 <input type="email" name="email" class="form-control" placeholder="@trans('Email ')" value="{{ $opportunity->email }}" required>
-                                             </div>
-                     
-                                             
-                                         </div>
-                                         
+                                            <div class="form-group col-md-4">
+                                                <b>@trans('Email ') *</b>
+                                                <input type="email" name="email" class="form-control" placeholder="@trans('Email ')" value="{{ $opportunity->email }}" required>
+                                            </div>
+
+                                            <div class="form-group col-md-6 pt-3">
+                                                <b>@trans('select services  ') *</b>
+                                                {!! Form::select("custom_field2", $services, $opportunity->custom_field2, ["class" => "form-select", 'placeholder'=> __('select service')]) !!} 
+                                            </div>
+                                            <div class="form-group col-md-6 pt-3">
+                                                <b>@trans('select packages  ') *</b>
+                                                {!! Form::select("custom_field3", $packages, $opportunity->custom_field3, ["class" => "form-select"]) !!} 
+                                            </div>
+                    
+                                        
+                                        </div>
+                                        
                                         </fieldset><br><br>
 
                                         

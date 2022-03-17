@@ -39,7 +39,7 @@ class MainDashboardController extends Controller
         $opportunities = Contact::where('type','opportunity')->where('business_id', session('business.id'))->latest()->get();
 
         
-        return view("taqneen.home.index",compact('subscriptions','subscriptionsActive','subscriptionsExpire','todaySubscriptionCount','todaySubscriptionTotal','totalSalesMonth','totalSales','totalExepnses','opportunities',)); 
+        return view("taqneen.home.index",compact('subscriptions','subscriptionsActive','subscriptionsExpire','todaySubscriptionCount','todaySubscriptionTotal','totalSalesMonth','totalSales','totalExepnses','opportunities')); 
     } 
 
     public function getTotalSubscription(){

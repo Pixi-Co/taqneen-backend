@@ -50,11 +50,11 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>@trans(' Name')</th>
-                                                        <th>@trans(' Phone')</th>
-                                                        <th>@trans('Email ')</th>
-                                                        <th>@trans('User')</th>
-                                                        
+                                                        <th>@trans('name')</th>
+                                                        <th>@trans('phone')</th>
+                                                        <th>@trans('email')</th>
+                                                        <th>@trans('serivce')</th>
+                                                        <th>@trans('package')</th>
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                 </thead>
@@ -65,7 +65,8 @@
                                                         <td>{{  $item->name  }}</td>          
                                                         <td>{{  $item->mobile  }}</td>          
                                                         <td>{{  $item->email  }}</td>          
-                                                        <td>{{  $item->created_by }}</td>          
+                                                        <td>{{  optional($item->service)->name}}</td>          
+                                                        <td>{{ optional($item->package)->name}}</td>          
                                                          
                                                         <td class="d-flex">
                                                             <a role="button" href="/opportunities/{{ $item->id }}/edit" class="m-1 btn btn-primary btn-sm" >@trans('edit')</a>

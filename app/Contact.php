@@ -319,4 +319,13 @@ class Contact extends Authenticatable
     function loginUser() {
         return $this->belongsTo(User::class, "converted_by");
     }
+
+    public function service() {
+        return $this->belongsTo(Category::class, "custom_field2");
+    }
+     
+    public function package() {
+        return $this->belongsTo(ServicePackage::class, "custom_field3");
+    }
+
 }

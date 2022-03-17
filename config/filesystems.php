@@ -59,6 +59,10 @@ return [
             'driver' => 'local',
             'root' => public_path('uploads'),
         ],
+        'public_uploads_files' => [
+            'driver' => 'local',
+            'root' => public_path('files'),
+        ],
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_KEY'),

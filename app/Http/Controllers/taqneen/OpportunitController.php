@@ -2,27 +2,32 @@
 
 namespace App\Http\Controllers\taqneen;
 
+use App\Category;
 use App\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\ServicePackage;
 
 class OpportunitController extends Controller
 {
     public function index(){
-
         $opportunities = Contact::where('type','opportunity')->where('business_id', session('business.id'))->latest()->get();
         return view('taqneen.opportunities.index',compact('opportunities'));
     }
 
     public function create() {
         $opportunity = new Contact();
-        return view('taqneen.opportunities.form',compact('opportunity'));
+        $services = Category::forDropdown(session('user.business_id'), "service"); 
+        $packages = ServicePackage::where('business_id', session('user.business_id'))->pluck("name", "id")->toArray(); 
+        return view('taqneen.opportunities.form',compact('opportunity','services','packages'));
     }//end create
 
 
     public function edit($id){
         $opportunity = Contact::find($id);
-        return view('taqneen.opportunities.form',compact('opportunity'));
+        $services = Category::forDropdown(session('user.business_id'), "service"); 
+        $packages = ServicePackage::where('business_id', session('user.business_id'))->pluck("name", "id")->toArray();
+        return view('taqneen.opportunities.form',compact('opportunity','services','packages'));
 
     }
 
@@ -33,6 +38,8 @@ class OpportunitController extends Controller
                 "name" => $request->name,
                 "mobile" => $request->mobile,
                 "email" => $request->email,
+                "custom_field2" => $request->custom_field2, // service ,
+                "custom_field3" => $request->custom_field3, // package,
                 "business_id" =>session('business.id'),
                 "created_by" => session('user.id'),
                 "type" => 'opportunity',
@@ -62,6 +69,8 @@ class OpportunitController extends Controller
                 "name" => $request->name,
                 "mobile" => $request->mobile,
                 "email" => $request->email,
+                "custom_field2" => $request->custom_field2, // service ,
+                "custom_field3" => $request->custom_field3, // package,
                 
             ];
             

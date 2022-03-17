@@ -5,9 +5,12 @@ namespace App\Http\Controllers\taqneen;
 use App\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Imports\CustomersImport;
 use App\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Contracts\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -242,4 +245,18 @@ class CustomerController extends Controller
     }
 
 
+    public function download()
+    {
+        $files = Storage::disk('public_uploads_files')->getAdapter()->applyPathPrefix('import_customer_template.xlsx');
+        return  response()->download($files);
+    }
+
+    public function importFile(Request $request){
+        
+        if ($request->hasFile('import_file')) {
+            $import_file = $request->file('import_file');
+        }
+        Excel::import(new CustomersImport, $import_file);
+        return redirect('/customers');  
+    }
 }

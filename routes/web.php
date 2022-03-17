@@ -87,17 +87,15 @@ Route::middleware(['setData'])->group(function () {
 //Routes for authenticated users only
 Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'CheckUserLogin'])->group(function () {
      
-
-<<<<<<< HEAD
     Route::get('/', 'taqneen\MainDashboardController@index');
-=======
-    Route::get('/', 'HomeController@index');
+    // Route::get('/', 'HomeController@index');
     Route::get('/taqneen-calendar', 'taqneen\CalendarController@index');
     Route::get('/taqneen-calendar-api', 'taqneen\CalendarController@get');
->>>>>>> 64da3c80af1a581f93c000578b0e2b3fde428056
     Route::get('/support', 'HomeController@support');
     Route::resource('services', 'taqneen\ServiceController');
     Route::resource('customers', 'taqneen\CustomerController');
+    Route::get('download',[CustomerController::class,'download']);
+    Route::post('upload_file',[CustomerController::class,'importFile']);
     Route::get('profile/{id}',[CustomerController::class,'show'])->name('profile.show');
     Route::resource('userstaq', 'taqneen\UserController'); 
     Route::resource('opportunities', 'taqneen\OpportunitController'); 

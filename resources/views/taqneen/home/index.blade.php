@@ -38,11 +38,11 @@
 					</div>
 					<div class="greeting-user text-center bg-black">
 						<div class="profile-vector"><img class="img-fluid" src="{{asset('assets/images/dashboard/welcome.png')}}" alt=""></div>
-						<h4 class="invisible f-w-600"><span id="greeting">مرحبا</span> <span class="right-circle"><i class="fa fa-check-circle f-14 middle"></i></span></h4>
-                        <h1 class="text-white f-w-600"><span id="greeting">مرحبا</span> <span class="right-circle"><i class="fa fa-check-circle f-14 middle"></i></span></h1>
+						<h4 class="invisible f-w-600"><span id="greeting">@trans('welcome')</span> <span class="right-circle"><i class="fa fa-check-circle f-14 middle"></i></span></h4>
+                        <h1 class="text-white f-w-600"><span id="greeting">@trans('welcome')</span> <span class="right-circle"><i class="fa fa-check-circle f-14 middle"></i></span></h1>
 
-                        <p><span> ارباح اليوم هو {{ round($todaySubscriptionTotal ,2)}} ريال سعودي ومعدل زيادة المبيعات {{ $todaySubscriptionCount }} خلال الـ 24 ساعة الماضية</span></p>
-						<div class="whatsnew-btn"><a class="btn btn-primary">ما هو الجديد !</a></div>
+                        <p><span> @trans('todays earnings are') {{ round($todaySubscriptionTotal ,2)}} @trans('SR'), @trans('Sales increase rate') {{ $todaySubscriptionCount }}  @trans('During the past 24 hours')</span></p>
+						<div class="whatsnew-btn"><a class="btn btn-primary">@trans('whats new') !</a></div>
 						<div class="left-icon"><i class="fa fa-bell"> </i></div>
 					</div>
 				</div>
@@ -56,19 +56,19 @@
 							<div class="row m-0 chart-left">
 								<div class="col-xl-12 p-0 left_side_earning">
 									<h5>@lang('lang.Dashboard')</h5>
-									<p class="font-roboto">نظرة عامة على الشهر الماضي</p>
+									<p class="font-roboto">@trans('Overview of the last month')</p>
 								</div>
 								<div class="col-xl-12 p-0 left_side_earning">
 									<h5>SAR {{ $totalSalesMonth }} </h5>
-									<p class="font-roboto">ارباح الشهر الحالي</p>
+									<p class="font-roboto">@trans('current month earnings')</p>
 								</div>
 								<div class="col-xl-12 p-0 left_side_earning">
 									<h5>SAR {{ $totalSalesMonth }}</h5>
-									<p class="font-roboto">مبيعات الشهر الحالى</p>
+									<p class="font-roboto">@trans('This months sales')</p>
 								</div>
 								<div class="col-xl-12 p-0 left_side_earning">
 									<h5>{{ round($totalSalesMonth / $totalSales * 100 ,3)}}%</h5>
-									<p class="font-roboto">نسبة المبيعات</p>
+									<p class="font-roboto">@trans('sales percentage')</p>
 								</div>
 								<div class="col-xl-12 p-0 left-btn"><a class="btn btn-gradient">ملخص</a></div>
 							</div>
@@ -110,7 +110,7 @@
 									<div class="media p-0">
 										<div class="media-left"><i class="icofont icofont-crown"></i></div>
 										<div class="media-body">
-											<h6>صافى الارباح</h6>
+											<h6>@trans('Net profit')</h6>
 											<p>SAR {{round( $totalSales - $totalExepnses ,2)}}</p>
 										</div>
 									</div>
@@ -119,7 +119,7 @@
 									<div class="media p-0">
 										<div class="media-left bg-secondary"><i class="icofont icofont-heart-alt"></i></div>
 										<div class="media-body">
-											<h6>اجمالى المصروفات </h6>
+											<h6>@trans('Total cost') </h6>
 											<p>SAR {{ round($totalExepnses,2) }}</p>
 										</div>
 									</div>
@@ -128,7 +128,7 @@
 									<div class="media p-0">
 										<div class="media-left"><i class="icofont icofont-cur-dollar"></i></div>
 										<div class="media-body">
-											<h6>اجمالى المبيعات</h6>
+											<h6>@trans('Total sale')</h6>
 											<p>SAR {{ round($totalSales ,2)}}     </p>
 										</div>
 									</div>
@@ -328,12 +328,12 @@
 							<div class="header-top">
 
 								<h2 class="m-0 ">@trans('alert')</h2>
-								<a href="{{url('mainreport')}}" class="btn btn-primary">عرض</a>
+								<a href="{{url('mainreport')}}" class="btn btn-primary">@trans('show')</a>
 							</div>
 						</div>
 						<div class="card-body">
 							<div class="body-bottom">
-								<h4>يوجد {{ $subscriptionsExpire }} عملاء سوف ينتهى اشتراكهم قريبا</h4>
+								<h4>@trans('There is') {{ $subscriptionsExpire }} @trans('of customers whose subscription will expire soon')</h4>
 							</div>
 						</div>
 					</div>
@@ -347,9 +347,9 @@
 						<h5 class="m-0">@lang('lang.Opportunities')</h5>
 						<div class="card-header-right-icon">
 							<select class="button btn btn-primary">
-								<option>اليوم</option>
-								<option>غدا</option>
-								<option>امس</option>
+								<option>@trans('today')</option>
+								<option>@trans('tomorrow')</option>
+								<option>@trans('yesterday')</option>
 							</select>
 						</div>
 					</div>
