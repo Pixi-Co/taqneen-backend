@@ -77,10 +77,10 @@
                                                                    @else
                                                                    <option class="form-control" value="role" selected disabled>-- @trans('role') --</option>
                                                                    @endif
-                                                                    
+{{--                                                                     
                                                                     @foreach ($roles as $role )
                                                                     <option class="form-control" name="role_name" value="{{ $role }}"  >{{ $role }}</option>
-                                                                    @endforeach
+                                                                    @endforeach --}}
                                                                 </select>
                                                             </div>                                     
                                                             <div class="col-md-12 mt-3"><label class="labels">@trans('password')</label><input type="password" class="form-control" name="password" ></div>

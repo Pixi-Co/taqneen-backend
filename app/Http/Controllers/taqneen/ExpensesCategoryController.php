@@ -47,7 +47,8 @@ class ExpensesCategoryController extends Controller
                 "success" => 0,
                 "msg" => $th->getMessage()
             ];
-        } 
+        }
+        //dd($output);
         return back()->with('status', $output); 
     }//end store
 
