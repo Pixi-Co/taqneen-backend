@@ -121,6 +121,6 @@ class LoginController extends Controller
             return 'contact/contact-dashboard';
         }
 
-        return '/home';
+        return '/';
     }
 }

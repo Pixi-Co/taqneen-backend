@@ -90,6 +90,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
      
     Route::get('/', 'taqneen\MainDashboardController@index');
     Route::get('/home', 'taqneen\MainDashboardController@index');
+    // Route::get('/', 'taqneen\MainDashboardController@index');
     // Route::get('/', 'HomeController@index');
     
     Route::get('/subscription-api', 'taqneen\MainDashboardController@getTotalSubscription');

@@ -350,7 +350,13 @@
             <li><a  href="#"><i data-feather="mail"></i><span>Inbox</span></a></li>
             <li><a  href="#"><i data-feather="file-text"></i><span>Taskboard</span></a></li>
             <li><a  href="#"><i data-feather="settings"></i><span>Settings</span></a></li>
-            <li><a  href="#"><i data-feather="log-in"> </i><span>Log in</span></a></li>
+            <li>
+              {{-- <a  href="#"> </i><span>Log in</span></a> --}}
+              <a  href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i data-feather="log-in"></i><span>@trans('logout')</span></a>
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST"style="display: none;">
+                    @csrf
+                  </form>
+            </li>
           </ul>
         </li>
       </ul>
