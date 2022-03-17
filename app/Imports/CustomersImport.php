@@ -42,7 +42,7 @@ class CustomersImport implements ToModel, WithHeadingRow
 
         $contact->update([
             "converted_by" => $user->id
-        ]);
+        ]); 
 
         return $contact;
     }
@@ -56,6 +56,7 @@ class CustomersImport implements ToModel, WithHeadingRow
             "email" => $contact->email,
             "contact_number" => $contact->mobile,
             "address" => $contact->address_line_1,
+            "type" => 'user_customer',
             "password" => isset($data['password'])? bcrypt($data['password']) : '',
         ]; 
 
@@ -70,7 +71,7 @@ class CustomersImport implements ToModel, WithHeadingRow
             $user->assignRole($newRole->name);
         }
 
-        return $user;
+        return $user->refresh();
     }
  
 }
