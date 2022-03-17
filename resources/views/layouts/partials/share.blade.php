@@ -1,7 +1,7 @@
 <div style="min-width: 200px" >
 
     @if (isset($phone))
-        <a target="_blank" href="https://api.whatsapp.com/send/?phone={{ $phone }}&app_absent=0"
+        <a target="_blank" href="https://api.whatsapp.com/send/?phone=966{{ substr($phone, 1) }}&app_absent=0"
             style="width: 25px!important;height: 25px!important;border-radius: 5em!important;padding: 4px!important"
             class="btn w3-white w3-text-green material-shadow">
             <i style="margin-top: 4px;" class="fa fa-brands fa-whatsapp"></i>
