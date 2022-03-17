@@ -9,17 +9,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Media;
 use App\ServicePackage;
-use App\Subscription;
-use App\SubscriptionLine;
+use App\Subscription; 
 use App\TaxRate;
-use App\TransactionPayment;
 use App\Triger;
+use App\TransactionPayment; 
 use App\User;
-use App\Utils\ContactUtil;
-use Carbon\Carbon;
+use App\Utils\ContactUtil; 
 use DB;
-use Illuminate\Support\Facades\Storage;
-use Mpdf\Tag\Sub;
+use Illuminate\Support\Facades\Storage; 
 use Yajra\DataTables\Facades\DataTables;
 
 class SubscriptionController extends Controller
