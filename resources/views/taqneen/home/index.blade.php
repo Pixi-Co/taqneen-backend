@@ -67,7 +67,7 @@
 									<p class="font-roboto">@trans('This months sales')</p>
 								</div>
 								<div class="col-xl-12 p-0 left_side_earning">
-									<h5>{{ round($totalSalesMonth / $totalSales * 100 ,3)}}%</h5>
+									<h5>{{ round($totalSalesMonth / ($totalSales? $totalSales : 1) * 100 ,3)}}%</h5>
 									<p class="font-roboto">@trans('sales percentage')</p>
 								</div>
 								<div class="col-xl-12 p-0 left-btn"><a class="btn btn-gradient">ملخص</a></div>
