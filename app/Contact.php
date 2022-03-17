@@ -328,4 +328,8 @@ class Contact extends Authenticatable
         return $this->belongsTo(ServicePackage::class, "custom_field3");
     }
 
+    public function subscriptions() {
+        return $this->hasMany(Subscription::class, "contact_id");
+    }
+
 }

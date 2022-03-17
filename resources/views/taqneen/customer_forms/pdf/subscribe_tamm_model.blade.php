@@ -3,9 +3,12 @@
 <title>@trans(optional($resource)->key? optional($resource)->key : '')</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300&display=swap" rel="stylesheet">
 <style>
-    body { 
+    *, h1, h2, h3, h4, h5, h6 {
+        font-family: 'Tajawal', sans-serif; 
     }
 
     .pdf_image {
@@ -31,6 +34,12 @@
             </div>
         @endfor
     </div>
+
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 8.8cm;right: 5.8cm;" >
+        <b>فوكس</b>
+    </div>
+
+     
  
 </body>
 

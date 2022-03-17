@@ -114,6 +114,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::resource('role', 'taqneen\RoleController'); 
     Route::resource('subscriptions', 'taqneen\SubscriptionController'); 
     Route::get('/customer-form/{form_name}', 'taqneen\CustomerFormController@index');
+    Route::get('/customer-pdf/{file}', 'taqneen\CustomerFormController@viewPdf');
     Route::get('/notification-template', 'taqneen\NotificationTemplateController@index');
     Route::post('/notification-template', 'taqneen\NotificationTemplateController@save');
 /*

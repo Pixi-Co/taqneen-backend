@@ -250,16 +250,16 @@
                                                         <div class="clearfix"></div>
                                                     </div>
                                                     <div class="attachment">
-                                                        <ul class="list-inline">
+                                                        <ul class="list-inline row">
                                                             @foreach ($subscription->media()->get() as $item)
-                                                                <li class="list-inline-item w3-display-container" style="width: 120px">
-                                                                    <a target="_blank" class="" href="{{ $item->display_url }}">
+                                                                <li class="list-inline-item w3-display-container col-md-3" style="padding: 2px">
+                                                                    <a target="_blank" class="" href="{{ $item->display_url }}" style="padding: 0px">
                                                                         @if ($item->isImage())
-                                                                            <img class="img-fluid w3-round"
-                                                                                src="{{ $item->display_url }}" style="border: 1px dashed #3f51b5" alt="">
+                                                                            <img class="img-fluid w3-round w3-block"
+                                                                                src="{{ $item->display_url }}" style="height: 100px;border: 1px dashed #3f51b5" alt="">
                                                                         @else
-                                                                            <img class="img-fluid w3-round"
-                                                                                src="{{ asset('assets/images/file.jpg') }}" style="border: 1px dashed #3f51b5"
+                                                                            <img class="img-fluid w3-round w3-block"
+                                                                                src="{{ asset('assets/images/file.jpg') }}" style="height: 100px;border: 1px dashed #3f51b5"
                                                                                 alt="">
                                                                         @endif
                                                                     </a>

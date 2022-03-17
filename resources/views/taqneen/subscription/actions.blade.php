@@ -100,5 +100,7 @@
 <script>
     formAjax(true, function(){
         subscriptionTable.ajax.reload();
+
+        $('.modal-backdrop').remove();
     });
 </script>
