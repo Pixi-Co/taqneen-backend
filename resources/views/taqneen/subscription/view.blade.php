@@ -1,4 +1,4 @@
-@extends('layouts.simple.master')
+@extends('taqneen.layouts.master')
 @section('title', 'Invoice')
 
 @section('css')
@@ -65,13 +65,14 @@
                                </td> 
                             </tr>
                               <tbody>
-                                  @foreach ($resource->subscription_lines()->ge() as $item)
+                                  @foreach ($resource->subscription_lines()->get() as $item)
+ 
                                   <tr>
                                      <td class="item">
-                                        <h6 class="p-2 mb-0">{{ optional($item->service)->name }}</h6>
+                                        <h6 class="p-2 mb-0">{{ optional($item->service()->first())->name }}</h6>
                                      </td>
                                      <td class="item">
-                                        <h6 class="p-2 mb-0">{{ optional($item->package)->name }}</h6>
+                                        <h6 class="p-2 mb-0">{{ optional($item->package()->first())->name }}</h6>
                                      </td>
                                      <td class="Hours">
                                         <h6 class="p-2 mb-0">0</h6>

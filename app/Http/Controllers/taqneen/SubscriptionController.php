@@ -127,7 +127,7 @@ class SubscriptionController extends Controller
     public function show($id)
     { 
         $resource = Subscription::find($id); 
-        return view('taqneen.subscription.show', compact("resource"));
+        return view('taqneen.subscription.view', compact("resource"));
     }
 
     public function create()
