@@ -87,7 +87,8 @@ Route::middleware(['setData'])->group(function () {
 //Routes for authenticated users only
 Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'CheckUserLogin'])->group(function () {
      
-
+    
+    Route::get('/subscription-api', 'taqneen\MainDashboardController@getTotalSubscription');
     Route::get('/', 'taqneen\MainDashboardController@index');
     //Route::get('/', 'HomeController@index');
     Route::get('/taqneen-calendar', 'taqneen\CalendarController@index');
@@ -103,16 +104,20 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::resource('taxs', 'taqneen\TaxsController'); 
     Route::resource('role', 'taqneen\RoleController'); 
     Route::resource('subscriptions', 'taqneen\SubscriptionController'); 
+    Route::get('/customer-form/{form_name}', 'taqneen\CustomerFormController@index');
+    Route::get('/customer-pdf/{key}', 'taqneen\CustomerFormController@viewPdf');
+/*
     Route::get('customerForm/createcustomermasarat', [CustomerFormController::class,'createCustomerMasarat']); 
     Route::get('customerForm/createcustomermuqeem', [CustomerFormController::class,'createCustomerMuqeem']); 
     Route::get('customerForm/createcustomernaba', [CustomerFormController::class,'createCustomerNaba']); 
     Route::get('customerForm/createcustomershomoos', [CustomerFormController::class,'createCustomerShomoos']); 
     Route::get('customerForm/createcustomertamm', [CustomerFormController::class,'createCustomerTamm']); 
-    Route::post('customerForm/createCustomerMasarat', [CustomerFormController::class,'store'])->name('createCustomerMasarat.store'); 
-    Route::post('customerForm/createcustomermuqeem', [CustomerFormController::class,'store'])->name('createCustomerMuqeem.store'); 
-    Route::post('customerForm/createcustomernaba', [CustomerFormController::class,'store'])->name('createcustomernaba.store'); 
-    Route::post('customerForm/createcustomershomoos', [CustomerFormController::class,'store'])->name('createcustomershomoos.store'); 
-    Route::post('customerForm/createcustomertamm', [CustomerFormController::class,'store'])->name('createcustomertamm.store'); 
+*/
+    Route::post('customerForm/createCustomerMasarat', [CustomerFormController::class,'save'])->name('createCustomerMasarat.store'); 
+    Route::post('customerForm/createcustomermuqeem', [CustomerFormController::class,'save'])->name('createCustomerMuqeem.store'); 
+    Route::post('customerForm/createcustomernaba', [CustomerFormController::class,'save'])->name('createcustomernaba.store'); 
+    Route::post('customerForm/createcustomershomoos', [CustomerFormController::class,'save'])->name('createcustomershomoos.store'); 
+    Route::post('customerForm/createcustomertamm', [CustomerFormController::class,'save'])->name('createcustomertamm.store'); 
     
     Route::get('reports/services', 'taqneen\ReportController@services');
     Route::get('reports/sales-commissions', 'taqneen\ReportController@salesComissions');

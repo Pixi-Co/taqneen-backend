@@ -55,8 +55,7 @@
                                                         <th>@trans('sales commission')</th>
                                                         <th>@trans('subscription status ')</th>
                                                         <th>@trans('email ')</th>
-                                                        <th>@trans('accoutant no')</th>
-                                                        
+                                                        <th>@trans('accoutant no')</th> 
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                 </thead>
@@ -73,6 +72,7 @@
                                                          
                                                         <td class="d-flex">
                                                             <a role="button" href="/customers/{{ $item->id }}/edit" class="m-1 btn btn-primary btn-sm" >@trans('edit')</a>
+                                                            <a role="button" href="/customers/{{ $item->id }}" class="m-1 btn btn-primary btn-sm" >@trans('show')</a>
                                                             <button onclick="destroy('/customers/{{ $item->id }}')" class="m-1 btn btn-danger bt-sm" >@trans('remove')</button>
                                                         </td>     
                                                     </tr> 

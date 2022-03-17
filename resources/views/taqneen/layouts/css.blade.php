@@ -27,6 +27,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/responsive.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/select2.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/w3.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('css/iziToast.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/daterangepicker.css')}}"> 
 <style>
     * FullCalendar v3.10.2
@@ -36,6 +37,10 @@
     
 </style>
 <style>
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Tajawal', sans-serif!important;
+    }
     .material-shadow {
         box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%)!important;
     }
@@ -47,3 +52,8 @@
         display: none!important;
     }
 </style>
+
+
+<script>
+    var BASE_URL = "{{ url('/') }}";
+</script>

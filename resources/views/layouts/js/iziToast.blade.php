@@ -1,7 +1,7 @@
 <script>
     toastr.success = function(text='@trans('done')'){
         // play sound
-        document.getElementById('success-audio').play();
+        //document.getElementById('success-audio').play();
 
         iziToast.success({
             title: text,
@@ -12,7 +12,7 @@
 
     toastr.error = function(text='@trans('error')'){
         // play sound
-        document.getElementById('error-audio').play();
+        ///document.getElementById('error-audio').play();
 
         iziToast.error({
             title: text,
@@ -23,7 +23,7 @@
 
     toastr.warning = function(text='@trans('warning')'){
         // play sound
-        document.getElementById('warning-audio').play();
+        //document.getElementById('warning-audio').play();
 
         iziToast.warning({
             title: text,

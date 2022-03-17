@@ -358,7 +358,7 @@
                                                                     <p class="card-text">
                                                                     </p>
                                                                     <b>@trans('by'): {{ $item->user->first_name }}</b>
-                                                                    <p></p>
+                                                                    <p>{{  $item->created_at }}</p>
                                                                 </div>
                                                             </div>
                                                         @endforeach
