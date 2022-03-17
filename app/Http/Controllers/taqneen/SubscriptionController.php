@@ -13,6 +13,7 @@ use App\Subscription;
 use App\SubscriptionLine;
 use App\TaxRate;
 use App\TransactionPayment;
+use App\Triger;
 use App\User;
 use App\Utils\ContactUtil;
 use Carbon\Carbon;
@@ -309,6 +310,9 @@ class SubscriptionController extends Controller
         $resource->is_renew = '1';
         $resource->renew_date = date('Y-m-d');
         $resource->update();
+
+        // fire renew triger
+        Triger::fire(Triger::$RENEW_SUBSCRIPTION, $resource->id);
         return responseJson(0, __('done'));
     }
 
@@ -455,6 +459,9 @@ class SubscriptionController extends Controller
                     "user_id" => session('user.id'),
                     "notes" => $msg,
                 ]);
+                
+                // fire renew triger
+                Triger::fire(Triger::$CHANGE_SUBSCRIPTION_STATUS, $resource->id);
             }
 
             // insert payment  

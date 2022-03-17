@@ -113,6 +113,10 @@
 					<li class="sidebar-list"><a class="sidebar-link   sidebar-title link-nav " href="{{url('/taqneen-calendar')}}"><i data-feather="calendar"> </i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('calendar') }}</span></a></li>
                     
 
+                    {{------------------------ notification-template button -----------------------------}}
+					<li class="sidebar-list"><a class="sidebar-link   sidebar-title link-nav " href="{{url('/notification-template')}}"><i data-feather="calendar"> </i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('notification template') }}</span></a></li>
+                    
+
                     {{------------------------ reporting button -----------------------------}}
                     <li class="sidebar-list">
 						<a class="sidebar-link   sidebar-title " href="#">

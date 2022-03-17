@@ -2,6 +2,10 @@
 
 namespace App\Console;
 
+use App\Subscription;
+use App\Transaction;
+use App\Triger;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -43,6 +47,44 @@ class Kernel extends ConsoleKernel
                     //->everyThirtyMinutes()
                     ->emailOutputTo($email);
         }
+
+        // run schedule every day
+        $schedule->call(function () {
+            $transactions = Subscription::all();
+
+        foreach($transactions as $item) { 
+            $today = Carbon::now();
+            $date = Carbon::parse(strtotime($item->expire_date));
+            $diffInWeeks = $today->diffInWeeks($date);
+            $isBefore = false;
+
+            if (strtotime(date('Y-m-d')) > strtotime($item->expire_date)) {
+                $isBefore = false;
+            } else {
+                $isBefore = true;
+            }
+
+            // today expire triger
+            
+            if (strtotime(date('Y-m-d')) == strtotime($item->expire_date)) {
+                Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_DAY, $item->id);
+            }
+
+            if ($diffInWeeks == 1) {
+                $isBefore? 
+                Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_BEFORE_1_WEEKS, $item->id) : 
+                Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_AFTER_1_WEEKS, $item->id);
+            } else if ($diffInWeeks == 2) {
+                $isBefore? 
+                Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_BEFORE_2_WEEKS, $item->id) : 
+                Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_AFTER_2_WEEKS, $item->id);
+            } else if ($diffInWeeks == 3) {
+                $isBefore? 
+                Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_BEFORE_3_WEEKS, $item->id) : 
+                Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_AFTER_3_WEEKS, $item->id);
+            } 
+        }
+        })->daily();
     }
 
     /**

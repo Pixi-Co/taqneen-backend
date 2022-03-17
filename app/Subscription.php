@@ -64,4 +64,20 @@ class Subscription extends Transaction
     public function user() {
         return $this->belongsTo(User::class, "created_by");
     }
+
+    public function getTagValue($tag) {
+        $resource = DB::table('transactions')
+            ->select(
+                "*",
+                "transaction_date as subscription_date",
+                "(select name from contacts where contacts.id = contact_id) as contact_name",
+                "(select name from users where users.id = created_by) as sales_commission",
+                "(select method from transaction_payments where transaction_payments.transaction_id = transactions.id) as payment_method",
+                "(select paid_on from transaction_payments where transaction_payments.transaction_id = transactions.id) as pay_date",
+            )->first();
+
+        return $resource->$tag;
+    }
+
+    
 }
