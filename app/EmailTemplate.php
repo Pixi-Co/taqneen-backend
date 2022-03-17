@@ -23,7 +23,7 @@ class EmailTemplate extends Model
     public static $TAGS = [
         '{status}' => "status",
         '{customer}' => "contact_name",
-        '{sales_commission}' => "user",
+        '{sales_commission}' => "sales_commission",
         '{final_total}' => "final_total",
         '{payment_method}' => "payment_method",
         '{subscription_date}' => "transaction_date",
@@ -50,6 +50,7 @@ class EmailTemplate extends Model
         }
 
         return [
+            "title" => "taqneen",
             "from" => "hello@elwatnia.in",
             "to" => optional($subscription->contact)->email,
             "subject" => $resource->subject,
@@ -66,19 +67,4 @@ class EmailTemplate extends Model
     }
 }
 
-
-class Triger { 
-    public static $RENEW_SUBSCRIPTION = "RENEW_SUBSCRIPTION";
-    public static $EXPIRE_SUBSCRIPTION_DAY = "EXPIRE_SUBSCRIPTION_DAY";
-    public static $CHANGE_SUBSCRIPTION_STATUS = "CHANGE_SUBSCRIPTION_STATUS";
-    public static $EXPIRE_SUBSCRIPTION_AFTER_3_WEEKS = "EXPIRE_SUBSCRIPTION_AFTER_3_WEEKS";
-    public static $EXPIRE_SUBSCRIPTION_AFTER_2_WEEKS = "EXPIRE_SUBSCRIPTION_AFTER_2_WEEKS";
-    public static $EXPIRE_SUBSCRIPTION_AFTER_1_WEEKS = "EXPIRE_SUBSCRIPTION_AFTER_1_WEEKS"; 
-    public static $EXPIRE_SUBSCRIPTION_BEFORE_3_WEEKS = "EXPIRE_SUBSCRIPTION_BEFORE_3_WEEKS";
-    public static $EXPIRE_SUBSCRIPTION_BEFORE_2_WEEKS = "EXPIRE_SUBSCRIPTION_BEFORE_2_WEEKS";
-    public static $EXPIRE_SUBSCRIPTION_BEFORE_1_WEEKS = "EXPIRE_SUBSCRIPTION_BEFORE_1_WEEKS";
-
-    public static function fire($triger, $subscriptionId) {
-        EmailTemplate::send($triger, $subscriptionId);
-    }
-}
+ 

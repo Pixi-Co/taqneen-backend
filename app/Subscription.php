@@ -70,14 +70,14 @@ class Subscription extends Transaction
             ->select(
                 "*",
                 "transaction_date as subscription_date",
-                "(select name from contacts where contacts.id = contact_id) as contact_name",
-                "(select name from users where users.id = created_by) as sales_commission",
-                "(select method from transaction_payments where transaction_payments.transaction_id = transactions.id) as payment_method",
-                "(select paid_on from transaction_payments where transaction_payments.transaction_id = transactions.id) as pay_date",
+                DB::raw( "(select first_name from contacts where contacts.id = contact_id) as contact_name"),
+                DB::raw("(select first_name from users where users.id = created_by) as sales_commission"),
+                DB::raw("(select method from transaction_payments where transaction_payments.transaction_id = transactions.id) as payment_method"),
+                DB::raw("(select paid_on from transaction_payments where transaction_payments.transaction_id = transactions.id) as paid_on"),
             )->first();
 
         return $resource->$tag;
     }
 
-    
+
 }
