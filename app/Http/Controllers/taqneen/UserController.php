@@ -27,11 +27,11 @@ class UserController extends Controller
 
         //dd($userinfo);
         $user = User::find(session('user.id'));
-        $roles = Role::where('business_id', session('business.id'))->pluck('name','name')->all();
+        //$roles = Role::where('business_id', session('business.id'))->pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->first();
 
         if($user->user_type == 'user'){
-            return view('taqneen.users.profile',compact('user','roles','userRole'));
+            return view('taqneen.users.profile',compact('user','userRole'));
         }else{
             $customer= Contact::where('converted_by',session('user.id'))->first();
             //dd($customer);
