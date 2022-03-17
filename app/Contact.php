@@ -332,4 +332,8 @@ class Contact extends Authenticatable
         return $this->hasMany(Subscription::class, "contact_id");
     }
 
+    public function forms() {
+        return $this->hasMany(CustomerForm::class, "customer_id");
+    }
+
 }

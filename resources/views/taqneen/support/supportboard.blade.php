@@ -22,15 +22,11 @@
 @endsection
 
 @section('content') 
-    <div class="container-fluid"> 
-            <div class="row">
-                <div class="b-0">
-                    <object type="text/html" data="{{ url('/supportboard/admin.php') }}"
-                     style="overflow:auto;width:100%;height: 600px;">
-                    </object>
-                 </div>
-            </div> 
-    </div>
+
+<object type="text/html" data="{{ url('/supportboard/admin.php') }}"
+style="position: absolute;left: 0px;top:0px;width: 100%;height: 100%">
+</object>
+   
 <script type="text/javascript">
 var session_layout = '{{ session()->get('layout') }}';
 </script>
