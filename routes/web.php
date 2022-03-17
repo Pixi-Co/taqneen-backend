@@ -88,7 +88,7 @@ Route::middleware(['setData'])->group(function () {
 //Routes for authenticated users only
 Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'CheckUserLogin'])->group(function () {
      
-    Route::get('/', 'taqneen\MainDashboardController@index');
+    // Route::get('/', 'taqneen\MainDashboardController@index');
     // Route::get('/', 'HomeController@index');
     
     Route::get('/subscription-api', 'taqneen\MainDashboardController@getTotalSubscription');
