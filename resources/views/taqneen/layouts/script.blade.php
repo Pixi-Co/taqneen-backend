@@ -99,7 +99,7 @@
                         _method: 'DELETE',
                     };
                     $.post(link, $.param(data), function(res) {
-                        message(res.msg);
+                        toastr.success(res.msg);
                         if (res.success == 1) {
                             window.location.reload();
                         }
