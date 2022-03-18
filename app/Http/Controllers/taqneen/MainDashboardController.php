@@ -36,7 +36,7 @@ class MainDashboardController extends Controller
         $totalExepnses  = Transaction::where('business_id', session('business.id'))->sum('custom_field_2');
         
         // get all opportunities
-        $opportunities = Contact::where('type','opportunity')->where('business_id', session('business.id'))->latest()->get();
+        $opportunities = Contact::where('type','opportunity')->where('business_id', session('business.id'))->where('converted_by',null)->latest()->get();
         
         $data = [
             'chart' => Transaction::where('business_id', session('business.id'))->pluck('transaction_date', 'final_total')->toArray(),

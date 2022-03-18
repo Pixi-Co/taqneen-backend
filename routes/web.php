@@ -107,6 +107,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::put('user-profile-update',[UserController::class,'updateProfile'])->name('user-profile-update.updateProfile');
 
     Route::resource('opportunities', 'taqneen\OpportunitController'); 
+    Route::get('take-opportunity/{id}','taqneen\OpportunitController@takeOppotunity');
     Route::resource('packages', 'taqneen\PackageController'); 
     Route::resource('categories', 'taqneen\ExpensesCategoryController'); 
     Route::resource('taxs', 'taqneen\TaxsController'); 
