@@ -73,7 +73,7 @@
                                         <div class="card-body">
 
                                             <div class="table-responsive pt-3">
-                                                <table class="display w3-block" id="advance-4">
+                                                <table class="display" id="advance-4">
                                                     <thead>
                                                         <tr>
                                                             <th>#</th>

@@ -62,7 +62,7 @@
                                                         <td>{{  $item->name  }}</td>          
                                                         <td>{{  $item->description  }}</td>          
                                                         <td>{{  optional($item->parent)->name  }}</td>          
-                                                        <td>{{  optional($item->user)->name  }}</td>      
+                                                        <td>{{  optional($item->user)->user_full_name  }}</td>      
                                                         <td>
                                                             <a role="button" href="/services/{{ $item->id }}/edit" class="btn btn-primary" >@trans('edit')</a>
                                                             <button onclick="destroy('/services/{{ $item->id }}')" class="btn btn-danger" >@trans('remove')</button>

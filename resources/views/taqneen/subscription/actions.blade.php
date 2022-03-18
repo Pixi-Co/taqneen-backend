@@ -6,6 +6,12 @@
         <i style="margin-top: 4px;" class="fa fa-edit"></i>
     </a>
 
+    <a target="_blank" href="{{ url('/subscriptions/') }}/{{ $row->id }}"
+        style="width: 25px!important;height: 25px!important;border-radius: 5em!important;padding: 4px!important"
+        class="btn w3-white w3-text-dark-gray material-shadow">
+        <i style="margin-top: 4px;" class="fa fa-print"></i>
+    </a>
+
     <!--
     <a onclick="destroy('/subscriptions/{{ $row->id }}')" href="#"
         style="width: 25px!important;height: 25px!important;border-radius: 5em!important;padding: 4px!important"
@@ -100,5 +106,7 @@
 <script>
     formAjax(true, function(){
         subscriptionTable.ajax.reload();
+
+        $('.modal-backdrop').remove();
     });
 </script>

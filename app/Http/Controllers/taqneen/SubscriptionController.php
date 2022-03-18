@@ -127,7 +127,7 @@ class SubscriptionController extends Controller
     public function show($id)
     { 
         $resource = Subscription::find($id); 
-        return view('taqneen.subscription.show', compact("resource"));
+        return view('taqneen.subscription.view', compact("resource"));
     }
 
     public function create()
@@ -557,5 +557,23 @@ class SubscriptionController extends Controller
         }
 
         return responseJson($output['success'], $output['msg'],  $contact->fresh());
+    }
+
+    public function deleteMedia($id) {
+        $media = DB::table('media')->find($id);
+        $path = public_path("/uploads/media/" . $media->file_name);
+
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        DB::table('media')->where('id', $id)->delete();
+ 
+        $output = [
+            "success" => 0,
+            "msg" => __('done')
+        ];
+
+        return $output;  
     }
 }

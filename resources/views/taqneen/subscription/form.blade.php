@@ -250,19 +250,24 @@
                                                         <div class="clearfix"></div>
                                                     </div>
                                                     <div class="attachment">
-                                                        <ul class="list-inline">
+                                                        <ul class="list-inline row">
                                                             @foreach ($subscription->media()->get() as $item)
-                                                                <li class="list-inline-item" style="width: 120px">
-                                                                    <a target="_blank" href="{{ $item->display_url }}">
+                                                                <li class="list-inline-item w3-display-container col-md-3" style="padding: 2px">
+                                                                    <a target="_blank" class="" href="{{ $item->display_url }}" style="padding: 0px">
                                                                         @if ($item->isImage())
-                                                                            <img class="img-fluid"
-                                                                                src="{{ $item->display_url }}" alt="">
+                                                                            <img class="img-fluid w3-round w3-block"
+                                                                                src="{{ $item->display_url }}" style="height: 100px;border: 1px dashed #3f51b5" alt="">
                                                                         @else
-                                                                            <img class="img-fluid"
-                                                                                src="{{ asset('assets/images/file.jpg') }}"
+                                                                            <img class="img-fluid w3-round w3-block"
+                                                                                src="{{ asset('assets/images/file.jpg') }}" style="height: 100px;border: 1px dashed #3f51b5"
                                                                                 alt="">
                                                                         @endif
                                                                     </a>
+                                                                    <div class="w3-display-topleft w3-padding">
+                                                                        <button type="button" onclick="destroy('{{ url('/subscriptions/delete-media/' . $item->id) }}')" style="padding: 3px!important" class="btn btn-danger btn-sm">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </button>
+                                                                    </div>
                                                                 </li>
                                                             @endforeach
                                                         </ul>
