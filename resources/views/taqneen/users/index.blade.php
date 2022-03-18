@@ -50,6 +50,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
+                                                        <th>@trans('code')</th>
                                                         <th>@trans(' name')</th>
                                                         <th>@trans(' email ')</th>
                                                         <th>@trans('phone ')</th>
@@ -63,6 +64,7 @@
                                                     @foreach($users as $item)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
+                                                        <td>{{  $item->id   }}</td>          
                                                         <td>{{  $item->first_name   }}</td>          
                                                         <td>{{  $item->email  }}</td>          
                                                         <td>{{  $item->contact_number  }}</td>          

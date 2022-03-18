@@ -53,7 +53,7 @@
                                                         <th>@trans('company name')</th>
                                                         <th>@trans('first name')</th>
                                                         <th>@trans('expire date')</th>
-                                                        <th>@trans('phone')</th>
+                                                        <th>@trans('accountant no')</th>
                                                         <th>@trans('services')</th>
                                                         <th>@trans('final total')</th>
                                                         <th>@trans('sales commission agent')</th>
@@ -70,7 +70,7 @@
                                                         <th>@trans('company name')</th>
                                                         <th>@trans('first name')</th>
                                                         <th>@trans('expire date')</th>
-                                                        <th>@trans('phone')</th>
+                                                        <th>@trans('accountant no')</th>
                                                         <th>@trans('services')</th>
                                                         <th>@trans('final total')</th>
                                                         <th>@trans('sales commission agent')</th>

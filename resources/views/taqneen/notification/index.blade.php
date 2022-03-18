@@ -89,6 +89,12 @@
                                                                     <b>@trans('subject')</b>
                                                                     {!! Form::text("subject", $instance::getTemplate($key)->subject, ["class" => "form-control", "required"]) !!}
                                                                 </div>
+
+                                                                <div class="form-group">
+                                                                    <br>
+                                                                    <b>@trans('emails')</b> 
+                                                                    {!! Form::text("cc", $instance::getTemplate($key)->cc, ["class" => "form-control", "", "placeholder" => "email1@example.com,email2@example.com"]) !!}
+                                                                </div>
     
                                                                 <div class="form-group">
                                                                     <br>
