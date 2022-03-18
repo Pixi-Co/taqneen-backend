@@ -5,6 +5,7 @@ use App\BusinessType;
 use App\ExpenseCategory;
 use App\Http\Controllers\taqneen\CustomerController;
 use App\Http\Controllers\taqneen\CustomerFormController;
+use App\Http\Controllers\taqneen\OpportunitController;
 use App\Http\Controllers\taqneen\UserController;
 use App\ShippingFees;
 use Illuminate\Support\Facades\Auth;
@@ -90,7 +91,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
      
     Route::get('/', 'taqneen\MainDashboardController@index');
     Route::get('/home', 'taqneen\MainDashboardController@index');
-    // Route::get('/', 'taqneen\MainDashboardController@index');
+    Route::get('/courier', 'taqneen\CourierDashboardController@index');
     // Route::get('/', 'HomeController@index');
     
     Route::get('/subscription-api', 'taqneen\MainDashboardController@getTotalSubscription');
@@ -109,6 +110,8 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::put('user-profile-update',[UserController::class,'updateProfile'])->name('user-profile-update.updateProfile');
 
     Route::resource('opportunities', 'taqneen\OpportunitController'); 
+    Route::get('opportunit-download',[OpportunitController::class,'opportunitDownload']);
+    Route::post('opportunit-upload_file',[OpportunitController::class,'opportunitImportFile']);
     Route::get('take-opportunity/{id}','taqneen\OpportunitController@takeOppotunity');
     Route::resource('packages', 'taqneen\PackageController'); 
     Route::resource('categories', 'taqneen\ExpensesCategoryController'); 

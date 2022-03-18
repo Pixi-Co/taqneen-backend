@@ -15,11 +15,13 @@
 					<li class="back-btn">
 						<a href="{{url('/')}}"><img class="img-fluid" src="{{asset('assets/images/logo/logo-icon.png')}}" alt=""></a>
 						<div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
-					</li>
-
+					</li>                    
 					<li class="sidebar-list"><a class="sidebar-link   mt-5  sidebar-title link-nav {{ Route::currentRouteName()=='index' ? 'active' : '' }} " href="{{url('/')}}"><i data-feather="home"> </i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('dashboard') }}</span></a></li>
-
-					 
+                   
+                                      
+                    <li class="sidebar-list">
+                        <a class="sidebar-link   mt-2  sidebar-title link-nav {{ Route::currentRouteName()=='index' ? 'active' : '' }} " href="{{url('/courier')}}"><i data-feather="home"> </i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('dashboard of courier') }}</span></a></li>
+                   
                     {{------------------------ subscription button -----------------------------}}
 					<li   class=" sidebar-list">
                         <a class="sidebar-link sidebar-title" href="#">
