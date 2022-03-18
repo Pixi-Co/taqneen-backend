@@ -42,7 +42,7 @@
                         <h1 class="text-white f-w-600"><span id="greeting">@trans('welcome')</span> <span class="right-circle"><i class="fa fa-check-circle f-14 middle"></i></span></h1>
 
                         <p><span> @trans('todays subscriptions are') {{ round($todaySubscriptionTotal ,2)}} @trans('SR'), @trans('total of Expire Subscription is ') {{ $subscriptionsExpire }} </span></p>
-						<div class="whatsnew-btn"><a class="btn btn-primary">@trans('whats new') !</a></div>
+						<div class="whatsnew-btn"><a href="/reports/subscriptions" class="btn btn-primary">@trans('subscriptions report')</a></div>
 						<div class="left-icon"><i class="fa fa-bell"> </i></div>
 					</div>
 				</div>
@@ -55,22 +55,21 @@
 						<div class="col-xl-3 earning-content p-0">
 							<div class="row m-0 chart-left">
 								<div class="col-xl-12 p-0 left_side_earning">
-									<h5>@lang('lang.Dashboard')</h5>
-									<p class="font-roboto">@trans('Overview of the last month')</p>
+									<h5>@lang('subscription of view')</h5>
+									<p class="font-roboto">@trans('Subscriptions totals')</p>
 								</div>
 								<div class="col-xl-12 p-0 left_side_earning">
-									<h5>SAR {{ $totalSalesMonth }} </h5>
-									<p class="font-roboto">@trans('current month earnings')</p>
+									<h5>SAR {{ round($totalSalesMonth, 2) }} </h5>
+									<p class="font-roboto">@trans('Subscriptions total this month')</p>
 								</div>
 								<div class="col-xl-12 p-0 left_side_earning">
-									<h5>SAR {{ $totalSalesMonth }}</h5>
-									<p class="font-roboto">@trans('This months sales')</p>
+									<h5>SAR {{ round($totalSaleslastMonth, 2) }}</h5>
+									<p class="font-roboto">@trans('Subscriptions total last month')</p>
 								</div>
 								<div class="col-xl-12 p-0 left_side_earning">
-									<h5>{{ round($totalSalesMonth / ($totalSales? $totalSales : 1) * 100 ,3)}}%</h5>
-									<p class="font-roboto">@trans('sales percentage')</p>
-								</div>
-								<div class="col-xl-12 p-0 left-btn"><a class="btn btn-gradient">ملخص</a></div>
+									<h5>SAR {{ round($totalSalesYear, 2) }}</h5>
+									<p class="font-roboto">@trans('Subscriptions total this year')</p>
+								</div> 
 							</div>
 						</div>
 						<div class="col-xl-9 p-0">
@@ -78,12 +77,7 @@
 								<div class="row m-0 p-tb">
 									<div class="col-xl-8 col-md-8 col-sm-8 col-12 p-0">
 										<div class="inner-top-left">
-											{{-- <ul class="d-flex list-unstyled">
-												<li>يومى</li>
-												<li class="active">اسبوعى</li>
-												<li>شهرى</li>
-												<li>سنوى</li>
-											</ul> --}}
+										 
 										</div>
 									</div>
 									<div class="col-xl-4 col-md-4 col-sm-4 col-12 p-0 justify-content-end">
@@ -107,10 +101,10 @@
 							<div class="row border-top m-0">
 								<div class="col-xl-4 ps-0 col-md-6 col-sm-6">
 									<div class="media p-0">
-										<div class="media-left"><i class="icofont icofont-crown"></i></div>
+										<div class="media-left"><i class="icofont icofont-cur-dollar"></i></div>
 										<div class="media-body">
-											<h6>@trans('Net profit')</h6>
-											<p>SAR {{round( $totalSales - $totalExepnses ,2)}}</p>
+											<h6>@trans('Subscription total')</h6>
+											<p> {{ round($totalSalesYear, 2) }}</p>
 										</div>
 									</div>
 								</div>
@@ -118,17 +112,17 @@
 									<div class="media p-0">
 										<div class="media-left bg-secondary"><i class="icofont icofont-heart-alt"></i></div>
 										<div class="media-body">
-											<h6>@trans('Total cost') </h6>
-											<p>SAR {{ round($totalExepnses,2) }}</p>
+											<h6>@trans('Customer count') </h6>
+											<p> {{ $customerTotal }}</p>
 										</div>
 									</div>
 								</div>
 								<div class="col-xl-4 col-md-12 pe-0">
 									<div class="media p-0">
-										<div class="media-left"><i class="icofont icofont-cur-dollar"></i></div>
+										<div class="media-left"><i class="icofont icofont-crown"></i></div>
 										<div class="media-body">
-											<h6>@trans('Total sale')</h6>
-											<p>SAR {{ round($totalSales ,2)}}     </p>
+											<h6>@trans('service count')</h6>
+											<p> {{ $serviceCount }}     </p>
 										</div>
 									</div>
 								</div>

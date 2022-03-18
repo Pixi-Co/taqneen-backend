@@ -289,7 +289,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['user_name']" type="text" value="" id="user_name" required placeholder="الأسم الأول والأخير">
+                        <input class="form-control" name="form[user_name][]" type="text" value="" id="user_name" required placeholder="الأسم الأول والأخير">
                         </div>
                         <div class="col-md-3 " >
                             <label class="gfield_label pb-1" for="">رقم الهوية / الإقامة
@@ -297,7 +297,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['user_identifi']" type="text" value="" id="user_identifi" placeholder="05xxxxxxxx" required>
+                        <input class="form-control" name="form[user_identifi][]" type="text" value="" id="user_identifi" placeholder="05xxxxxxxx" required>
                         </div>`;
     $('#show_input').empty();
     

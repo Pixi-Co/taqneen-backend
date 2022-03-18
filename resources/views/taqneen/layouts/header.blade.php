@@ -144,6 +144,7 @@
     </div>
     <div class="nav-right col-8 pull-right right-header p-0">
       <ul class="nav-menus">
+        <!--
         <li class="language-nav">
           <div class="translate_wrapper">
             <div class="current_lang">
@@ -174,27 +175,26 @@
             </div>
           </div>
         </li>
+      -->
         <li>                         <span class="header-search"><i data-feather="search"></i></span></li>
         <li class="onhover-dropdown">
           <div class="notification-box"><i data-feather="bell"> </i><span class="badge rounded-pill badge-secondary">4                                </span></div>
           <ul class="notification-dropdown onhover-show-div">
+            @php
+              $notifications = [];  
+              
+
+              $expireSubscriptions = App\Subscription::where('business_id', session('business.id'))->where();
+            @endphp
+
+            @foreach ( as )
+              
+            @endforeach
             <li>
               <i data-feather="bell"></i>
-              <h6 class="f-18 mb-0">Notitications</h6>
-            </li>
-            <li>
-              <p><i class="fa fa-circle-o me-3 font-primary"> </i>Delivery processing <span class="pull-right">10 min.</span></p>
-            </li>
-            <li>
-              <p><i class="fa fa-circle-o me-3 font-success"></i>Order Complete<span class="pull-right">1 hr</span></p>
-            </li>
-            <li>
-              <p><i class="fa fa-circle-o me-3 font-info"></i>Tickets Generated<span class="pull-right">3 hr</span></p>
-            </li>
-            <li>
-              <p><i class="fa fa-circle-o me-3 font-danger"></i>Delivery Complete<span class="pull-right">6 hr</span></p>
-            </li>
-            <li><a class="btn btn-primary" href="#">Check all notification</a></li>
+              <h6 class="f-18 mb-0">@trans('Notitications')</h6>
+            </li> 
+            <li><a class="btn btn-primary" href="#">@trans('Check all notification')</a></li>
           </ul>
         </li>
         {{-- <li class="onhover-dropdown">

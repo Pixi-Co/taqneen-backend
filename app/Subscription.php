@@ -79,5 +79,8 @@ class Subscription extends Transaction
         return $resource->$tag;
     }
 
+    public function getExpireSubscriptionAfterOneDay() {
+        //$now = Carbon
+    }
 
 }

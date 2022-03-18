@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\taqneen;
 
+use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Transaction;
@@ -27,7 +28,17 @@ class MainDashboardController extends Controller
         $now = Carbon::now();
         $startDateOfMonth = $now->startOfMonth()->format('Y-m-d H:i:s');
         $endDateOfMonth = $now->endOfMonth()->format('Y-m-d H:i:s');
-        $totalSalesMonth = Transaction::where('business_id', session('business.id'))->where('created_at', '>=', $startDateOfMonth)->where('created_at', '<=', $endDateOfMonth)->sum('final_total');
+        $totalSalesMonth = Transaction::where('business_id', session('business.id'))->where('transaction_date', '>=', $startDateOfMonth)->where('transaction_date', '<=', $endDateOfMonth)->sum('final_total');
+        
+        $now = Carbon::now();
+        $startDateOfLastMonth = $now->subDays(30)->startOfMonth()->format('Y-m-d H:i:s');
+        $endDateOffLastMonth = $now->subDays(30)->endOfMonth()->format('Y-m-d H:i:s');
+        $totalSaleslastMonth = Transaction::where('business_id', session('business.id'))->where('transaction_date', '>=', $startDateOfLastMonth)->where('transaction_date', '<=', $endDateOffLastMonth)->sum('final_total');
+         
+        $now = Carbon::now();
+        $startDateOfYear = $now->startOfYear()->format('Y-m-d H:i:s');
+        $endDateOffYear = $now->endOfYear()->format('Y-m-d H:i:s');
+        $totalSalesYear = Transaction::where('business_id', session('business.id'))->where('transaction_date', '>=', $startDateOfYear)->where('transaction_date', '<=', $endDateOffYear)->sum('final_total');
         
         //sum of total sales all
         $totalSales = Transaction::where('business_id', session('business.id'))->sum('final_total');
@@ -41,8 +52,17 @@ class MainDashboardController extends Controller
         $data = [
             'chart' => Transaction::where('business_id', session('business.id'))->pluck('transaction_date', 'final_total')->toArray(),
         ];
-        
-        return view("taqneen.home.index",compact('subscriptions','subscriptionsActive','subscriptionsExpire','todaySubscriptionCount','todaySubscriptionTotal','totalSalesMonth','totalSales','totalExepnses','opportunities', 'data')); 
+
+        $customerTotal = Contact::where('type', 'customer')->where('business_id', session('business.id'))->count();
+        $serviceCount = Category::where('category_type', 'service')->where('business_id', session('business.id'))->count(); 
+
+        return view("taqneen.home.index",compact(
+            'subscriptions','subscriptionsActive',
+            'subscriptionsExpire','todaySubscriptionCount',
+            'todaySubscriptionTotal','totalSalesMonth',
+            'totalSales','totalExepnses',
+            'opportunities', 'data', 'totalSaleslastMonth', 
+            'totalSalesYear', 'customerTotal', 'serviceCount')); 
     } 
 
     public function getTotalSubscription(){
