@@ -37,11 +37,11 @@
 						</div>
 					</div>
 					<div class="greeting-user text-center bg-black">
-						<div class="profile-vector"><img class="img-fluid" src="{{asset('assets/images/dashboard/welcome.png')}}" alt=""></div>
+						<div class="profile-vector"><img class="img-fluid" style="width: 100px;height: 100px;border-radius: 5em;" src="{{asset('/images/avatar.png')}}" alt=""></div>
 						<h4 class="invisible f-w-600"><span id="greeting">@trans('welcome')</span> <span class="right-circle"><i class="fa fa-check-circle f-14 middle"></i></span></h4>
                         <h1 class="text-white f-w-600"><span id="greeting">@trans('welcome')</span> <span class="right-circle"><i class="fa fa-check-circle f-14 middle"></i></span></h1>
 
-                        <p><span> @trans('todays earnings are') {{ round($todaySubscriptionTotal ,2)}} @trans('SR'), @trans('Sales increase rate') {{ $todaySubscriptionCount }}  @trans('During the past 24 hours')</span></p>
+                        <p><span> @trans('todays subscriptions are') {{ round($todaySubscriptionTotal ,2)}} @trans('SR'), @trans('total of Expire Subscription is ') {{ $subscriptionsExpire }} </span></p>
 						<div class="whatsnew-btn"><a class="btn btn-primary">@trans('whats new') !</a></div>
 						<div class="left-icon"><i class="fa fa-bell"> </i></div>
 					</div>
@@ -89,8 +89,7 @@
 									<div class="col-xl-4 col-md-4 col-sm-4 col-12 p-0 justify-content-end">
 										<div class="inner-top-right">
 											<ul class="d-flex list-unstyled justify-content-end">
-												<li>الموقع</li>
-												<li>الشركة</li>
+											 
 											</ul>
 										</div>
 									</div>
