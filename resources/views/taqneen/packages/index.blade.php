@@ -48,6 +48,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
+                                                        <th>@trans('code')</th>
                                                         <th>@trans('name')</th>
                                                         <th>@trans('description')</th>
                                                         <th>@trans('service')</th>
@@ -64,6 +65,7 @@
                                                     @foreach($packages as $item)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
+                                                        <td>{{  $item->id  }}</td>          
                                                         <td>{{  $item->name  }}</td>          
                                                         <td>{{  $item->description  }}</td>          
                                                         <td>{{  optional($item->service)->name  }}</td>    
@@ -83,10 +85,16 @@
                                                 <tfoot>
                                                     <tr>
                                                         <th>#</th>
+                                                        <th>@trans('code')</th>
                                                         <th>@trans('name')</th>
                                                         <th>@trans('description')</th>
-                                                        <th>@trans('parent package')</th>
-                                                        <th>@trans('created_by')</th>
+                                                        <th>@trans('service')</th>
+                                                        <th>@trans('price')</th>
+                                                        <th>@trans('type')</th>
+                                                        <th>@trans('interval')</th>
+                                                        <th>@trans('interval number')</th>
+                                                        <th>@trans('from')</th>
+                                                        <th>@trans('to')</th> 
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                 </tfoot>

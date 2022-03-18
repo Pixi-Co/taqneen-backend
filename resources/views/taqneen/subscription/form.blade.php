@@ -68,7 +68,7 @@
                                                         @php
                                                             $customerList = [];
                                                             foreach ($customers as $customer) {
-                                                                $customerList[$customer->id] = $customer->name . '-' . $customer->mobile;
+                                                                $customerList[$customer->id] = $customer->name . '-' . $customer->custom_field1;
                                                             }
                                                         @endphp
                                                         {!! Form::select('contact_id', $customerList, $subscription->contact_id, ['class' => 'form-control select2', 'placeholder' => __('customer'), 'list' => 'customers', 'id' => 'contact_id', 'onchange' => 'subscription.changeContact()']) !!}

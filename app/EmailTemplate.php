@@ -44,26 +44,41 @@ class EmailTemplate extends Model
     public static function getEmail($triger, Subscription $subscription) {
         $resource = self::getTemplate($triger);
         $body = $resource->email_body;
+        $cc = $resource->cc;
+        $emailList = explode(",", $cc);
+        $emailList[] = optional($subscription->contact)->email;
+        $emails = [];
 
         foreach(self::$TAGS as $key => $value) {
             $body = str_replace($key, $subscription->getTagValue($value), $body);
+        } 
+
+        foreach($emailList as $item) {
+            $email = str_replace(" ", "", $item);
+            if (strlen($email) > 1)
+            $emails[] = [
+                "title" => "taqneen",
+                "from" => "hello@elwatnia.in",
+                "to" => $email,
+                "subject" => $resource->subject,
+                "body" => $body,
+                "name" => "taqneen",
+            ];
         }
 
-        return [
-            "title" => "taqneen",
-            "from" => "hello@elwatnia.in",
-            "to" => optional($subscription->contact)->email,
-            "subject" => $resource->subject,
-            "body" => $body,
-            "name" => "taqneen",
-        ];
+        return $emails;
     }
 
     public static function send($triger, $subscriptionId) {
         $subscription = Subscription::find($subscriptionId);
-        $data = self::getEmail($triger, $subscription);
-        
-        sendMailJet($data['to'], $data['subject'], $data['body'], $data['title'], null, "/images/img-25.jpg", "", $data['from']);
+        $emailList = self::getEmail($triger, $subscription);
+
+        foreach($emailList as $data) { 
+            try {
+                sendMailJet($data['to'], $data['subject'], $data['body'], $data['title'], null, "/images/img-25.jpg", "", $data['from']);
+            } catch (\Exception $th) { 
+            }
+        } 
     }
 }
 

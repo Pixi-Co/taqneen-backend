@@ -92,29 +92,23 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">@trans('Password')</label>
-                                        <input class="form-control" type="password" name="password" required=""
+                                        <input class="form-control password" type="password" name="password" required=""
                                             placeholder="">
                                         <strong class="text-danger" >{{ $errors->first('password') }}</strong>
-                                        <div class="show-hide"><span class="show"> </span></div>
+                                        <div class="show-hide" onclick="$('.password').attr('type') == 'text'? $('.password').attr('type', 'password') : $('.password').attr('type', 'text')" >
+                                            <span class="show"> </span>
+                                        </div>
                                     </div>
                                     <div class="form-group mb-0">
                                         <div class="checkbox p-0">
                                             <input id="checkbox1" type="checkbox">
-                                            <label class="text-muted" for="checkbox1">@trans('Remember
-                                                password')</label>
+                                            <label class="text-muted" for="checkbox1">@trans('Remember password')</label>
                                         </div>
                                         <a class="link" href="{{ url('/forget-password') }}">@trans('Forgot password?')</a>
                                         <button class="btn btn-primary btn-block" type="submit">@trans('Sign in')</button>
                                     </div> 
                                     <div class="social mt-4 hidden">
-                                        <div class="btn-showcase"><a class="btn btn-light"
-                                                href="https://www.linkedin.com/login" target="_blank"><i
-                                                    class="txt-linkedin" data-feather="linkedin"></i> LinkedIn </a><a
-                                                class="btn btn-light" href="https://twitter.com/login?lang=en"
-                                                target="_blank"><i class="txt-twitter"
-                                                    data-feather="twitter"></i>twitter</a><a class="btn btn-light"
-                                                href="https://www.facebook.com/" target="_blank"><i class="txt-fb"
-                                                    data-feather="facebook"></i>facebook</a></div>
+                                        
                                     </div>
     
                                 </form>

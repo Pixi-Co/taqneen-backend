@@ -33,6 +33,7 @@ class NotificationTemplateController extends Controller
             "template_for" => $template_for,
             "subject" => $request->subject,
             "email_body" => $request->email_body,
+            "cc" => $request->cc,
             "business_id" => session('business.id')
         ];
 

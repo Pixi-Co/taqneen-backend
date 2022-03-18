@@ -48,6 +48,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
+                                                        <th>@trans('code')</th>
                                                         <th>@trans('name')</th>
                                                         <th>@trans('description')</th>
                                                         <th>@trans('parent service')</th>
@@ -59,6 +60,7 @@
                                                     @foreach($services as $item)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
+                                                        <td>{{  $item->id }}</td>
                                                         <td>{{  $item->name  }}</td>          
                                                         <td>{{  $item->description  }}</td>          
                                                         <td>{{  optional($item->parent)->name  }}</td>          

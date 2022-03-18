@@ -79,8 +79,11 @@ class Subscription extends Transaction
         return $resource->$tag;
     }
 
-    public function getExpireSubscriptionAfterOneDay() {
-        //$now = Carbon
+    public static function getExpireSubscriptionAfterOneDay() {
+        $now = Carbon::now()->addDays(1)->format('Y-m-d');
+        $subscriptions = Transaction::where('business_id', session('business.id'))->where('transaction_date', 'like', '%'.$now.'%')->get();
+
+        return $subscriptions;
     }
 
 }

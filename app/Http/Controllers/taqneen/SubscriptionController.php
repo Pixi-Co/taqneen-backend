@@ -102,12 +102,9 @@ class SubscriptionController extends Controller
             })
             ->addColumn('first_name', function ($row) {
                 return optional($row->contact)->first_name;
-            })
+            }) 
             ->addColumn('mobile', function ($row) {
-                return optional($row->contact)->mobile;
-            })
-            ->addColumn('mobile', function ($row) {
-                return optional($row->contact)->mobile;
+                return optional($row->contact)->custom_field1;
             })
             ->editColumn('created_by', function ($row) {
                 return optional($row->user)->first_name;
