@@ -187,7 +187,7 @@
               $expireSubscriptions = App\Subscription::where('business_id', session('business.id'))->where();
             @endphp
 
-            @foreach ( as )
+            @foreach ($notifications as $item)
               
             @endforeach
             <li>
