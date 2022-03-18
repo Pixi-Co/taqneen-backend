@@ -360,7 +360,7 @@
 								<p>{{ $item->created_at }} <span class="ps-1">@trans('day')</span></p>
 								<div class="d-flex justify-content-between">
 									<h6>{{ $item->name }}</h6>
-									<button class="btn btn-success">@trans('take opportunity')</button>
+									<a href="take-opportunity/{{ $item->id}}" class="btn btn-success">@trans('take opportunity')</a href="#">
 								</div>
 								<span>{{ $item->mobile }}</span>
 							</div>

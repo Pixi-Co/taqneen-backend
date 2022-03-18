@@ -109,6 +109,31 @@ class OpportunitController extends Controller
         return $output; 
     }// end destroy
 
+    public function takeOppotunity($id){
+       
+        try{
+            $data=[
+                "converted_by"=> session('user.id')
+                
+            ];
+            
+           Contact::find($id)->update($data);
+
+            $output = [
+                "success" => 1,
+                "msg" => __('done')
+            ];
+
+        } catch (\Exception $th) {
+            $output = [
+                "success" => 0,
+                "msg" => $th->getMessage()
+            ];
+        }
+        // dd($output);
+        return back()->with('status', $output); 
+    }
+
 }
 
 
