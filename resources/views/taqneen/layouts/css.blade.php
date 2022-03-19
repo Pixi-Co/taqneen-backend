@@ -28,6 +28,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('css/select2.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/w3.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/iziToast.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('css/fullcalendar.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/daterangepicker.css')}}"> 
 <style>
     * FullCalendar v3.10.2
@@ -50,6 +51,10 @@
 
     .customizer-links {
         display: none!important;
+    }
+
+    #sidebar-menu {
+        height: calc(100vh - 146px)!important;
     }
 </style>
 

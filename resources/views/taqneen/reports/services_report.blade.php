@@ -71,6 +71,10 @@
                                             </div>
                                         </form>
                                         <div class="card-body">
+                                            <br>
+                                            <div id="chart"></div>
+                                            <br>
+                                            <br>
 
                                             <div class="table-responsive pt-3">
                                                 <table class="display" id="advance-4">
@@ -141,4 +145,38 @@
     <script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
+
+    <script>
+        var options = {
+            series: [
+
+                @foreach ($resources as $item)
+                    {{ round($item->subscription_total, 2) }},
+                @endforeach
+            ],
+            chart: {
+                width: 380,
+                type: 'pie',
+            },
+            labels: [ 
+                @foreach ($resources as $item)
+                    '{{ $item->service_name }}',
+                @endforeach
+            ],
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+    </script>
 @endsection

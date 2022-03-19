@@ -30,6 +30,7 @@
 <script src="{{ asset('js/moment.min.js') }}"></script>
 <script src="{{ asset('js/daterangepicker.min.js') }}"></script> 
 <script src="{{ asset('js/iziToast.js') }}"></script>
+<script src="{{ asset('js/fullcalendar.min.js') }}"></script>
 <script src="{{ asset('assets/js/theme-customizer/customizer.js') }}"></script>
 
 

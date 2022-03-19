@@ -56,14 +56,17 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach($roles as $item)
+                                                    @php
+                                                    $role_name = str_replace('#'. session('business.id'), '', $item->name);
+                                                    @endphp
                                                     <tr>
-                                                        <td>{{$loop->iteration}}</td>
-                                                        <td>{{  $item->name  }}</td>          
-                                                        {{-- <td>{{  $item->created_by  }}</td>           --}}
-                                                         
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{  $role_name  }}</td>   
                                                         <td>
+                                                            @if ($loop->iteration != 1)
                                                             <a role="button" href="/role/{{ $item->id }}/edit" class="btn btn-primary" >@trans('edit')</a>
                                                             <button onclick="destroy('/role/{{ $item->id }}')" class="btn btn-danger" >@trans('remove')</button>
+                                                            @endif
                                                         </td>     
                                                     </tr> 
                                                     @endforeach

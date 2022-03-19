@@ -29,8 +29,7 @@ class CalendarController extends Controller
             '*',
             DB::raw('(select first_name from contacts where contacts.id = contact_id) as contact_name')
         )
-            ->where('business_id', $business_id) 
-            ->where('is_expire', '1');
+            ->where('business_id', $business_id);
 
 
         if (request()->service_id > 0) { 
@@ -41,29 +40,34 @@ class CalendarController extends Controller
                 ->pluck('transaction_id')->toArray();
             $query->whereIn("id", $ids);
         } 
-/*
-        if (request()->trainer_id > 0)
-            $resources->where('trainer_id', request()->trainer_id);
 
-        $resources->whereIn('class_type_id', request()->events);
-*/
+        if (request()->subscription_type) {
+            if (request()->subscription_type == 'new') {
+                $query->where('is_renew', '0');
+            } else {
+                $query->where('is_renew', '1');
+            }
+        } 
 
 
         $resources = $query->get();
 
-        foreach ($resources as $resource) {
-            //dd($resource->getDatesFromSession()); 
+        foreach ($resources as $resource) { 
+
+            $view = optional($resource->contact)->name . 
+              " " . $resource->expire_date . " " .  
+            " (" .  $resource->service_names . ")";
 
             $events[] = [
-                'title' => optional($resource->contact)->name . " (" .  $resource->service_names . ")",
-                'title_html' => optional($resource->contact)->name . " (" .  $resource->service_names . ")",
+                'title' => $view,
+                'title_html' => $view,
                 'start' => $resource['transaction_date'],
                 'end' => $resource['transaction_date'],
-                'customer_name' =>  optional($resource->contact)->name . " (" .  $resource->service_names . ")",
+                'customer_name' =>  $view,
                 'table' => "table",
                 'url' => "/subscriptions",
                 'event_url' => "#",
-                'backgroundColor' => "#ef4747",
+                'backgroundColor' => $resource->is_expire? "#ef4747" : "#4CAF50",
                 'borderColor'     => "#41bc85",
                 'allDay'          => false,
                 'event_type' => 1

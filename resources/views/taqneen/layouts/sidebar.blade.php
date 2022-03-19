@@ -23,40 +23,58 @@
                         <a class="sidebar-link   mt-2  sidebar-title link-nav {{ Route::currentRouteName()=='index' ? 'active' : '' }} " href="{{url('/courier')}}"><i data-feather="home"> </i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('dashboard of courier') }}</span></a></li>
                    
                     {{------------------------ subscription button -----------------------------}}
+                    @can(find_or_create_p('subscription.view'))
 					<li   class=" sidebar-list">
                         <a class="sidebar-link sidebar-title" href="#">
                             <i data-feather="list"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('subscriptions') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/subscriptions' ? 'down' : 'right' }}"></i></div>
                         </a>
                         <ul class="sidebar-submenu">
+                            @can(find_or_create_p('subscription.view'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/subscriptions')}}" >@trans('view')</a></li>
+                            @endcan
+                            @can(find_or_create_p('subscription.create'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/subscriptions/create')}}" >@trans('add') </a></li>
+                            @endcan
                         </ul>
                     </li>
+                    @endcan
 
                     {{------------------------ services button -----------------------------}}
+                    @can(find_or_create_p('service.view'))
 					<li   class=" sidebar-list">
                         <a class="sidebar-link    sidebar-title " href="#">
                             <i data-feather="server"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('services') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/services' ? 'down' : 'right' }}"></i></div>
                         </a>
                         <ul class="sidebar-submenu" >
+                            @can(find_or_create_p('service.view'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/services')}}" >@trans('view')</a></li>
+                            @endcan
+                            @can(find_or_create_p('service.create'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/services/create')}}" >@trans('add') </a></li>
+                            @endcan
                         </ul>
                     </li>
+                    @endcan
 					
 					{{------------------------ customers button -----------------------------}}
+                    @can(find_or_create_p('customer.view'))
 					<li   class=" sidebar-list">
                         <a class="sidebar-link    sidebar-title " href="#">
                             <i data-feather="users"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('customers') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/customers' ? 'down' : 'right' }}"></i></div>
                         </a>
                         <ul class="sidebar-submenu" >
+                            @can(find_or_create_p('customer.view'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/customers')}}" >@trans('view')</a></li>
+                            @endcan
+                            @can(find_or_create_p('customer.create'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/customers/create')}}" >@trans('add') </a></li>
+                            @endcan
                         </ul>
                     </li>
+                    @endcan
 
                     {{------------------------ customers formes -----------------------------}}
 					<li   class=" sidebar-list">
@@ -75,32 +93,45 @@
                     </li>
 
                     {{------------------------ users button -----------------------------}}
+                    @can(find_or_create_p('user.view'))
                     <li class="sidebar-list">
                         <a class="sidebar-link    sidebar-title 23" href="#">
                             <i data-feather="users"></i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('users') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/userstaq' ? 'down' : 'right' }}"></i></div>
                         </a>
                         <ul class="sidebar-submenu" >
+                            @can(find_or_create_p('user.view'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/userstaq')}}" >@trans('view')</a></li>
+                            @endcan
+                            @can(find_or_create_p('user.create'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/userstaq/create')}}" >@trans('add') </a></li>
+                            @endcan
                         </ul>
                     </li>
+                    @endcan
 
 
 					{{------------------------ opportunities button -----------------------------}}
+                    @can(find_or_create_p('opportunity.view'))
 					<li   class=" sidebar-list">
                         <a class="sidebar-link    sidebar-title " href="#">
                             <i data-feather="star"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('opportunities') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/opportunities' ? 'down' : 'right' }}"></i></div>
                         </a>
                         <ul class="sidebar-submenu" >
+                            @can(find_or_create_p('opportunity.view'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/opportunities')}}" >@trans('view')</a></li>
+                            @endcan
+                            @can(find_or_create_p('opportunity.create'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/opportunities/create')}}" >@trans('add') </a></li>
+                            @endcan
                         </ul>
                     </li>
+                    @endcan
                     
 					
                     {{------------------------ support button -----------------------------}}
+                    @can(find_or_create_p('support.view'))
 					<li   class=" sidebar-list">
                         <a class="sidebar-link sidebar-title" href="#">
                             <i data-feather="message-circle"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('support') }}</span>
@@ -111,16 +142,20 @@
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/support')}}" >@trans('supportboard')</a></li> 
                         </ul>
                     </li>
+                    @endcan
 
+                    @can(find_or_create_p('calendar.view'))
                     {{------------------------ calendar button -----------------------------}}
 					<li class="sidebar-list"><a class="sidebar-link   sidebar-title link-nav " href="{{url('/taqneen-calendar')}}"><i data-feather="calendar"> </i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('calendar') }}</span></a></li>
-                    
+                    @endcan
 
+                    @can(find_or_create_p('notification_template.view'))
                     {{------------------------ notification-template button -----------------------------}}
 					<li class="sidebar-list"><a class="sidebar-link   sidebar-title link-nav " href="{{url('/notification-template')}}"><i data-feather="calendar"> </i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('notification template') }}</span></a></li>
-                    
+                    @endcan
 
                     {{------------------------ reporting button -----------------------------}}
+                    @can(find_or_create_p('report.view'))
                     <li class="sidebar-list">
 						<a class="sidebar-link   sidebar-title " href="#">
 							<i data-feather="file-text"></i><span style="font-family:  'Tajawal', sans-serif;">{{ trans('reports') }}</span>
@@ -128,25 +163,42 @@
 						</a>
 						<ul class="sidebar-submenu" >
 		                    {{-- <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('mainreport')}}" class="{{ Route::currentRouteName()=='mainreport' ? 'active' : '' }}">تقرير</a></li> --}}
-		                    <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/reports/services')}}" class="{{ Route::currentRouteName()=='averagereport' ? 'active' : '' }}">@trans('services report')</a></li>
+                            @can(find_or_create_p('report.service'))
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/reports/services')}}" class="{{ Route::currentRouteName()=='averagereport' ? 'active' : '' }}">@trans('services report')</a></li>
+                            @endcan
+                            @can(find_or_create_p('report.sales_commission'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/reports/sales-commissions')}}" class="{{ Route::currentRouteName()=='financialreport' ? 'active' : '' }}">@trans('sale Commision Report') </a></li>
+                            @endcan
+                            @can(find_or_create_p('report.subscription'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/reports/subscriptions')}}" class="{{ Route::currentRouteName()=='billreport' ? 'active' : '' }}">@trans('subscriptions')</a></li>
-		                </ul>
+                            @endcan
+                        </ul>
 					</li>
+                    @endcan
 
                     {{------------------------ settings button -----------------------------}}
+                    @can(find_or_create_p('setting.view'))
 					<li   class=" sidebar-list">
                         <a class="sidebar-link    sidebar-title " href="#">
                             <i data-feather="settings"></i><span style="font-family:  'Tajawal', sans-serif;" >{{ trans('settings') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-"></i></div>
                         </a>
                         <ul class="sidebar-submenu"  >
+                            @can(find_or_create_p('setting.package'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('packages')}}" >@trans('packages')</a></li> 
-							<li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('categories')}}" >@trans('Categories')</a></li>
-							 <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('taxs')}}" >@trans('Taxs')</a></li> 
-							 <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('role')}}" >@trans('roles')</a></li> 
+							@endcan
+                            @can(find_or_create_p('setting.expense'))
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('categories')}}" >@trans('Categories')</a></li>
+							@endcan
+                            @can(find_or_create_p('setting.tax'))
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('taxs')}}" >@trans('Taxs')</a></li> 
+							@endcan
+                            @can(find_or_create_p('setting.role'))
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('role')}}" >@trans('roles')</a></li> 
+                            @endcan
                         </ul>
                     </li>
+                    @endcan
 
 
  

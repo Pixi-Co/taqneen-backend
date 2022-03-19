@@ -14,7 +14,7 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@trans('customers')</h3>
+    <h3>@trans('calendar')</h3>
 @endsection
 
 @section('breadcrumb-items')
@@ -25,43 +25,37 @@
 @section('content')
     <div class="container-fluid">
 
+        <div class="row">
+            <div class="col-md-4"> 
+                <div class="form-group">
+                    <b>@trans('service')</b>
+                    <select onchange="reload_calendar()" name="service_id" class="form-select  mb-3 service_id" id="service_id">
+                        <option value="">@trans('all')</option>
+                        @foreach ($services as $item) 
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">@trans('subscription type')</label>
+                    <select onchange="reload_calendar()" class="form-select  mb-3 subscription_type"  >
+                        <option value="">@trans('all')</option>
+                        <option value="new">@trans('new')</option> 
+                        <option value="renew">@trans('renew')</option> 
+                    </select>
+                </div>
+            </div>
+        </div>
         <!-- Main content -->
         <section class="content card">
             <div class="row">
-                <div class="col-sm-3 w3-padding">
-                    <div class="card card-solid">
-                        <div class="card-body w3-padding">
-                            <div class="w3-padding">
-                                <div class="">
-                                    <div class="w3-padding w3-center">
-                                        <img src="{{ url('/images/sub/calendar.png') }}" style="width: 100px" alt="">
-                                        <h3>
-                                            @trans("expired subscriptions")
-                                        </h3>
-                                    </div>
-                                    <hr>
-
-
-                                    @foreach ($services as $item)
-                                        <div class="">
-                                            <div class="form-group">
-                                                <label>
-                                                    {!! Form::checkbox('events', $item->id, true, ['class' => 'input-icheck event_check', 'data-id' => $item->id]) !!} <span class="label w3-round"
-                                                        style="background-color: red">{{ $item->name }}</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <div class="box box-solid">
                         <div class="box-body">
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-sm-12 w3-padding">
                                     <div id="calendarSub"></div>
                                 </div>
                             </div>
@@ -130,7 +124,7 @@
                     if (event.event_url) {
                         element.attr('href', event.event_url);
                     }
-                }, 
+                },
                 //editable: true,
                 eventClick: function(calEvent, jsEvent, view) {
                     console.log(calEvent, jsEvent, view);
@@ -156,8 +150,8 @@
                 data.user_id = $('select#user_id').val();
             }
 
-            data.session_id = $('#session_id').val();
-            data.trainer_id = $('#trainer_id').val();
+            data.service_id = $('.service_id').val(); 
+            data.subscription_type = $('.subscription_type').val(); 
 
             var events = [];
             $.each($("input[name='events']:checked"), function() {
@@ -169,7 +163,7 @@
             data.is_football = '{{ request()->is_football == 1 ? '1' : '0' }}';
 
             var events_source = {
-                url: '/sub/calendar/get',
+                url: '/taqneen-calendar-api',
                 type: 'get',
                 data: data,
             }

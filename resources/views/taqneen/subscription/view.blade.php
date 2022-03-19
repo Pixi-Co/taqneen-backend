@@ -87,16 +87,16 @@
                            </table>
                            <br>
                            <div class="w3-large">
-                              <b>@trans('total before tax')</b> : {{ $item->final_total - $item->tax_amount }}
+                              <b>@trans('total before tax')</b> : {{ $resource->final_total - $resource->tax_amount }}
                            </div>
                            <div class="w3-large">
-                              <b>@trans('tax amount')</b> : {{ $item->tax_amount }}
+                              <b>@trans('tax amount')</b> : {{ $resource->tax_amount }}
                            </div>
                            <div class="w3-large">
-                              <b>@trans('expenses amount')</b> : {{ $item->custom_field_2 }}
+                              <b>@trans('expenses amount')</b> : {{ $resource->custom_field_2 }}
                            </div>
                            <div class="w3-large">
-                              <b>@trans('final total')</b> : {{ $item->final_total }}
+                              <b>@trans('final total')</b> : {{ $resource->final_total }}
                            </div>
                         </div>
                         <!-- End Table-->
