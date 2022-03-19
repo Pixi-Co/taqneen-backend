@@ -26,10 +26,10 @@ class SubscriptionImport implements ToModel, WithHeadingRow
         $customer = $this->createCustomer($row);
 
         // step 2 => creat User of customer
-        $user = $this->createUser($customer, $row);
+        //$user = $this->createUser($customer, $row);
 
         // step 3 => assign user to customer 
-        $this->assignUserToCustomer($customer, $user);
+        //$this->assignUserToCustomer($customer, $user);
 
         // step 4 => creat subscription
         $subscription = $this->createSubscription($row, $customer);
@@ -77,9 +77,10 @@ class SubscriptionImport implements ToModel, WithHeadingRow
     public function createUser(Contact $contact, $data)
     {
         $user = $contact->loginUser; 
+        $contact = $contact->refresh();
 
  
-        $userData = [
+        $fill = [
             "first_name" => $contact->first_name,
             "last_name" => $contact->last_name,
             "email" => $contact->email,
@@ -90,7 +91,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
         ];
         //dd($userData);
 
-        $user = !$user ? User::create($userData) : $user->update($userData);
+        $user = !$user ? User::create($fill) : $user->update($fill);
  
 
         if (isset($data['role'])) {
@@ -125,7 +126,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
 
         foreach ($servicePrices as $price) {
             $price = str_replace(' ', "", $price);
-            $final_total += $price;
+            $final_total += is_numeric($price)? $price : 0;
         }
 
         $date = date('Y-m-d H:i:s', strtotime($row['start_date']));
@@ -145,7 +146,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
             "business_id" => session('business.id'),
         ];
 
-        //dd($request->all());
+        //dd($data);
 
         // insert transactions
         $resource = Subscription::create($data);
@@ -171,7 +172,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
                     "transaction_id" => $subscription->id,
                     "service_id" => $package->service_id,
                     "package_id" => $package->id,
-                    "total" => $price
+                    "total" =>  is_numeric($price)? $price : 0
                 ]);
             }
         }
