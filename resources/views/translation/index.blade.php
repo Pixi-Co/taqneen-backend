@@ -26,7 +26,7 @@
                 </div>
             </div>
              
-            <div class="col-md-3">
+            <div class="col-md-3 hidden">
                 <div class="form-group">
                     <label for="">{{ __('business_type') }}</label>
                     <select class="form-control business-filter">
@@ -41,7 +41,7 @@
                 <div class="form-group" style="padding-top: 20px" >
                     <button class="btn btn-warning" onclick="filterTrans($('.language-filter').val(), $('.business-filter').val())" >@trans('search')</button>
                     <button class="btn btn-warning" onclick="filterTrans($('.language-filter').val(), $('.business-filter').val())" >@trans('cache translation')</button>
-                    <button class="btn btn-warning" onclick="$('.copy-trans-modal').modal('show')" >@trans('copy translation')</button>
+                    <button class="btn btn-warning hidden" onclick="$('.copy-trans-modal').modal('show')" >@trans('copy translation')</button>
                     <button class="btn w3-green" onclick="saveTrans()" >{{ __('save') }}</button>
                 </div>
             </div> 

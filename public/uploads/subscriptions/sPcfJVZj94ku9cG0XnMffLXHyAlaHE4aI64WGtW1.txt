@@ -1,0 +1,79 @@
+hotels settings
+
+1) booking_types
+	id - name
+
+2) booking_sources
+	id - booking_type_id - name - commission
+
+3) rate_types
+	id - room_type_id - name - rate
+
+2) companies
+	id - name
+
+3) booking_status
+	id - name
+
+4) room_status
+	id - name
+
+5) room facilities 
+	id - name - values[{image, value}]
+
+6) room types
+	id - name
+
+7) reservations
+	id
+	check_in_date
+	check_out_date
+	check_in_time
+	check_out_time
+	nights
+	rooms
+	booking_type_id
+	booking_source_id
+	guest_id
+	custom_field_1
+	custom_field_2
+	custom_field_3
+	custom_field_4 
+
+8) reservations_rooms
+	reservation_id
+	room_type_id
+	room_id
+	rate_type_id
+	adult
+	child
+	
+
+9) rooms
+	room_type_id
+	capacity
+	extra_capability
+	
+
+10) room pricing table
+	room_id
+	rate
+	date
+	
+	
+	
+
+booking - xpedia - agoda
+
+=> permissions
+
+hotel.booking_type
+hotel.booking_source
+hotel.booking_status
+hotel.floors
+hotel.rate_types
+hotel.room_types
+hotel.room_status
+hotel.room_facilities
+
+

@@ -285,6 +285,8 @@
                                             <div class="col-md-6 border-right">
                                                 <div class="p-3 py-5">
                                                     <div class="row mt-2">
+                                                    </div>
+                                                    <div class="row mt-3">
 
                                                         <div class="col-md-6">
                                                             <label class="labels">@trans('first_name')</label>
@@ -296,8 +298,6 @@
                                                             <input type="text" class="form-control" readonly
                                                                 v-model="resource.contact.last_name">
                                                         </div>
-                                                    </div>
-                                                    <div class="row mt-3">
                                                         <div class="col-md-12">
                                                             <label class="labels">@trans('mobile')</label>
                                                             <input type="text" class="form-control" readonly
@@ -308,17 +308,15 @@
                                                             <input type="text" class="form-control" readonly
                                                                 v-model="resource.contact.email">
                                                         </div>
-                                                        <div class="row mt-3">
-                                                            <div class="col-md-6">
-                                                                <label class="labels">@trans('state')</label>
-                                                                <input type="text" class="form-control" readonly
-                                                                    v-model="resource.contact.state">
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label class="labels">@trans('city')</label>
-                                                                <input type="text" class="form-control" readonly
-                                                                    v-model="resource.contact.city">
-                                                            </div>
+                                                        <div class="col-md-6">
+                                                            <label class="labels">@trans('state')</label>
+                                                            <input type="text" class="form-control" readonly
+                                                                v-model="resource.contact.state">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="labels">@trans('city')</label>
+                                                            <input type="text" class="form-control" readonly
+                                                                v-model="resource.contact.city">
                                                         </div>
                                                         <div class="col-md-12 mt-3">
                                                             <label class="labels">@trans('address')</label>

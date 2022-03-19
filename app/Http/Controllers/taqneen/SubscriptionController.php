@@ -320,6 +320,7 @@ class SubscriptionController extends Controller
 
     public function store(Request $request)
     {
+        $resource = null;
         try {
             $data = [
                 "status" => $request->status,
@@ -392,7 +393,9 @@ class SubscriptionController extends Controller
                 "msg" => $th->getMessage()
             ];
         }
-        return back()->with('status', $output);
+
+        return redirect("/subscriptions/" . optional($resource)->id)->with('status', $output);
+        //return back()->with('status', $output);
     }
 
     public function update(Request $request, $id)

@@ -63,7 +63,7 @@
     <body class="@if($pos_layout) hold-transition lockscreen @else hold-transition sidebar-mini @endif {{in_array(session()->get('user.language', config('app.locale')), config('constants.langs_rtl')) ? 'rtl' : 'ltr'}}">
         <a class="thetop hidden"></a>
 
-        <div class="full-content">
+        <div class="">
 
             <div class="loader w3-modal" style="padding-top: 20%;z-index: 999999999999999999" >
                 
@@ -79,15 +79,10 @@
                     var body = document.getElementsByTagName("body")[0];
                     body.className += " sidebar-collapse";
                 }
-            </script>
-            @if(!$pos_layout) 
-                @include('layouts.partials.sidebar')
-            @else
-                @include('layouts.partials.header-pos')
-            @endif
+            </script> 
 
             <!-- Content Wrapper. Contains page content -->
-            <div class="@if(!$pos_layout) content-wrapper @endif main">
+            <div class="">
                 <!-- empty div for vuejs -->
                 <div id="app">
                     @yield('vue')
@@ -107,18 +102,12 @@
                 @endif
                 <div class="main">
                     
-                    <!-- ------------ top nav ------------- -->
-                    @include('layouts.partials.header')  
+                    <!-- ------------ top nav ------------- --> 
 
                     <div class="w3-block" style="overflow: auto;min-height: 800px" >
                         @yield('content')
                     </div>
-                    
-                    @if(!$pos_layout)
-                        @include('layouts.partials.footer')
-                    @else
-                        @include('layouts.partials.footer_pos')
-                    @endif
+                     
                 </div>
 
                 <div class='scrolltop no-print'>
@@ -133,13 +122,8 @@
                 <section class="invoice print_section" id="receipt_section">
                 </section>
                 
-            </div>
-            @include('home.todays_profit_modal')
-
-            @include("home.export")
-            @include("home.import")
-            @include("home.receipt")
-            @include("superadmin::layouts.partials.currency")
+            </div> 
+  
             <!-- /.content-wrapper -->
 
 

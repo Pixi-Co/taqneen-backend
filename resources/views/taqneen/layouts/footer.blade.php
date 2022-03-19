@@ -2,7 +2,7 @@
 	  <div class="container-fluid">
 		    <div class="row">
 			      <div class="col-md-12 footer-copyright text-center">
-			        	<p class="mb-0">Copyright {{ date('Y') }} © vuxel  </p>
+			        	<p class="mb-0">@trans('Copyright Pixi ')</p>
 			      </div>
 		    </div>
 	  </div>
