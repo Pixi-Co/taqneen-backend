@@ -56,7 +56,7 @@ class CustomersImport implements ToModel, WithHeadingRow
             "email" => $contact->email,
             "contact_number" => $contact->mobile,
             "address" => $contact->address_line_1,
-            "type" => 'user_customer',
+            "user_type" => 'user_customer',
             "password" => isset($data['password'])? bcrypt($data['password']) : '',
         ]; 
 

@@ -7,6 +7,7 @@ use App\Contact;
 use App\ExpenseCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Imports\SubscriptionImport;
 use App\Media;
 use App\ServicePackage;
 use App\Subscription; 
@@ -16,7 +17,8 @@ use App\TransactionPayment;
 use App\User;
 use App\Utils\ContactUtil; 
 use DB;
-use Illuminate\Support\Facades\Storage; 
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class SubscriptionController extends Controller
@@ -575,5 +577,37 @@ class SubscriptionController extends Controller
         ];
 
         return $output;  
+    }
+
+    public function subscriptionDownload()
+    {
+        $files = Storage::disk('public_uploads_files')->getAdapter()->applyPathPrefix('import_subscription_template.xlsx');
+        return  response()->download($files);
+    }
+
+    public function subscriptionImportFile(Request $request){
+        
+       
+        //return redirect('/customers');  
+
+        try { 
+            if ($request->hasFile('import_file')) {
+                $import_file = $request->file('import_file');
+            }
+            Excel::import(new SubscriptionImport, $import_file);
+
+            $output = [
+                "success" => 1,
+                "msg" => __('done')
+            ];
+        } catch (Exception $th) {
+            $output = [
+                "success" => 0,
+                "msg" => $th->getMessage()
+            ];
+        }
+        //dd($output);
+
+         return back()->with('status', $output); ; 
     }
 }

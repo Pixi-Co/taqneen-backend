@@ -6,6 +6,7 @@ use App\ExpenseCategory;
 use App\Http\Controllers\taqneen\CustomerController;
 use App\Http\Controllers\taqneen\CustomerFormController;
 use App\Http\Controllers\taqneen\OpportunitController;
+use App\Http\Controllers\taqneen\SubscriptionController;
 use App\Http\Controllers\taqneen\UserController;
 use App\ShippingFees;
 use Illuminate\Support\Facades\Auth;
@@ -118,6 +119,8 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::resource('taxs', 'taqneen\TaxsController'); 
     Route::resource('role', 'taqneen\RoleController'); 
     Route::resource('subscriptions', 'taqneen\SubscriptionController'); 
+    Route::get('subscriptions-download',[SubscriptionController::class,'subscriptionDownload']);
+    Route::post('subscriptions-upload_file',[SubscriptionController::class,'subscriptionImportFile']);
     Route::get('/customer-form/{form_name}', 'taqneen\CustomerFormController@index');
     Route::get('/customer-pdf/{file}', 'taqneen\CustomerFormController@viewPdf');
     Route::get('/notification-template', 'taqneen\NotificationTemplateController@index');
