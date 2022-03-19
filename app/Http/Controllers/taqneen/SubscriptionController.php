@@ -42,6 +42,11 @@ class SubscriptionController extends Controller
 
         $query = Subscription::where('business_id', $business_id);
 
+        if (!auth()->user()->isAdmin()) {
+            $query->where('created_by', auth()->user()->id);
+        }
+
+
         if (request()->service_id > 0) {
             $ids = DB::table('subscription_lines')
                 ->where('service_id', request()->service_id)
@@ -142,7 +147,7 @@ class SubscriptionController extends Controller
         $taxs = TaxRate::getObject();
         $expenses = ExpenseCategory::getObject();
         $expensesList = ExpenseCategory::where('business_id', $business_id)->pluck("name", "id")->toArray();
-        $disabled = "disabled";
+        $disabled = auth()->user()->isAdmin()? "" : "disabled";
         $subscription->created_by = auth()->user()->id;
         $subscription->contact = new Subscription();
         $status = [
@@ -195,7 +200,7 @@ class SubscriptionController extends Controller
         $taxs = TaxRate::getObject();
         $expenses = ExpenseCategory::getObject();
         $expensesList = ExpenseCategory::where('business_id', $business_id)->pluck("name", "id")->toArray();
-        $disabled = "disabled";
+        $disabled = auth()->user()->isAdmin()? "" : "disabled";
         $subscription->transaction_date = date('Y-m-d\TH:i', strtotime($subscription->transaction_date));
         $payment->paid_on = date('Y-m-d\TH:i', strtotime($payment->paid_on));
 

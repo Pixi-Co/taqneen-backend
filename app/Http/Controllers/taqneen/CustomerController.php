@@ -17,14 +17,20 @@ use Spatie\Permission\Models\Role;
 class CustomerController extends Controller
 {
     public function index(){
-        $customers = Contact::where('type','customer')
+        $query = Contact::where('type','customer')
         ->select(
             '*',
             DB::raw('(select status from transactions where transactions.contact_id = contacts.id limit 0, 1) as subscription_status')
         )
         ->where('business_id', session('business.id'))
-        ->latest()
-        ->get();
+        ->latest();
+        
+        if (!auth()->user()->isAdmin()) {
+            $ids = DB::table('transactions')->where('created_by', auth()->user()->id)->pluck('contact_id')->toArray();
+            $query->whereIn('id', $ids);
+        }
+
+        $customers = $query->get();
         return view('taqneen.customers.index',compact('customers'));
     }
 

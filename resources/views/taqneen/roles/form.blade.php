@@ -70,8 +70,10 @@
                                                 @php
                                                     $checked = $role->hasPermissionTo($value->name)? 'checked' : '';
                                                 @endphp
-                                                    <label>{{ Form::checkbox('permission[]', $value->name, false, ['class' => 'name', $checked]) }}
-                                                        {{ $value->name }}</label>
+                                                    <label>
+                                                        {{ Form::checkbox('permission[]', $value->name, false, ['class' => 'name', $checked]) }}
+                                                        @trans($value->name)
+                                                    </label>
                                                     <br />
                                                 @endforeach
                                             </div>

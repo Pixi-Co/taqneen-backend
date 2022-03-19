@@ -21,7 +21,7 @@ class RoleController extends Controller
 
     public function create(){
         $role = new Role();
-        $permission = Permission::get();
+        $permission = Permission::orderBy('name')->get();
         
         return view('taqneen.roles.form',compact('role','permission'));
     }
@@ -60,7 +60,7 @@ class RoleController extends Controller
     public function edit($id){
 
         $role = Role::find($id);
-        $permission = Permission::get();
+        $permission = Permission::orderBy('name')->get();
         $rolePermissions  = $role->permissions->pluck('name');
        // dd($rolePermissions,$role);
         return view('taqneen.roles.form',compact('role','permission','rolePermissions'));

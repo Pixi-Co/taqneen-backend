@@ -6,6 +6,7 @@ use App\Contact;
 use App\ServicePackage;
 use App\Subscription;
 use App\TaxRate;
+use App\Transaction;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -22,28 +23,32 @@ class SubscriptionImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-        // step 1 => create customer
-        $customer = $this->createCustomer($row);
+        try {
+            // step 1 => create customer
+            $customer = $this->createCustomer($row);
 
-        // step 2 => creat User of customer
-        //$user = $this->createUser($customer, $row);
+            // step 2 => creat User of customer
+            $user = $this->createUser($customer, $row);
 
-        // step 3 => assign user to customer 
-        //$this->assignUserToCustomer($customer, $user);
+            // step 3 => assign user to customer 
+            $this->assignUserToCustomer($customer, $user);
 
-        // step 4 => creat subscription
-        $subscription = $this->createSubscription($row, $customer);
+            // step 4 => creat subscription
+            $subscription = $this->createSubscription($row, $customer);
 
-        // step 5 => create subscription lines 
-        $this->createSubscriptionLines($row, $subscription);
+            // step 5 => create subscription lines 
+            $this->createSubscriptionLines($row, $subscription);
 
-        // step 6 => create subscription payment 
-        $this->createSubscriptionPayment($row, $subscription);
+            // step 6 => create subscription payment 
+            $this->createSubscriptionPayment($row, $subscription);
 
-        return $subscription;
+            return $subscription;
+        } catch (\Exception $th) {
+            return null;
+        }
     }
 
-    public function createCustomer($row)
+    public function createCustomer(array $row)
     {
         $customer = Contact::where('custom_field1', $row['pc_number'])->first();
         if ($customer) {
@@ -53,7 +58,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
         $names = explode(" ", $row['person']);
         $first_name = $names[0];
         $last_name = str_replace($first_name, "", $row['person']);
- 
+
         $customer = Contact::create([
             "supplier_business_name" => $row['company'],
             "custom_field1" => $row['pc_number'],
@@ -74,12 +79,12 @@ class SubscriptionImport implements ToModel, WithHeadingRow
         return $customer;
     }
 
-    public function createUser(Contact $contact, $data)
+    public function createUser(Contact $contact, array $data)
     {
-        $user = $contact->loginUser; 
+        $user = $contact->loginUser;
         $contact = $contact->refresh();
 
- 
+
         $fill = [
             "first_name" => $contact->first_name,
             "last_name" => $contact->last_name,
@@ -88,11 +93,14 @@ class SubscriptionImport implements ToModel, WithHeadingRow
             "address" => $contact->address_line_1,
             "user_type" => 'user_customer',
             "password" => isset($data['password']) ? bcrypt($data['password']) : '',
-        ];
-        //dd($userData);
+        ]; 
 
-        $user = !$user ? User::create($fill) : $user->update($fill);
- 
+        if ($user) {
+            $user->update($fill);
+        } else {
+            $user = User::create($fill);
+        }
+
 
         if (isset($data['role'])) {
             $data['role'] = strtolower($data['role']) . "#" . session('business.id');
@@ -100,7 +108,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
             $newRole = Role::where('name', $role)->first();
             if ($newRole) {
                 if ($role)
-                $user->removeRole($role->name);
+                    $user->removeRole($role->name);
                 $user->roles()->detach();
                 $user->forgetCachedPermissions();
                 $user->assignRole($newRole->name);
@@ -118,7 +126,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
         return true;
     }
 
-    public function createSubscription($row, Contact $customer)
+    public function createSubscription(array $row, Contact $customer)
     {
         $tax = TaxRate::where('business_id', session('business.id'))->first();
         $final_total = $row['tax_amount'] + $row['expense_amount'];
@@ -126,7 +134,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
 
         foreach ($servicePrices as $price) {
             $price = str_replace(' ', "", $price);
-            $final_total += is_numeric($price)? $price : 0;
+            $final_total += is_numeric($price) ? $price : 0;
         }
 
         $date = date('Y-m-d H:i:s', strtotime($row['start_date']));
@@ -144,20 +152,18 @@ class SubscriptionImport implements ToModel, WithHeadingRow
             "transaction_date" => $date,  // expenses amount
             "sub_type" => $row['paper'],  // expenses amount
             "business_id" => session('business.id'),
-        ];
-
-        //dd($data);
+        ]; 
 
         // insert transactions
-        $resource = Subscription::create($data);
-        $resource = $resource->refresh();
+        $resource = Transaction::create($data);
+        $resource = Subscription::find($resource->id);
         $resource->expire_date = $resource->getExpireDate();
         $resource->update();
 
         return $resource;
     }
 
-    public function createSubscriptionLines($row, Subscription $subscription)
+    public function createSubscriptionLines(array $row, Subscription $subscription)
     {
         $packages = explode(",", $row['packages']);
         $servicePrices = explode(",", $row['price']);
@@ -165,14 +171,14 @@ class SubscriptionImport implements ToModel, WithHeadingRow
         // insert subscription lines
         for ($index = 0; $index < count($packages); $index++) {
             $item = $packages[$index];
-            $price = str_replace(' ', "", isset($servicePrices[$index])? $servicePrices[$index] : '0');
+            $price = str_replace(' ', "", isset($servicePrices[$index]) ? $servicePrices[$index] : '0');
             $package = ServicePackage::find($item);
             if ($package) {
                 DB::table('subscription_lines')->insert([
                     "transaction_id" => $subscription->id,
                     "service_id" => $package->service_id,
                     "package_id" => $package->id,
-                    "total" =>  is_numeric($price)? $price : 0
+                    "total" =>  is_numeric($price) ? $price : 0
                 ]);
             }
         }
@@ -180,7 +186,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
         return true;
     }
 
-    public function createSubscriptionPayment($row, Subscription $subscription)
+    public function createSubscriptionPayment(array $row, Subscription $subscription)
     {
         $date = date('Y-m-d H:i:s', strtotime($row['payment_data']));
         // insert payment 

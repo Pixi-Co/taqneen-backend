@@ -14,7 +14,15 @@ use Maatwebsite\Excel\Facades\Excel;
 class OpportunitController extends Controller
 {
     public function index(){
-        $opportunities = Contact::where('type','opportunity')->where('business_id', session('business.id'))->latest()->get();
+        $query = Contact::where('type','opportunity')->where('business_id', session('business.id'))
+        ->latest();
+
+        if (!auth()->user()->isAdmin()) {
+            $query->where('converted_by', auth()->user()->id);
+        }
+
+        $opportunities = $query->get();
+
         return view('taqneen.opportunities.index',compact('opportunities'));
     }
 

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Utils\BusinessUtil;
 use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -367,5 +368,9 @@ class User extends Authenticatable
             }
         }
         return $can_access_products;
+    }
+
+    public function isAdmin() { 
+        return (new BusinessUtil)->is_admin(auth()->user());
     }
 }

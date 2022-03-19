@@ -45,11 +45,15 @@
                                     <div class="card-body">
                                         @include("taqneen.subscription.filter")
                                         <br>
+                                        @can(find_or_create_p('subscription.create'))
                                         <a role="button" href="/subscriptions/create" class="btn btn-primary" >@trans('add new')</a>
+                                        @endcan
+                                        @can(find_or_create_p('subscription.import'))
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                             @trans('subscription import excel')
                                          </button>
-                                        <div class="table-responsive">
+                                        @endcan
+                                         <div class="table-responsive">
                                             <table class="display" id="subscriptionTable">
                                                 <thead>
                                                     <tr> 

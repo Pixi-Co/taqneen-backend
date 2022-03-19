@@ -14,7 +14,15 @@ class MainDashboardController extends Controller
 {
 
     public function index() {
+        if (auth()->user()->can('dashboard.admin')) {
+            return $this->admin();
+        } 
         
+        if (auth()->user()->can('dashboard.courier') && !auth()->user()->can('dashboard.courier')) {
+            return $this->courier();
+        } 
+
+        return view('taqneen.home.index');
     }
 
     public function admin()
