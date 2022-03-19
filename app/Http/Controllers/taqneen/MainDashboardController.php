@@ -138,4 +138,9 @@ class MainDashboardController extends Controller
         return $totalSubscriptionsMonth;
        
     }
+
+
+    public function ticket() {
+        return view('taqneen.support.ticket');
+    }
 }

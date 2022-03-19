@@ -101,6 +101,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/taqneen-calendar', 'taqneen\CalendarController@index');
     Route::get('/taqneen-calendar-api', 'taqneen\CalendarController@get');
     Route::get('/support', 'HomeController@support');
+    Route::get('/ticket', 'taqneen\MainDashboardController@ticket');
     Route::resource('services', 'taqneen\ServiceController');
     Route::resource('customers', 'taqneen\CustomerController');
     Route::get('download',[CustomerController::class,'download']);

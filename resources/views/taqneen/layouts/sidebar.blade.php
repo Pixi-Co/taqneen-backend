@@ -136,8 +136,12 @@
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/support' ? 'down' : 'right' }}"></i></div>
                         </a> 
                         <ul class="sidebar-submenu"  >
-                            
+                            @can(find_or_create_p('support.supportboard'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/support')}}" >@trans('supportboard')</a></li> 
+                            @endcan
+                            @can(find_or_create_p('support.ticket'))
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('/ticket')}}" >@trans('ticket')</a></li> 
+                            @endcan
                         </ul>
                     </li>
                     @endcan
