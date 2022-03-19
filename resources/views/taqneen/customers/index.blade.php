@@ -43,11 +43,15 @@
                                         <h5>@lang('lang.Opportunities')</h5>
                                     </div> --}}
                                     <div class="card-body">
+                                        @can(find_or_create_p('customer.create'))
                                         <a role="button" href="/customers/create" class="btn btn-primary" >@trans('add new')</a>
-                                        <!-- Button trigger modal -->
+                                        @endcan
+
+                                        @can(find_or_create_p('customer.import')) 
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                            @trans('customer import excel')
                                         </button>
+                                        @endcan
                                         
                                         
                                         <div class="table-responsive pt-3">
@@ -76,9 +80,15 @@
                                                         <td>{{  $item->custom_field1  }}</td>          
                                                          
                                                         <td class="d-flex">
+                                                            @can(find_or_create_p('customer.edit'))
                                                             <a role="button" href="/customers/{{ $item->id }}/edit" class="m-1 btn btn-primary btn-sm" >@trans('edit')</a>
+                                                            @endcan
+                                                            @can(find_or_create_p('customer.show'))
                                                             <a role="button" href="/customers/{{ $item->id }}" class="m-1 btn btn-primary btn-sm" >@trans('show')</a>
+                                                            @endcan
+                                                            @can(find_or_create_p('customer.delete'))
                                                             <button onclick="destroy('/customers/{{ $item->id }}')" class="m-1 btn btn-danger bt-sm" >@trans('remove')</button>
+                                                            @endcan
                                                         </td>     
                                                     </tr> 
                                                     @endforeach

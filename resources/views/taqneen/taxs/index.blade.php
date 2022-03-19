@@ -42,7 +42,9 @@
                                         <h5>@lang('lang.Opportunities')</h5>
                                     </div> --}}
                                     <div class="card-body">
+                                        @can(find_or_create_p('tax.create'))
                                         <a role="button" href="/taxs/create" class="btn btn-primary" >@trans('add new')</a>
+                                        @endcan
                                         <div class="table-responsive">
                                             <table class="display" id="advance-4">
                                                 <thead>
@@ -64,8 +66,12 @@
                                                         {{-- <td>{{  $item->created_by  }}</td>           --}}
                                                          
                                                         <td>
+                                                            @can(find_or_create_p('tax.edit'))
                                                             <a role="button" href="/taxs/{{ $item->id }}/edit" class="btn btn-primary" >@trans('edit')</a>
+                                                            @endcan
+                                                            @can(find_or_create_p('tax.delete'))
                                                             <button onclick="destroy('/taxs/{{ $item->id }}')" class="btn btn-danger" >@trans('remove')</button>
+                                                            @endcan
                                                         </td>     
                                                     </tr> 
                                                     @endforeach

@@ -105,14 +105,17 @@ class User extends Authenticatable
         $user = User::create([
                     'surname' => '-',
                     'first_name' => $details['first_name'],
-                    'last_name' => $details['last_name'],
-                    'username' => $details['username'],
+                    'last_name' => $details['last_name'], 
+                    'username' => isset($details['username'])? $details['username'] : null,
                     'email' => $details['email'],
+                    'contact_number' => isset($details['contact_number'])? $details['contact_number'] : null,
+                    'address' => isset($details['address'])? $details['address'] : null,
+                    'user_type' => isset($details['user_type'])? $details['user_type'] : 'user',
                     'businesstype_id' => isset($details['businesstype_id'])? $details['businesstype_id'] : null,
                     'bussiness_description' => isset($details['bussiness_description'])? $details['bussiness_description'] : null,
                     'password' => Hash::make($details['password']),
                     'google' => request()->google_id,
-                    'language' => !empty($details['language']) ? $details['language'] : 'en'
+                    'language' => !empty($details['language']) ? $details['language'] : 'en', 
                 ]);
 
         return $user;

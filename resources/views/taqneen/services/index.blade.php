@@ -42,7 +42,9 @@
                                         <h5>@lang('lang.Opportunities')</h5>
                                     </div> --}}
                                     <div class="card-body">
+                                        @can(find_or_create_p('service.create'))
                                         <a role="button" href="/services/create" class="btn btn-primary" >@trans('add new')</a>
+                                        @endcan
                                         <div class="table-responsive">
                                             <table class="display" id="advance-4">
                                                 <thead>
@@ -66,8 +68,12 @@
                                                         <td>{{  optional($item->parent)->name  }}</td>          
                                                         <td>{{  optional($item->user)->user_full_name  }}</td>      
                                                         <td>
+                                                            @can(find_or_create_p('service.edit'))
                                                             <a role="button" href="/services/{{ $item->id }}/edit" class="btn btn-primary" >@trans('edit')</a>
+                                                            @endcan
+                                                            @can(find_or_create_p('service.delete'))
                                                             <button onclick="destroy('/services/{{ $item->id }}')" class="btn btn-danger" >@trans('remove')</button>
+                                                            @endcan
                                                         </td>     
                                                     </tr> 
                                                     @endforeach

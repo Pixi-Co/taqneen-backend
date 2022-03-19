@@ -42,7 +42,9 @@
                                         <h5>@lang('lang.Opportunities')</h5>
                                     </div> --}}
                                     <div class="card-body">
+                                        @can(find_or_create_p('package.create'))
                                         <a role="button" href="/packages/create" class="btn btn-primary" >@trans('add new')</a>
+                                        @endcan
                                         <div class="table-responsive">
                                             <table class="display" id="advance-4">
                                                 <thead>
@@ -76,8 +78,12 @@
                                                         <td>{{  $item->from  }}</td>    
                                                         <td>{{  $item->to  }}</td>    
                                                         <td>
+                                                            @can(find_or_create_p('package.edit'))
                                                             <a role="button" href="/packages/{{ $item->id }}/edit" class="btn btn-primary" >@trans('edit')</a>
+                                                            @endcan
+                                                            @can(find_or_create_p('package.delete'))
                                                             <button onclick="destroy('/packages/{{ $item->id }}')" class="btn btn-danger" >@trans('remove')</button>
+                                                            @endcan
                                                         </td>     
                                                     </tr> 
                                                     @endforeach

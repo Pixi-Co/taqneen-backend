@@ -42,7 +42,9 @@
                                         <h5>@lang('lang.Opportunities')</h5>
                                     </div> --}}
                                     <div class="card-body">
+                                        @can(find_or_create_p('role.create'))
                                         <a role="button" href="/role/create" class="btn btn-primary" >@trans('add new')</a>
+                                        @endcan
                                         <div class="table-responsive">
                                             <table class="display" id="advance-4">
                                                 <thead>
@@ -64,8 +66,12 @@
                                                         <td>{{  $role_name  }}</td>   
                                                         <td>
                                                             @if ($loop->iteration != 1)
+                                                            @can(find_or_create_p('role.edit'))
                                                             <a role="button" href="/role/{{ $item->id }}/edit" class="btn btn-primary" >@trans('edit')</a>
+                                                            @endcan
+                                                            @can(find_or_create_p('role.delete'))
                                                             <button onclick="destroy('/role/{{ $item->id }}')" class="btn btn-danger" >@trans('remove')</button>
+                                                            @endcan
                                                             @endif
                                                         </td>     
                                                     </tr> 

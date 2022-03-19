@@ -42,15 +42,16 @@
                                         <h5>@lang('lang.Opportunities')</h5>
                                     </div> --}}
                                     <div class="card-body">
+                                        @can(find_or_create_p('expense.create'))
                                         <a role="button" href="/categories/create" class="btn btn-primary" >@trans('add new')</a>
+                                        @endcan
                                         <div class="table-responsive">
                                             <table class="display" id="advance-4">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
                                                         <th>@trans('name')</th>
-                                                        <th>@trans('price')</th>
-                                                        
+                                                        <th>@trans('price')</th> 
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                 </thead>
@@ -62,8 +63,12 @@
                                                         <td>{{  $item->price  }}</td>          
                                                          
                                                         <td>
+                                                            @can(find_or_create_p('expense.edit'))
                                                             <a role="button" href="/categories/{{ $item->id }}/edit" class="btn btn-primary" >@trans('edit')</a>
+                                                            @endcan
+                                                            @can(find_or_create_p('expense.delete'))
                                                             <button onclick="destroy('/categories/{{ $item->id }}')" class="btn btn-danger" >@trans('remove')</button>
+                                                            @endcan
                                                         </td>     
                                                     </tr> 
                                                     @endforeach
