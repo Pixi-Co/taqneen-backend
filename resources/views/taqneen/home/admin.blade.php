@@ -113,7 +113,7 @@
 										<div class="media-left bg-secondary"><i class="icofont icofont-heart-alt"></i></div>
 										<div class="media-body">
 											<h6>@trans('Customer count') </h6>
-											<p> {{ $opportunitiesTotal }}</p>
+											<p> {{ $customerTotal }}</p>
 										</div>
 									</div>
 								</div>
@@ -132,7 +132,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="hidden">
+		<div class="col-xl-9 xl-100 chart_data_left box-col-12">
 			<div class="card">
 				<div class="card-body p-0">
 					<div class="row m-0 chart-main">
@@ -200,7 +200,7 @@
 				</div>
 			</div>
 		</div>
-		{{-- <div class="col-xl-3 xl-50 chart_data_right box-col-12">
+		<div class="col-xl-3 xl-50 chart_data_right box-col-12">
 			<div class="card">
 				<div class="card-body">
 					<div class="media align-items-center">
@@ -209,13 +209,13 @@
 							<span>@trans('subscriptions amount')</span>
 						</div>
 						<div class="knob-block text-center">
-							<input class="knob1" data-width="10" data-height="70" data-thickness=".3" data-angleoffset="0" data-linecap="round" data-fgcolor="#7366ff" data-bgcolor="#eef5fb" value="60">
+							{{-- <input class="knob1" data-width="10" data-height="70" data-thickness=".3" data-angleoffset="0" data-linecap="round" data-fgcolor="#7366ff" data-bgcolor="#eef5fb" value="60"> --}}
 						</div>
 					</div>
 				</div>
 			</div>
-		</div> --}}
-		{{-- <div class="col-xl-3 xl-50 chart_data_right second d-none">
+		</div>
+		<div class="col-xl-3 xl-50 chart_data_right second d-none">
 			<div class="card">
 				<div class="card-body">
 					<div class="media align-items-center">
@@ -224,12 +224,12 @@
 							<span>Product Order Value</span>
 						</div>
 						<div class="knob-block text-center">
-							<input class="knob1" data-width="50" data-height="70" data-thickness=".3" data-fgcolor="#7366ff" data-linecap="round" data-angleoffset="0" value="60">
+							{{-- <input class="knob1" data-width="50" data-height="70" data-thickness=".3" data-fgcolor="#7366ff" data-linecap="round" data-angleoffset="0" value="60"> --}}
 						</div>
 					</div>
 				</div>
 			</div>
-		</div> --}}
+		</div>
 		{{-- <div class="col-xl-4 xl-50 news box-col-6">
 			<div class="card">
 				<div class="card-header">
@@ -354,7 +354,7 @@
 								<p>{{ $item->created_at }} <span class="ps-1">@trans('day')</span></p>
 								<div class="d-flex justify-content-between">
 									<h6>{{ $item->name }}</h6>
-									{{-- <a href="take-opportunity/{{ $item->id}}" class="btn btn-success">@trans('take opportunity')</a href="#"> --}}
+									<a href="take-opportunity/{{ $item->id}}" class="btn btn-success">@trans('take opportunity')</a href="#">
 								</div>
 								<span>{{ $item->mobile }}</span>
 							</div>

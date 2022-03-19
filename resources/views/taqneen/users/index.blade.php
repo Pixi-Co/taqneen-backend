@@ -43,8 +43,9 @@
                                         <h5>@lang('lang.Opportunities')</h5>
                                     </div> --}}
                                     <div class="card-body">
+                                        @can(find_or_create_p('user.create'))
                                         <a role="button" href="/userstaq/create" class="btn btn-primary" >@trans('add new')</a>
-
+                                        @endcan
                                         <div class="table-responsive pt-3">
                                             <table class="display" id="advance-4">
                                                 <thead>
@@ -78,8 +79,12 @@
                                                         </td>          
                                                          
                                                         <td class="d-flex">
+                                                            @can(find_or_create_p('user.edit'))
                                                             <a role="button" href="/userstaq/{{ $item->id }}/edit" class="m-1 btn btn-primary btn-sm" >@trans('edit')</a>
+                                                            @endcan
+                                                            @can(find_or_create_p('user.delete'))
                                                             <button onclick="destroy('/userstaq/{{ $item->id }}')" class="m-1 btn btn-danger bt-sm" >@trans('remove')</button>
+                                                            @endcan
                                                         </td>     
                                                     </tr> 
                                                     @endforeach

@@ -1,16 +1,20 @@
 <div style="width: 200px">
 
+    @can(find_or_create_p('subscription.edit'))
     <a target="_blank" href="{{ url('/subscriptions/') }}/{{ $row->id }}/edit"
         style="width: 25px!important;height: 25px!important;border-radius: 5em!important;padding: 4px!important"
         class="btn w3-white w3-text-orange material-shadow">
         <i style="margin-top: 4px;" class="fa fa-edit"></i>
     </a>
+    @endcan
 
+    @can(find_or_create_p('subscription.view'))
     <a target="_blank" href="{{ url('/subscriptions/') }}/{{ $row->id }}"
         style="width: 25px!important;height: 25px!important;border-radius: 5em!important;padding: 4px!important"
         class="btn w3-white w3-text-dark-gray material-shadow">
         <i style="margin-top: 4px;" class="fa fa-print"></i>
     </a>
+    @endcan
 
     <!--
     <a onclick="destroy('/subscriptions/{{ $row->id }}')" href="#"
@@ -20,18 +24,22 @@
     </a>
 -->
 
+    @can(find_or_create_p('subscription.note'))
     <a onclick="addNote('{{ $row->id }}')" href="#"
         style="width: 25px!important;height: 25px!important;border-radius: 5em!important;padding: 4px!important"
         class="btn w3-white w3-text-teal material-shadow">
         <i style="margin-top: 4px;" class="fa fas fa-comment-o"></i>
     </a>
+    @endcan
 
     @if ($row->is_renew != 1)
+    @can(find_or_create_p('subscription.renew'))
     <a onclick="$('#subscriptionRenew{{ $row->id }}').modal('show')" href="#"
         style="width: auto!important;height: 25px!important;border-radius: 5px!important;padding: 4px!important"
         class="btn w3-deep-orange material-shadow">
         <i class="fa fa-refresh"></i> @trans('renew')
     </a>
+    @endcan
     @endif
 </div>
 
