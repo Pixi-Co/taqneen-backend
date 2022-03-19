@@ -16,7 +16,15 @@ class OpportunitImport implements ToModel,WithHeadingRow
     public function model(array $row)
     {
         return new Contact([
-            //
+            "name" => $row['name'],
+            "mobile" => $row['mobile'],
+            "email" => $row['email'],
+            "custom_field2" =>$row['service_id'], // service ,
+            "custom_field3" => $row['package_id'], // package,
+            "dob" => date('Y-m-d', strtotime($row['publish_date'])),
+            "business_id" =>session('business.id'),
+            "created_by" => session('user.id'),
+            "type" => 'opportunity',
         ]);
     }
 }

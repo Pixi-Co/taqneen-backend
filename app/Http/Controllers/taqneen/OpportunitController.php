@@ -6,7 +6,10 @@ use App\Category;
 use App\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Imports\OpportunitImport;
 use App\ServicePackage;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OpportunitController extends Controller
 {
@@ -38,6 +41,7 @@ class OpportunitController extends Controller
                 "name" => $request->name,
                 "mobile" => $request->mobile,
                 "email" => $request->email,
+                "dob" => $request->dob,
                 "custom_field2" => $request->custom_field2, // service ,
                 "custom_field3" => $request->custom_field3, // package,
                 "business_id" =>session('business.id'),
@@ -69,6 +73,7 @@ class OpportunitController extends Controller
                 "name" => $request->name,
                 "mobile" => $request->mobile,
                 "email" => $request->email,
+                "dob" => $request->dob,
                 "custom_field2" => $request->custom_field2, // service ,
                 "custom_field3" => $request->custom_field3, // package,
                 
@@ -132,6 +137,37 @@ class OpportunitController extends Controller
         }
         // dd($output);
         return back()->with('status', $output); 
+    }
+
+    public function opportunitDownload()
+    {
+        $files = Storage::disk('public_uploads_files')->getAdapter()->applyPathPrefix('import_opportunit_template.xlsx');
+        return  response()->download($files);
+    }
+
+    public function opportunitImportFile(Request $request){
+        
+       
+        //return redirect('/customers');  
+
+        try { 
+            if ($request->hasFile('import_file')) {
+                $import_file = $request->file('import_file');
+            }
+            Excel::import(new OpportunitImport, $import_file);
+
+            $output = [
+                "success" => 1,
+                "msg" => __('done')
+            ];
+        } catch (\Exception $th) {
+            $output = [
+                "success" => 0,
+                "msg" => $th->getMessage()
+            ];
+        }
+
+         return back()->with('status', $output); ; 
     }
 
 }

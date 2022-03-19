@@ -101,7 +101,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label>                       
-                        <input class="form-control" name="form['company_num']" type="text" value="70" required placeholder="70xxxxxxxxxxx" id="company_num" >
+                        <input class="form-control" name="form[company_num]" type="text" value="70" required placeholder="70xxxxxxxxxxx" id="company_num" >
                         <div class="charleft ginput_counter warningTextareaInfo" aria-live="polite">0 من  10 حرف كحد أقصى</div>
                     </div>
                     <div class="col-md-6 " >
@@ -110,7 +110,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['name_ar']" type="text" value="" id="namr_ar">
+                        <input class="form-control" name="form[name_ar]" type="text" value="" id="namr_ar">
                     </div>
                     
                 </div>
@@ -122,7 +122,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['user_name']" type="text" value="" id="user_name" required placeholder="الأسم الأول والأخير">
+                        <input class="form-control" name="form[user_name]" type="text" value="" id="user_name" required placeholder="الأسم الأول والأخير">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهوية / الإقامة
@@ -130,7 +130,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['user_identifi']" type="text" value="" id="user_identifi" placeholder="05xxxxxxxx" required>
+                        <input class="form-control" name="form[user_identifi]" type="text" value="" id="user_identifi" placeholder="05xxxxxxxx" required>
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">الجوال
@@ -138,7 +138,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['user_phone']" type="text" value="" id="user_phone" placeholder="05xxxxxxxx" required>
+                        <input class="form-control" name="form[user_phone]" type="text" value="" id="user_phone" placeholder="05xxxxxxxx" required>
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">البريد الإلكتروني  
@@ -146,7 +146,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['user_email']" type="text" value="" id="user_email" required>
+                        <input class="form-control" name="form[user_email]" type="text" value="" id="user_email" required>
                     </div>
                 </div>
                 
@@ -158,7 +158,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['user_name']" type="text" value="" id="user_name" required placeholder="الأسم الأول والأخير">
+                        <input class="form-control" name="form[user_name]" type="text" value="" id="user_name" required placeholder="الأسم الأول والأخير">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهوية / الإقامة
@@ -166,7 +166,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['user_identifi']" type="text" value="" id="user_identifi" placeholder="05xxxxxxxx" required>
+                        <input class="form-control" name="form[user_identifi]" type="text" value="" id="user_identifi" placeholder="05xxxxxxxx" required>
                     </div>
                 </div>
                 <div class="row pt-3 pb-3">
@@ -175,42 +175,42 @@ input[type=submit]:hover{
                     
                     <div class="gfield_checkbox" id="input_1_4">
                         <div class="gchoice" style="display: inline;">
-                            <input class="gfield-choice-input" name="form['choice_process']" type="radio" value="1"  id="choice">
+                            <input class="gfield-choice-input" name="form[choice_process]" type="radio" value="1"  id="choice">
                             <label for="choice" >1</label>
                         </div>
                         <div class="gchoice " style="display: inline;">
-                            <input class="gfield-choice-input" name="form['choice_process']" type="radio" value="2" id="choice">
+                            <input class="gfield-choice-input" name="form[choice_process]" type="radio" value="2" id="choice">
                             <label for="choice" >2</label>
                         </div>
                         <div class="gchoice " style="display: inline;">
-                            <input class="gfield-choice-input" name="form['choice_process']" type="radio" value="3" id="choice">
+                            <input class="gfield-choice-input" name="form[choice_process]" type="radio" value="3" id="choice">
                             <label for="choice" >3</label>
                         </div>
                         <div class="gchoice " style="display: inline;">
-                            <input class="gfield-choice-input" name="form['choice_process']" type="radio" value="4" id="choice">
+                            <input class="gfield-choice-input" name="form[choice_process]" type="radio" value="4" id="choice">
                             <label for="choice" >4</label>
                         </div>
                         <div class="gchoice " style="display: inline;">
-                            <input class="gfield-choice-input" name="form['choice_process']" type="radio" value="5" id="choice">
+                            <input class="gfield-choice-input" name="form[choice_process]" type="radio" value="5" id="choice">
                             <label for="choice" >5</label>
                         </div>
                         <div class="gchoice " style="display: inline;">
-                            <input class="gfield-choice-input" name="form['choice_process']" type="radio" value="6" id="choice">
+                            <input class="gfield-choice-input" name="form[choice_process]" type="radio" value="6" id="choice">
                             <label for="choice" > 6     </label>
                         </div>
                         <div class="gchoice " style="display: inline;">
-                            <input class="gfield-choice-input" name="form['choice_process']" type="radio" value="7" id="choice">
+                            <input class="gfield-choice-input" name="form[choice_process]" type="radio" value="7" id="choice">
                             <label for="choice" >7</label>
                         </div>
                         <div class="gchoice " style="display: inline;">
-                            <input class="gfield-choice-input" name="form['choice_process']" type="radio" value="8" id="choice">
+                            <input class="gfield-choice-input" name="form[choice_process]" type="radio" value="8" id="choice">
                             <label for="choice" >8</label>
                         </div><div class="gchoice " style="display: inline;">
-                            <input class="gfield-choice-input" name="form['choice_process']" type="radio" value="9" id="choice">
+                            <input class="gfield-choice-input" name="form[choice_process]" type="radio" value="9" id="choice">
                             <label for="choice" >9</label>
                         </div>
                         <div class="gchoice " style="display: inline;">
-                            <input class="gfield-choice-input" name="form['choice_process']" type="radio" value="10" id="choice">
+                            <input class="gfield-choice-input" name="form[choice_process]" type="radio" value="10" id="choice">
                             <label for="choice" >10</label>
                         </div>
                     </div>
