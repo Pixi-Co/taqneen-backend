@@ -129,15 +129,23 @@ class SubscriptionImport implements ToModel, WithHeadingRow
     public function createSubscription(array $row, Contact $customer)
     {
         $tax = TaxRate::where('business_id', session('business.id'))->first();
-        $final_total = $row['tax_amount'] + $row['expense_amount'];
+        $final_total = $row['expense_amount'];
+        $total = 0;
         $servicePrices = explode(",", $row['price']);
 
         foreach ($servicePrices as $price) {
             $price = str_replace(' ', "", $price);
             $final_total += is_numeric($price) ? $price : 0;
+            $total += is_numeric($price) ? $price : 0;
         }
 
         $date = date('Y-m-d H:i:s', strtotime($row['start_date']));
+
+        $taxAmount = 0;
+        if (isset($row['expense_amount']))
+            $taxAmount = ($total * ($row['expense_amount'] / 100));
+
+        $final_total += $taxAmount;
 
         $data = [
             "status" => $row['order_status'],
@@ -146,7 +154,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
             "tax_id" => optional($tax)->id,
             "tax_amount" => $row['tax_amount'],
             "custom_field_1" => null,  // expenses ids
-            "custom_field_2" => $row['expense_amount'],  // expenses amount
+            "custom_field_2" => $taxAmount,  // expenses amount
             "custom_field_4" => '',  // expenses amount
             "final_total" => $final_total,  // expenses amount
             "transaction_date" => $date,  // expenses amount

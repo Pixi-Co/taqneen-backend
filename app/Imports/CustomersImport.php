@@ -21,8 +21,8 @@ class CustomersImport implements ToModel, WithHeadingRow
         //dd($row);
         // create contact
         $contact = new Contact([
-            'supplier_business_name'  => $row['supplier_business_name'],
-            "custom_field1"  => $row['custom_field1'],
+            'supplier_business_name'  => $row['company_name'],
+            "custom_field1"  => $row['pc_number'],
             "mobile"  => $row['mobile'],
             "state"  => $row['state'],
             "address_line_1"  => $row['address_line_1'],
