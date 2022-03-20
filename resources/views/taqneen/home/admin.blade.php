@@ -59,15 +59,15 @@
 									<p class="font-roboto">@trans('Subscriptions totals')</p>
 								</div>
 								<div class="col-xl-12 p-0 left_side_earning">
-									<h5>SAR {{ round($totalSalesMonth, 2) }} </h5>
+									<h5>@trans('sar') {{ round($totalSalesMonth, 2) }} </h5>
 									<p class="font-roboto">@trans('Subscriptions total this month')</p>
 								</div>
 								<div class="col-xl-12 p-0 left_side_earning">
-									<h5>SAR {{ round($totalSaleslastMonth, 2) }}</h5>
+									<h5>@trans('sar') {{ round($totalSaleslastMonth, 2) }}</h5>
 									<p class="font-roboto">@trans('Subscriptions total last month')</p>
 								</div>
 								<div class="col-xl-12 p-0 left_side_earning">
-									<h5>SAR {{ round($totalSalesYear, 2) }}</h5>
+									<h5>@trans('sar') {{ round($totalSalesYear, 2) }}</h5>
 									<p class="font-roboto">@trans('Subscriptions total this year')</p>
 								</div> 
 							</div>
@@ -205,7 +205,7 @@
 				<div class="card-body">
 					<div class="media align-items-center">
 						<div class="media-body right-chart-content">
-							<h4>SAR {{ round($totalSales,2) }}</h4>
+							<h4>@trans('sar') {{ round($totalSales,2) }}</h4>
 							<span>@trans('subscriptions amount')</span>
 						</div>
 						<div class="knob-block text-center">
@@ -220,7 +220,7 @@
 				<div class="card-body">
 					<div class="media align-items-center">
 						<div class="media-body right-chart-content">
-							<h4>SAR 95,000<span class="new-box">New</span></h4>
+							<h4>@trans('sar') 95,000<span class="new-box">New</span></h4>
 							<span>Product Order Value</span>
 						</div>
 						<div class="knob-block text-center">
