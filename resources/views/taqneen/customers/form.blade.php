@@ -95,7 +95,7 @@
                                              </div>
                                              
                                              <div class="form-group col-md-4 pt-3">
-                                                 <label>@trans('Zip Code')</label>
+                                                 <label>@trans('zip_code')</label>
                                                  <input type="text" name="zip_code" class="form-control" placeholder="@trans(' Zip Code  ')" value="{{ $customer->zip_code }}">
                                              </div>
                      
