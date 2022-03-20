@@ -333,7 +333,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-xl-4 xl-50 notification box-col-6">
+		<div class="col-xl-6 notification box-col-6">
 			<div class="card">
 				<div class="card-header card-no-border">
 					<div class="header-top">
