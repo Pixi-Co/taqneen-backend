@@ -608,6 +608,7 @@ if (!function_exists('__')) {
     function __($key = null, $replace = [], $locale = null)
     {
         //$key = str_replace("'", "", $key);
+        $key = strtolower($key);
         try {
             if (is_null($key)) {
                 return app('translator');
