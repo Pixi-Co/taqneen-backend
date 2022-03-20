@@ -337,7 +337,7 @@
 			<div class="card">
 				<div class="card-header card-no-border">
 					<div class="header-top">
-						<h5 class="m-0">@trans('lang.Opportunities')</h5>
+						<h5 class="m-0">@trans('opportunities')</h5>
 						<div class="card-header-right-icon">
 							<select class="button btn btn-primary">
 								<option>@trans('today')</option>
