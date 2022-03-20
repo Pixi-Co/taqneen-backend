@@ -22,9 +22,9 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">@lang('lang.Dashboard')</li>
+    <li class="breadcrumb-item">@trans('lang.Dashboard')</li>
     <li class="breadcrumb-item">
-        <a href="/role">@lang('lang.roles')</a>
+        <a href="/role">@trans('lang.roles')</a>
     </li>
     @if ($role->id)
     <li class="breadcrumb-item active">@trans('edit roles')</li> 

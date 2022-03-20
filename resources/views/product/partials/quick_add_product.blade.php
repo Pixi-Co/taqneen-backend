@@ -4,7 +4,7 @@
   
       <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="modalTitle">@lang( 'product.add_new_product' )</h4>
+            <h4 class="modal-title" id="modalTitle">@trans( 'product.add_new_product' )</h4>
       </div>
       <div class="modal-body">
         <div class="row">
@@ -81,8 +81,8 @@
             <div class="form-group">
             <br>
               <label>
-                {!! Form::checkbox('enable_stock', 1, true, ['class' => 'input-icheck', 'id' => 'enable_stock']); !!} <strong>@lang('product.manage_stock')</strong>
-              </label>@show_tooltip(__('tooltip.enable_stock')) <p class="help-block"><i>@lang('product.enable_stock_help')</i></p>
+                {!! Form::checkbox('enable_stock', 1, true, ['class' => 'input-icheck', 'id' => 'enable_stock']); !!} <strong>@trans('product.manage_stock')</strong>
+              </label>@show_tooltip(__('tooltip.enable_stock')) <p class="help-block"><i>@trans('product.enable_stock_help')</i></p>
             </div>
           </div>
           <div class="clearfix"></div>
@@ -176,7 +176,7 @@
             <div class="checkbox">
             <br>
               <label>
-                {!! Form::checkbox('enable_sr_no', 1, false, ['class' => 'input-icheck']); !!} <strong>@lang('lang_v1.enable_imei_or_sr_no')</strong>
+                {!! Form::checkbox('enable_sr_no', 1, false, ['class' => 'input-icheck']); !!} <strong>@trans('lang_v1.enable_imei_or_sr_no')</strong>
               </label>@show_tooltip(__('lang_v1.tooltip_sr_no'))
             </div>
           </div>
@@ -188,7 +188,7 @@
             <div class="form-group">
               <br>
               <label>
-                {!! Form::checkbox('not_for_selling', 1, false, ['class' => 'input-icheck']); !!} <strong>@lang('lang_v1.not_for_selling')</strong>
+                {!! Form::checkbox('not_for_selling', 1, false, ['class' => 'input-icheck']); !!} <strong>@trans('lang_v1.not_for_selling')</strong>
               </label> @show_tooltip(__('lang_v1.tooltip_not_for_selling'))
             </div>
           </div>
@@ -255,8 +255,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" id="submit_quick_product">@lang( 'messages.save' )</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang( 'messages.close' )</button>
+        <button type="submit" class="btn btn-primary" id="submit_quick_product">@trans( 'messages.save' )</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">@trans( 'messages.close' )</button>
       </div>
   
       {!! Form::close() !!}

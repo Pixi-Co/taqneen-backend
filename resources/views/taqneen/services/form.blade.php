@@ -16,9 +16,9 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">@lang('lang.Dashboard')</li>
+    <li class="breadcrumb-item">@trans('lang.Dashboard')</li>
     <li class="breadcrumb-item">
-        <a href="/services">@lang('lang.Services')</a>
+        <a href="/services">@trans('lang.Services')</a>
     </li>
     <li class="breadcrumb-item active">@trans('add service')</li> 
 @endsection

@@ -40,7 +40,7 @@
                                     <div class="card">
 
                                         {{-- <div class="card-header">
-                                        <h5>@lang('lang.Opportunities')</h5>
+                                        <h5>@trans('lang.Opportunities')</h5>
                                     </div> --}}
                                         <div class="card-body">
                                             <div class="row">

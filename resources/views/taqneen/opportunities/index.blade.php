@@ -18,7 +18,7 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">@lang('lang.Dashboard')</li>
+    <li class="breadcrumb-item">@trans('lang.Dashboard')</li>
     <li class="breadcrumb-item active">@trans('opportunities')</li>
 @endsection
 
@@ -40,7 +40,7 @@
                                 <div class="col-sm-12">
                                     <div class="card">
                                         {{-- <div class="card-header">
-                                        <h5>@lang('lang.Opportunities')</h5>
+                                        <h5>@trans('lang.Opportunities')</h5>
                                     </div> --}}
                                         <div class="card-body">
                                             @can(find_or_create_p('opportunity.create'))

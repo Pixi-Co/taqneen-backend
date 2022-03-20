@@ -17,11 +17,11 @@
 @endsection
 
 {{-- @section('breadcrumb-title')
-<h3>@lang('lang.dashboard')</h3>
+<h3>@trans('lang.dashboard')</h3>
 @endsection
 
 @section('breadcrumb-items')
-<li class="breadcrumb-item">@lang('lang.dashboard')</li>
+<li class="breadcrumb-item">@trans('lang.dashboard')</li>
     @endsection --}}
 
 @section('content')
@@ -55,7 +55,7 @@
 						<div class="col-xl-3 earning-content p-0">
 							<div class="row m-0 chart-left">
 								<div class="col-xl-12 p-0 left_side_earning">
-									<h5>@lang('subscription of view')</h5>
+									<h5>@trans('subscription of view')</h5>
 									<p class="font-roboto">@trans('Subscriptions totals')</p>
 								</div>
 								<div class="col-xl-12 p-0 left_side_earning">
@@ -337,7 +337,7 @@
 			<div class="card">
 				<div class="card-header card-no-border">
 					<div class="header-top">
-						<h5 class="m-0">@lang('lang.Opportunities')</h5>
+						<h5 class="m-0">@trans('lang.Opportunities')</h5>
 						<div class="card-header-right-icon">
 							<select class="button btn btn-primary">
 								<option>@trans('today')</option>

@@ -21,9 +21,9 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">@lang('lang.Dashboard')</li>
+    <li class="breadcrumb-item">@trans('lang.Dashboard')</li>
     <li class="breadcrumb-item">
-        <a href="/categories">@lang('lang.categories')</a>
+        <a href="/categories">@trans('lang.categories')</a>
     </li>
     @if ($category->id)
     <li class="breadcrumb-item active">@trans('edit category')</li> 
