@@ -50,7 +50,7 @@
     }
 
     .customizer-links {
-        display: none!important;
+      /*  display: none!important;*/
     }
 
     #sidebar-menu {
