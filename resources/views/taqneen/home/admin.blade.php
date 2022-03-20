@@ -320,7 +320,7 @@
 						<div class="card-header">
 							<div class="header-top">
 
-								<h2 class="m-0 ">@trans('alert')</h2>
+								<h5 class="m-0 ">@trans('alert')</h5>
 								<a href="{{url('mainreport')}}" class="btn btn-primary">@trans('show')</a>
 							</div>
 						</div>
