@@ -263,7 +263,7 @@
 				</div>
 			</div>
 		</div> --}}
-		<div class="col-xl-4 xl-50 appointment-sec box-col-6">
+		<div class="col-xl-6  appointment-sec box-col-6">
 			<div class="row">
 				{{-- <div class="col-xl-12 appointment">
 					<div class="card">
