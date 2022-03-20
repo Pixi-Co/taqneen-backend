@@ -659,6 +659,7 @@ if (!function_exists('trans')) {
      */
     function trans($key = null, $replace = [], $locale = null)
     {
+        $key = strtolower($key);
         return __($key, $replace, $locale);
     }
 }
@@ -674,6 +675,7 @@ if (!function_exists('trans_lang')) {
      */
     function trans_lang($key = null, $replace = [], $locale = null)
     {
+        $key = strtolower($key);
         try {
             if (is_null($key)) {
                 return app('translator');
