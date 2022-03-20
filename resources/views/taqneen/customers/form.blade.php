@@ -70,32 +70,32 @@
                                                  <input type="text" name="supplier_business_name" class="form-control" placeholder="@trans('company name')" value="{{ $customer->supplier_business_name }}" required>
                                              </div>
                                              <div class="form-group col-md-4">
-                                                 <label>@trans('Acountant No')</label>
+                                                 <label>@trans('accountant no')</label>
                                                  <input type="text" name="custom_field1" class="form-control" placeholder="@trans('acountant no')" value="{{ $customer->custom_field1 }}" >
                                              </div>
                                              
                                              <div class="form-group col-md-4">
-                                                 <label>@trans('Phone ')</label>
+                                                 <label>@trans('Phone')</label>
                                                  <input type="text" name="mobile" class="form-control" placeholder="@trans('phone ')" value="{{ $customer->mobile }}" required>
                                              </div>
 
                                              <div class="form-group col-md-6 pt-3">
-                                                 <label>@trans('State ')</label>
+                                                 <label>@trans('State')</label>
                                                  <input type="text" name="state" class="form-control" placeholder="@trans('state ')" value="{{ $customer->state }}">
                                              </div>
 
                                              <div class="form-group col-md-4 pt-3">
-                                                 <label>@trans('Streat  ')</label>
+                                                 <label>@trans('Streat')</label>
                                                  <input type="text" name="address_line_1" class="form-control" placeholder="@trans('streat  ')" value="{{ $customer->address_line_1 }}">
                                              </div>
 
                                              <div class="form-group col-md-4 pt-3">
-                                                 <label>@trans('Appartment No ')</label>
+                                                 <label>@trans('Appartment No')</label>
                                                  <input type="text" name="address_line_2" class="form-control" placeholder="@trans('appartment no ')" value="{{ $customer->address_line_2 }}">
                                              </div>
                                              
                                              <div class="form-group col-md-4 pt-3">
-                                                 <label>@trans('Zip Code   ')</label>
+                                                 <label>@trans('Zip Code')</label>
                                                  <input type="text" name="zip_code" class="form-control" placeholder="@trans(' Zip Code  ')" value="{{ $customer->zip_code }}">
                                              </div>
                      
