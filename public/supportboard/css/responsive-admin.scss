@@ -19,8 +19,6 @@ $color-red: rgb(202, 52, 52);
 $color-green: rgb(26, 146, 96);
 $border-color: rgb(212, 212, 212);
 
-
-
 /*
 
 # GLOBAL
@@ -80,15 +78,28 @@ body {
     margin: 0 15px;
 }
 
+.sb-label-date-top {
+    top: 50px;
+    right: 0;
+}
+
 .sb-admin-box {
     border: none;
 
-    &.sb-rich-login {
+    .sb-bottom {
+        display: block;
+
+        div {
+            margin: 10px 0 0 0 !important;
+        }
+    }
+
+    &.sb-rich-login, &.sb-cloud-box {
         .sb-input {
             display: block;
 
             input {
-                margin-top: 10px;
+                margin-top: 10px !important;
             }
         }
     }
@@ -98,7 +109,7 @@ body {
     width: 100%;
     padding: 0;
     background: $white;
-    -webkit-tap-highlight-color: #96c1e370;
+    -webkit-tap-highlight-color: rgba(150, 194, 227, 0.44);
     user-select: auto;
 
     > main {
@@ -121,7 +132,7 @@ body {
 
     .sb-profile-edit-box .sb-btn, .sb-profile-box .sb-btn {
         user-select: auto;
-        -webkit-tap-highlight-color: #96c1e370;
+        -webkit-tap-highlight-color: rgba(150, 194, 227, 0.44);
     }
 
     .sb-top-bar .sb-btn.sb-icon {
@@ -134,7 +145,7 @@ body {
         background: none;
         border-radius: 4px;
         user-select: auto;
-        -webkit-tap-highlight-color: #96c1e370;
+        -webkit-tap-highlight-color: rgba(150, 194, 227, 0.44);
 
         &:before {
             color: $color-blue !important;
@@ -971,7 +982,7 @@ div ul.sb-menu li, .sb-select ul li {
         }
 
         .sb-list > div {
-            margin: 10px 10px 30px 15px !important;
+            margin: 2px 10px 2px 15px;
             max-width: calc(100% - 55px);
             box-sizing: border-box;
 
@@ -993,8 +1004,25 @@ div ul.sb-menu li, .sb-select ul li {
                 border-radius: 50%;
                 text-align: center !important;
                 line-height: 35px;
-                top: 10px;
+                top: 4px;
                 overflow: hidden;
+            }
+
+            .sb-time {
+                left: 5px;
+                right: auto;
+                bottom: -13px;
+                top: auto;
+                background: rgba(0, 0, 0, .5);
+                color: #FFF;
+                border-radius: 3px;
+                padding: 2px 5px 1px 5px;
+                z-index: 2;
+            }
+
+            &.sb-right .sb-time {
+                right: 5px;
+                left: auto;
             }
 
             &.sb-right .sb-menu-btn {
@@ -1034,7 +1062,19 @@ div ul.sb-menu li, .sb-select ul li {
     font-size: 20px;
     line-height: 0;
     top: -1px;
-    right: 50px;
+    right: 0;
+}
+
+#intent-preview-box.sb-active {
+    max-width: 100%;
+    width: auto;
+    min-height: 0;
+    height: auto !important;
+    display: block !important;
+}
+
+.sb-dialogflow-intent-box .sb-title.sb-title-search .sb-search-btn.sb-active {
+    margin-left: -15px;
 }
 
 /*
@@ -1382,4 +1422,8 @@ div ul.sb-menu li, .sb-select ul li {
         margin-bottom: 0;
         border-bottom: none;
     }
+}
+
+grammarly-editor-plugin {
+    --grammarly-button-position-right: 25px;
 }

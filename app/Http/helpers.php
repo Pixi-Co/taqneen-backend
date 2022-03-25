@@ -594,7 +594,6 @@ if (!function_exists('find_or_create_p')) {
     }
 }
 
-
 if (!function_exists('__')) {
 
     /**
@@ -644,9 +643,6 @@ if (!function_exists('__')) {
         }
     }
 }
-
-
-
 
 if (!function_exists('trans')) {
     /**

@@ -6,7 +6,7 @@
  * ==========================================================
  *
  * Slack response listener. This file receive the Slack messages of the agents forwarded by board.support. This file requires the Slack App. 
- * © 2021 board.support. All rights reserved.
+ * © 2017-2022 board.support. All rights reserved.
  *
  */
 

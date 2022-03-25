@@ -6,7 +6,7 @@
  * ==========================================================
  *
  * Facebook Messenger response listener. This file receive the messages sent by the Facebook users to your Facebook pages forwarded by board.support. This file requires the Messenger App.
- * © 2021 board.support. All rights reserved.
+ * © 2017-2022 board.support. All rights reserved.
  *
  */
 

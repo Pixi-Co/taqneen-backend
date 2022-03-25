@@ -5,7 +5,7 @@
  * COMPONENTS.PHP
  * ==========================================================
  *
- * Library of static html components for the admin area. This file must not be executed directly. � 2021 board.support. All rights reserved.
+ * Library of static html components for the admin area. This file must not be executed directly. � 2017-2022 board.support. All rights reserved.
  *
  */
 
@@ -223,7 +223,7 @@ function sb_login_box() { ?>
         <div class="sb-top-bar">
             <img src="<?php echo sb_get_setting('login-icon') != false ? sb_get_setting('login-icon') : SB_URL . '/media/logo.svg' ?>" />
             <div class="sb-title"><?php sb_e(sb_get_setting('admin-title', 'Sign into')) ?></div>
-            <div class="sb-text"><?php sb_e(sb_get_setting('login-message', defined('SB_WP') ? 'Please insert email and password of your WordPress account' : 'To continue to Support Board')) ?></div>
+            <div class="sb-text"><?php echo sb_get_setting('login-message', defined('SB_WP') ? sb_('Please insert email and password of your WordPress account') : sb_('To continue to') . ' Support Board') ?></div>
         </div>
         <div class="sb-main">
             <div id="email" class="sb-input">
@@ -311,7 +311,7 @@ function sb_updates_box() { ?>
                 <a class="sb-update sb-btn sb-icon">
                     <i class="sb-icon-reload"></i><?php sb_e('Update now') ?>
                 </a>
-                <a href="http://board.support/changes" target="_blank" class="sb-btn-text">
+                <a href="https://board.support/changes" target="_blank" class="sb-btn-text">
                     <i class="sb-icon-clock"></i><?php sb_e('Change Log') ?>
                 </a>
             </div>
@@ -458,9 +458,8 @@ function sb_direct_message_box() { ?>
                     <i class="sb-icon-plane"></i><?php sb_e('Send message now') ?>
                 </a>
                 <div></div>
-                <a class="sb-btn-text" target="_blank" href="https://board.support/docs#direct-message">
-                    <i class="sb-icon-help"></i>
-                </a>
+                <?php if (!defined('SB_CLOUD')) echo '<a class="sb-btn-text" target="_blank" href="https://board.support/docs#direct-message"><i class="sb-icon-help"></i></a>' ?>
+                
             </div>
         </div>
     </div>
@@ -612,20 +611,24 @@ function sb_component_admin() {
         ['SB_WP', 'wordpress', 'WordPress'], 
         ['SB_DIALOGFLOW', 'dialogflow', 'Dialogflow', 'Connect smart chatbots and automate conversations by using one of the most advanced forms of artificial intelligence in the world.'],
         ['SB_TICKETS', 'tickets', 'Tickets', 'Provide help desk support to your customers by including a ticket area, with all chat features included, on any web page in seconds.'],
-        ['SB_MESSENGER', 'messenger', 'Messenger', 'Read, manage and reply to all messages sent to your Facebook pages directly from Support Board, and keep your communication in one place.'],
+        ['SB_MESSENGER', 'messenger', 'Messenger', 'Read, manage and reply to all messages sent to your Facebook pages and Instagram accounts directly from Support Board.'],
         ['SB_WHATSAPP', 'whatsapp', 'WhatsApp', 'Lets your users reach you via WhatsApp. Read and reply to all messages sent to your WhatsApp Business account directly from Support Board.'],
+        ['SB_TWITTER', 'twitter', 'Twitter', 'Lets your users reach you via Twitter. Read and reply to all messages sent to your Twitter account directly from Support Board.'],
+        ['SB_TELEGRAM', 'telegram', 'Telegram', 'Connect your Telegram bot to Support Board to read and reply to all messages sent to your Telegram bot directly in Support Board.'],
+        ['SB_WECHAT', 'wechat', 'WeChat', 'Lets your users reach you via WeChat. Read and reply to all messages sent to your WeChat official account directly from Support Board.'],
         ['SB_WOOCOMMERCE', 'woocommerce', 'WooCommerce', 'Increase sales, provide better support, and faster solutions, by integrating WooCommerce with Support Board.'],
         ['SB_SLACK', 'slack', 'Slack', 'Communicate with your users right from Slack. Send and receive messages and attachments, use emojis, and much more.'], 
+        ['SB_ZENDESK', 'zendesk', 'Zendesk', 'Automatically sync Zendesk customers with Support Board, view Zendesk tickets, or create new ones without leaving Support Board.'],
         ['SB_UMP', 'ump', 'Ultimate Membership Pro', 'Enable ticket and chat support for subscribers only, view member profile details and subscription details in the admin area.'],
         ['SB_PERFEX', 'perfex', 'Perfex', 'Synchronize your Perfex customers in real-time and let them contact you via chat! View profile details, proactively engage them, and more.'],
         ['SB_WHMCS', 'whmcs', 'Whmcs', 'Synchronize your customers in real-time, chat with them and boost their engagement, or provide a better and faster support.'],
         ['SB_AECOMMERCE', 'aecommerce', 'Active eCommerce', 'Increase sales and connect you and sellers with customers in real-time by integrating Active eCommerce with Support Board.'],
         ['SB_ARMEMBER', 'armember', 'ARMember', 'Synchronize customers, enable ticket and chat support for subscribers only, view subscription plans in the admin area.']
     ];
-    $logged = $active_user && sb_is_agent($active_user['user_type']);
+    $logged = $active_user && sb_is_agent($active_user['user_type']) && (!defined('SB_WP') || !sb_get_setting('wp-force-logout') || sb_wp_verify_admin_login());
     $is_admin = $active_user && $active_user['user_type'] == 'admin';
     $sms = sb_get_multi_setting('sms', 'sms-user');
-    $css = ($logged ? 'sb-admin' : 'sb-admin-start') . (sb_get_setting('rtl-admin') ? ' sb-rtl' : '') . ($is_cloud ? ' sb-cloud' : '');
+    $css = ($logged ? 'sb-admin' : 'sb-admin-start') . (sb_get_setting('rtl-admin') || ($is_cloud && defined('SB_CLOUD_DEFAULT_RTL')) ? ' sb-rtl' : '') . ($is_cloud ? ' sb-cloud' : '');
     if (!$is_cloud && !sb_box_ve()) return;
 
 ?>
@@ -633,7 +636,7 @@ function sb_component_admin() {
         <?php if ($logged) { ?>
         <div class="sb-header">
             <div class="sb-admin-nav">
-                <img src="<?php echo SB_URL ?>/media/icon.svg" />
+                <img src="<?php echo $is_cloud ? SB_CLOUD_BRAND_ICON : sb_get_setting('admin-icon', SB_URL . '/media/icon.svg') ?>" />
                 <div>
                     <a id="sb-conversations" class="sb-active">
                         <span>
@@ -668,10 +671,10 @@ function sb_component_admin() {
                             </ul>
                         </div>
                     </div>
-                    <?php if ($is_admin) echo '<a href="http://board.support/docs/' . ($is_cloud ? '?cloud' : '') . '" target="_blank" class="sb-docs"><i class="sb-icon-help"></i></a><a href="#" class="sb-version">' . SB_VERSION . '</a>' ?> 
+                    <?php if ($is_admin && (!$is_cloud || defined('SB_CLOUD_DOCS'))) echo '<a href="' . ($is_cloud ? SB_CLOUD_DOCS : 'https://board.support/docs') . '" target="_blank" class="sb-docs"><i class="sb-icon-help"></i></a><a href="#" class="sb-version">' . SB_VERSION . '</a>' ?> 
                 </div>
                 <div class="sb-mobile">
-                    <?php if ($is_admin) echo '<a href="#" class="edit-profile">' . sb_('Edit profile') . '</a><a href="#" class="sb-docs">' . sb_('Docs') . '</a><a href="#" class="sb-version">' . sb_('Updates') . '</a>' ?>
+                    <?php if ($is_admin) echo '<a href="#" class="edit-profile">' . sb_('Edit profile') . '</a>'  . ($is_cloud ? ('<a href="#" data-value="account">' . sb_('Account') . '</a>') : '') . '<a href="#" class="sb-docs">' . sb_('Docs') . '</a><a href="#" class="sb-version">' . sb_('Updates') . '</a>' ?>
                     <a href="#" class="sb-online" data-value="status"><?php sb_e('Online') ?></a>
                     <a href="#" class="logout"><?php sb_e('Logout') ?></a>
                 </div>
@@ -728,7 +731,7 @@ function sb_component_admin() {
                                         </a>
                                     </li>
                                     <li>
-                                        <a data-value="transcript" class="sb-btn-icon" data-sb-tooltip="<?php sb_e('Download transcript') ?>">
+                                        <a data-value="transcript" class="sb-btn-icon" data-sb-tooltip="<?php sb_e('Transcript') ?>" data-action="<?php echo sb_get_multi_setting('transcript', 'transcript-action') ?>">
                                             <i class="sb-icon-download"></i>
                                         </a>
                                     </li>
@@ -737,9 +740,10 @@ function sb_component_admin() {
                                             <i class="sb-icon-back"></i>
                                         </a>
                                     </li>
-                                    <?php if ($is_admin) echo '<li><a data-value="delete" class="sb-btn-icon sb-btn-red" data-sb-tooltip="' . sb_('Delete conversation') . '"><i class="sb-icon-delete"></i></a></li><li><a data-value="empty-trash" class="sb-btn-icon sb-btn-red" data-sb-tooltip="' . sb_('Empty trash') . '"><i class="sb-icon-delete"></i></a></li>' ?>
+                                    <?php if ($is_admin || sb_get_setting('agents-delete')) echo '<li><a data-value="delete" class="sb-btn-icon sb-btn-red" data-sb-tooltip="' . sb_('Delete conversation') . '"><i class="sb-icon-delete"></i></a></li><li><a data-value="empty-trash" class="sb-btn-icon sb-btn-red" data-sb-tooltip="' . sb_('Empty trash') . '"><i class="sb-icon-delete"></i></a></li>' ?>
                                 </ul>
                             </div>
+                            <div class="sb-label-date-top"></div>
                         </div>
                         <div class="sb-list"></div>
                         <?php sb_component_editor(true); ?>
@@ -753,7 +757,7 @@ function sb_component_admin() {
                                 </p>
                             </div>
                         </div>
-                        <?php if (sb_get_setting('chat-sound-admin') != 'n') echo '<audio id="sb-audio" preload="auto"><source src="' . SB_URL . '/media/sound.mp3" type="audio/mpeg"></audio><audio id="sb-audio-out" preload="auto"><source src="' . SB_URL . '/media/sound-out.mp3" type="audio/mpeg"></audio>' ?>
+                        <?php if (sb_get_setting('chat-sound-admin') != 'n' || sb_get_setting('online-users-notification')) echo '<audio id="sb-audio" preload="auto"><source src="' . SB_URL . '/media/sound.mp3" type="audio/mpeg"></audio><audio id="sb-audio-out" preload="auto"><source src="' . SB_URL . '/media/sound-out.mp3" type="audio/mpeg"></audio>' ?>
                     </div>
                     <div class="sb-user-details">
                         <div class="sb-top">
@@ -810,7 +814,7 @@ function sb_component_admin() {
                                 <li data-type="online">
                                     <?php sb_e('Online') ?>
                                 </li>
-                                <?php if ($is_admin || sb_get_setting('admin-agents-tab')) { echo '<li data-type="agent">' . sb_('Agents &amp; Admins') . '</li>'; } ?>
+                                <?php if ($is_admin || sb_get_setting('admin-agents-tab')) { echo '<li data-type="agent">' . sb_('Agents & Admins') . '</li>'; } ?>
                             </ul>
                         </div>
                         <div class="sb-menu-mobile">
@@ -919,7 +923,7 @@ function sb_component_admin() {
                                 <li id="tab-various">
                                     <?php sb_e('Miscellaneous') ?>
                                 </li>
-                                <?php for ($i = 0; $i < count($apps); $i++) { if (defined($apps[$i][0])) echo '<li id="tab-' . $apps[$i][1] . '">' . $apps[$i][2] . '</li>'; } ?>
+                                <?php for ($i = 0; $i < count($apps); $i++) { if (defined($apps[$i][0])) echo '<li id="tab-' . $apps[$i][1] . '">' . sb_($apps[$i][2]) . '</li>'; } ?>
                                 <li id="tab-apps">
                                     <?php sb_e('Apps') ?>
                                 </li>
@@ -992,7 +996,7 @@ function sb_component_admin() {
                                         </h2>
                                         <div class="sb-input-setting sb-type-textarea sb-article-content">
                                             <div>
-                                                <textarea name="article_content" ></textarea>
+                                                <textarea></textarea>
                                             </div>
                                         </div>
                                         <h2>
@@ -1001,14 +1005,6 @@ function sb_component_admin() {
                                         <div class="sb-input-setting sb-type-text sb-article-link">
                                             <div>
                                                 <input type="text" />
-                                            </div>
-                                        </div>
-                                        <h2>
-                                            <?php sb_e('Business Types') ?>
-                                        </h2>
-                                        <div class="sb-input-setting sb-type-select sb-article-business-type">
-                                            <div>
-                                                <select></select>
                                             </div>
                                         </div>
                                         <h2>
@@ -1040,8 +1036,6 @@ function sb_component_admin() {
                                             </div>
                                         </div>
                                         <h2 id="sb-article-id"></h2>
-
-                                        <!---->
                                     </div>
                                 </div>
                             </div>
@@ -1064,6 +1058,9 @@ function sb_component_admin() {
                                             </li>
                                             <li data-value="design">
                                                 <?php sb_e('Design') ?>
+                                            </li>
+                                            <li data-value="more">
+                                                <?php sb_e('More') ?>
                                             </li>
                                         </ul>
                                     </div>
@@ -1108,6 +1105,8 @@ function sb_component_admin() {
                                                 <ul>
                                                     <li data-value="front" class="sb-active"><?php sb_e('Front End') ?></li>
                                                     <li data-value="admin"><?php sb_e('Admin') ?></li>
+                                                    <li data-value="admin/js"><?php sb_e('Client side admin') ?></li>
+                                                    <li data-value="admin/settings"><?php sb_e('Settings') ?></li>
                                                 </ul>
                                             </div>
                                             <a class="sb-btn sb-icon sb-add-translation"><i class="sb-icon-plus"></i><?php sb_e('New translation') ?></a>
@@ -1174,16 +1173,16 @@ function sb_component_admin() {
                                     <?php sb_e('Registrations') ?>
                                 </li>
                                 <li id="agents-response-time">
-                                    <?php sb_e('Agents response time') ?>
+                                    <?php sb_e('Agent response time') ?>
                                 </li>
                                 <li id="agents-conversations">
-                                    <?php sb_e('Agents conversations') ?>
+                                    <?php sb_e('Agent conversations') ?>
                                 </li>
                                 <li id="agents-conversations-time">
-                                    <?php sb_e('Agents conversations time') ?>
+                                    <?php sb_e('Agent conversations time') ?>
                                 </li>
                                 <li id="agents-ratings">
-                                    <?php sb_e('Agents ratings') ?>
+                                    <?php sb_e('Agent ratings') ?>
                                 </li>
                                 <li id="countries">
                                     <?php sb_e('Countries') ?>
@@ -1220,13 +1219,13 @@ function sb_component_admin() {
                                     <?php sb_e('Searches') ?>
                                 </li>
                                 <li id="articles-views">
-                                    <?php sb_e('Articles views') ?>
+                                    <?php sb_e('Article views') ?>
                                 </li>
                                 <li id="articles-views-single">
-                                    <?php sb_e('Articles views by article') ?>
+                                    <?php sb_e('Article views by article') ?>
                                 </li>
                                  <li id="articles-ratings">
-                                    <?php sb_e('Articles ratings') ?>
+                                    <?php sb_e('Article ratings') ?>
                                 </li>
                             </ul>
                         </div>
@@ -1256,9 +1255,11 @@ function sb_component_admin() {
                   if (defined('SB_DIALOGFLOW')) sb_dialogflow_intent_box();
                   if (!sb_get_setting('disable-notes')) sb_notes_box();
                   if ($is_admin) {
-                      sb_updates_box();
-                      sb_requirements_box();
-                      sb_app_box();
+                      if (!$is_cloud) {
+                          sb_updates_box();
+                          sb_requirements_box();
+                          sb_app_box();
+                      }
                       sb_languages_box();
                   }
 
@@ -1280,6 +1281,7 @@ function sb_component_admin() {
     <?php 
     if (!empty(sb_get_setting('custom-js')) && !$is_cloud) echo '<script id="sb-custom-js" src="' . sb_get_setting('custom-js') . '"></script>';
     if (!empty(sb_get_setting('custom-css')) && !$is_cloud) echo '<link id="sb-custom-css" rel="stylesheet" type="text/css" href="' . sb_get_setting('custom-css') . '" media="all">';
+    if ($is_cloud) sb_cloud_css_js();
     ?>
 <?php } ?>
 <?php
@@ -1326,11 +1328,12 @@ function sb_dialogflow_languages_list() {
 
 /*
  * ----------------------------------------------------------
- * APPS AREA
+ * MISCELLANEOUS
  * ----------------------------------------------------------
  *
  * 1. Echo the apps settings and apps area
  * 2. Echo the apps conversation panel container
+ * 3. Code check
  * 
  */
 
@@ -1347,7 +1350,7 @@ function sb_apps_area($apps) {
     $code .= '<div><div class="sb-apps">';
     for ($i = 1; $i < count($apps); $i++) { 
         if (($wp && !in_array($apps[$i][0], $apps_php)) || (!$wp && !in_array($apps[$i][0], $apps_wp))) {
-            $code .= '<div data-app="' . $apps[$i][1] . '">' . (defined($apps[$i][0]) ? '<i class="sb-icon-check"></i>' : '' ) . ' <img src="' . SB_URL . '/media/apps/' . $apps[$i][1] . '.svg" /><h2>' . $apps[$i][2] . '</h2><p>' . sb_($apps[$i][3]) . '</p></div>';
+            $code .= '<div data-app="' . $apps[$i][1] . '">' . (defined($apps[$i][0]) ? '<i class="sb-icon-check"></i>' : '' ) . ' <img src="' . SB_URL . '/media/apps/' . $apps[$i][1] . '.svg" /><h2>' . $apps[$i][2] . '</h2><p>' . sb_s($apps[$i][3]) . '</p></div>';
         }
     }
     echo $code . '</div></div>';
@@ -1356,7 +1359,7 @@ function sb_apps_area($apps) {
 function sb_apps_panel() {
     $code = '';
     $collapse = sb_get_setting('collapse') ? ' sb-collapse' : '';
-    $panels = [['SB_UMP', 'ump'], ['SB_WOOCOMMERCE', 'woocommerce'], ['SB_PERFEX', 'perfex'], ['SB_WHMCS', 'whmcs'], ['SB_AECOMMERCE', 'aecommerce'], ['SB_ARMEMBER', 'armember']];
+    $panels = [['SB_UMP', 'ump'], ['SB_WOOCOMMERCE', 'woocommerce'], ['SB_PERFEX', 'perfex'], ['SB_WHMCS', 'whmcs'], ['SB_AECOMMERCE', 'aecommerce'], ['SB_ARMEMBER', 'armember'], ['SB_ZENDESK', 'zendesk']];
     for ($i = 0; $i < count($panels); $i++) {
         if (defined($panels[$i][0])) $code .= '<div class="sb-panel-details sb-panel-' . $panels[$i][1] . $collapse . '"></div>';
     }
@@ -1364,10 +1367,11 @@ function sb_apps_panel() {
 }
 
 function sb_box_ve() {
-    /*if ((!isset($_COOKIE['SA_' . 'VGC' . 'KMENS']) && !isset($_COOKIE['_ga_' . 'VGC' . 'KMENS'])) || !password_verify('VGC' . 'KMENS', isset($_COOKIE['_ga_' . 'VGC' . 'KMENS']) ? $_COOKIE['_ga_' . 'VGC' . 'KMENS'] : $_COOKIE['SA_' . 'VGC' . 'KMENS'])) { // Deprecated. _ga will be removed
+    return true;
+    if ((!isset($_COOKIE['SA_' . 'VGC' . 'KMENS']) && !isset($_COOKIE['_ga_' . 'VGC' . 'KMENS'])) || !password_verify('VGC' . 'KMENS', isset($_COOKIE['_ga_' . 'VGC' . 'KMENS']) ? $_COOKIE['_ga_' . 'VGC' . 'KMENS'] : $_COOKIE['SA_' . 'VGC' . 'KMENS'])) { // Deprecated. _ga will be removed
         echo file_get_contents(SB_PATH . '/resources/sb.html');
         return false;
-    }*/
+    }
     return true;
 }
 

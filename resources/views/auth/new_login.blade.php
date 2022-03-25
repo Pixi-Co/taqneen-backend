@@ -63,6 +63,11 @@
         .form-group {
             position: relative;
         }
+
+        .login-card {
+            background-image: url('/images/taqneen_login.jpg')!important;
+            background-size: cover;
+        }
     </style>
 </head>
 

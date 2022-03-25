@@ -6,7 +6,7 @@
  * ==========================================================
  *
  * Pusher authentication file.
- * © 2021 board.support. All rights reserved.
+ * © 2017-2022 board.support. All rights reserved.
  *
  */
 
@@ -29,7 +29,7 @@ if ($active_user) {
     if (strpos($_POST['channel_name'], 'presence') === false) {
         die($pusher->socket_auth($_POST['channel_name'], $_POST['socket_id']));
     } else {
-        die($pusher->presence_auth($_POST['channel_name'], $_POST['socket_id'], $active_user['id'], ['user_type' => $active_user['user_type']]));
+        die($pusher->presence_auth($_POST['channel_name'], $_POST['socket_id'], $active_user['id'], ['id' => $active_user['id'], 'user_type' => $active_user['user_type']]));
     }
 } else die('Forbidden');
 

@@ -1,0 +1,23 @@
+© board.support. All rights reserved.
+
+This plugin is comprised of two parts.
+
+(1) the PHP code and integrated HTML are licensed under the General Public
+License (GPL). You will find a copy of the GPL in the same directory as this
+text file.
+
+(2) All other parts, but not limited to the CSS code, JavaScript code, images, and design are
+licensed according to the terms of your purchased license.
+
+You're allowed to install and use the Support Board software only on 1 website/domain per license. 
+The Envato Regular License purchase gives you the legal rights to install and use the Support Board software only on 1 website/domain.
+The Envato Extended License purchase does NOT give you the rights to re-sell or distribute Support Board, including parts of it, and including as a SAAS.
+
+The contents of the Support Board software are copyrighted. Support Board, and the Support Board logos, are trademarks of Support Board and may not be used without our express written permission. You can not duplicate, copy, sell, share, distribute or reuse any portion of the HTML/CSS/PHP/JS or visual design elements of the Support Board software, Support Board Apps (Slack, Dialogflow, Woocommerce, and all other apps and addons of Support Board) and this website (https://board.support/) without express written permission. You do not acquire any ownership rights by using the Support Board Service and the Support Board software. You can use our logos and graphics of this website, including the ones available on Envato only to promote(as affiliate or with any other marketing activity) the Support Board software and the Support Board Apps.
+
+All the parts of this plugin, including the CSS code, images, and design are
+licensed according to the license purchased from Envato.
+
+Read more about licensing here: 
+https://codecanyon.net/licenses/standard
+https://board.support/terms-of-service

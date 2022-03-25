@@ -417,7 +417,7 @@ TABLE
     grid-gap: 30px;
 
     > div, select, input {
-        overflow: hidden !important;  
+        overflow: hidden !important;
         min-width: 0 !important;
     }
 }
@@ -599,6 +599,10 @@ PROFILE LIST AND PANEL
     overflow: hidden;
 }
 
+.sb-list-items:not(:empty) + .sb-btn {
+    margin-top: 15px;
+}
+
 .sb-profile-list {
     padding: 0;
 
@@ -693,6 +697,11 @@ PROFILE LIST AND PANEL
     position: relative;
     overflow: hidden;
 
+    h3 img {
+        height: 11px;
+        margin-right: 5px;
+    }
+
     > div {
         position: relative;
 
@@ -785,7 +794,7 @@ PROFILE LIST AND PANEL
             }
 
             > span:last-child {
-                opacity: .6;
+                color: #7e8c98;
             }
 
             i {
@@ -967,8 +976,8 @@ PROFILE LIST AND PANEL
     }
 
     .sb-btn {
-        background-color: #fff;
-        color: #566069;
+        background-color: $white;
+        color: $color-gray;
         border: 1px solid #ccd2d5;
         box-shadow: 0 1px 1px rgba(0,0,0,0.12);
         padding: 0 10px;
@@ -978,9 +987,20 @@ PROFILE LIST AND PANEL
         line-height: 33px;
 
         &:hover {
-            color: #fff;
-            border-color: #028be5;
-            background-color: #028be5;
+            color: $white;
+            border-color: $color-blue;
+            background-color: $color-blue;
+        }
+
+        &.sb-loading {
+            width: 15px;
+            background-color: $white !important;
+            border: 1px solid $border-color !important;
+
+            &:before {
+                color: $color-blue;
+                cursor: default;
+            }
         }
     }
 
@@ -1198,6 +1218,7 @@ SAVED REPLIES POPUP
         margin-right: 15px;
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;
+        overflow: hidden;
 
         div {
             transition: $transition;
@@ -1320,7 +1341,12 @@ COLLAPSE
             transform: rotate(180deg);
         }
     }
+
+    .sb-btn + .sb-collapse-btn {
+        transform: translateY(10px);
+    }
 }
+
 
 /*
 
@@ -1920,7 +1946,7 @@ COLLAPSE
                     position: absolute;
                     right: -24px;
                     text-align: right;
-                    top: 15px;
+                    top: 11px;
                     color: $color-gray;
                     cursor: pointer;
                     transition: $transition;
@@ -1973,6 +1999,7 @@ COLLAPSE
 
             .sb-rich-message {
                 position: relative;
+                z-index: 1;
 
                 &:before {
                     content: "";
@@ -1981,13 +2008,13 @@ COLLAPSE
                     left: -15px;
                     right: -15px;
                     top: -15px;
-                    z-index: 8;
+                    z-index: 995;
                     transition: $transition;
                 }
 
-                &:hover:before {
-                    background-color: rgb(245, 245, 245);
-                    opacity: 0.5;
+                &:hover > div {
+                    opacity: .5;
+                    transition: $transition;
                 }
 
                 .sb-card-img + div + .sb-card-extra {
@@ -2152,7 +2179,7 @@ COLLAPSE
                 margin-top: 0;
             }
 
-            [data-id="token"], [data-id="woocommerce_session_key"], [data-id="perfex-id"], [data-id="whmcs-id"], [data-id="aecommerce-id"], [data-id="facebook-id"] {
+            [data-id="token"], [data-id="woocommerce_session_key"], [data-id="perfex-id"], [data-id="whmcs-id"], [data-id="aecommerce-id"], [data-id="facebook-id"], [data-id="wechat-id"] {
                 display: none;
             }
         }
@@ -2341,6 +2368,16 @@ COLLAPSE
         }
     }
 
+    .sb-list > div {
+        &:not(.sb-right) .sb-time {
+            left: calc(100% + 35px);
+        }
+
+        &.sb-right .sb-time {
+            right: calc(100% + 35px);
+        }
+    }
+
     &.sb-no-conversation .sb-no-conversation-message {
         display: flex;
     }
@@ -2472,7 +2509,7 @@ COLLAPSE
     }
 }
 
-@media (max-height: 770px) and (min-width: 429px) {
+@media (max-height: 900px) and (min-width: 429px) {
     .sb-area-settings > .sb-tab > .sb-nav, .sb-area-reports > .sb-tab > .sb-nav {
         overflow: hidden;
         overflow-y: scroll;
@@ -2939,7 +2976,7 @@ COLLAPSE
 
     &.sb-loading {
         width: 15px;
-        background: #FFF;
+        background: $white;
         border-color: #ccd2d5;
         cursor: default;
 
@@ -3051,6 +3088,10 @@ COLLAPSE
         height: 70px;
         max-height: 70px;
     }
+}
+
+[data-automation-type="more"] .sb-automation-values > h2 + div + h2, [data-automation-type="more"] .sb-automation-values > h2 + div + h2 + div {
+    display: none;
 }
 
 .sb-conditions {
@@ -4033,7 +4074,7 @@ COLLAPSE
 }
 
 #intent-preview-box {
-    max-width: 640px;
+    max-width: 600px;
     padding: 30px;
 
     > p {
@@ -4058,6 +4099,7 @@ COLLAPSE
 ==========================================================
 
 */
+
 .sb-loading-global {
     height: 36px;
     width: 36px;
@@ -4351,6 +4393,80 @@ COLLAPSE
     margin-right: 5px;
 }
 
+.sb-panel-zendesk {
+    .sb-list-items > a {
+        margin-bottom: 5px;
+
+        > span:first-child {
+            display: block;
+            line-height: 15px;
+            padding-left: 22px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+
+            i {
+                right: auto;
+                left: 15px;
+                font-style: normal;
+                height: 15px;
+                width: 15px;
+                line-height: 15px;
+                text-align: center;
+                border-radius: 3px;
+                font-size: 9px;
+                opacity: 1;
+                font-weight: 500;
+                color: $white;
+            }
+        }
+    }
+
+    .sb-btn {
+        margin-left: 15px;
+    }
+
+    #sb-zendesk-update-ticket {
+        top: 10px;
+
+        &:hover {
+            color: $color-blue;
+        }
+    }
+}
+
+.sb-zendesk-status-n {
+    background-color: rgb(255, 176, 87);
+    color: rgb(112, 56, 21) !important;
+}
+
+.sb-zendesk-status-o {
+    background-color: rgb(227, 79, 50);
+}
+
+.sb-zendesk-status-c {
+    background-color: rgb(19, 202, 126); 
+}
+
+.sb-zendesk-status-p {
+    background-color: rgb(48, 145, 236);
+    color: rgb(255, 255, 255);
+}
+
+.sb-zendesk-status-s {
+    background-color: rgb(135, 146, 157);
+}
+
+.sb-zendesk-sync:before {
+    content: "";
+    position: absolute;
+    width: 2px;
+    background: $color-blue;
+    height: calc(100% - 7px);
+    left: 0;
+    top: 0;
+}
+
 .sb-aecommerce-orders > a > span:last-child {
     margin-left: 15px;
 }
@@ -4366,14 +4482,12 @@ COLLAPSE
         margin-left: 0;
     }
 }
-
 /*
 
 # RESOURCES
 ==========================================================
 
 */
-
 .daterangepicker {
     position: absolute;
     color: inherit;
@@ -4723,13 +4837,16 @@ COLLAPSE
     }
 }
 
+grammarly-editor-plugin {
+    --grammarly-button-position-right: 430px;
+    --grammarly-button-position-bottom: 30px;
+}
 /*
 
 # CLOUD
 ==========================================================
 
 */
-
 .sb-cloud-admin {
     [id="user_type"], [id="first_name"], [id="last_name"], [id="password"], [id="email"], .sb-delete {
         display: none !important;
@@ -4743,14 +4860,12 @@ COLLAPSE
         display: none !important;
     }
 }
-
 /*
 
 # RESPONSIVE MEDIA SCREENS
 ==========================================================
 
 */
-
 @media (max-width: 1250px) {
     .sb-setting .repeater-item > div, .sb-input-setting .repeater-item > div,
     .sb-setting .input > div:not([data-type="textarea"]) {
@@ -4840,5 +4955,9 @@ COLLAPSE
     .sb-board > .sb-admin-list, .sb-board .sb-user-details {
         max-width: 330px;
         min-width: 330px;
+    }
+
+    grammarly-editor-plugin {
+        --grammarly-button-position-right: 355px;
     }
 }

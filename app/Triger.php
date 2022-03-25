@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
  
 
 class Triger { 
+    public static $NEW_SUBSCRIPTION = "NEW_SUBSCRIPTION";
     public static $RENEW_SUBSCRIPTION = "RENEW_SUBSCRIPTION";
     public static $EXPIRE_SUBSCRIPTION_DAY = "EXPIRE_SUBSCRIPTION_DAY";
     public static $CHANGE_SUBSCRIPTION_STATUS = "CHANGE_SUBSCRIPTION_STATUS";

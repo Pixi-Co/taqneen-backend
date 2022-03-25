@@ -7,11 +7,11 @@
  *
  * Insert here the information for the database connection and for other core settings.
  *
- */ 
-// load env file
+ */
+
 require_once "env.php";
 
- 
+
 /* Main folder url */
 define('MAIN_URL', env('SB_MAIN'));
 
@@ -32,7 +32,6 @@ define('SB_DB_HOST', env('DB_HOST'));
 
 /* MySQL port (optional) */
 define('SB_DB_PORT', '');
+/* [extra] */
 
- 
-/* [extra] */ 
 ?>

@@ -1,2859 +1,2892 @@
+
 /*
  * ==========================================================
  * ADMINISTRATION SCRIPT
  * ==========================================================
  *
- * Main Javascript admin file. © 2021 board.support. All rights reserved.
+ * Main Javascript admin file. © 2017-2022 board.support. All rights reserved.
  * 
  */
 
 'use strict';
-(function($) {
+(function ($) {
 
-        // Global
-        var admin;
-        var header;
+    // Global
+    var admin;
+    var header;
 
-        // Conversation  
-        var conversations = [];
-        var conversations_area;
-        var conversations_admin_list;
-        var conversations_admin_list_ul;
-        var saved_replies = false;
-        var saved_replies_list = false;
-        var woocommerce_products_box = false;
-        var woocommerce_products_box_ul = false;
-        var pagination = 1;
-        var notes_panel;
-        var attachments_panel;
-        var direct_message_box;
-        var dialogflow_intent_box;
-        var suggestions_area;
-        var pagination_count = 1;
+    // Conversation  
+    var conversations = [];
+    var conversations_area;
+    var conversations_admin_list;
+    var conversations_admin_list_ul;
+    var saved_replies = false;
+    var saved_replies_list = false;
+    var woocommerce_products_box = false;
+    var woocommerce_products_box_ul = false;
+    var pagination = 1;
+    var notes_panel;
+    var attachments_panel;
+    var direct_message_box;
+    var dialogflow_intent_box;
+    var suggestions_area;
+    var pagination_count = 1;
 
-        // Users
-        var users_area;
-        var users_table;
-        var users_table_menu;
-        var users = {};
-        var users_pagination = 1;
-        var users_pagination_count = 1;
-        var profile_box;
-        var profile_edit_box;
+    // Users
+    var users_area;
+    var users_table;
+    var users_table_menu;
+    var users = {};
+    var users_pagination = 1;
+    var users_pagination_count = 1;
+    var profile_box;
+    var profile_edit_box;
 
-        // Settings
-        var settings_area;
-        var articles_area;
-        var articles_category_selects;
-        var articles_category_parent_select;
-        var article_business_type;
-        var automations_area;
-        var automations_area_select;
-        var automations_area_nav;
-        var conditions_area;
+    // Settings
+    var settings_area;
+    var articles_area;
+    var articles_category_selects;
+    var articles_category_parent_select;
+    var automations_area;
+    var automations_area_select;
+    var automations_area_nav;
+    var conditions_area;
 
-        // Reports
-        var reports_area;
+    // Reports
+    var reports_area;
 
-        // Miscellaneus
-        var upload_target;
-        var upload_on_success;
-        var language_switcher_target;
-        var timeout;
-        var alertOnConfirmation;
-        var responsive = $(window).width() < 429;
-        var scrolls = { last: 0, header: true, always_hidden: false };
-        var localhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-        var today = new Date();
-        var is_busy = false;
-        var agent_online = true;
-        var active_interval = false;
-        var pusher_timeout;
-        var temp;
-        var overlay;
-        var SITE_URL;
-        var ND = 'undefined';
-        var wp_admin = false;
+    // Miscellaneus
+    var upload_target;
+    var upload_on_success;
+    var language_switcher_target;
+    var timeout;
+    var alertOnConfirmation;
+    var responsive = $(window).width() < 429;
+    var scrolls = { last: 0, header: true, always_hidden: false };
+    var localhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    var today = new Date();
+    var is_busy = false;
+    var agent_online = true;
+    var active_interval = false;
+    var pusher_timeout;
+    var temp;
+    var overlay;
+    var SITE_URL;
+    var ND = 'undefined';
+    var wp_admin = false;
+    var x_down = false;
+    var y_down = false;
 
-        /*
-         * ----------------------------------------------------------
-         * External plugins
-         * ----------------------------------------------------------
-         */
+    /*
+    * ----------------------------------------------------------
+    * External plugins
+    * ----------------------------------------------------------
+    */
 
-        // miniTip 1.5.3 | (c) 2011, James Simpson | Dual licensed under the MIT and GPL
-        $.fn.miniTip = function(t) {
-            var e = $.extend({ title: '', content: !1, delay: 300, anchor: 'n', event: 'hover', fadeIn: 200, fadeOut: 200, aHide: !0, maxW: '250px', offset: 5, stemOff: 0, doHide: !1 }, t);
-            0 == admin.find('#miniTip').length && admin.append('<div id="miniTip" class="sb-tooltip"><div></div></div>');
-            var n = admin.find('#miniTip'),
-                a = n.find('div');
-            return e.doHide ? (n.stop(!0, !0).fadeOut(e.fadeOut), !1) : this.each(function() {
-                var t = $(this),
-                    o = e.content ? e.content : t.attr('title');
-                if ('' != o && void 0 !== o) {
-                    window.delay = !1;
-                    var i = !1,
-                        r = !0;
-                    e.content || t.removeAttr('title'), 'hover' == e.event ? (t.hover(function() { n.removeAttr('click'), r = !0, s.call(this) }, function() { r = !1, d() }), e.aHide || n.hover(function() { i = !0 }, function() { i = !1, setTimeout(function() {!r && !n.attr('click') && d() }, 20) })) : 'click' == e.event && (e.aHide = !0, t.click(function() { return n.attr('click', 't'), n.data('last_target') !== t ? s.call(this) : 'none' == n.css("display") ? s.call(this) : d(), n.data('last_target', t), $('html').unbind('click').click(function(t) { 'block' == n.css('display') && !$(t.target).closest('#miniTip').length && ($('html').unbind('click'), d()) }), !1 }));
-                    var s = function() {
-                            e.show && e.show.call(this, e), e.content && '' != e.content && (o = e.content), a.html(o), e.render && e.render(n), n.hide().width('').width(n.width()).css('max-width', e.maxW);
-                            var i = t.is('area');
-                            if (i) {
-                                var r, s = [],
-                                    d = [],
-                                    c = t.attr('coords').split(',');
+    // miniTip 1.5.3 | (c) 2011, James Simpson | Dual licensed under the MIT and GPL
+    $.fn.miniTip = function (t) { var e = $.extend({ title: '', content: !1, delay: 300, anchor: 'n', event: 'hover', fadeIn: 200, fadeOut: 200, aHide: !0, maxW: '250px', offset: 5, stemOff: 0, doHide: !1 }, t); 0 == admin.find('#miniTip').length && admin.append('<div id="miniTip" class="sb-tooltip"><div></div></div>'); var n = admin.find('#miniTip'), a = n.find('div'); return e.doHide ? (n.stop(!0, !0).fadeOut(e.fadeOut), !1) : this.each(function () { var t = $(this), o = e.content ? e.content : t.attr('title'); if ('' != o && void 0 !== o) { window.delay = !1; var i = !1, r = !0; e.content || t.removeAttr('title'), 'hover' == e.event ? (t.hover(function () { n.removeAttr('click'), r = !0, s.call(this) }, function () { r = !1, d() }), e.aHide || n.hover(function () { i = !0 }, function () { i = !1, setTimeout(function () { !r && !n.attr('click') && d() }, 20) })) : 'click' == e.event && (e.aHide = !0, t.click(function () { return n.attr('click', 't'), n.data('last_target') !== t ? s.call(this) : 'none' == n.css("display") ? s.call(this) : d(), n.data('last_target', t), $('html').unbind('click').click(function (t) { 'block' == n.css('display') && !$(t.target).closest('#miniTip').length && ($('html').unbind('click'), d()) }), !1 })); var s = function () { e.show && e.show.call(this, e), e.content && '' != e.content && (o = e.content), a.html(o), e.render && e.render(n), n.hide().width('').width(n.width()).css('max-width', e.maxW); var i = t.is('area'); if (i) { var r, s = [], d = [], c = t.attr('coords').split(','); function h(t, e) { return t - e } for (r = 0; r < c.length; r++)s.push(c[r++]), d.push(c[r]); var f = t.parent().attr('name'), l = $('img[usemap=\\#' + f + ']').offset(), p = parseInt(l.left, 10) + parseInt((parseInt(s.sort(h)[0], 10) + parseInt(s.sort(h)[s.length - 1], 10)) / 2, 10), u = parseInt(l.top, 10) + parseInt((parseInt(d.sort(h)[0], 10) + parseInt(d.sort(h)[d.length - 1], 10)) / 2, 10) } else u = parseInt(t.offset().top, 10), p = parseInt(t.offset().left, 10); var m = i ? 0 : parseInt(t.outerWidth(), 10), I = i ? 0 : parseInt(t.outerHeight(), 10), v = n.outerWidth(), w = n.outerHeight(), g = Math.round(p + Math.round((m - v) / 2)), T = Math.round(u + I + e.offset + 8), b = Math.round(v - 16) / 2 - parseInt(n.css('borderLeftWidth'), 10), y = 0, H = p + m + v + e.offset + 8 > parseInt($(window).width(), 10), W = v + e.offset + 8 > p, k = w + e.offset + 8 > u - $(window).scrollTop(), M = u + I + w + e.offset + 8 > parseInt($(window).height() + $(window).scrollTop(), 10), x = e.anchor; W || 'e' == e.anchor && !H ? 'w' != e.anchor && 'e' != e.anchor || (x = 'e', y = Math.round(w / 2 - 8 - parseInt(n.css('borderRightWidth'), 10)), b = -8 - parseInt(n.css('borderRightWidth'), 10), g = p + m + e.offset + 8, T = Math.round(u + I / 2 - w / 2)) : (H || 'w' == e.anchor && !W) && ('w' != e.anchor && 'e' != e.anchor || (x = 'w', y = Math.round(w / 2 - 8 - parseInt(n.css('borderLeftWidth'), 10)), b = v - parseInt(n.css('borderLeftWidth'), 10), g = p - v - e.offset - 8, T = Math.round(u + I / 2 - w / 2))), M || 'n' == e.anchor && !k ? 'n' != e.anchor && 's' != e.anchor || (x = 'n', y = w - parseInt(n.css('borderTopWidth'), 10), T = u - (w + e.offset + 8)) : (k || 's' == e.anchor && !M) && ('n' != e.anchor && 's' != e.anchor || (x = 's', y = -8 - parseInt(n.css('borderBottomWidth'), 10), T = u + I + e.offset + 8)), 'n' == e.anchor || 's' == e.anchor ? v / 2 > p ? (g = g < 0 ? b + g : b, b = 0) : p + v / 2 > parseInt($(window).width(), 10) && (g -= b, b *= 2) : k ? (T += y, y = 0) : M && (T -= y, y *= 2), delay && clearTimeout(delay), delay = setTimeout(function () { n.css({ 'margin-left': g + 'px', 'margin-top': T + 'px' }).stop(!0, !0).fadeIn(e.fadeIn) }, e.delay), n.attr('class', 'sb-tooltip ' + x) }, d = function () { (!e.aHide && !i || e.aHide) && (delay && clearTimeout(delay), delay = setTimeout(function () { c() }, e.delay)) }, c = function () { !e.aHide && !i || e.aHide ? (n.stop(!0, !0).fadeOut(e.fadeOut), e.hide && e.hide.call(this)) : setTimeout(function () { d() }, 200) } } }) };
 
-                                function h(t, e) { return t - e }
-                                for (r = 0; r < c.length; r++) s.push(c[r++]), d.push(c[r]);
-                                var f = t.parent().attr('name'),
-                                    l = $('img[usemap=\\#' + f + ']').offset(),
-                                    p = parseInt(l.left, 10) + parseInt((parseInt(s.sort(h)[0], 10) + parseInt(s.sort(h)[s.length - 1], 10)) / 2, 10),
-                                    u = parseInt(l.top, 10) + parseInt((parseInt(d.sort(h)[0], 10) + parseInt(d.sort(h)[d.length - 1], 10)) / 2, 10)
-                            } else u = parseInt(t.offset().top, 10), p = parseInt(t.offset().left, 10);
-                            var m = i ? 0 : parseInt(t.outerWidth(), 10),
-                                I = i ? 0 : parseInt(t.outerHeight(), 10),
-                                v = n.outerWidth(),
-                                w = n.outerHeight(),
-                                g = Math.round(p + Math.round((m - v) / 2)),
-                                T = Math.round(u + I + e.offset + 8),
-                                b = Math.round(v - 16) / 2 - parseInt(n.css('borderLeftWidth'), 10),
-                                y = 0,
-                                H = p + m + v + e.offset + 8 > parseInt($(window).width(), 10),
-                                W = v + e.offset + 8 > p,
-                                k = w + e.offset + 8 > u - $(window).scrollTop(),
-                                M = u + I + w + e.offset + 8 > parseInt($(window).height() + $(window).scrollTop(), 10),
-                                x = e.anchor;
-                            W || 'e' == e.anchor && !H ? 'w' != e.anchor && 'e' != e.anchor || (x = 'e', y = Math.round(w / 2 - 8 - parseInt(n.css('borderRightWidth'), 10)), b = -8 - parseInt(n.css('borderRightWidth'), 10), g = p + m + e.offset + 8, T = Math.round(u + I / 2 - w / 2)) : (H || 'w' == e.anchor && !W) && ('w' != e.anchor && 'e' != e.anchor || (x = 'w', y = Math.round(w / 2 - 8 - parseInt(n.css('borderLeftWidth'), 10)), b = v - parseInt(n.css('borderLeftWidth'), 10), g = p - v - e.offset - 8, T = Math.round(u + I / 2 - w / 2))), M || 'n' == e.anchor && !k ? 'n' != e.anchor && 's' != e.anchor || (x = 'n', y = w - parseInt(n.css('borderTopWidth'), 10), T = u - (w + e.offset + 8)) : (k || 's' == e.anchor && !M) && ('n' != e.anchor && 's' != e.anchor || (x = 's', y = -8 - parseInt(n.css('borderBottomWidth'), 10), T = u + I + e.offset + 8)), 'n' == e.anchor || 's' == e.anchor ? v / 2 > p ? (g = g < 0 ? b + g : b, b = 0) : p + v / 2 > parseInt($(window).width(), 10) && (g -= b, b *= 2) : k ? (T += y, y = 0) : M && (T -= y, y *= 2), delay && clearTimeout(delay), delay = setTimeout(function() { n.css({ 'margin-left': g + 'px', 'margin-top': T + 'px' }).stop(!0, !0).fadeIn(e.fadeIn) }, e.delay), n.attr('class', 'sb-tooltip ' + x)
-                        },
-                        d = function() {
-                            (!e.aHide && !i || e.aHide) && (delay && clearTimeout(delay), delay = setTimeout(function() { c() }, e.delay))
-                        },
-                        c = function() {!e.aHide && !i || e.aHide ? (n.stop(!0, !0).fadeOut(e.fadeOut), e.hide && e.hide.call(this)) : setTimeout(function() { d() }, 200) }
-                }
-            })
-        };
+    /*
+    * ----------------------------------------------------------
+    * # Functions
+    * ----------------------------------------------------------
+    */
 
-        /*
-         * ----------------------------------------------------------
-         * # Functions
-         * ----------------------------------------------------------
-         */
-
-        // Language switcher
-        $.fn.sbLanguageSwitcher = function(langs = [], source = '', active_language = false) {
-            let code = `<div class="sb-language-switcher" data-source="${source}">`;
-            let added = [];
-            let element = $(this).hasClass('sb-language-switcher-cnt') ? $(this) : $(this).find('.sb-language-switcher-cnt');
-            for (var i = 0; i < langs.length; i++) {
-                if (added.includes(langs[i])) continue;
-                code += `<span ${active_language == langs[i] ? 'class="sb-active" ' : ''}data-language="${langs[i]}"><i class="sb-icon-close"></i><img src="${SB_URL}/media/flags/languages/${langs[i].toLowerCase()}.png" /></span>`;
-                added.push(langs[i]);
-            }
-            element.find('.sb-language-switcher').remove();
-            element.append(code + `<i data-sb-tooltip="${sb_('Add translation')}" class="sb-icon-plus"></i></div>`);
-            element.sbInitTooltips();
-            return this;
+    // Language switcher
+    $.fn.sbLanguageSwitcher = function (langs = [], source = '', active_language = false) {
+        let code = `<div class="sb-language-switcher" data-source="${source}">`;
+        let added = [];
+        let element = $(this).hasClass('sb-language-switcher-cnt') ? $(this) : $(this).find('.sb-language-switcher-cnt');
+        for (var i = 0; i < langs.length; i++) {
+            if (added.includes(langs[i])) continue;
+            code += `<span ${active_language == langs[i] ? 'class="sb-active" ' : ''}data-language="${langs[i]}"><i class="sb-icon-close"></i><img src="${SB_URL}/media/flags/${langs[i].toLowerCase()}.png" /></span>`;
+            added.push(langs[i]);
         }
+        element.find('.sb-language-switcher').remove();
+        element.append(code + `<i data-sb-tooltip="${sb_('Add translation')}" class="sb-icon-plus"></i></div>`);
+        element.sbInitTooltips();
+        return this;
+    }
 
-        // Lightbox
-        $.fn.sbShowLightbox = function(popup = false, action = '') {
-            admin.find('.sb-lightbox').sbActivate(false);
-            overlay.sbActivate();
-            $(this).sbActivate();
-            if (popup) {
-                $(this).addClass('sb-popup-lightbox').attr('data-action', action);
-            } else {
-                $(this).css({ 'margin-top': ($(this).outerHeight() / -2) + 'px', 'margin-left': ($(this).outerWidth() / -2) + 'px' })
-            }
-            $('body').addClass('sb-lightbox-active');
-            setTimeout(() => { SBAdmin.open_popup = this }, 500);
-            this.preventDefault;
-            return this;
+    // Lightbox
+    $.fn.sbShowLightbox = function (popup = false, action = '') {
+        admin.find('.sb-lightbox').sbActive(false);
+        overlay.sbActive(true);
+        $(this).sbActive(true);
+        if (popup) {
+            $(this).addClass('sb-popup-lightbox').attr('data-action', action);
+        } else {
+            $(this).css({ 'margin-top': ($(this).outerHeight() / -2) + 'px', 'margin-left': ($(this).outerWidth() / -2) + 'px' })
         }
+        $('body').addClass('sb-lightbox-active');
+        setTimeout(() => { SBAdmin.open_popup = this }, 500);
+        this.preventDefault;
+        return this;
+    }
 
-        $.fn.sbHideLightbox = function() {
-            $(this).find('.sb-lightbox,.sb-popup-lightbox').sbActivate(false).removeClass('sb-popup-lightbox').removeAttr('data-action');
-            overlay.sbActivate(false);
-            $('body').removeClass('sb-lightbox-active');
-            SBAdmin.open_popup = false;
-            return this;
-        }
+    $.fn.sbHideLightbox = function () {
+        $(this).find('.sb-lightbox,.sb-popup-lightbox').sbActive(false).removeClass('sb-popup-lightbox').removeAttr('data-action');
+        overlay.sbActive(false);
+        $('body').removeClass('sb-lightbox-active');
+        SBAdmin.open_popup = false;
+        return this;
+    }
 
-        //Tooltip init
-        $.fn.sbInitTooltips = function() {
-            $(this).find('[data-sb-tooltip]').each(function() {
-                $(this).miniTip({
-                    content: $(this).attr('data-sb-tooltip'),
-                    anchor: 's',
-                    delay: 500
-                });
+    //Tooltip init
+    $.fn.sbInitTooltips = function () {
+        $(this).find('[data-sb-tooltip]').each(function () {
+            $(this).miniTip({
+                content: $(this).attr('data-sb-tooltip'),
+                anchor: 's',
+                delay: 500
             });
-            return this;
+        });
+        return this;
+    }
+
+    // Display the bottom card information box
+    function showResponse(text, type) {
+        var card = admin.find('.sb-info-card');
+        if (SBF.null(type)) {
+            card.removeClass('sb-info-card-error sb-info-card-warning sb-info-card-info');
+            clearTimeout(timeout);
+            timeout = setTimeout(() => { card.sbActive(false) }, 5000);
+        } else if (!SBF.null(type) && type == 'error') {
+            card.addClass('sb-info-card-error');
+        } else {
+            card.addClass('sb-info-card-info');
         }
+        card.html(`<h3>${sb_(text)}</h3>`).sbActive(true);
+    }
 
-        // Display the bottom card information box
-        function showResponse(text, type) {
-            var card = admin.find('.sb-info-card');
-            if (SBF.null(type)) {
-                card.removeClass('sb-info-card-error sb-info-card-warning sb-info-card-info');
-                clearTimeout(timeout);
-                timeout = setTimeout(() => { card.sbActivate(false) }, 5000);
-            } else if (!SBF.null(type) && type == 'error') {
-                card.addClass('sb-info-card-error');
-            } else {
-                card.addClass('sb-info-card-info');
-            }
-            card.html(`<h3>${sb_(text)}</h3>`).sbActivate();
+    // Access the global user variable
+    function activeUser(value) {
+        if (typeof value == ND) {
+            return window.sb_current_user;
+        } else {
+            window.sb_current_user = value;
         }
+    }
 
-        // Access the global user variable
-        function activeUser(value) {
-            if (typeof value == ND) {
-                return window.sb_current_user;
-            } else {
-                window.sb_current_user = value;
-            }
+    // Show alert and information lightbox
+    function dialog(text, type, onConfirm = false, id = '', title = '', scroll = false) {
+        let box = admin.find('.sb-dialog-box').attr('data-type', type);
+        let p = box.find('p');
+        box.attr('id', id).setClass('sb-scroll-area', scroll).css('height', scroll ? (parseInt($(window).height()) - 200) + 'px' : '');
+        box.find('.sb-title').html(title);
+        p.html((type == 'alert' ? sb_('Are you sure?') + ' ' : '') + sb_(text));
+        box.sbActive(true).css({ 'margin-top': (box.outerHeight() / -2) + 'px', 'margin-left': (box.outerWidth() / -2) + 'px' });
+        overlay.sbActive(true);
+        alertOnConfirmation = onConfirm;
+        setTimeout(() => { SBAdmin.open_popup = box }, 500);
+    }
+
+    // Loading box
+    function loadingGlobal(show = true, is_overlay = true) {
+        admin.find('.sb-loading-global').sbActive(show);
+        if (is_overlay) {
+            overlay.sbActive(show);
+            $('body').setClass('sb-lightbox-active', show);
         }
+    }
 
-        // Show alert and information lightbox
-        function dialog(text, type, onConfirm = false, id = '', title = '') {
-            let box = admin.find('.sb-dialog-box').attr('data-type', type);
-            box.attr('id', id);
-            box.find('.sb-title').html(title);
-            box.find('p').html((type == 'alert' ? sb_('Are you sure?') + ' ' : '') + sb_(text));
-            box.sbActivate().css({ 'margin-top': (box.outerHeight() / -2) + 'px', 'margin-left': (box.outerWidth() / -2) + 'px' });
-            overlay.sbActivate();
-            alertOnConfirmation = onConfirm;
-            setTimeout(() => { SBAdmin.open_popup = box }, 500);
-        }
+    // Check if an elemen is loading and set it status to loading
+    function loading(element) {
+        if ($(element).sbLoading()) return true;
+        else $(element).sbLoading(true);
+        return false;
+    }
 
-        // Loading box
-        function loadingGlobal(show = true, is_overlay = true) {
-            admin.find('.sb-loading-global').sbActivate(show);
-            if (is_overlay) {
-                overlay.sbActivate(show);
-                $('body').setClass('sb-lightbox-active', show);
-            }
-        }
+    // Support Board js translations
+    function sb_(text) {
+        return SB_TRANSLATIONS && text in SB_TRANSLATIONS ? SB_TRANSLATIONS[text] : text;
+    }
 
-        // Check if an elemen is loading and set it status to loading
-        function loading(element) {
-            if ($(element).sbLoading()) return true;
-            else $(element).sbLoading(true);
-            return false;
-        }
+    // PWA functions
+    function isPWA() {
+        return (window.matchMedia('(display-mode: standalone)').matches) || (window.navigator.standalone) || document.referrer.includes('android-app://');
+    }
 
-        // Support Board js translations
-        function sb_(text) {
-            if (SB_TRANSLATIONS != false && !SBF.null(SB_TRANSLATIONS[text])) {
-                return SB_TRANSLATIONS[text];
-            } else {
-                return text;
-            }
-        }
+    function clearCache() {
+        if (typeof caches !== ND) caches.delete('sb-pwa-cache');
+    }
 
-        // PWA functions
-        function isPWA() {
-            return (window.matchMedia('(display-mode: standalone)').matches) || (window.navigator.standalone) || document.referrer.includes('android-app://');
-        }
+    // Collapse
+    function collapse(target, max_height) {
+        target = $(target);
+        let content = target.find('> div, > ul');
+        content.css({ 'height': '', 'max-height': '' });
+        if (target.hasClass('sb-collapse') && $(content).prop('scrollHeight') > max_height) {
+            target.sbActive(true).attr('data-height', max_height);
+            target.find('.sb-collapse-btn').remove();
+            target.append(`<a class="sb-btn-text sb-collapse-btn">${sb_('View more')}</a>`);
+            content.css({ 'height': max_height + 'px', 'max-height': max_height + 'px' });
+        };
+    }
 
-        function clearCache() {
-            if (typeof caches !== ND) caches.delete('sb-pwa-cache');
-        }
+    function searchInput(input, searchFunction) {
+        let icon = $(input).parent().find('i');
+        let search = $(input).val();
+        if (!icon.sbLoading()) {
+            SBF.search(search, () => {
+                icon.sbLoading(true);
+                searchFunction(search, icon);
+            });
+        };
+    }
 
-        // Collapse
-        function collapse(target, max_height) {
-            target = $(target);
-            let content = target.find(' > div, > ul');
-            content.css({ 'height': '', 'max-height': '' });
-            if (target.hasClass('sb-collapse') && $(content).prop('scrollHeight') > max_height) {
-                target.sbActivate().attr('data-height', max_height);
-                target.find('.sb-collapse-btn').remove();
-                target.append(`<a class="sb-btn-text sb-collapse-btn">${sb_('View more')}</a>`);
-                content.css({ 'height': max_height + 'px', 'max-height': max_height + 'px' });
-            };
-        }
+    function scrollPagination(area, check = false, offset = 0) {
+        if (check) return $(area).scrollTop() + $(area).innerHeight() >= ($(area)[0].scrollHeight - 1);
+        $(area).scrollTop($(area)[0].scrollHeight - offset);
+    }
 
-        function searchInput(input, searchFunction) {
-            let icon = $(input).parent().find('i');
-            let search = $(input).val();
-            if (!icon.sbLoading()) {
-                SBF.search(search, () => {
-                    icon.sbLoading(true);
-                    searchFunction(search, icon);
-                });
-            };
-        }
+    // Save a browser history state
+    function pushState(url_parameters) {
+        if (wp_admin) return;
+        window.history.pushState('', '', url_parameters);
+    }
 
-        function scrollPagination(area, check = false) {
-            if (check) return $(area).scrollTop() + $(area).innerHeight() >= $(area)[0].scrollHeight;
-            $(area).scrollTop($(area)[0].scrollHeight);
-        }
+    // Cloud
+    function cloudURL() {
+        return SB_ADMIN_SETTINGS.cloud ? ('&cloud=' + SB_ADMIN_SETTINGS.cloud.token) : '';
+    }
 
-        // Save a browser history state
-        function pushState(url_parameters) {
-            if (wp_admin) return;
-            window.history.pushState('', '', url_parameters);
-        }
+    /*
+    * ----------------------------------------------------------
+    * # Apps
+    * ----------------------------------------------------------
+    */
 
-        // Cloud
-        function cloudURL() {
-            return SB_ADMIN_SETTINGS.cloud ? ('&rand=' + SBF.random() + '&cloud=' + SBF.loginCookie()) : '';
-        }
+    var SBApps = {
 
-        /*
-         * ----------------------------------------------------------
-         * # Apps
-         * ----------------------------------------------------------
-         */
+        dialogflow: {
+            intents: false,
+            token: SBF.storage('dialogflow-token'),
+            smart_reply_data: false,
 
-        var SBApps = {
-
-            dialogflow: {
-                intents: false,
-                token: SBF.storage('dialogflow-token'),
-                smart_reply_data: false,
-
-                smartReply: function(message) {
-                    SBF.ajax({
-                        function: 'dialogflow-smart-reply',
-                        message: message,
-                        smart_reply_data: this.smart_reply_data ? this.smart_reply_data : { 'conversation_id': SBChat.conversation.id },
-                        token: this.token,
-                        dialogflow_language: [activeUser().language ? activeUser().language : 'en'],
-                        language_detection: SB_ADMIN_SETTINGS['smart-reply-language-detection'] && SBChat.conversation && !SBChat.conversation.getLastUserMessage(false, true) && (!SB_ADMIN_SETTINGS['smart-reply-language-detection-bot'] || !SBChat.conversation.getLastUserMessage(false, 'bot'))
-                    }, (response) => {
-                        let suggestions = response['suggestions'];
-                        let code = '';
-                        let area = conversations_area.find('.sb-conversation .sb-list');
-                        let is_bottom = area[0].scrollTop === (area[0].scrollHeight - area[0].offsetHeight);
-                        if (response['token'] && this.token != response['token']) {
-                            this.token = response['token'];
-                            SBF.storage('dialogflow-token', response['token']);
-                        }
-                        for (var i = 0; i < suggestions.length; i++) {
+            smartReply: function (message) {
+                SBF.ajax({
+                    function: 'dialogflow-smart-reply',
+                    message: message,
+                    smart_reply_data: this.smart_reply_data ? this.smart_reply_data : { 'conversation_id': SBChat.conversation.id },
+                    token: this.token,
+                    dialogflow_language: [activeUser().language ? activeUser().language : 'en'],
+                    language_detection: SB_ADMIN_SETTINGS['smart-reply-language-detection'] && SBChat.conversation && !SBChat.conversation.getLastUserMessage(false, true) && (!SB_ADMIN_SETTINGS['smart-reply-language-detection-bot'] || !SBChat.conversation.getLastUserMessage(false, 'bot'))
+                }, (response) => {
+                    let suggestions = response['suggestions'];
+                    let code = '';
+                    let area = conversations_area.find('.sb-conversation .sb-list');
+                    let is_bottom = area[0].scrollTop === (area[0].scrollHeight - area[0].offsetHeight);
+                    let last_conversation_message = SBChat.conversation && SBChat.conversation.getLastMessage() ? SBChat.conversation.getLastMessage().message : false;
+                    if (response['token'] && this.token != response['token']) {
+                        this.token = response['token'];
+                        SBF.storage('dialogflow-token', response['token']);
+                    }
+                    for (var i = 0; i < suggestions.length; i++) {
+                        if (suggestions[i] != last_conversation_message) {
                             code += `<span>${suggestions[i]}</span>`;
                         }
-                        this.smart_reply_data = response['smart_reply'];
-                        suggestions_area.html(code);
-                        if (is_bottom) SBChat.scrollBottom();
-                    });
-                },
+                    }
+                    this.smart_reply_data = response['smart_reply'];
+                    suggestions_area.html(code);
+                    if (is_bottom) SBChat.scrollBottom();
+                });
+            },
 
-                smartReplyUpdate: function(message, user_type = 'agent') {
-                    SBF.ajax({
-                        function: 'dialogflow-smart-reply-update',
-                        message: message,
-                        smart_reply_data: this.smart_reply_data ? this.smart_reply_data : { 'conversation_id': SBChat.conversation.id },
-                        token: this.token,
-                        dialogflow_language: [activeUser().language],
-                        user_type: user_type
-                    });
-                },
+            smartReplyUpdate: function (message, user_type = 'agent') {
+                SBF.ajax({
+                    function: 'dialogflow-smart-reply-update',
+                    message: message,
+                    smart_reply_data: this.smart_reply_data ? this.smart_reply_data : { 'conversation_id': SBChat.conversation.id },
+                    token: this.token,
+                    dialogflow_language: [activeUser().language],
+                    user_type: user_type
+                });
+            },
 
-                showCreateIntentBox: function(message_id) {
-                    let expression = '';
-                    let message = SBChat.conversation.getMessage(message_id);
-                    let response = message.message;
-                    if (SBF.isAgent(message.get('user_type'))) {
-                        expression = SBChat.conversation.getLastUserMessage(message.get('index'));
-                        if (expression && expression.payload('sb-human-takeover')) expression = SBChat.conversation.getLastUserMessage(expression.get('index'));
-                        if (expression == false) {
-                            expression = '';
-                        } else {
-                            expression = expression.message;
-                        }
+            showCreateIntentBox: function (message_id) {
+                let expression = '';
+                let message = SBChat.conversation.getMessage(message_id);
+                let response = message.message;
+                if (SBF.isAgent(message.get('user_type'))) {
+                    expression = SBChat.conversation.getLastUserMessage(message.get('index'));
+                    if (expression && expression.payload('sb-human-takeover')) expression = SBChat.conversation.getLastUserMessage(expression.get('index'));
+                    if (expression == false) {
+                        expression = '';
                     } else {
-                        expression = response;
-                        let messages = SBChat.conversation.messages;
-                        for (var i = message.get('index'); i < messages.length; i++) {
-                            if (['agent', 'admin'].includes(messages[i].get('user_type'))) {
-                                response = messages[i].message;
-                                break;
-                            }
-                        }
+                        expression = expression.message;
                     }
-                    if (this.intents === false) {
-                        SBF.ajax({ function: 'dialogflow-get-intents' }, (response) => {
-                            let code = '';
-                            if (Array.isArray(response)) {
-                                for (var i = 0; i < response.length; i++) {
-                                    code += `<option value="${response[i].name}">${response[i].displayName}</option>`;
-                                }
-                                dialogflow_intent_box.find('#sb-intents-select').append(code);
-                                this.intents = response;
-                            } else this.intents = [];
-                        });
-                    }
-                    dialogflow_intent_box.attr('data-message-id', message.id);
-                    dialogflow_intent_box.find('.sb-type-text:not(.sb-first)').remove();
-                    dialogflow_intent_box.find('.sb-type-text input').val(expression);
-                    dialogflow_intent_box.find('textarea').val(response);
-                    dialogflow_intent_box.find('#sb-intents-select').val('');
-                    dialogflow_intent_box.sbShowLightbox();
-                },
-
-                submitIntent: function(button) {
-                    if (loading(button)) return;
-                    let expressions = [];
-                    let response = dialogflow_intent_box.find('textarea').val();
-                    let intent_name = dialogflow_intent_box.find('#sb-intents-select').val();
-                    dialogflow_intent_box.find('.sb-type-text input').each(function() {
-                        if ($(this).val()) {
-                            expressions.push($(this).val());
-                        }
-                    });
-                    if ((response == '' && !intent_name) || expressions.length == 0) {
-                        SBForm.showErrorMessage(dialogflow_intent_box, 'Please insert the bot response and at least one user expression.');
-                        $(button).sbLoading(false);
-                    } else {
-                        SBF.ajax({
-                            function: intent_name == '' ? 'dialogflow-create-intent' : 'dialogflow-update-intent',
-                            expressions: expressions,
-                            response: response,
-                            agent_language: dialogflow_intent_box.find('.sb-dialogflow-languages select').val(),
-                            conversation_id: SBChat.conversation.id,
-                            intent_name: intent_name
-                        }, (response) => {
-                            $(button).sbLoading(false);
-                            if (response === true) {
-                                admin.sbHideLightbox();
-                                showResponse(intent_name == '' ? 'Intent created' : 'Intent updated');
-                            } else {
-                                let message = 'Error';
-                                if ('error' in response && 'message' in response['error']) {
-                                    message = response['error']['message'];
-                                }
-                                SBForm.showErrorMessage(dialogflow_intent_box, message);
-                            }
-                        });
-                    }
-                },
-
-                searchIntents: function(search) {
-                    search = search.toLowerCase();
-                    SBF.search(search, () => {
-                        let all = search.length > 1 ? false : true;
-                        let code = all ? `<option value="">${sb_('New Intent')}</option>` : '';
-                        let intents = this.intents;
-                        for (var i = 0; i < intents.length; i++) {
-                            let found = all || intents[i].displayName.toLowerCase().includes(search);
-                            if (!found && 'trainingPhrases' in intents[i]) {
-                                let training_phrases = intents[i].trainingPhrases;
-                                for (var j = 0; j < training_phrases.length; j++) {
-                                    for (var y = 0; y < training_phrases[j].parts.length; y++) {
-                                        if (training_phrases[j].parts[y].text.toLowerCase().includes(search)) {
-                                            found = true;
-                                            break;
-                                        }
-                                    }
-                                    if (found) break;
-                                }
-                            }
-                            if (found) {
-                                code += `<option value="${intents[i].name}">${intents[i].displayName}</option>`;
-                            }
-                        }
-                        dialogflow_intent_box.find('#sb-intents-select').html(code);
-                    });
-                },
-
-                previewIntent: function(name) {
-                    let code = '';
-                    for (var i = 0; i < this.intents.length; i++) {
-                        if (this.intents[i].name == name) {
-                            let training_phrases = 'trainingPhrases' in this.intents[i] ? this.intents[i].trainingPhrases : [];
-                            let count = training_phrases.length;
-                            if (count > 1) {
-                                for (var j = 0; j < count; j++) {
-                                    for (var y = 0; y < training_phrases[j].parts.length; y++) {
-                                        code += `<span>${training_phrases[j].parts[y].text}</span>`;
-                                        if (y == 15) break;
-                                    }
-                                }
-                                dialog(code, 'info', false, 'intent-preview-box');
-                            }
+                } else {
+                    expression = response;
+                    let messages = SBChat.conversation.messages;
+                    for (var i = message.get('index'); i < messages.length; i++) {
+                        if (['agent', 'admin'].includes(messages[i].get('user_type'))) {
+                            response = messages[i].message;
                             break;
                         }
                     }
-                },
-
-                translate: function(strings, language_code, onSuccess) {
-                    if (strings.length) {
-                        SBF.ajax({
-                            function: 'google-translate',
-                            strings: strings,
-                            language_code: language_code,
-                            token: this.token
-                        }, (response) => {
-                            this.token = response[1]
-                            if ('data' in response[0] && 'translations' in response[0].data) {
-                                onSuccess(response[0].data.translations);
-                            } else {
-                                SBF.error(JSON.stringify(response[0]), 'SBApps.dialogflow.translate');
-                                return false;
-                            }
-                        });
-                    }
                 }
-            },
-
-            messenger: {
-
-                check: function(conversation) {
-                    return conversation.get('source') == 'fb';
-                },
-
-                send: function(PSID, facebook_page_id, message, attachments = [], metadata, onSuccess = false) {
-                    SBF.ajax({
-                        function: 'messenger-send-message',
-                        psid: PSID,
-                        facebook_page_id: facebook_page_id,
-                        message: message,
-                        attachments: attachments,
-                        metadata: metadata
-                    }, (response) => {
-                        if (onSuccess) onSuccess(response);
-                    });
-                }
-            },
-
-            whatsapp: {
-
-                check: function(conversation) {
-                    return conversation.get('source') == 'wa';
-                },
-
-                send: function(to, message, attachments = [], onSuccess = false) {
-                    SBF.ajax({
-                        function: 'whatsapp-send-message',
-                        to: to,
-                        message: message,
-                        attachments: attachments
-                    }, (response) => {
-                        if (onSuccess) onSuccess(response);
-                    });
-                },
-
-                activeUserPhone: function() {
-                    return activeUser().getExtra('phone') ? activeUser().getExtra('phone').value.replace('+', '') : false
-                }
-            },
-
-            aecommerce: {
-
-                panel: false,
-
-                conversationPanel: function() {
-                    let code = '';
-                    let aecommerce_id = activeUser().getExtra('aecommerce-id');
-                    if (!this.panel) this.panel = conversations_area.find('.sb-panel-aecommerce');
-                    if (aecommerce_id && !loading(this.panel)) {
-                        SBF.ajax({
-                            function: 'aecommerce-get-conversation-details',
-                            aecommerce_id: aecommerce_id['value']
-                        }, (response) => {
-                            code = `<h3>${SB_ADMIN_SETTINGS['aecommerce-panel-title']}</h3><div><div class="sb-split"><div><div class="sb-title">${sb_('Number of orders')}</div><span>${response['orders_count']} ${sb_('orders')}</span></div><div><div class="sb-title">${sb_('Total spend')}</div><span>${response['currency_symbol']}${response['total']}</span></div></div><div class="sb-title">${sb_('Cart')}</div><div class="sb-list-items sb-list-links sb-aecommerce-cart">`;
-                            for (var i = 0; i < response['cart'].length; i++) {
-                                let product = response['cart'][i];
-                                code += `<a href="${product['url']}" target="_blank" data-id="${product['id']}"><span>#${product['id']}</span> <span>${product['name']}</span> <span>x ${product['quantity']}</span></a>`;
-                            }
-                            code += (response['cart'].length ? '' : '<p>' + sb_('The cart is currently empty.') + '</p>') + '</div>';
-                            if (response['orders'].length) {
-                                code += `<div class="sb-title">${sb_('Orders')}</div><div class="sb-list-items sb-list-links sb-aecommerce-orders">`;
-                                for (var i = 0; i < response['orders'].length; i++) {
-                                    let order = response['orders'][i];
-                                    let id = order['id'];
-                                    code += `<a data-id="${id}" href="${order['url']}" target="_blank"><span>#${order['id']}</span> <span>${SBF.beautifyTime(order['time'], true)}</span> <span>${response['currency_symbol']}${order['price']}</span></a>`;
-                                }
-                                code += '</div>';
-                            }
-                            $(this.panel).html(code).sbLoading(false);
-                            collapse(this.panel, 160);
-                        });
-                    }
-                    $(this.panel).html(code);
-                }
-            },
-
-            whmcs: {
-
-                panel: false,
-
-                conversationPanel: function() {
-                    let code = '';
-                    let whmcs_id = activeUser().getExtra('whmcs-id');
-                    if (!this.panel) this.panel = conversations_area.find('.sb-panel-whmcs');
-                    if (whmcs_id && !loading(this.panel)) {
-                        SBF.ajax({
-                            function: 'whmcs-get-conversation-details',
-                            whmcs_id: whmcs_id['value']
-                        }, (response) => {
-                            let services = ['products', 'addons', 'domains'];
-                            code = `<h3>WHMCS</h3><div><div class="sb-split"><div><div class="sb-title">${sb_('Number of services')}</div><span>${response['services_count']} ${sb_('services')}</span></div><div><div class="sb-title">${sb_('Total spend')}</div><span>${response['currency_symbol']}${response['total']}</span></div></div>`;
-                            code += `</div>`;
-                            for (var i = 0; i < services.length; i++) {
-                                let items = response[services[i]];
-                                if (items.length) {
-                                    code += `<div class="sb-title">${sb_(SBF.slugToString(services[i]))}</div><div class="sb-list-items">`;
-                                    for (var j = 0; j < items.length; j++) {
-                                        code += `<div>${items[j]['name']}</div>`;
-                                    }
-                                    code += '</div>';
-                                }
-                            }
-                            code += `<a href="${SB_ADMIN_SETTINGS['whmcs-url']}/clientssummary.php?userid=${response['client-id']}" target="_blank" class="sb-btn sb-whmcs-link">${sb_('View on WHMCS')}</a>`;
-                            $(this.panel).html(code).sbLoading(false);
-                            collapse(this.panel, 160);
-                        });
-                    }
-                    $(this.panel).html(code);
-                }
-            },
-
-            perfex: {
-
-                conversationPanel: function() {
-                    let perfex_id = activeUser().getExtra('perfex-id');
-                    conversations_area.find('.sb-panel-perfex').html(perfex_id == '' ? '' : `<a href="${SB_ADMIN_SETTINGS['perfex-url']}/admin/clients/client/${perfex_id['value']}" target="_blank" class="sb-btn sb-perfex-link">${sb_('View on Perfex')}</a>`);
-                }
-            },
-
-            ump: {
-
-                panel: false,
-
-                conversationPanel: function() {
-                    if (loading(this.panel)) return;
-                    if (!this.panel) this.panel = conversations_area.find('.sb-panel-ump');
-                    let code = '';
-                    let subscriptions;
-                    SBF.ajax({
-                        function: 'ump-get-conversation-details'
-                    }, (response) => {
-                        subscriptions = response['subscriptions'];
-                        if (subscriptions.length) {
-                            code = '<i class="sb-icon-refresh"></i><h3>Membership</h3><div class="sb-list-names">';
-                            for (var i = 0; i < subscriptions.length; i++) {
-                                let expired = subscriptions[i]['expired'];
-                                code += `<div${expired ? ' class="sb-expired"' : ''}><span>${subscriptions[i]['label']}</span><span>${sb_(expired ? 'Expired on' : 'Expires on')} ${SBF.beautifyTime(subscriptions[i]['expire_time'], false, !expired)}</span></div>`;
-                            }
-                            code += `</div><span class="sb-title">${sb_('Total spend')} ${response['currency_symbol']}${response['total']}</span>`;
-                        }
-                        $(this.panel).html(code).sbLoading(false);
-                        collapse(this.panel, 160);
-                    });
-                }
-            },
-
-            armember: {
-
-                panel: false,
-
-                conversationPanel: function() {
-                    let wp_user_id = activeUser().getExtra('wp-id');
-                    if (!this.panel) this.panel = conversations_area.find('.sb-panel-armember');
-                    if (!loading(this.panel) && !SBF.null(wp_user_id)) {
+                if (this.intents === false) {
+                    SBF.ajax({ function: 'dialogflow-get-intents' }, (response) => {
                         let code = '';
-                        let subscriptions;
-                        wp_user_id = wp_user_id.value;
-                        SBF.ajax({
-                            function: 'armember-get-conversation-details',
-                            wp_user_id: wp_user_id
-                        }, (response) => {
-                            subscriptions = response['subscriptions'];
-                            if (subscriptions.length) {
-                                code = '<i class="sb-icon-refresh"></i><h3>Plans</h3><div class="sb-list-names">';
-                                for (var i = 0; i < subscriptions.length; i++) {
-                                    let expired = subscriptions[i]['expired'];
-                                    code += `<div${expired ? ' class="sb-expired"' : ''}><span>${subscriptions[i].arm_current_plan_detail.arm_subscription_plan_name}</span><span>${subscriptions[i]['expire_time'] == 'never' ? '' : (sb_(expired ? 'Expired on' : 'Expires on') + ' ' + SBF.beautifyTime(subscriptions[i]['expire_time'], false, !expired))}</span></div>`;
-                                }
-                                code += `</div><span class="sb-title">${sb_('Total spend')} ${response['currency_symbol']}${response['total']}<a href="${window.location.href.substr(0, window.location.href.lastIndexOf('/')) + '?page=arm_manage_members&member_id=' + activeUser().getExtra('wp-id').value}" target="_blank" class="sb-btn-text"><i class="sb-icon-user"></i> ${sb_('View member')}</a></span>`;
+                        if (Array.isArray(response)) {
+                            for (var i = 0; i < response.length; i++) {
+                                code += `<option value="${response[i].name}">${response[i].displayName}</option>`;
                             }
-                            $(this.panel).html(code).sbLoading(false);
-                            collapse(this.panel, 160);
-                        });
-                    } else $(this.panel).html('');
+                            dialogflow_intent_box.find('#sb-intents-select').append(code);
+                            this.intents = response;
+                        } else this.intents = [];
+                    });
                 }
+                dialogflow_intent_box.attr('data-message-id', message.id);
+                dialogflow_intent_box.find('.sb-type-text:not(.sb-first)').remove();
+                dialogflow_intent_box.find('.sb-type-text input').val(expression);
+                dialogflow_intent_box.find('textarea').val(response);
+                dialogflow_intent_box.find('#sb-intents-select').val('');
+                dialogflow_intent_box.find('.sb-search-btn').sbActive(false).find('input').val('');
+                this.searchIntents('');
+                dialogflow_intent_box.sbShowLightbox();
             },
 
-            woocommerce: {
-
-                popupPaginationNumber: 1,
-                popupLanguage: '',
-                popupCache: [],
-                panel: false,
-                timeout: false,
-
-                // Products popup
-                popupCode: function(items, label = true) {
-                    let code = '';
-                    for (var i = 0; i < items.length; i++) {
-                        code += `<li data-id="${items[i]['id']}"><div class="sb-image" style="background-image:url('${items[i]['image']}')"></div><div><span>${items[i]['name']}</span><span>${SB_ADMIN_SETTINGS['currency']}${items[i]['price']}</span></div></li>`;
+            submitIntent: function (button) {
+                if (loading(button)) return;
+                let expressions = [];
+                let response = dialogflow_intent_box.find('textarea').val();
+                let intent_name = dialogflow_intent_box.find('#sb-intents-select').val();
+                dialogflow_intent_box.find('.sb-type-text input').each(function () {
+                    if ($(this).val()) {
+                        expressions.push($(this).val());
                     }
-                    return label ? (code == '' ? `<p>${sb_('No products found')}</p>` : code) : code;
-                },
-
-                popupSearch: function(input) {
-                    searchInput(input, (search, icon) => {
-                        if (search == '') {
-                            this.popupPopulate(function() {
-                                $(icon).sbLoading(false);
-                            });
+                });
+                if ((response == '' && !intent_name) || expressions.length == 0) {
+                    SBForm.showErrorMessage(dialogflow_intent_box, 'Please insert the bot response and at least one user expression.');
+                    $(button).sbLoading(false);
+                } else {
+                    SBF.ajax({
+                        function: intent_name == '' ? 'dialogflow-create-intent' : 'dialogflow-update-intent',
+                        expressions: expressions,
+                        response: response,
+                        agent_language: dialogflow_intent_box.find('.sb-dialogflow-languages select').val(),
+                        conversation_id: SBChat.conversation.id,
+                        intent_name: intent_name
+                    }, (response) => {
+                        $(button).sbLoading(false);
+                        if (response === true) {
+                            admin.sbHideLightbox();
+                            showResponse(intent_name == '' ? 'Intent created' : 'Intent updated');
                         } else {
-                            this.popupPaginationNumber = 1;
-                            SBF.ajax({
-                                function: 'woocommerce-search-products',
-                                search: search
-                            }, (response) => {
-                                woocommerce_products_box_ul.html(this.popupCode(response));
-                                $(icon).sbLoading(false);
-                            });
+                            let message = 'Error';
+                            if ('error' in response && 'message' in response['error']) {
+                                message = response['error']['message'];
+                            }
+                            SBForm.showErrorMessage(dialogflow_intent_box, message);
                         }
                     });
-                },
+                }
+            },
 
-                popupFilter: function(item) {
-                    if (loading(woocommerce_products_box_ul)) return;
-                    woocommerce_products_box_ul.html('');
-                    this.popupPaginationNumber = 1;
-                    SBF.ajax({
-                        function: 'woocommerce-get-products',
-                        user_language: this.popupLanguage,
-                        filters: { taxonomy: $(item).data('value') }
-                    }, (response) => {
-                        woocommerce_products_box_ul.html(this.popupCode(response)).sbLoading(false);
-                    });
-                },
-
-                popupPopulate: function(onSuccess = false) {
-                    this.popupLanguage = activeUser() != false && SB_ADMIN_SETTINGS['languages'].includes(activeUser().language) ? activeUser().language : '';
-                    this.popupPaginationNumber = 1;
-                    woocommerce_products_box_ul.html('').sbLoading(true);
-                    SBF.ajax({
-                        function: 'woocommerce-products-popup',
-                        user_language: this.popupLanguage
-                    }, (response) => {
-                        let code = '';
-                        let select = woocommerce_products_box.find('.sb-select');
-                        for (var i = 0; i < response[1].length; i++) {
-                            code += `<li data-value="${response[1][i]['id']}">${response[1][i]['name']}</li>`;
+            searchIntents: function (search) {
+                search = search.toLowerCase();
+                SBF.search(search, () => {
+                    let all = search.length > 1 ? false : true;
+                    let code = all ? `<option value="">${sb_('New Intent')}</option>` : '';
+                    let intents = this.intents;
+                    for (var i = 0; i < intents.length; i++) {
+                        let found = all || intents[i].displayName.toLowerCase().includes(search);
+                        if (!found && 'trainingPhrases' in intents[i]) {
+                            let training_phrases = intents[i].trainingPhrases;
+                            for (var j = 0; j < training_phrases.length; j++) {
+                                for (var y = 0; y < training_phrases[j].parts.length; y++) {
+                                    if (training_phrases[j].parts[y].text.toLowerCase().includes(search)) {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                if (found) break;
+                            }
                         }
-                        select.find('> p').html(sb_('All'));
-                        select.find('ul').html(`<li data-value="" class="sb-active">${sb_('All')}</li>` + code);
-                        woocommerce_products_box_ul.html(this.popupCode(response[0])).sbLoading(false);
-                        if (onSuccess !== false) onSuccess();
-                    });
-                },
+                        if (found) {
+                            code += `<option value="${intents[i].name}">${intents[i].displayName}</option>`;
+                        }
+                    }
+                    dialogflow_intent_box.find('#sb-intents-select').html(code);
+                });
+            },
 
-                popupPagination: function(area) {
-                    woocommerce_products_box_ul.sbLoading(area);
-                    SBF.ajax({
-                        function: 'woocommerce-get-products',
-                        filters: { taxonomy: $(area).parent().find('.sb-select p').attr('data-value') },
-                        pagination: this.popupPaginationNumber,
-                        user_language: this.popupLanguage
-                    }, (response) => {
-                        woocommerce_products_box_ul.append(this.popupCode(response, false)).sbLoading(false);
-                        this.popupPaginationNumber++;
-                        scrollPagination(area);
-                    });
-                },
+            previewIntent: function (name) {
+                let code = '';
+                for (var i = 0; i < this.intents.length; i++) {
+                    if (this.intents[i].name == name) {
+                        let training_phrases = 'trainingPhrases' in this.intents[i] ? this.intents[i].trainingPhrases : [];
+                        let count = training_phrases.length;
+                        if (count > 1) {
+                            for (var j = 0; j < count; j++) {
+                                for (var y = 0; y < training_phrases[j].parts.length; y++) {
+                                    code += `<span>${training_phrases[j].parts[y].text}</span>`;
+                                    if (y == 15) break;
+                                }
+                            }
+                            dialog(code, 'info', false, 'intent-preview-box', '', count > 10);
+                        }
+                        break;
+                    }
+                }
+            },
 
-                // Conversation panel
-                conversationPanel: function() {
-                    if (loading(this.panel)) return;
-                    if (!this.panel) this.panel = conversations_area.find('.sb-panel-woocommerce');
-                    let code = '';
+            translate: function (strings, language_code, onSuccess) {
+                if (strings.length) {
                     SBF.ajax({
-                        function: 'woocommerce-get-conversation-details'
+                        function: 'google-translate',
+                        strings: strings,
+                        language_code: language_code,
+                        token: this.token
                     }, (response) => {
-                        code = `<i class="sb-icon-refresh"></i><h3>WooCommerce</h3><div><div class="sb-split"><div><div class="sb-title">${sb_('Number of orders')}</div><span>${response['orders_count']} ${sb_('orders')}</span></div><div><div class="sb-title">${sb_('Total spend')}</div><span>${response['currency_symbol']}${response['total']}</span></div></div><div class="sb-title">${sb_('Cart')}<i class="sb-add-cart-btn sb-icon-plus"></i></div><div class="sb-list-items sb-list-links sb-woocommerce-cart">`;
+                        this.token = response[1]
+                        if ('data' in response[0] && 'translations' in response[0].data) {
+                            onSuccess(response[0].data.translations);
+                        } else {
+                            SBF.error(JSON.stringify(response[0]), 'SBApps.dialogflow.translate');
+                            return false;
+                        }
+                    });
+                }
+            }
+        },
+
+        messenger: {
+
+            check: function (conversation) {
+                return ['fb', 'ig'].includes(conversation.get('source'));
+            },
+
+            send: function (PSID, facebook_page_id, message = '', attachments = [], metadata, onSuccess = false) {
+                SBF.ajax({
+                    function: 'messenger-send-message',
+                    psid: PSID,
+                    facebook_page_id: facebook_page_id,
+                    message: message,
+                    attachments: attachments,
+                    metadata: metadata
+                }, (response) => {
+                    if (onSuccess) onSuccess(response);
+                });
+            }
+        },
+
+        whatsapp: {
+
+            check: function (conversation) {
+                return conversation.get('source') == 'wa';
+            },
+
+            send: function (to, message = '', attachments = [], onSuccess = false) {
+                SBF.ajax({
+                    function: 'whatsapp-send-message',
+                    to: to,
+                    message: message,
+                    attachments: attachments
+                }, (response) => {
+                    if (onSuccess) onSuccess(response);
+                });
+            },
+
+            activeUserPhone: function () {
+                return activeUser().getExtra('phone') ? activeUser().getExtra('phone').value.replace('+', '') : false
+            }
+        },
+
+        telegram: {
+
+            check: function (conversation) {
+                return conversation.get('source') == 'tg';
+            },
+
+            send: function (chat_id, message = '', attachments = [], onSuccess = false) {
+                SBF.ajax({
+                    function: 'telegram-send-message',
+                    chat_id: chat_id,
+                    message: message,
+                    attachments: attachments
+                }, (response) => {
+                    if (onSuccess) onSuccess(response);
+                });
+            }
+        },
+
+        twitter: {
+
+            check: function (conversation) {
+                return conversation.get('source') == 'tw';
+            },
+
+            send: function (twitter_id, message = '', attachments = [], onSuccess = false) {
+                SBF.ajax({
+                    function: 'twitter-send-message',
+                    twitter_id: twitter_id,
+                    message: message,
+                    attachments: attachments
+                }, (response) => {
+                    if (onSuccess) onSuccess(response);
+                });
+            }
+        },
+
+        wechat: {
+            token: false,
+
+            check: function (conversation) {
+                return conversation.get('source') == 'wc';
+            },
+
+            send: function (open_id, message = '', attachments = [], onSuccess = false) {
+                SBF.ajax({
+                    function: 'wechat-send-message',
+                    open_id: open_id,
+                    message: message,
+                    attachments: attachments,
+                    token: this.token
+                }, (response) => {
+                    if (Array.isArray(response)) {
+                        this.token = response[1];
+                        response = response[0];
+                    }
+                    if (onSuccess) onSuccess(response);
+                });
+            }
+        },
+
+        aecommerce: {
+
+            panel: false,
+
+            conversationPanel: function () {
+                let code = '';
+                let aecommerce_id = activeUser().getExtra('aecommerce-id');
+                if (!this.panel) this.panel = conversations_area.find('.sb-panel-aecommerce');
+                if (aecommerce_id && !loading(this.panel)) {
+                    SBF.ajax({
+                        function: 'aecommerce-get-conversation-details',
+                        aecommerce_id: aecommerce_id['value']
+                    }, (response) => {
+                        code = `<h3>${SB_ADMIN_SETTINGS['aecommerce-panel-title']}</h3><div><div class="sb-split"><div><div class="sb-title">${sb_('Number of orders')}</div><span>${response['orders_count']} ${sb_('orders')}</span></div><div><div class="sb-title">${sb_('Total spend')}</div><span>${response['currency_symbol']}${response['total']}</span></div></div><div class="sb-title">${sb_('Cart')}</div><div class="sb-list-items sb-list-links sb-aecommerce-cart">`;
                         for (var i = 0; i < response['cart'].length; i++) {
                             let product = response['cart'][i];
-                            code += `<a href="${product['url']}" target="_blank" data-id="${product['id']}"><span>#${product['id']}</span> <span>${product['name']}</span> <span>x ${product['quantity']}</span><i class="sb-icon-close"></i></a>`;
+                            code += `<a href="${product['url']}" target="_blank" data-id="${product['id']}"><span>#${product['id']}</span> <span>${product['name']}</span> <span>x ${product['quantity']}</span></a>`;
                         }
                         code += (response['cart'].length ? '' : '<p>' + sb_('The cart is currently empty.') + '</p>') + '</div>';
                         if (response['orders'].length) {
-                            code += `<div class="sb-title">${sb_('Orders')}</div><div class="sb-list-items sb-woocommerce-orders sb-accordion">`;
+                            code += `<div class="sb-title">${sb_('Orders')}</div><div class="sb-list-items sb-list-links sb-aecommerce-orders">`;
                             for (var i = 0; i < response['orders'].length; i++) {
                                 let order = response['orders'][i];
                                 let id = order['id'];
-                                code += `<div data-id="${id}"><span><span>#${id}</span> <span>${SBF.beautifyTime(order['date'], true)}</span><a href="${SITE_URL}/wp-admin/post.php?post=${id}&action=edit" target="_blank" class="sb-icon-next"></a></span><div></div></div>`;
+                                code += `<a data-id="${id}" href="${order['url']}" target="_blank"><span>#${order['id']}</span> <span>${SBF.beautifyTime(order['time'], true)}</span> <span>${response['currency_symbol']}${order['price']}</span></a>`;
                             }
                             code += '</div>';
                         }
                         $(this.panel).html(code).sbLoading(false);
                         collapse(this.panel, 160);
                     });
-                },
+                }
+                $(this.panel).html(code);
+            }
+        },
 
+        whmcs: {
 
-                // Conversation panel order details
-                conversationPanelOrder: function(order_id) {
-                    let accordion = this.panel.find(`[data-id="${order_id}"] > div`);
-                    accordion.html('');
+            panel: false,
+
+            conversationPanel: function () {
+                let code = '';
+                let whmcs_id = activeUser().getExtra('whmcs-id');
+                if (!this.panel) this.panel = conversations_area.find('.sb-panel-whmcs');
+                if (whmcs_id && !loading(this.panel)) {
                     SBF.ajax({
-                        function: 'woocommerce-get-order',
-                        order_id: order_id
+                        function: 'whmcs-get-conversation-details',
+                        whmcs_id: whmcs_id['value']
                     }, (response) => {
-                        let code = '';
-                        let collapse = this.panel.find('.sb-collapse-btn:not(.sb-active)');
-                        if (response) {
-                            let products = response['products'];
-                            code += `<div class="sb-title">${sb_('Order total')}: <span>${response['currency_symbol']}${response['total']}<span></div><div class="sb-title">${sb_('Order status')}: <span>${SBF.slugToString(response['status'].replace('wc-', ''))}<span></div><div class="sb-title">${sb_('Date')}: <span>${SBF.beautifyTime(response['date'], true)}<span></div><div class="sb-title">${sb_('Products')}</div>`;
-                            for (var i = 0; i < products.length; i++) {
-                                code += `<a href="${SITE_URL}?p=${products[i]['id']}" target="_blank"><span>#${products[i]['id']}</span> <span>${products[i]['quantity']} x</span> <span>${products[i]['name']}</span></a>`;
-                            }
-                            for (var i = 0; i < 2; i++) {
-                                let key = i == 0 ? 'shipping' : 'billing';
-                                if (response[key + '_address']) {
-                                    code += `<div class="sb-title">${sb_((i == 0 ? 'Shipping' : 'Billing') + ' address')}</div><div class="sb-multiline">${response[key + '_address'].replace(/\\n/g, '<br>')}</div>`;
+                        let services = ['products', 'addons', 'domains'];
+                        code = `<h3>WHMCS</h3><div><div class="sb-split"><div><div class="sb-title">${sb_('Number of services')}</div><span>${response['services_count']} ${sb_('services')}</span></div><div><div class="sb-title">${sb_('Total spend')}</div><span>${response['currency_symbol']}${response['total']}</span></div></div>`;
+                        code += `</div>`;
+                        for (var i = 0; i < services.length; i++) {
+                            let items = response[services[i]];
+                            if (items.length) {
+                                code += `<div class="sb-title">${sb_(SBF.slugToString(services[i]))}</div><div class="sb-list-items">`;
+                                for (var j = 0; j < items.length; j++) {
+                                    code += `<div>${items[j]['name']}</div>`;
                                 }
+                                code += '</div>';
                             }
                         }
-                        if (collapse.length) {
-                            collapse.click();
-                        }
-                        accordion.html(code);
-                    });
-                },
-
-                conversationPanelUpdate: function(product_id, action = 'added') {
-                    let busy = false;
-                    let count = 0;
-                    this.timeout = setInterval(() => {
-                        if (!busy) {
-                            SBF.ajax({
-                                function: 'woocommerce-get-conversation-details'
-                            }, (response) => {
-                                let removed = true;
-                                for (var i = 0; i < response['cart'].length; i++) {
-                                    if (response['cart'][i]['id'] == product_id) {
-                                        if (action == 'added') count = 61;
-                                        else removed = false;
-                                    }
-                                }
-                                if (count > 60 || removed) {
-                                    this.conversationPanel();
-                                    conversations_area.find('.sb-add-cart-btn,.sb-woocommerce-cart > a i').sbLoading(false);
-                                    clearInterval(this.timeout);
-                                }
-                                count++;
-                                busy = false;
-                            });
-                            busy = true;
-                        }
-                    }, 1000);
-                }
-            },
-
-            wordpress: {
-                ajax: function(action, data, onSuccess) {
-                    $.ajax({
-                        method: 'POST',
-                        url: SB_WP_AJAX_URL,
-                        data: $.extend({ action: 'sb_wp_ajax', type: action }, data)
-                    }).done((response) => {
-                        if (onSuccess !== false) {
-                            onSuccess(response);
-                        }
+                        code += `<a href="${SB_ADMIN_SETTINGS['whmcs-url']}/clientssummary.php?userid=${response['client-id']}" target="_blank" class="sb-btn sb-whmcs-link">${sb_('View on WHMCS')}</a>`;
+                        $(this.panel).html(code).sbLoading(false);
+                        collapse(this.panel, 160);
                     });
                 }
-            },
+                $(this.panel).html(code);
+            }
+        },
 
-            is: function(name) {
-                if (typeof SB_VERSIONS == ND) return false;
-                switch (name) {
-                    case 'armember':
-                    case 'aecommerce':
-                    case 'whmcs':
-                    case 'perfex':
-                    case 'ump':
-                    case 'messenger':
-                    case 'whatsapp':
-                    case 'woocommerce':
-                    case 'dialogflow':
-                    case 'slack':
-                    case 'tickets':
-                        return typeof SB_VERSIONS[name] != ND && SB_VERSIONS[name] != -1;
-                    case 'wordpress':
-                        return typeof SB_WP != ND;
-                    case 'sb':
-                        return true;
+        perfex: {
+
+            conversationPanel: function () {
+                let perfex_id = activeUser().getExtra('perfex-id');
+                conversations_area.find('.sb-panel-perfex').html(perfex_id == '' ? '' : `<a href="${SB_ADMIN_SETTINGS['perfex-url']}/admin/clients/client/${perfex_id['value']}" target="_blank" class="sb-btn sb-perfex-link">${sb_('View on Perfex')}</a>`);
+            }
+        },
+
+        ump: {
+
+            panel: false,
+
+            conversationPanel: function () {
+                if (loading(this.panel)) return;
+                if (!this.panel) this.panel = conversations_area.find('.sb-panel-ump');
+                let code = '';
+                let subscriptions;
+                SBF.ajax({
+                    function: 'ump-get-conversation-details'
+                }, (response) => {
+                    subscriptions = response['subscriptions'];
+                    if (subscriptions.length) {
+                        code = '<i class="sb-icon-refresh"></i><h3>Membership</h3><div class="sb-list-names">';
+                        for (var i = 0; i < subscriptions.length; i++) {
+                            let expired = subscriptions[i]['expired'];
+                            code += `<div${expired ? ' class="sb-expired"' : ''}><span>${subscriptions[i]['label']}</span><span>${sb_(expired ? 'Expired on' : 'Expires on')} ${SBF.beautifyTime(subscriptions[i]['expire_time'], false, !expired)}</span></div>`;
+                        }
+                        code += `</div><span class="sb-title">${sb_('Total spend')} ${response['currency_symbol']}${response['total']}</span>`;
+                    }
+                    $(this.panel).html(code).sbLoading(false);
+                    collapse(this.panel, 160);
+                });
+            }
+        },
+
+        armember: {
+
+            panel: false,
+
+            conversationPanel: function () {
+                let wp_user_id = activeUser().getExtra('wp-id');
+                if (!this.panel) this.panel = conversations_area.find('.sb-panel-armember');
+                if (!SBF.null(wp_user_id) && !loading(this.panel)) {
+                    let code = '';
+                    let subscriptions;
+                    wp_user_id = wp_user_id.value;
+                    SBF.ajax({
+                        function: 'armember-get-conversation-details',
+                        wp_user_id: wp_user_id
+                    }, (response) => {
+                        subscriptions = response['subscriptions'];
+                        if (subscriptions.length) {
+                            code = '<i class="sb-icon-refresh"></i><h3>Plans</h3><div class="sb-list-names">';
+                            for (var i = 0; i < subscriptions.length; i++) {
+                                let expired = subscriptions[i]['expired'];
+                                code += `<div${expired ? ' class="sb-expired"' : ''}><span>${subscriptions[i].arm_current_plan_detail.arm_subscription_plan_name}</span><span>${subscriptions[i]['expire_time'] == 'never' ? '' : (sb_(expired ? 'Expired on' : 'Expires on') + ' ' + SBF.beautifyTime(subscriptions[i]['expire_time'], false, !expired))}</span></div>`;
+                            }
+                            code += `</div><span class="sb-title">${sb_('Total spend')} ${response['currency_symbol']}${response['total']}<a href="${window.location.href.substr(0, window.location.href.lastIndexOf('/')) + '?page=arm_manage_members&member_id=' + activeUser().getExtra('wp-id').value}" target="_blank" class="sb-btn-text"><i class="sb-icon-user"></i> ${sb_('View member')}</a></span>`;
+                        }
+                        $(this.panel).html(code).sbLoading(false);
+                        collapse(this.panel, 160);
+                    });
+                } else $(this.panel).html('');
+            }
+        },
+
+        zendesk: {
+
+            conversationPanel: function () {
+                if (!SB_ADMIN_SETTINGS['zendesk-active']) return;
+                let zendesk_id = activeUser().getExtra('zendesk-id');
+                let phone = activeUser().getExtra('phone');
+                let email = activeUser().get('email');
+                let panel = conversations_area.find('.sb-panel-zendesk');
+                if ((zendesk_id || phone || email) && !loading(panel)) {
+                    SBF.ajax({
+                        function: 'zendesk-get-conversation-details',
+                        conversation_id: SBChat.conversation.id,
+                        zendesk_id: zendesk_id ? zendesk_id.value : false,
+                        phone: phone ? phone.value : false,
+                        email: email,
+                    }, (response) => {
+                        $(panel).html(response).sbLoading(false);
+                        panel.find('.sb-zendesk-date').each(function () {
+                            $(this).html(SBF.beautifyTime($(this).html()));
+                        });
+                        collapse(panel, 160);
+                    });
+                } else $(panel).html('');
+            }
+        },
+
+        woocommerce: {
+
+            popupPaginationNumber: 1,
+            popupLanguage: '',
+            popupCache: [],
+            panel: false,
+            timeout: false,
+
+            // Products popup
+            popupCode: function (items, label = true) {
+                let code = '';
+                for (var i = 0; i < items.length; i++) {
+                    code += `<li data-id="${items[i]['id']}"><div class="sb-image" style="background-image:url('${items[i]['image']}')"></div><div><span>${items[i]['name']}</span><span>${SB_ADMIN_SETTINGS['currency']}${items[i]['price']}</span></div></li>`;
                 }
-                return false;
+                return label ? (code == '' ? `<p>${sb_('No products found')}</p>` : code) : code;
             },
-        }
 
-
-        /*
-         * ----------------------------------------------------------
-         * # Settings
-         * ----------------------------------------------------------
-         */
-
-        var SBSettings = {
-            init: false,
-
-            save: function(btn) {
-                if (loading(btn)) return;
-                let external_settings = {};
-                let settings = {};
-                let tab = settings_area.find(' > .sb-tab > .sb-nav .sb-active').attr('id');
-                switch (tab) {
-                    case 'tab-articles':
-                        this.articles.save((response) => {
-                            showResponse(response === true ? 'Articles and categories saved' : response);
-                            $(btn).sbLoading(false);
+            popupSearch: function (input) {
+                searchInput(input, (search, icon) => {
+                    if (search == '') {
+                        this.popupPopulate(function () {
+                            $(icon).sbLoading(false);
                         });
-                        break;
-                    case 'tab-automations':
-                        let active = automations_area_nav.find('.sb-active').attr('data-id');
-                        SBSettings.automations.save((response) => {
-                            showResponse(response === true ? 'Automations saved' : response);
-                            SBSettings.automations.populate();
-                            automations_area_nav.find(`[data-id="${active}"]`).click();
-                            $(btn).sbLoading(false);
-                        });
-                        break;
-                    case 'tab-translations':
-                        this.translations.updateActive();
+                    } else {
+                        this.popupPaginationNumber = 1;
                         SBF.ajax({
-                            function: 'save-translations',
-                            translations: JSON.stringify(this.translations.to_update)
-                        }, () => {
-                            showResponse('Translations saved');
-                            $(btn).sbLoading(false);
+                            function: 'woocommerce-search-products',
+                            search: search
+                        }, (response) => {
+                            woocommerce_products_box_ul.html(this.popupCode(response));
+                            $(icon).sbLoading(false);
                         });
-                        break;
-                    default:
-                        settings_area.find('.sb-setting').each((i, element) => {
-                            let setting = this.get(element);
-                            let setting_id = $(element).data('setting');
-                            if (setting[0]) {
-                                if (typeof setting_id != ND) {
-                                    let originals = false;
-                                    if ($(element).find('[data-language]').length) {
-                                        let language = $(element).find('[data-language].sb-active');
-                                        originals = setting[0] in this.translations.originals ? this.translations.originals[setting[0]] : false;
-                                        this.translations.save(element, language.length ? language.attr('data-language') : false);
-                                        if (originals) {
-                                            if (typeof originals != 'string') {
-                                                for (var key in originals) {
-                                                    originals[key] = [originals[key], setting[1][key][1]]
-                                                }
+                    }
+                });
+            },
+
+            popupFilter: function (item) {
+                if (loading(woocommerce_products_box_ul)) return;
+                woocommerce_products_box_ul.html('');
+                this.popupPaginationNumber = 1;
+                SBF.ajax({
+                    function: 'woocommerce-get-products',
+                    user_language: this.popupLanguage,
+                    filters: { taxonomy: $(item).data('value') }
+                }, (response) => {
+                    woocommerce_products_box_ul.html(this.popupCode(response)).sbLoading(false);
+                });
+            },
+
+            popupPopulate: function (onSuccess = false) {
+                this.popupLanguage = activeUser() != false && SB_ADMIN_SETTINGS['languages'].includes(activeUser().language) ? activeUser().language : '';
+                this.popupPaginationNumber = 1;
+                woocommerce_products_box_ul.html('').sbLoading(true);
+                SBF.ajax({
+                    function: 'woocommerce-products-popup',
+                    user_language: this.popupLanguage
+                }, (response) => {
+                    let code = '';
+                    let select = woocommerce_products_box.find('.sb-select');
+                    for (var i = 0; i < response[1].length; i++) {
+                        code += `<li data-value="${response[1][i]['id']}">${response[1][i]['name']}</li>`;
+                    }
+                    select.find('> p').html(sb_('All'));
+                    select.find('ul').html(`<li data-value="" class="sb-active">${sb_('All')}</li>` + code);
+                    woocommerce_products_box_ul.html(this.popupCode(response[0])).sbLoading(false);
+                    if (onSuccess !== false) onSuccess();
+                });
+            },
+
+            popupPagination: function (area) {
+                woocommerce_products_box_ul.sbLoading(area);
+                SBF.ajax({
+                    function: 'woocommerce-get-products',
+                    filters: { taxonomy: $(area).parent().find('.sb-select p').attr('data-value') },
+                    pagination: this.popupPaginationNumber,
+                    user_language: this.popupLanguage
+                }, (response) => {
+                    woocommerce_products_box_ul.append(this.popupCode(response, false)).sbLoading(false);
+                    this.popupPaginationNumber++;
+                    scrollPagination(area);
+                });
+            },
+
+            // Conversation panel
+            conversationPanel: function () {
+                if (loading(this.panel)) return;
+                if (!this.panel) this.panel = conversations_area.find('.sb-panel-woocommerce');
+                let code = '';
+                SBF.ajax({
+                    function: 'woocommerce-get-conversation-details'
+                }, (response) => {
+                    code = `<i class="sb-icon-refresh"></i><h3>WooCommerce</h3><div><div class="sb-split"><div><div class="sb-title">${sb_('Number of orders')}</div><span>${response['orders_count']} ${sb_('orders')}</span></div><div><div class="sb-title">${sb_('Total spend')}</div><span>${response['currency_symbol']}${response['total']}</span></div></div><div class="sb-title">${sb_('Cart')}<i class="sb-add-cart-btn sb-icon-plus"></i></div><div class="sb-list-items sb-list-links sb-woocommerce-cart">`;
+                    for (var i = 0; i < response['cart'].length; i++) {
+                        let product = response['cart'][i];
+                        code += `<a href="${product['url']}" target="_blank" data-id="${product['id']}"><span>#${product['id']}</span> <span>${product['name']}</span> <span>x ${product['quantity']}</span><i class="sb-icon-close"></i></a>`;
+                    }
+                    code += (response['cart'].length ? '' : '<p>' + sb_('The cart is currently empty.') + '</p>') + '</div>';
+                    if (response['orders'].length) {
+                        code += `<div class="sb-title">${sb_('Orders')}</div><div class="sb-list-items sb-woocommerce-orders sb-accordion">`;
+                        for (var i = 0; i < response['orders'].length; i++) {
+                            let order = response['orders'][i];
+                            let id = order['id'];
+                            code += `<div data-id="${id}"><span><span>#${id}</span> <span>${SBF.beautifyTime(order['date'], true)}</span><a href="${SITE_URL}/wp-admin/post.php?post=${id}&action=edit" target="_blank" class="sb-icon-next"></a></span><div></div></div>`;
+                        }
+                        code += '</div>';
+                    }
+                    $(this.panel).html(code).sbLoading(false);
+                    collapse(this.panel, 160);
+                });
+            },
+
+
+            // Conversation panel order details
+            conversationPanelOrder: function (order_id) {
+                let accordion = this.panel.find(`[data-id="${order_id}"] > div`);
+                accordion.html('');
+                SBF.ajax({
+                    function: 'woocommerce-get-order',
+                    order_id: order_id
+                }, (response) => {
+                    let code = '';
+                    let collapse = this.panel.find('.sb-collapse-btn:not(.sb-active)');
+                    if (response) {
+                        let products = response['products'];
+                        code += `<div class="sb-title">${sb_('Order total')}: <span>${response['currency_symbol']}${response['total']}<span></div><div class="sb-title">${sb_('Order status')}: <span>${SBF.slugToString(response['status'].replace('wc-', ''))}<span></div><div class="sb-title">${sb_('Date')}: <span>${SBF.beautifyTime(response['date'], true)}<span></div><div class="sb-title">${sb_('Products')}</div>`;
+                        for (var i = 0; i < products.length; i++) {
+                            code += `<a href="${SITE_URL}?p=${products[i]['id']}" target="_blank"><span>#${products[i]['id']}</span> <span>${products[i]['quantity']} x</span> <span>${products[i]['name']}</span></a>`;
+                        }
+                        for (var i = 0; i < 2; i++) {
+                            let key = i == 0 ? 'shipping' : 'billing';
+                            if (response[key + '_address']) {
+                                code += `<div class="sb-title">${sb_((i == 0 ? 'Shipping' : 'Billing') + ' address')}</div><div class="sb-multiline">${response[key + '_address'].replace(/\\n/g, '<br>')}</div>`;
+                            }
+                        }
+                    }
+                    if (collapse.length) {
+                        collapse.click();
+                    }
+                    accordion.html(code);
+                });
+            },
+
+            conversationPanelUpdate: function (product_id, action = 'added') {
+                let busy = false;
+                let count = 0;
+                this.timeout = setInterval(() => {
+                    if (!busy) {
+                        SBF.ajax({
+                            function: 'woocommerce-get-conversation-details'
+                        }, (response) => {
+                            let removed = true;
+                            for (var i = 0; i < response['cart'].length; i++) {
+                                if (response['cart'][i]['id'] == product_id) {
+                                    if (action == 'added') count = 61; else removed = false;
+                                }
+                            }
+                            if (count > 60 || removed) {
+                                this.conversationPanel();
+                                conversations_area.find('.sb-add-cart-btn,.sb-woocommerce-cart > a i').sbLoading(false);
+                                clearInterval(this.timeout);
+                            }
+                            count++;
+                            busy = false;
+                        });
+                        busy = true;
+                    }
+                }, 1000);
+            }
+        },
+
+        wordpress: {
+            ajax: function (action, data, onSuccess) {
+                $.ajax({
+                    method: 'POST',
+                    url: SB_WP_AJAX_URL,
+                    data: $.extend({ action: 'sb_wp_ajax', type: action }, data)
+                }).done((response) => {
+                    if (onSuccess !== false) {
+                        onSuccess(response);
+                    }
+                });
+            }
+        },
+
+        is: function (name) {
+            if (typeof SB_VERSIONS == ND) return false;
+            switch (name) {
+                case 'zendesk':
+                case 'twitter':
+                case 'wechat':
+                case 'telegram':
+                case 'armember':
+                case 'aecommerce':
+                case 'whmcs':
+                case 'perfex':
+                case 'ump':
+                case 'messenger':
+                case 'whatsapp':
+                case 'woocommerce':
+                case 'dialogflow':
+                case 'slack':
+                case 'tickets': return typeof SB_VERSIONS[name] != ND && SB_VERSIONS[name] != -1;
+                case 'wordpress': return typeof SB_WP != ND;
+                case 'sb': return true;
+            }
+            return false;
+        },
+    }
+
+    /*
+    * ----------------------------------------------------------
+    * # Settings
+    * ----------------------------------------------------------
+    */
+
+    var SBSettings = {
+        init: false,
+
+        save: function (btn) {
+            if (loading(btn)) return;
+            let external_settings = {};
+            let settings = {};
+            let tab = settings_area.find(' > .sb-tab > .sb-nav .sb-active').attr('id');
+            switch (tab) {
+                case 'tab-articles':
+                    this.articles.save((response) => {
+                        showResponse(response === true ? 'Articles and categories saved' : response);
+                        $(btn).sbLoading(false);
+                    });
+                    break;
+                case 'tab-automations':
+                    let active = automations_area_nav.find('.sb-active').attr('data-id');
+                    SBSettings.automations.save((response) => {
+                        showResponse(response === true ? 'Automations saved' : response);
+                        SBSettings.automations.populate();
+                        automations_area_nav.find(`[data-id="${active}"]`).click();
+                        $(btn).sbLoading(false);
+                    });
+                    break;
+                case 'tab-translations':
+                    this.translations.updateActive();
+                    SBF.ajax({
+                        function: 'save-translations',
+                        translations: JSON.stringify(this.translations.to_update)
+                    }, () => {
+                        showResponse('Translations saved');
+                        $(btn).sbLoading(false);
+                    });
+                    break;
+                default:
+                    settings_area.find('.sb-setting').each((i, element) => {
+                        let setting = this.get(element);
+                        let setting_id = $(element).data('setting');
+                        if (setting[0]) {
+                            if (typeof setting_id != ND) {
+                                let originals = false;
+                                if ($(element).find('[data-language]').length) {
+                                    let language = $(element).find('[data-language].sb-active');
+                                    originals = setting[0] in this.translations.originals ? this.translations.originals[setting[0]] : false;
+                                    this.translations.save(element, language.length ? language.attr('data-language') : false);
+                                    if (originals) {
+                                        if (typeof originals != 'string') {
+                                            for (var key in originals) {
+                                                originals[key] = [originals[key], setting[1][key][1]]
                                             }
                                         }
                                     }
-                                    if (!(setting_id in external_settings)) external_settings[setting_id] = {};
-                                    external_settings[setting_id][setting[0]] = [originals ? originals : setting[1], setting[2]];
-                                } else {
-                                    settings[setting[0]] = [setting[1], setting[2]];
                                 }
-                            }
-                        });
-                        SBF.ajax({
-                            function: 'save-settings',
-                            settings: settings,
-                            external_settings: external_settings,
-                            external_settings_translations: this.translations.translations
-                        }, () => {
-                            showResponse('Settings saved');
-                            $(btn).sbLoading(false);
-                        });
-                        break;
-                }
-            },
-
-            initPlugins: function() {
-                settings_area.find('textarea').each(function() {
-                    $(this).autoExpandTextarea();
-                    $(this).manualExpandTextarea();
-                });
-                settings_area.find('[data-setting] .sb-language-switcher-cnt').each(function() {
-                    $(this).sbLanguageSwitcher(SBSettings.translations.getLanguageCodes($(this).closest('[data-setting]').attr('id')), 'settings');
-                });
-            },
-
-            initColorPicker: function(area = false) {
-                $(area ? area : settings_area).find('.sb-type-color input').colorPicker({
-                    renderCallback: function(t, toggled) {
-                        $(t.context).closest('.input').find('input').css('background-color', t.text);
-                    }
-                });
-            },
-
-            initHTML: function(response) {
-                if ('slack-agents' in response) {
-                    let code = '';
-                    for (var key in response['slack-agents'][0]) {
-                        code += `<div data-id="${key}"><select><option value="${response['slack-agents'][0][key]}"></option></select></div>`;
-                    }
-                    settings_area.find('#slack-agents .input').html(code);
-                }
-            },
-
-            get: function(item) {
-                item = $(item);
-                let id = item.attr('id');
-                let type = item.data('type');
-                switch (type) {
-                    case 'upload':
-                    case 'range':
-                    case 'number':
-                    case 'text':
-                    case 'password':
-                    case 'color':
-                        return [id, item.find('input').val(), type];
-                        break;
-                    case 'textarea':
-                        return [id, item.find('textarea').val(), type];
-                        break;
-                    case 'select':
-                        return [id, item.find('select').val(), type];
-                        break;
-                    case 'checkbox':
-                        return [id, item.find('input').is(':checked'), type];
-                        break;
-                    case 'radio':
-                        let value = item.find('input:checked').val();
-                        if (SBF.null(value)) value = '';
-                        return [id, value, type];
-                        break;
-                    case 'upload-image':
-                        let url = item.find('.image').attr('data-value');
-                        if (SBF.null(url)) url = '';
-                        return [id, url, type];
-                        break;
-                    case 'multi-input':
-                        let multi_inputs = {};
-                        item.find('.input > div').each((i, element) => {
-                            let setting = this.get(element);
-                            if (setting[0]) {
-                                multi_inputs[setting[0]] = [setting[1], setting[2]];
-                            }
-                        });
-                        return [id, multi_inputs, type];
-                        break;
-                    case 'select-images':
-                        return [id, item.find('.input > .sb-active').data('value'), type];
-                        break;
-                    case 'repeater':
-                        return [id, this.repeater('get', item.find('.repeater-item'), ''), type];
-                        break;
-                    case 'double-select':
-                        let selects = {};
-                        item.find('.input > div').each(function() {
-                            let value = $(this).find('select').val();
-                            if (value != -1) {
-                                selects[$(this).attr('data-id')] = [value];
-                            }
-                        });
-                        return [id, selects, type];
-                        break;
-                    case 'timetable':
-                        let times = {};
-                        item.find('.sb-timetable > [data-day]').each(function() {
-                            let day = $(this).attr('data-day');
-                            let hours = [];
-                            $(this).find('> div > div').each(function() {
-                                let name = $(this).html()
-                                let value = $(this).attr('data-value');
-                                if (SBF.null(value)) {
-                                    hours.push(['', '']);
-                                } else if (value == 'closed') {
-                                    hours.push(['closed', 'Closed']);
-                                } else {
-                                    hours.push([value, name]);
-                                }
-                            });
-                            times[day] = hours;
-                        });
-                        return [id, times, type];
-                        break;
-                    case 'color-palette':
-                        return [id, item.attr('data-value'), type];
-                        break;
-
-                }
-                return ['', '', ''];
-            },
-
-            set: function(id, setting) {
-                let type = $(setting)[1];
-                let value = $(setting)[0];
-                id = `#${id}`;
-                switch (type) {
-                    case 'color':
-                    case 'upload':
-                    case 'number':
-                    case 'text':
-                    case 'password':
-                        settings_area.find(`${id} input`).val(SBF.restoreJson(value));
-                        break;
-                    case 'textarea':
-                        settings_area.find(`${id} textarea`).val(SBF.restoreJson(value));
-                        break;
-                    case 'select':
-                        settings_area.find(`${id} select`).val(SBF.restoreJson(value));
-                        break;
-                    case 'checkbox':
-                        settings_area.find(`${id} input`).prop('checked', (value == 'false' ? false : value));
-                        break;
-                    case 'radio':
-                        settings_area.find(`${id} input[value="${SBF.restoreJson(value)}"]`).prop('checked', true);
-                        break;
-                    case 'upload-image':
-                        if (value) {
-                            settings_area.find(id + ' .image').attr('data-value', SBF.restoreJson(value)).css('background-image', `url("${SBF.restoreJson(value)}")`);
-                        }
-                        break;
-                    case 'multi-input':
-                        for (var key in value) {
-                            this.set(key, value[key]);
-                        }
-                        break;
-                    case 'range':
-                        let range_value = SBF.restoreJson(value);
-                        settings_area.find(id + ' input').val(range_value);
-                        settings_area.find(id + ' .range-value').html(range_value);
-                        break;
-                    case 'select-images':
-                        settings_area.find(id + ' .input > div').sbActivate(false);
-                        settings_area.find(id + ` .input > [data-value="${SBF.restoreJson(value)}"]`).sbActivate();
-                        break;
-                    case 'repeater':
-                        let content = this.repeater('set', value, settings_area.find(id + ' .repeater-item:last-child'));
-                        if (content) {
-                            settings_area.find(id + ' .sb-repeater').html(content);
-                        }
-                        break;
-                    case 'double-select':
-                        for (var key in value) {
-                            settings_area.find(`${id} .input > [data-id="${key}"] select`).val(value[key]);
-                        }
-                        break;
-                    case 'timetable':
-                        for (var key in value) {
-                            let hours = settings_area.find(`${id} [data-day="${key}"] > div > div`);
-                            for (var i = 0; i < hours.length; i++) {
-                                $(hours[i]).attr('data-value', value[key][i][0]).html(value[key][i][1]);
-                            }
-                        }
-                        break;
-                    case 'color-palette':
-                        if (value) {
-                            settings_area.find(id).attr('data-value', value);
-                        }
-                        break;
-                }
-            },
-
-            repeater: function(action, items, content) {
-                $(content).find('.sb-icon-close').remove();
-                content = $(content).html();
-                if (action == 'set') {
-                    var html = '';
-                    if (items.length > 0) {
-                        for (var i = 0; i < items.length; i++) {
-                            let item = $($.parseHTML(`<div>${content}</div>`));
-                            for (var key in items[i]) {
-                                this.setInput(item.find(`[data-id="${key}"]`), items[i][key]);
-                            }
-                            html += `<div class="repeater-item">${item.html()}<i class="sb-icon-close"></i></div>`;
-                        }
-                    }
-                    return html;
-                }
-                if (action == 'get') {
-                    let items_array = [];
-                    let me = this;
-                    $(items).each(function() {
-                        let item = {};
-                        let empty = true;
-                        $(this).find('[data-id]').each(function() {
-                            let value = me.getInput(this);
-                            if (empty && value && $(this).attr('type') != 'hidden' && $(this).attr('data-type') != 'auto-id') {
-                                empty = false;
-                            }
-                            item[$(this).attr('data-id')] = value;
-                        });
-                        if (!empty) {
-                            items_array.push(item);
-                        }
-                    });
-                    return items_array;
-                }
-            },
-
-            repeaterAdd: function(item) {
-                let parent = $(item).parent();
-                item = $($.parseHTML(`<div>${parent.find('.repeater-item:last-child').html()}</div>`));
-                item.find('[data-id]').each(function() {
-                    SBSettings.resetInput(this);
-                    if ($(this).data('type') == 'auto-id') {
-                        let larger = 1;
-                        parent.find('[data-type="auto-id"]').each(function() {
-                            let index = parseInt($(this).val());
-                            if (index > larger) {
-                                larger = index;
-                            }
-                        });
-                        $(this).attr('value', larger + 1);
-                    }
-                });
-                parent.find('.sb-repeater').append(`<div class="repeater-item">${item.html()}</div>`);
-            },
-
-            repeaterDelete: function(item) {
-                let parent = $(item).parent();
-                if (parent.parent().find('.repeater-item').length > 1) {
-                    parent.remove();
-                } else {
-                    parent.find('[data-id]').each((e, element) => {
-                        this.resetInput(element);
-                    });
-                }
-            },
-
-            setInput: function(input, value) {
-                value = $.trim(value);
-                input = $(input);
-                if (input.is('select')) {
-                    input.find(`option[value="${value}"]`).attr('selected', '');
-                } else {
-                    if (input.is(':checkbox') && value && value != 'false') {
-                        input.attr('checked', '');
-                    } else {
-                        if (input.is('textarea')) {
-                            input.html(value);
-                        } else {
-                            let div = input.is('div');
-                            if (div || input.is('i') || input.is('li')) {
-                                input.attr('data-value', value);
-                                if (div && input.hasClass('image')) {
-                                    input.css('background-image', `url("${value}")`);
-                                }
+                                if (!(setting_id in external_settings)) external_settings[setting_id] = {};
+                                external_settings[setting_id][setting[0]] = [originals ? originals : setting[1], setting[2]];
                             } else {
-                                input.attr('value', value);
+                                settings[setting[0]] = [setting[1], setting[2]];
                             }
                         }
+                    });
+                    SBF.ajax({
+                        function: 'save-settings',
+                        settings: settings,
+                        external_settings: external_settings,
+                        external_settings_translations: this.translations.translations
+                    }, () => {
+                        showResponse('Settings saved');
+                        $(btn).sbLoading(false);
+                    });
+                    break;
+            }
+        },
+
+        initPlugins: function () {
+            settings_area.find('textarea').each(function () {
+                $(this).autoExpandTextarea();
+                $(this).manualExpandTextarea();
+            });
+            settings_area.find('[data-setting] .sb-language-switcher-cnt').each(function () {
+                $(this).sbLanguageSwitcher(SBSettings.translations.getLanguageCodes($(this).closest('[data-setting]').attr('id')), 'settings');
+            });
+        },
+
+        initColorPicker: function (area = false) {
+            $(area ? area : settings_area).find('.sb-type-color input').colorPicker({
+                renderCallback: function (t, toggled) {
+                    $(t.context).closest('.input').find('input').css('background-color', t.text);
+                }
+            });
+        },
+
+        initHTML: function (response) {
+            if ('slack-agents' in response) {
+                let code = '';
+                for (var key in response['slack-agents'][0]) {
+                    code += `<div data-id="${key}"><select><option value="${response['slack-agents'][0][key]}"></option></select></div>`;
+                }
+                settings_area.find('#slack-agents .input').html(code);
+            }
+        },
+
+        get: function (item) {
+            item = $(item);
+            let id = item.attr('id');
+            let type = item.data('type');
+            switch (type) {
+                case 'upload':
+                case 'range':
+                case 'number':
+                case 'text':
+                case 'password':
+                case 'color':
+                    return [id, item.find('input').val(), type];
+                    break;
+                case 'textarea':
+                    return [id, item.find('textarea').val(), type];
+                    break;
+                case 'select':
+                    return [id, item.find('select').val(), type];
+                    break;
+                case 'checkbox':
+                    return [id, item.find('input').is(':checked'), type];
+                    break;
+                case 'radio':
+                    let value = item.find('input:checked').val();
+                    if (SBF.null(value)) value = '';
+                    return [id, value, type];
+                    break;
+                case 'upload-image':
+                    let url = item.find('.image').attr('data-value');
+                    if (SBF.null(url)) url = '';
+                    return [id, url, type];
+                    break;
+                case 'multi-input':
+                    let multi_inputs = {};
+                    item.find('.input > div').each((i, element) => {
+                        let setting = this.get(element);
+                        if (setting[0]) {
+                            multi_inputs[setting[0]] = [setting[1], setting[2]];
+                        }
+                    });
+                    return [id, multi_inputs, type];
+                    break;
+                case 'select-images':
+                    return [id, item.find('.input > .sb-active').data('value'), type];
+                    break;
+                case 'repeater':
+                    return [id, this.repeater('get', item.find('.repeater-item'), ''), type];
+                    break;
+                case 'double-select':
+                    let selects = {};
+                    item.find('.input > div').each(function () {
+                        let value = $(this).find('select').val();
+                        if (value != -1) {
+                            selects[$(this).attr('data-id')] = [value];
+                        }
+                    });
+                    return [id, selects, type];
+                    break;
+                case 'timetable':
+                    let times = {};
+                    item.find('.sb-timetable > [data-day]').each(function () {
+                        let day = $(this).attr('data-day');
+                        let hours = [];
+                        $(this).find('> div > div').each(function () {
+                            let name = $(this).html()
+                            let value = $(this).attr('data-value');
+                            if (SBF.null(value)) {
+                                hours.push(['', '']);
+                            } else if (value == 'closed') {
+                                hours.push(['closed', 'Closed']);
+                            } else {
+                                hours.push([value, name]);
+                            }
+                        });
+                        times[day] = hours;
+                    });
+                    return [id, times, type];
+                    break;
+                case 'color-palette':
+                    return [id, item.attr('data-value'), type];
+                    break;
+
+            }
+            return ['', '', ''];
+        },
+
+        set: function (id, setting) {
+            let type = $(setting)[1];
+            let value = $(setting)[0];
+            id = `#${id}`;
+            switch (type) {
+                case 'color':
+                case 'upload':
+                case 'number':
+                case 'text':
+                case 'password':
+                    settings_area.find(`${id} input`).val(SBF.restoreJson(value));
+                    break;
+                case 'textarea':
+                    settings_area.find(`${id} textarea`).val(SBF.restoreJson(value));
+                    break;
+                case 'select':
+                    settings_area.find(`${id} select`).val(SBF.restoreJson(value));
+                    break;
+                case 'checkbox':
+                    settings_area.find(`${id} input`).prop('checked', (value == 'false' ? false : value));
+                    break;
+                case 'radio':
+                    settings_area.find(`${id} input[value="${SBF.restoreJson(value)}"]`).prop('checked', true);
+                    break;
+                case 'upload-image':
+                    if (value) {
+                        settings_area.find(id + ' .image').attr('data-value', SBF.restoreJson(value)).css('background-image', `url("${SBF.restoreJson(value)}")`);
+                    }
+                    break;
+                case 'multi-input':
+                    for (var key in value) {
+                        this.set(key, value[key]);
+                    }
+                    break;
+                case 'range':
+                    let range_value = SBF.restoreJson(value);
+                    settings_area.find(id + ' input').val(range_value);
+                    settings_area.find(id + ' .range-value').html(range_value);
+                    break;
+                case 'select-images':
+                    settings_area.find(id + ' .input > div').sbActive(false);
+                    settings_area.find(id + ` .input > [data-value="${SBF.restoreJson(value)}"]`).sbActive(true);
+                    break;
+                case 'repeater':
+                    let content = this.repeater('set', value, settings_area.find(id + ' .repeater-item:last-child'));
+                    if (content) {
+                        settings_area.find(id + ' .sb-repeater').html(content);
+                    }
+                    break;
+                case 'double-select':
+                    for (var key in value) {
+                        settings_area.find(`${id} .input > [data-id="${key}"] select`).val(value[key]);
+                    }
+                    break;
+                case 'timetable':
+                    for (var key in value) {
+                        let hours = settings_area.find(`${id} [data-day="${key}"] > div > div`);
+                        for (var i = 0; i < hours.length; i++) {
+                            $(hours[i]).attr('data-value', value[key][i][0]).html(value[key][i][1]);
+                        }
+                    }
+                    break;
+                case 'color-palette':
+                    if (value) {
+                        settings_area.find(id).attr('data-value', value);
+                    }
+                    break;
+            }
+        },
+
+        repeater: function (action, items, content) {
+            $(content).find('.sb-icon-close').remove();
+            content = $(content).html();
+            if (action == 'set') {
+                var html = '';
+                if (items.length > 0) {
+                    for (var i = 0; i < items.length; i++) {
+                        let item = $($.parseHTML(`<div>${content}</div>`));
+                        for (var key in items[i]) {
+                            this.setInput(item.find(`[data-id="${key}"]`), items[i][key]);
+                        }
+                        html += `<div class="repeater-item">${item.html()}<i class="sb-icon-close"></i></div>`;
                     }
                 }
-            },
+                return html;
+            }
+            if (action == 'get') {
+                let items_array = [];
+                let me = this;
+                $(items).each(function () {
+                    let item = {};
+                    let empty = true;
+                    $(this).find('[data-id]').each(function () {
+                        let value = me.getInput(this);
+                        if (empty && value && $(this).attr('type') != 'hidden' && $(this).attr('data-type') != 'auto-id') {
+                            empty = false;
+                        }
+                        item[$(this).attr('data-id')] = value;
+                    });
+                    if (!empty) {
+                        items_array.push(item);
+                    }
+                });
+                return items_array;
+            }
+        },
 
-            getInput: function(input) {
-                input = $(input);
-                if (input.is(':checkbox')) {
-                    return input.is(':checked');
+        repeaterAdd: function (item) {
+            let parent = $(item).parent();
+            item = $($.parseHTML(`<div>${parent.find('.repeater-item:last-child').html()}</div>`));
+            item.find('[data-id]').each(function () {
+                SBSettings.resetInput(this);
+                if ($(this).data('type') == 'auto-id') {
+                    let larger = 1;
+                    parent.find('[data-type="auto-id"]').each(function () {
+                        let index = parseInt($(this).val());
+                        if (index > larger) {
+                            larger = index;
+                        }
+                    });
+                    $(this).attr('value', larger + 1);
+                }
+            });
+            parent.find('.sb-repeater').append(`<div class="repeater-item">${item.html()}</div>`);
+        },
+
+        repeaterDelete: function (item) {
+            let parent = $(item).parent();
+            if (parent.parent().find('.repeater-item').length > 1) {
+                parent.remove();
+            } else {
+                parent.find('[data-id]').each((e, element) => {
+                    this.resetInput(element);
+                });
+            }
+        },
+
+        setInput: function (input, value) {
+            value = $.trim(value);
+            input = $(input);
+            if (input.is('select')) {
+                input.find(`option[value="${value}"]`).attr('selected', '');
+            } else {
+                if (input.is(':checkbox') && value && value != 'false') {
+                    input.attr('checked', '');
                 } else {
-                    if (input.is("div") || input.is("i") || input.is("li")) {
-                        let value = input.attr('data-value');
-                        return SBF.null(value) ? '' : value;
+                    if (input.is('textarea')) {
+                        input.html(value);
                     } else {
-                        return input.val();
-                    }
-                }
-                return '';
-            },
-
-            resetInput: function(input) {
-                input = $(input);
-                if (input.is("select")) {
-                    input.val('').find('[selected]').removeAttr('selected');
-                } else {
-                    if (input.is("checkbox") && value) {
-                        input.removeAttr('checked').prop('checked', false);
-                    } else {
-                        if (input.is("textarea")) {
-                            input.html('');
-                        } else {
-                            input.removeAttr('value').removeAttr('style').removeAttr('data-value').val('');
-                        }
-                    }
-                }
-            },
-
-            getSettingObject: function(setting) {
-                return $(setting)[0].hasAttribute('data-setting') ? $(setting) : $(setting).closest('[data-setting]');
-            },
-
-            articles: {
-                categories: [],
-                articles: [],
-                business_types: [],
-                translations: {},
-
-                get: function(onSuccess, categories = false, full = true) {
-                    SBF.ajax({
-                        function: 'get-articles',
-                        categories: categories,
-                        articles_language: 'all',
-                        full: full
-                    }, (response) => {
-                        onSuccess(response);
-                    });
-
-                    // load business types
-                    var self = this;
-                    this.getBusinessTypes(() => {
-                        self.updateSelect();
-                    });
-                },
-
-                getBusinessTypes: function(onSuccess) {
-                    var self = this;
-                    $.get(MAIN_URL + "/api/business-types", function(response) {
-                        self.business_types = response;
-                        onSuccess(response);
-                    });
-                },
-
-                save: function(onSuccess = false) {
-                    this.updateActiveArticle();
-                    articles_area.find('.sb-new-category-cnt').each((i, element) => {
-                        let value = $.trim($(element).find('.category-name').val());
-                        let icon_value = $.trim($(element).find('.category-icon').val());
-                        if (value) this.categories.push({ id: SBF.random(), title: value, icon: icon_value });
-
-                        // remove input after fetch the data from inputs
-                        $(element).find('.category-name').parents().eq(1).remove();
-                        $(element).find('.category-icon').parents().eq(1).remove();
-                    });
-                    if (this.categories.length) {
-                        this.categories.sort(function(a, b) {
-                            return a.title.localeCompare(b.title);
-                        });
-                    }
-                    SBF.ajax({
-                        function: 'save-articles',
-                        articles: this.articles,
-                        translations: this.translations,
-                        categories: this.categories.length ? this.categories : 'delete_all'
-                    }, (response) => {
-                        articles_area.find('.sb-menu-wide .sb-active').click();
-                        articles_area.find(`.sb-nav [data-id="${this.activeID()}"]`).click();
-                        this.updateSelect();
-                        if (onSuccess) onSuccess(response);
-                    });
-                },
-
-                show: function(article_id = false, element = false, language = false) {
-                    let contents = [-1, '', '', '', ''];
-                    this.updateActiveArticle();
-                    this.hide(false);
-                    let articles = language ? (language in this.translations ? this.translations[language] : []) : this.articles;
-                    if (article_id === false) article_id = this.activeID();
-                    for (var i = 0; i < articles.length; i++) {
-                        if (articles[i]['id'] == article_id) {
-                            contents = [article_id, articles[i]['title'], articles[i]['content'], articles[i]['link'], SBF.null(articles[i]['categories']) ? [''] : articles[i]['categories'], SBF.null(articles[i]['parent_category']) ? '' : articles[i]['parent_category'], articles[i]['business_type_id']];
-                            if (element) {
-                                $(element).siblings().sbActivate(false);
-                                $(element).sbActivate();
-                            }
-                            break;
-                        }
-                    }
-                    articles_category_selects.val('');
-                    articles_category_parent_select.val(contents[5]);
-                    for (var i = 0; i < contents[4].length; i++) {
-                        articles_category_selects.eq(i).val(contents[4][i]);
-                    }
-                    articles_area.sbLanguageSwitcher(this.getTranslations(article_id), 'articles', language);
-                    articles_area.find('.sb-content').attr('data-id', contents[0]);
-                    articles_area.find('.sb-article-title input').val(contents[1]);
-                    articles_area.find('.sb-article-link input').val(contents[3]);
-                    articles_area.find('.sb-article-business-type select').val(contents[6]);
-                    articles_area.find('#sb-article-id').html(`ID <span>${contents[0]}</span>`);
-                    // content textarea
-                    articles_area.find('.sb-article-content textarea').val(contents[2]);
-                },
-
-                add: function() {
-                    let nav = articles_area.find('.sb-nav > ul');
-                    let id = SBF.random();
-                    this.updateActiveArticle();
-                    this.articles.push({ id: id, title: '', content: '', link: '', categories: [] });
-                    this.hide(false);
-                    nav.find('.sb-active').sbActivate(false);
-                    nav.find('.sb-no-results').remove();
-                    nav.append(`<li class="sb-active" data-id="${id}">${sb_('Article')} ${nav.find('li').length + 1}<i class="sb-icon-delete"></i></li>`);
-                    articles_area.find('input, textarea, select').val('');
-                    articles_area.find('.sb-content').attr('data-id', id);
-                    articles_area.sbLanguageSwitcher([], 'articles');
-                },
-
-                addCategory: function() {
-                    articles_area.find('[data-type="categories"] .sb-no-results').remove();
-                    articles_area.find('.sb-new-category-cnt').append(
-                        '<div class="sb-input-setting sb-type-text"><div><input class="category-name" placeholder="category name" type="text"></div></div>' +
-                        '<div class="sb-input-setting sb-type-text"><div><input class="category-icon" placeholder="icon" type="text"></div></div>'
-                    );
-                },
-
-                delete: function(element, category = false) {
-                    let nav = $(element).closest('.sb-nav').find(' > ul');
-                    this[category ? 'categories' : 'articles'].splice($(element).parent().index(), 1);
-                    this.hide();
-                    if (nav.find('li').length > 1) {
-                        $(element).parent().remove();
-                    } else {
-                        nav.html(`<li class="sb-no-results">${sb_('No results found.')}</li>`);
-                    }
-                },
-
-                populate: function(items = false, category = false) {
-                    if (items === false) items = category ? this.categories : this.articles;
-                    if (Array.isArray(items)) {
-                        let code = '';
-                        if (category) {
-                            this.categories = items;
-                        } else {
-                            this.articles = items;
-                        }
-                        if (items.length) {
-                            for (var i = 0; i < items.length; i++) {
-                                code += `<li data-id="${items[i]['id']}">${category ? '<span>' + items[i]['id'] + '</span>' : ''}<b style="margin: 5px" class="fa fas ${items[i]['icon']}" ></b> ${items[i]['title']}<i class="sb-icon-delete${category ? ' sb-category' : ''}"></i></li>`;
+                        let div = input.is('div');
+                        if (div || input.is('i') || input.is('li')) {
+                            input.attr('data-value', value);
+                            if (div && input.hasClass('image')) {
+                                input.css('background-image', `url("${value}")`);
                             }
                         } else {
-                            code = `<li class="sb-no-results">${sb_('No results found.')}</li>`;
-                        }
-                        articles_area.find('.sb-add-category,.sb-new-category-cnt').sbActivate(category);
-                        articles_area.find('.sb-add-article').sbActivate(!category);
-                        articles_area.find('.sb-nav').attr('data-type', category ? 'categories' : 'articles');
-                        articles_area.find('.sb-nav > ul').html(code);
-                        this.hide();
-                    } else {
-                        SBF.error(items, 'SBSettings.articles.populate');
-                    }
-                },
-
-                updateActiveArticle: function() {
-                    let id = this.activeID();
-                    if (id != -1) {
-                        let language = articles_area.find(`.sb-language-switcher [data-language].sb-active`).attr('data-language');
-                        let articles = language ? (language in this.translations ? this.translations[language] : []) : this.articles;
-                        let categories = [];
-                        articles_category_selects.each(function() {
-                            if ($(this).val()) categories.push($(this).val());
-                        });
-
-                        for (var i = 0; i < articles.length; i++) {
-                            if (articles[i]['id'] == id) {
-                                articles[i] = { id: id, title: articles_area.find('.sb-article-title input').val(), content: articles_area.find('.sb-article-content textarea').val(), link: articles_area.find('.sb-article-link input').val(), categories: categories, parent_category: articles_category_parent_select.val(), business_type_id: article_business_type.val() };
-                                if (SBF.null(articles[i].title)) this.delete(articles_area.find(`.sb-nav [data-id="${id}"] i`));
-                                break;
-                            }
+                            input.attr('value', value);
                         }
                     }
-                },
-
-                updateSelect: function() {
-                    let select_values = [];
-                    let select_parent_value = articles_category_parent_select.val();
-                    let select_business_type_value = article_business_type.val();
-                    let code = '<option value=""></option>';
-                    articles_category_selects.each(function() {
-                        select_values.push($(this).val());
-                    });
-                    for (var i = 0; i < this.categories.length; i++) {
-                        code += `<option value="${this.categories[i]['id']}">${this.categories[i]['title']}</option>`;
-                    }
-                    articles_category_selects.html(code);
-                    articles_category_parent_select.html(code);
-                    articles_category_parent_select.val(select_parent_value);
-                    for (var i = 0; i < select_values.length; i++) {
-                        articles_category_selects.eq(i).val(select_values[i]);
-                    }
-
-                    // update select of business types
-                    var html = "";
-                    for (var i = 0; i < this.business_types.length; i++)
-                        html += `<option value="${this.business_types[i].id}" >${this.business_types[i].name}</option>`;
-
-                    article_business_type.html(html);
-                    article_business_type.val(select_business_type_value);
-                },
-
-                addTranslation: function(article_id = false, language) {
-                    if (article_id === false) article_id = this.activeID();
-                    if (this.getTranslations(article_id).includes(article_id)) {
-                        return console.warn('Article translation already in array.');
-                    }
-                    if (!(language in this.translations)) this.translations[language] = [];
-                    this.translations[language].push({ id: article_id, title: '', content: '', link: '', categories: [] });
-                },
-
-                getTranslations: function(article_id = false) {
-                    let translations = [];
-                    if (article_id === false) article_id = this.activeID();
-                    for (var key in this.translations) {
-                        let articles = this.translations[key];
-                        for (var i = 0; i < articles.length; i++) {
-                            if (articles[i]['id'] == article_id) {
-                                translations.push(key);
-                                break;
-                            }
-                        }
-                    }
-                    return translations;
-                },
-
-                deleteTranslation: function(article_id = false, language) {
-                    if (article_id === false) article_id = this.activeID();
-                    if (language in this.translations) {
-                        let articles = this.translations[language];
-                        for (var i = 0; i < articles.length; i++) {
-                            if (articles[i]['id'] == article_id) {
-                                this.translations[language].splice(i, 1);
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                },
-
-                activeID: function() {
-                    return articles_area.find('.sb-content').attr('data-id');
-                },
-
-                hide: function(hide = true) {
-                    articles_area.find('.sb-content').setClass('sb-hide', hide);
-                }
-            },
-
-            automations: {
-                items: { messages: [], emails: [], sms: [], popups: [], design: [] },
-                translations: {},
-                conditions: {
-                    datetime: ['Date time', ['Is between', 'Is exactly'], 'dd/mm/yyy hh:mm - dd/mm/yyy hh:mm'],
-                    repeat: ['Repeat', ['Every day', 'Every week', 'Every month', 'Every year']],
-                    browsing_time: ['Browsing time', [], 'seconds'],
-                    scroll_position: ['Scroll position', [], 'px'],
-                    include_urls: ['Include URLs', ['Contains', 'Does not contain', 'Is exactly', 'Is not'], 'URLs parts separated by commas'],
-                    exclude_urls: ['Exclude URLs', ['Contains', 'Does not contain', 'Is exactly', 'Is not'], 'URLs parts separated by commas'],
-                    referring: ['Referring URLs', ['Contains', 'Does not contain', 'Is exactly', 'Is not'], 'URLs parts separated by commas'],
-                    user_type: ['User type', ['Is visitor', 'Is lead', 'Is user', 'Is not visitor', 'Is not lead', 'Is not user']],
-                    returning_visitor: ['Returning visitor', ['First time visitor', 'Returning visitor']],
-                    countries: ['Countries', [], 'Country codes separated by commas'],
-                    languages: ['Languages', [], 'Language codes separated by commas'],
-                    cities: ['Cities', [], 'Cities separated by commas'],
-                    custom_variable: ['Custom variable', [], 'variable=value']
-                },
-
-                get: function(onSuccess) {
-                    SBF.ajax({
-                        function: 'automations-get'
-                    }, (response) => {
-                        this.items = response[0];
-                        this.translations = Array.isArray(response[1]) && !response[1].length ? {} : response[1];
-                        onSuccess(response);
-                    });
-                },
-
-                save: function(onSuccess = false) {
-                    this.updateActiveItem();
-                    SBF.ajax({
-                        function: 'automations-save',
-                        automations: this.items,
-                        translations: this.translations
-                    }, (response) => {
-                        if (onSuccess) onSuccess(response);
-                    });
-                },
-
-                show: function(id = false, language = false) {
-                    this.updateActiveItem();
-                    let items = language ? (language in this.translations ? this.translations[language] : []) : this.items;
-                    let area = automations_area.find(' > .sb-tab > .sb-content');
-                    if (id === false) id = this.activeID();
-                    this.hide(false);
-                    for (var key in items) {
-                        for (var i = 0; i < items[key].length; i++) {
-                            let item = items[key][i];
-                            let conditions = item['conditions'];
-                            if (item['id'] == id) {
-                                conditions_area.html('');
-                                for (var key in item) {
-                                    let element = area.find(`[data-id="${key}"]`);
-                                    if (element.hasClass('image')) {
-                                        element.css('background-image', `url(${item[key]})`).attr('data-value', item[key]);
-                                        if (item[key] == '') element.removeAttr('data-value');
-                                    } else if (element.attr('type') == 'checkbox') {
-                                        element.prop('checked', item[key]);
-                                    } else element.val(item[key]);
-                                }
-                                if (conditions) {
-                                    for (var key in conditions) {
-                                        this.addCondition();
-                                        let condition = conditions_area.find(' > div:last-child');
-                                        condition.find('select').val(conditions[key][0]);
-                                        this.updateCondition(condition.find('select'));
-                                        condition.find(' > div').eq(1).find('select,input').val(conditions[key][1]);
-                                        if (conditions[key].length > 2) {
-                                            condition.find(' > div').eq(2).find('input').val(conditions[key][2]);
-                                        }
-                                    }
-                                }
-                                conditions_area.parent().setClass('sb-hide', language);
-                                area.sbLanguageSwitcher(this.getTranslations(id), 'automations', language);
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                },
-
-                add: function() {
-                    let id = SBF.random();
-                    let name = `${sb_('Item')} ${automations_area_nav.find('li:not(.sb-no-results)').length + 1}`;
-                    this.updateActiveItem();
-                    this.items[this.activeType()].push(this.itemArray(this.activeType(), id, name));
-                    this.hide(false);
-                    automations_area_nav.find('.sb-active').sbActivate(false);
-                    automations_area_nav.find('.sb-no-results').remove();
-                    automations_area_nav.append(`<li class="sb-active" data-id="${id}">${name}<i class="sb-icon-delete"></i></li>`);
-                    automations_area.find('.sb-automation-values').find('input, textarea').val('');
-                    automations_area.sbLanguageSwitcher([], 'automations');
-                    conditions_area.html('');
-                },
-
-                delete: function(element) {
-                    this.items[this.activeType()].splice($(element).parent().index(), 1);
-                    $(element).parent().remove();
-                    this.hide();
-                    if (this.items[this.activeType()].length == 0) automations_area_nav.html(`<li class="sb-no-results">${sb_('No results found.')}</li>`);
-                },
-
-                populate: function(type = false) {
-                    if (type === false) type = this.activeType();
-                    let code = '';
-                    let items = this.items[type];
-                    this.updateActiveItem();
-                    if (items.length) {
-                        for (var i = 0; i < items.length; i++) {
-                            code += `<li data-id="${items[i]['id']}">${items[i]['name']}<i class="sb-icon-delete"></i></li>`;
-                        }
-                    } else {
-                        code = `<li class="sb-no-results">${sb_('No results found.')}</li>`;
-                    }
-                    automations_area_nav.html(code);
-                    code = '';
-                    switch (type) {
-                        case 'emails':
-                            code = `<h2>${sb_('Subject')}</h2><div class="sb-input-setting sb-type-text"><div><input data-id="subject" type="text"></div></div>`;
-                            break;
-                        case 'popups':
-                            code = `<h2>${sb_('Title')}</h2><div class="sb-input-setting sb-type-text"><div><input data-id="title" type="text"></div></div><h2>${sb_('Profile image')}</h2><div data-type="upload-image" class="sb-input-setting sb-type-upload-image"><div class="input"><div data-id="profile_image" class="image"><i class="sb-icon-close"></i></div></div></div><h2>${sb_('Message fallback')}</h2><div class="sb-input-setting sb-type-checkbox"><div><input data-id="fallback" type="checkbox"></div></div>`;
-                            break;
-                        case 'design':
-                            code = `<h2>${sb_('Header title')}</h2><div class="sb-input-setting sb-type-text"><div><input data-id="title" type="text"></div></div>`;
-                            for (var i = 1; i < 4; i++) {
-                                code += `<h2>${sb_((i == 1 ? 'Primary' : (i == 2 ? 'Secondary' : 'Tertiary')) + ' color')}</h2><div data-type="color" class="sb-input-setting sb-type-color"><div class="input"><input data-id="color_${i}" type="text"><i class="sb-close sb-icon-close"></i></div></div>`;
-                            }
-                            for (var i = 1; i < 4; i++) {
-                                code += `<h2>${sb_(i == 1 ? 'Header background image' : (i == 2 ? 'Header brand image' : 'Chat button icon'))}</h2><div data-type="upload-image" class="sb-input-setting sb-type-upload-image"><div class="input"><div data-id="${sb_(i == 1 ? 'background' : (i == 2 ? 'brand' : 'icon'))}" class="image"><i class="sb-icon-close"></i></div></div></div>`;
-                            }
-                            break;
-                    }
-                    automations_area.find('.sb-automation-extra').html(code);
-                    SBSettings.initColorPicker(automations_area);
-                    this.hide();
-                },
-
-                updateActiveItem: function() {
-                    let id = this.activeID();
-                    if (id) {
-                        let language = automations_area.find(`.sb-language-switcher [data-language].sb-active`).attr('data-language');
-                        let type = this.activeType();
-                        let items = language ? (language in this.translations ? this.translations[language][type] : []) : this.items[type];
-                        let conditions = conditions_area.find(' > div');
-                        for (var i = 0; i < items.length; i++) {
-                            if (items[i]['id'] == id) {
-                                items[i] = { id: id, conditions: [] };
-                                automations_area.find('.sb-automation-values').find('input,textarea,[data-type="upload-image"] .image').each(function() {
-                                    items[i][$(this).attr('data-id')] = $(this).hasClass('image') && $(this)[0].hasAttribute('data-value') ? $(this).attr('data-value') : ($(this).attr('type') == 'checkbox' ? $(this).is(':checked') : $(this).val());
-                                });
-                                conditions.each(function() {
-                                    let condition = [];
-                                    $(this).find('input,select').each(function() {
-                                        condition.push($(this).val());
-                                    });
-                                    if (condition[0] && condition[1] && (condition.length == 2 || condition[2])) {
-                                        items[i]['conditions'].push(condition);
-                                    }
-                                });
-                                if (SBF.null(items[i].name)) {
-                                    this.delete(automations_area_nav.find(`[data-id="${id}"] i`));
-                                }
-                                break;
-                            }
-                        }
-                    }
-                },
-
-                addCondition: function() {
-                    conditions_area.append(`<div><div class="sb-input-setting sb-type-select sb-condition-1"><select>${this.getAvailableConditions()}</select></div></div>`);
-                },
-
-                updateCondition: function(element) {
-                    $(element).parent().siblings().remove();
-                    let parent = $(element).parents().eq(1);
-                    if ($(element).val()) {
-                        let condition = this.conditions[$(element).val()];
-                        let code = '';
-                        if (condition[1].length) {
-                            code = '<div class="sb-input-setting sb-type-select sb-condition-2"><select>';
-                            for (var i = 0; i < condition[1].length; i++) {
-                                code += `<option value="${SBF.stringToSlug(condition[1][i])}">${sb_(condition[1][i])}</option>`;
-                            }
-                            code += '</select></div>';
-                        }
-                        parent.append(code + (condition.length > 2 ? `<div class="sb-input-setting sb-type-text"><input placeholder="${sb_(condition[2])}" type="text"></div>` : ''));
-                        parent.siblings().find('.sb-condition-1 select').each(function() {
-                            let value = $(this).val();
-                            $(this).html(SBSettings.automations.getAvailableConditions(value));
-                            $(this).val(value);
-                        });
-                    } else {
-                        parent.remove();
-                    }
-                },
-
-                getAvailableConditions: function(include = '') {
-                    let code = '<option value=""></option>';
-                    let existing_conditions = [];
-                    conditions_area.find('.sb-condition-1 select').each(function() {
-                        existing_conditions.push($(this).val());
-                    });
-                    for (var key in this.conditions) {
-                        if (!existing_conditions.includes(key) || key == include) {
-                            code += `<option value="${key}">${sb_(this.conditions[key][0])}</option>`;
-                        }
-                    }
-                    return code;
-                },
-
-                addTranslation: function(id = false, type = false, language) {
-                    if (id === false) id = this.activeID();
-                    if (type === false) type = this.activeType();
-                    if (this.getTranslations(id).includes(id)) {
-                        return console.warn('Automation translation already in array.');
-                    }
-                    if (!(language in this.translations)) this.translations[language] = { messages: [], emails: [], sms: [], popups: [], design: [] };
-                    if (!(type in this.translations[language])) this.translations[language][type] = [];
-                    this.translations[language][type].push(this.itemArray(type, id));
-                },
-
-                getTranslations: function(id = false) {
-                    let translations = [];
-                    if (id === false) id = this.activeID();
-                    for (var key in this.translations) {
-                        let types = this.translations[key];
-                        for (var key2 in types) {
-                            let items = types[key2];
-                            for (var i = 0; i < items.length; i++) {
-                                if (items[i]['id'] == id) {
-                                    translations.push(key);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    return translations;
-                },
-
-                deleteTranslation: function(id = false, language) {
-                    if (id === false) id = this.activeID();
-                    if (language in this.translations) {
-                        let types = this.translations[language];
-                        for (var key in types) {
-                            let items = types[key];
-                            for (var i = 0; i < items.length; i++) {
-                                if (items[i]['id'] == id) {
-                                    this.translations[language][key].splice(i, 1);
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                    return false;
-                },
-
-                activeID: function() {
-                    let item = automations_area_nav.find('.sb-active');
-                    return item.length ? item.attr('data-id') : false;
-                },
-
-                activeType: function() {
-                    return automations_area_select.find('li.sb-active').data('value');
-                },
-
-                itemArray: function(type, id, name = '', message = '') {
-                    return $.extend({ id: id, name: name, message: message }, type == 'emails' ? { subject: '' } : (type == 'popups' ? { title: '', profile_image: '' } : (type == 'design' ? { title: '', color_1: '', color_2: '', color_3: '', background: '', brand: '', icon: '' } : {})));
-                },
-
-                hide: function(hide = true) {
-                    automations_area.find(' > .sb-tab > .sb-content').setClass('sb-hide', hide);
-                }
-            },
-
-            translations: {
-                translations: {},
-                originals: {},
-                to_update: {},
-
-                add: function(language) {
-                    let setting = SBSettings.getSettingObject(language_switcher_target);
-                    let setting_id = setting.attr('id');
-                    let active_language = language_switcher_target.find('[data-language].sb-active');
-                    this.save(setting, active_language.length ? active_language.attr('data-language') : false);
-                    setting.find('textarea,input[type="text"]').val('');
-                    this.save(setting, language);
-                    language_switcher_target.remove();
-                    setting.sbLanguageSwitcher(this.getLanguageCodes(setting_id), 'settings', language);
-                },
-
-                delete: function(setting, language) {
-                    setting = SBSettings.getSettingObject(setting);
-                    let setting_id = setting.attr('id');
-                    delete this.translations[language][setting_id];
-                    setting.find(`.sb-language-switcher [data-language="${language}"]`).remove();
-                    this.activate(setting);
-                },
-
-                activate: function(setting, language = false) {
-                    setting = SBSettings.getSettingObject(setting);
-                    let setting_id = setting.attr('id');
-                    let values = language ? this.translations[language][setting_id] : this.originals[setting_id];
-                    if (typeof values == 'string') {
-                        setting.find('input, textarea').val(values);
-                    } else {
-                        for (var key in values) {
-                            setting.find('#' + key).find('input, textarea').val(typeof values[key] == 'string' ? values[key] : values[key][0]);
-                        }
-                    }
-                },
-
-                save: function(setting, language = false) {
-                    setting = SBSettings.getSettingObject(setting);
-                    let values = {};
-                    let setting_id = $(setting).attr('id');
-                    if (setting.data('type') == 'multi-input') {
-                        setting.find('.multi-input-textarea,.multi-input-text').each(function() {
-                            values[$(this).attr('id')] = $(this).find('input, textarea').val();
-                        });
-                    } else {
-                        values = setting.find('input, textarea').val();
-                    }
-                    if (language) {
-                        if (!(language in this.translations)) {
-                            this.translations[language] = {};
-                        }
-                        this.translations[language][setting_id] = values;
-                    } else {
-                        this.originals[setting_id] = values;
-                    }
-                },
-
-                getLanguageCodes: function(setting_id) {
-                    let languages = [];
-                    for (var key in this.translations) {
-                        if (setting_id in this.translations[key]) {
-                            languages.push(key);
-                        }
-                    }
-                    return languages;
-                },
-
-                load: function(language_code) {
-                    let area = settings_area.find('.sb-translations > .sb-content');
-                    area.find(' > .sb-hide').removeClass('sb-hide');
-                    this.updateActive();
-                    SBF.ajax({
-                        function: 'get-translation',
-                        language_code: language_code
-                    }, (translations) => {
-                        if (language_code in this.to_update) translations = this.to_update[language_code]
-                        let code = '';
-                        let front = translations['front'];
-                        let admin = translations['admin'];
-                        code += `<div class="sb-active" data-area="front">`;
-                        for (var key_front in front) {
-                            code += `<div class="sb-input-setting sb-type-text"><label>${key_front}</label><div><input type="text" value="${front[key_front]}"></div></div>`;
-                        }
-                        code += `</div><div data-area="admin">`;
-                        for (var key_admin in admin) {
-                            code += `<div class="sb-input-setting sb-type-text"><label>${key_admin}</label><div><input type="text" value="${admin[key_admin]}"></div></div>`;
-                        }
-                        code += '</div>';
-                        area.find('.sb-translations-list').attr('data-value', language_code).html(code);
-                        area.find('.sb-menu-wide li').sbActivate(false).eq(0).sbActivate(true);
-                        area.sbLoading(false);
-                    });
-                    area.sbLoading(true);
-                },
-
-                updateActive: function() {
-                    let area = settings_area.find('.sb-translations-list')
-                    let translations = { 'front': {}, 'admin': {} };
-                    let language_code = area.attr('data-value');
-                    if (SBF.null(language_code)) return;
-                    for (var key in translations) {
-                        area.find(' > [data-area="' + key + '"] .sb-input-setting:not(.sb-new-translation)').each(function() {
-                            translations[key][$(this).find('label').html()] = $(this).find('input').val();
-                        });
-                        area.find('> [data-area="' + key + '"] .sb-new-translation').each(function() {
-                            let original = $(this).find('input:first-child').val();
-                            let value = $(this).find('input:last-child').val();
-                            if (original && value) {
-                                translations[key][original] = value;
-                            }
-                        });
-                    }
-                    this.to_update[language_code] = translations;
                 }
             }
-        }
+        },
 
-        /*
-         * ----------------------------------------------------------
-         * # Reports
-         * ----------------------------------------------------------
-         */
+        getInput: function (input) {
+            input = $(input);
+            if (input.is(':checkbox')) {
+                return input.is(':checked');
+            } else {
+                if (input.is("div") || input.is("i") || input.is("li")) {
+                    let value = input.attr('data-value');
+                    return SBF.null(value) ? '' : value;
+                } else {
+                    return input.val();
+                }
+            }
+            return '';
+        },
 
-        var SBReports = {
-            chart: false,
-            active_report: false,
-
-            initChart: function(data, type = 'line', label_type = 1) {
-                let values = [];
-                let labels = [];
-                let blues = ['#049CFF', '#74C4F7', '#B9E5FF', '#0562A0', '#003B62', '#1F74C4', '#436786'];
-                for (var key in data) {
-                    values.push(data[key][0]);
-                    labels.push(key);
-                }
-                if (type != 'line' && values.length > 6) {
-                    for (var i = 0; i < values.length; i++) {
-                        blues.push('hsl(' + 210 + ', ' + Math.floor(Math.random() * 100) + '%, ' + Math.floor(Math.random() * 100) + '%)');
-                    }
-                }
-                if (this.chart) this.chart.destroy();
-                this.chart = new Chart(reports_area.find('canvas'), {
-                    type: type,
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            data: values,
-                            backgroundColor: type == 'line' ? '#028be530' : blues,
-                            borderColor: type == 'line' ? '#049CFF' : '#FFFFFF',
-                            borderWidth: 0
-                        }],
-                    },
-                    options: {
-                        legend: {
-                            display: false
-                        },
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    callback: function(tickValue, index, ticks) {
-                                        return label_type == 1 ? tickValue : (label_type == 2 ? new Date(tickValue * 1000).toISOString().substr(11, 8) : tickValue);
-                                    },
-                                    beginAtZero: true
-                                }
-                            }],
-                            xAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }],
-                        },
-                        tooltips: {
-                            callbacks: {
-                                label: function(tooltipItem, chartData) {
-                                    let index = tooltipItem['index'];
-                                    let value = chartData['datasets'][0]['data'][index];
-                                    switch (label_type) {
-                                        case 1:
-                                            return value;
-                                        case 2:
-                                            return new Date(values[index] * 1000).toISOString().substr(11, 8);
-                                        case 3:
-                                            return value + '%';
-                                        case 4:
-                                            let tds = reports_area.find('.sb-table tbody tr').eq(index).find('td');
-                                            return tds.eq(0).text() + ' ' + tds.eq(1).text();
-                                    }
-                                },
-                            },
-                            displayColors: false
-                        }
-                    }
-                });
-            },
-
-            initTable: function(header, data, inverse = false) {
-                let code = '<thead><tr>';
-                let index = data[Object.keys(data)[0]].length - 1;
-                let list = [];
-                for (var i = 0; i < header.length; i++) {
-                    code += `<th>${sb_(header[i])}</th>`;
-                }
-                code += '</tr></thead><tbody>';
-                for (var key in data) {
-                    if (data[key][index] != 0) {
-                        list.push([key, data[key][index]]);
-                    }
-                }
-                if (inverse) {
-                    list.reverse();
-                }
-                for (var i = 0; i < list.length; i++) {
-                    code += `<tr><td><div>${list[i][0]}</div></td><td>${list[i][1]}</td></tr>`;
-                }
-                code += '</tbody>';
-                reports_area.find('table').html(code);
-            },
-
-            initReport: function(name = false, date_range = false) {
-                let area = reports_area.find('.sb-tab > .sb-content');
-                date_range = SBF.null(date_range) ? [false, false] : date_range.split(' - ');
-                area.sbLoading(true);
-                if (name) this.active_report = name;
-                if (!this.active_report) return;
-                this.getData(this.active_report, date_range[0], date_range[1], (response) => {
-                    if (response == false) {
-                        area.addClass('sb-no-results-active');
+        resetInput: function (input) {
+            input = $(input);
+            if (input.is("select")) {
+                input.val('').find('[selected]').removeAttr('selected');
+            } else {
+                if (input.is("checkbox") && value) {
+                    input.removeAttr('checked').prop('checked', false);
+                } else {
+                    if (input.is("textarea")) {
+                        input.html('');
                     } else {
-                        area.removeClass('sb-no-results-active');
-                        this.initChart(response['data'], response['chart_type'], response['label_type']);
-                        this.initTable(response['table'], response['data'], response['table-inverse']);
-                        reports_area.find('.sb-reports-title').html(response['title']);
-                        reports_area.find('.sb-reports-text').html(response['description']);
-                        reports_area.find('.sb-collapse-btn').remove();
-                        if (!responsive) collapse(reports_area.find('.sb-collapse'), reports_area.find('canvas').outerHeight() - 135);
+                        input.removeAttr('value').removeAttr('style').removeAttr('data-value').val('');
                     }
-                    area.sbLoading(false);
-                });
-            },
+                }
+            }
+        },
 
-            getData: function(name, date_start = false, date_end = false, onSuccess) {
+        getSettingObject: function (setting) {
+            return $(setting)[0].hasAttribute('data-setting') ? $(setting) : $(setting).closest('[data-setting]');
+        },
+
+        articles: {
+            categories: [],
+            articles: [],
+            translations: {},
+
+            get: function (onSuccess, categories = false, full = true) {
                 SBF.ajax({
-                    function: 'reports',
-                    name: name,
-                    date_start: date_start,
-                    date_end: date_end
+                    function: 'get-articles',
+                    categories: categories,
+                    articles_language: 'all',
+                    full: full
                 }, (response) => {
                     onSuccess(response);
                 });
             },
 
-            initDatePicker: function() {
-                let settings = {
-                    ranges: {},
-                    locale: {
-                        'format': 'DD/MM/YYYY',
-                        'separator': ' - ',
-                        'applyLabel': sb_('Apply'),
-                        'cancelLabel': sb_('Cancel'),
-                        'fromLabel': sb_('From'),
-                        'toLabel': sb_('To'),
-                        'customRangeLabel': sb_('Custom'),
-                        'weekLabel': sb_('W'),
-                        'daysOfWeek': [
-                            sb_('Su'),
-                            sb_('Mo'),
-                            sb_('Tu'),
-                            sb_('We'),
-                            sb_('Th'),
-                            sb_('Fr'),
-                            sb_('Sa')
-                        ],
-                        'monthNames': [
-                            sb_('January'),
-                            sb_('February'),
-                            sb_('March'),
-                            sb_('April'),
-                            sb_('May'),
-                            sb_('June'),
-                            sb_('July'),
-                            sb_('August'),
-                            sb_('September'),
-                            sb_('October'),
-                            sb_('November'),
-                            sb_('December')
-                        ],
-                        'firstDay': 1
-                    },
-                    showCustomRangeLabel: true,
-                    alwaysShowCalendars: true,
-                    autoApply: true
-                };
-                settings['ranges'][sb_('Today')] = [moment(), moment()];
-                settings['ranges'][sb_('Yesterday')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
-                settings['ranges'][sb_('Last 7 Days')] = [moment().subtract(6, 'days'), moment()];
-                settings['ranges'][sb_('Last 30 Days')] = [moment().subtract(29, 'days'), moment()];
-                settings['ranges'][sb_('This Month')] = [moment().startOf('month'), moment().endOf('month')];
-                settings['ranges'][sb_('Last Month')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
-                reports_area.find('#sb-date-picker').daterangepicker(settings).val('');
-            }
-        }
-
-        /*
-         * ----------------------------------------------------------
-         * # Users
-         * ----------------------------------------------------------
-         */
-
-        var SBUsers = {
-            real_time: null,
-            datetime_last_user: '2000-01-01 00:00:00',
-            sorting: ['creation_time', 'DESC'],
-            user_types: ['visitor', 'lead', 'user'],
-            user_main_fields: ['id', 'first_name', 'last_name', 'email', 'password', 'profile_image', 'user_type', 'creation_time', 'token', 'last_activity', 'department'],
-            search_query: '',
-            init: false,
-            busy: false,
-            table_extra: false,
-
-            // Table menu filter
-            filter: function(type) {
-                if (type == 'all') {
-                    type = ['visitor', 'lead', 'user'];
-                } else if (type == 'agent') {
-                    type = ['agent', 'admin'];
-                } else {
-                    type = [type];
-                }
-                this.user_types = type;
-                this.loading();
-                users_pagination = 1;
-                users_pagination_count = 1;
-                let settings = type[0] == 'online' ? ['get-online-users', SB_ACTIVE_AGENT['id'], this.sorting[0]] : ['get-users', -1, this.sorting];
-                SBF.ajax({
-                    function: settings[0],
-                    sorting: settings[2],
-                    user_types: type,
-                    search: this.search_query,
-                    extra: this.table_extra
-                }, (response) => {
-                    this.populate(response);
-                    this.loading(false);
+            save: function (onSuccess = false) {
+                this.updateActiveArticle();
+                articles_area.find('.sb-new-category-cnt input').each((i, element) => {
+                    let value = $.trim($(element).val());
+                    if (value) this.categories.push({ id: SBF.random(), title: value });
+                    $(element).parents().eq(1).remove();
                 });
-            },
-
-            // Table menu sort
-            sort: function(field, direction = 'DESC') {
-                this.sorting = [field, direction];
-                this.loading();
-                users_pagination = 1;
-                users_pagination_count = 1;
-                SBF.ajax({
-                    function: 'get-users',
-                    sorting: this.sorting,
-                    user_types: this.user_types,
-                    search: this.search_query,
-                    extra: this.table_extra
-                }, (response) => {
-                    this.populate(response);
-                    this.loading(false);
-                });
-            },
-
-            // Search users
-            search: function(input) {
-                searchInput(input, (search, icon) => {
-                    users_pagination = 1;
-                    users_pagination_count = 1;
-                    SBF.ajax({
-                        function: search.length > 1 ? 'search-users' : 'get-users',
-                        search: search,
-                        user_types: this.user_types,
-                        sorting: this.sorting,
-                        extra: this.table_extra
-                    }, (response) => {
-                        this.user_types = ['visitor', 'lead', 'user'];
-                        this.populate(response);
-                        this.search_query = search;
-                        $(icon).sbLoading(false);
-                        users_table_menu.find('li').sbActivate(false).eq(0).sbActivate();
+                if (this.categories.length) {
+                    this.categories.sort(function (a, b) {
+                        return a.title.localeCompare(b.title);
                     });
+                }
+                SBF.ajax({
+                    function: 'save-articles',
+                    articles: this.articles,
+                    translations: this.translations,
+                    categories: this.categories.length ? this.categories : 'delete_all'
+                }, (response) => {
+                    articles_area.find('.sb-menu-wide .sb-active').click();
+                    articles_area.find(`.sb-nav [data-id="${this.activeID()}"]`).click();
+                    this.updateSelect();
+                    if (onSuccess) onSuccess(response);
                 });
+                if (SBApps.is('dialogflow')) SBF.ajax({ function: 'dialogflow-knowledge', articles: this.articles });
             },
 
-            // Populate the table
-            populate: function(response) {
-                let code = '';
-                let count = response.length;
-                if (count) {
-                    for (var i = 0; i < count; i++) {
-                        code += this.getRow(new SBUser(response[i], response[i].extra));
-                    }
-                } else {
-                    code = `<p class="sb-no-results">${sb_('No users found.')}</p>`;
-                }
-                users_table.parent().scrollTop(0);
-                users_table.find('tbody').html(code);
-                if (this.user_types.includes('agent')) {
-                    SBF.ajax({
-                        function: 'get-online-users',
-                        agents: true
-                    }, (response) => {
-                        let ids = [];
-                        for (var i = 0; i < response.length; i++) {
-                            ids.push(response[i].id);
+            show: function (article_id = false, element = false, language = false) {
+                let contents = [-1, '', '', '', ''];
+                this.updateActiveArticle();
+                this.hide(false);
+                let articles = language ? (language in this.translations ? this.translations[language] : []) : this.articles;
+                if (article_id === false) article_id = this.activeID();
+                for (var i = 0; i < articles.length; i++) {
+                    if (articles[i]['id'] == article_id) {
+                        contents = [article_id, articles[i]['title'], articles[i]['content'], articles[i]['link'], SBF.null(articles[i]['categories']) ? [''] : articles[i]['categories'], SBF.null(articles[i]['parent_category']) ? '' : articles[i]['parent_category']];
+                        if (element) {
+                            $(element).siblings().sbActive(false);
+                            $(element).sbActive(true);
                         }
-                        users_table.find('[data-user-id]').each(function() {
-                            $(this).find('.sb-td-profile').addClass('sb-' + (ids.includes($(this).attr('data-user-id')) ? 'online' : 'offline'));
-                        });
-                    });
-                }
-            },
-
-            // Update users and table with new users
-            update: function() {
-                if (!this.busy) {
-                    let checks = ['user', 'visitor', 'lead', 'agent'];
-                    let populate = checks.includes(this.user_types[0]) && this.search_query == '';
-                    let filter = users_table_menu.find('.sb-active').data('type');
-                    if (filter == 'online') {
-                        this.filter(filter);
-                    } else {
-                        this.busy = true;
-                        SBF.ajax({
-                            function: 'get-new-users',
-                            datetime: this.datetime_last_user
-                        }, (response) => {
-                            let count = response.length;
-                            this.busy = false;
-                            if (count > 0) {
-                                let code = '';
-                                for (var i = 0; i < count; i++) {
-                                    let user = new SBUser(response[i]);
-                                    users[user.id] = user;
-                                    this.updateMenu('add', user.type);
-                                    if (populate) {
-                                        code += this.getRow(user);
-                                    }
-                                }
-                                if (populate) {
-                                    users_table.find('tbody').prepend(code);
-                                    if (checks.includes(filter)) {
-                                        let selector = '';
-                                        for (var i = 0; i < checks.length; i++) {
-                                            selector += checks[i] == filter ? '' : `[data-user-type="${checks[i]}"],`;
-                                        }
-                                        users_table.find(selector.slice(0, -1)).remove();
-                                    }
-                                }
-                                this.datetime_last_user = response[0]['creation_time'];
-                            }
-                        });
+                        break;
                     }
                 }
+                articles_category_selects.val('');
+                articles_category_parent_select.val(contents[5]);
+                for (var i = 0; i < contents[4].length; i++) {
+                    articles_category_selects.eq(i).val(contents[4][i]);
+                }
+                articles_area.sbLanguageSwitcher(this.getTranslations(article_id), 'articles', language);
+                articles_area.find('.sb-content').attr('data-id', contents[0]);
+                articles_area.find('.sb-article-title input').val(contents[1]);
+                articles_area.find('.sb-article-content textarea').val(contents[2]);
+                articles_area.find('.sb-article-link input').val(contents[3]);
+                articles_area.find('#sb-article-id').html(`ID <span>${contents[0]}</span>`);
             },
 
-            // Get a user row code
-            getRow: function(user) {
-                if (user instanceof SBUser) {
+            add: function () {
+                let nav = articles_area.find('.sb-nav > ul');
+                let id = SBF.random();
+                this.updateActiveArticle();
+                this.articles.push({ id: id, title: '', content: '', link: '', categories: [] });
+                this.hide(false);
+                nav.find('.sb-active').sbActive(false);
+                nav.find('.sb-no-results').remove();
+                nav.append(`<li class="sb-active" data-id="${id}">${sb_('Article')} ${nav.find('li').length + 1}<i class="sb-icon-delete"></i></li>`);
+                articles_area.find('input, textarea, select').val('');
+                articles_area.find('.sb-content').attr('data-id', id);
+                articles_area.sbLanguageSwitcher([], 'articles');
+            },
+
+            addCategory: function () {
+                articles_area.find('[data-type="categories"] .sb-no-results').remove();
+                articles_area.find('.sb-new-category-cnt').append('<div class="sb-input-setting sb-type-text"><div><input type="text"></div></div>');
+            },
+
+            delete: function (element, category = false) {
+                let nav = $(element).closest('.sb-nav').find(' > ul');
+                this[category ? 'categories' : 'articles'].splice($(element).parent().index(), 1);
+                this.hide();
+                if (nav.find('li').length > 1) {
+                    $(element).parent().remove();
+                } else {
+                    nav.html(`<li class="sb-no-results">${sb_('No results found.')}</li>`);
+                }
+            },
+
+            populate: function (items = false, category = false) {
+                if (items === false) items = category ? this.categories : this.articles;
+                if (Array.isArray(items)) {
                     let code = '';
-                    for (var i = 0; i < this.table_extra.length; i++) {
-                        let slug = this.table_extra[i];
-                        code += `<td class="sb-td-${slug}">${this.user_main_fields.includes(slug) ? user.get(slug) : user.getExtra(slug)}</td>`;
-                    }
-                    return `<tr data-user-id="${user.id}" data-user-type="${user.type}"><td><input type="checkbox" /></td><td class="sb-td-profile"><a class="sb-profile"><img src="${user.image}" /><span>${user.name}</span></a></td>${code}<td class="sb-td-email">${user.get('email')}</td><td class="sb-td-ut">${user.type}</td><td>${SBF.beautifyTime(user.get('last_activity'), true)}</td><td>${user.get('creation_time')}</td></tr>`;
-                } else {
-                    SBF.error('User not of type SBUser', 'SBUsers.getRow');
-                    return false;
-                }
-            },
-
-            // Update a user row
-            updateRow: function(user) {
-                let row = users_table.find(`[data-user-id="${user.id}"]`);
-                if (row.length) {
-                    let menu_active = users_table_menu.find('.sb-active').data('type');
-                    if ((user.type != menu_active) && !(user.type == 'admin' && menu_active == 'agent') && menu_active != 'all') {
-                        let counter = admin.find(`[data-type="${user.type == 'admin' ? 'agent' : user.type}"] span`);
-                        let count = parseInt(counter.attr('data-count'));
-                        counter.html(count + 1).attr('data-count', count + 1);
-                        row.remove();
+                    if (category) {
+                        this.categories = items;
                     } else {
-                        row.replaceWith(this.getRow(user));
+                        this.articles = items;
                     }
-                } else {
-                    users_table.find('tbody').append(this.getRow(user));
-                }
-            },
-
-            // Update users table menu
-            updateMenu: function(action = 'all', type = false) {
-                let user_types = ['all', 'user', 'lead', 'visitor'];
-                if (action == 'all') {
-                    SBF.ajax({
-                        function: 'count-users'
-                    }, (response) => {
-                        for (var i = 0; i < user_types.length; i++) {
-                            this.updateMenuItem('set', user_types[i], response[user_types[i]]);
+                    if (items.length) {
+                        for (var i = 0; i < items.length; i++) {
+                            code += `<li data-id="${items[i]['id']}">${category ? '<span>' + items[i]['id'] + '</span>' : ''}${items[i]['title']}<i class="sb-icon-delete${category ? ' sb-category' : ''}"></i></li>`;
                         }
-                    });
-                } else {
-                    this.updateMenuItem(action, type);
-                }
-            },
-
-            updateMenuItem: function(action = 'set', type = false, count = 1) {
-                let item = users_table_menu.find(`[data-type="${type}"] span`);
-                let user_types = ['user', 'lead', 'visitor'];
-                if (action != 'set') {
-                    count = parseInt(item.attr('data-count')) + (1 * (action == 'add' ? 1 : -1));
-                }
-                item.html(`(${count})`).attr('data-count', count);
-                count = 0;
-                for (var i = 0; i < user_types.length; i++) {
-                    count += parseInt(users_table_menu.find(`[data-type="${user_types[i]}"] span`).attr('data-count'));
-                }
-                users_table_menu.find(`[data-type="all"] span`).html(`(${count})`).attr('data-count', count);
-            },
-
-            // Delete a user
-            delete: function(user_ids) {
-                this.loading();
-                if (Array.isArray(user_ids)) {
-                    if (SB_ADMIN_SETTINGS.cloud) {
-                        user_ids = SBCloud.removeAdminID(user_ids);
-                        if (!user_ids.length) return;
-                    }
-                    SBF.ajax({
-                        function: 'delete-users',
-                        user_ids: user_ids
-                    }, () => {
-                        for (var i = 0; i < user_ids.length; i++) {
-                            delete users[user_ids[i]];
-                            users_table.find(`[data-user-id="${user_ids[i]}"]`).remove();
-                            conversations_admin_list_ul.find(`[data-user-id="${user_ids[i]}"]`).remove();
-                        }
-                        if (users_table.find('[data-user-id]').length == 0) {
-                            this.filter(users_table_menu.find('.sb-active').data('type'));
-                        }
-                        showResponse('Users deleted');
-                        this.updateMenu();
-                        this.loading(false);
-                    });
-                } else {
-                    users[user_ids].delete(() => {
-                        let conversation = conversations_admin_list_ul.find(`[data-user-id="${user_ids}"]`);
-                        if (activeUser().id == user_ids) {
-                            activeUser(false);
-                        }
-                        if (conversation.sbActive()) {
-                            SBChat.conversation = false;
-                            setTimeout(() => { SBConversations.clickFirst() }, 300);
-                        }
-                        delete users[user_ids];
-                        users_table.find(`[data-user-id="${user_ids}"]`).remove();
-                        conversation.remove();
-                        admin.sbHideLightbox();
-                        showResponse('User deleted');
-                        this.updateMenu();
-                        this.loading(false);
-                    });
-                }
-            },
-
-            // Start or stop the real time update of the users and table
-            startRealTime: function() {
-                if (SBPusher.active) return;
-                this.stopRealTime();
-                this.real_time = setInterval(() => {
-                    this.update();
-                }, 1000);
-            },
-
-            stopRealTime: function() {
-                clearInterval(this.real_time);
-            },
-
-            // Table loading
-            loading: function(show = true) {
-                let loading = users_area.find('.sb-loading-table');
-                if (show) loading.sbActivate();
-                else loading.sbActivate(false);
-            },
-
-            // CSV generation and download
-            csv: function() {
-                SBF.ajax({ function: 'csv-users' }, (response) => window.open(response));
-            },
-
-            // Update user and agent activity status
-            updateUsersActivity: function() {
-                SBF.updateUsersActivity(agent_online ? SB_ACTIVE_AGENT['id'] : -1, activeUser() ? activeUser().id : -1, function(response) {
-                    if (response == 'online') {
-                        let labels = conversations_area.find('.sb-conversation .sb-top > .sb-labels');
-                        if (!labels.find('.sb-status-online').length) labels.prepend(`<span class="sb-status-online">${sb_('Online')}</span>`);
-                        SBChat.user_online = true;
                     } else {
-                        conversations_area.find('.sb-conversation .sb-top .sb-status-online').remove();
-                        SBChat.user_online = false;
+                        code = `<li class="sb-no-results">${sb_('No results found.')}</li>`;
                     }
+                    articles_area.find('.sb-add-category,.sb-new-category-cnt').sbActive(category);
+                    articles_area.find('.sb-add-article').sbActive(!category);
+                    articles_area.find('.sb-nav').attr('data-type', category ? 'categories' : 'articles');
+                    articles_area.find('.sb-nav > ul').html(code);
+                    this.hide();
+                } else {
+                    SBF.error(items, 'SBSettings.articles.populate');
+                }
+            },
+
+            updateActiveArticle: function () {
+                let id = this.activeID();
+                if (id != -1) {
+                    let language = articles_area.find(`.sb-language-switcher [data-language].sb-active`).attr('data-language');
+                    let articles = language ? (language in this.translations ? this.translations[language] : []) : this.articles;
+                    let categories = [];
+                    articles_category_selects.each(function () {
+                        if ($(this).val()) categories.push($(this).val());
+                    });
+                    for (var i = 0; i < articles.length; i++) {
+                        if (articles[i]['id'] == id) {
+                            articles[i] = { id: id, title: articles_area.find('.sb-article-title input').val(), content: articles_area.find('.sb-article-content textarea').val(), link: articles_area.find('.sb-article-link input').val(), categories: categories, parent_category: articles_category_parent_select.val() };
+                            if (SBF.null(articles[i].title)) this.delete(articles_area.find(`.sb-nav [data-id="${id}"] i`));
+                            break;
+                        }
+                    }
+                }
+            },
+
+            updateSelect: function () {
+                let select_values = [];
+                let select_parent_value = articles_category_parent_select.val();
+                let code = '<option value=""></option>';
+                articles_category_selects.each(function () {
+                    select_values.push($(this).val());
+                });
+                for (var i = 0; i < this.categories.length; i++) {
+                    code += `<option value="${this.categories[i]['id']}">${this.categories[i]['title']}</option>`;
+                }
+                articles_category_selects.html(code);
+                articles_category_parent_select.html(code);
+                articles_category_parent_select.val(select_parent_value);
+                for (var i = 0; i < select_values.length; i++) {
+                    articles_category_selects.eq(i).val(select_values[i]);
+                }
+            },
+
+            addTranslation: function (article_id = false, language) {
+                if (article_id === false) article_id = this.activeID();
+                if (this.getTranslations(article_id).includes(article_id)) {
+                    return console.warn('Article translation already in array.');
+                }
+                if (!(language in this.translations)) this.translations[language] = [];
+                this.translations[language].push({ id: article_id, title: '', content: '', link: '', categories: [] });
+            },
+
+            getTranslations: function (article_id = false) {
+                let translations = [];
+                if (article_id === false) article_id = this.activeID();
+                for (var key in this.translations) {
+                    let articles = this.translations[key];
+                    for (var i = 0; i < articles.length; i++) {
+                        if (articles[i]['id'] == article_id) {
+                            translations.push(key);
+                            break;
+                        }
+                    }
+                }
+                return translations;
+            },
+
+            deleteTranslation: function (article_id = false, language) {
+                if (article_id === false) article_id = this.activeID();
+                if (language in this.translations) {
+                    let articles = this.translations[language];
+                    for (var i = 0; i < articles.length; i++) {
+                        if (articles[i]['id'] == article_id) {
+                            this.translations[language].splice(i, 1);
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            },
+
+            activeID: function () {
+                return articles_area.find('.sb-content').attr('data-id');
+            },
+
+            hide: function (hide = true) {
+                articles_area.find('.sb-content').setClass('sb-hide', hide);
+            }
+        },
+
+        automations: {
+            items: { messages: [], emails: [], sms: [], popups: [], design: [], more: [] },
+            translations: {},
+            conditions: {
+                datetime: ['Date time', ['Is between', 'Is exactly'], 'dd/mm/yyy hh:mm - dd/mm/yyy hh:mm'],
+                repeat: ['Repeat', ['Every day', 'Every week', 'Every month', 'Every year']],
+                browsing_time: ['Browsing time', [], 'seconds'],
+                scroll_position: ['Scroll position', [], 'px'],
+                include_urls: ['Include URLs', ['Contains', 'Does not contain', 'Is exactly', 'Is not'], 'URLs parts separated by commas'],
+                exclude_urls: ['Exclude URLs', ['Contains', 'Does not contain', 'Is exactly', 'Is not'], 'URLs parts separated by commas'],
+                referring: ['Referring URLs', ['Contains', 'Does not contain', 'Is exactly', 'Is not'], 'URLs parts separated by commas'],
+                user_type: ['User type', ['Is visitor', 'Is lead', 'Is user', 'Is not visitor', 'Is not lead', 'Is not user']],
+                returning_visitor: ['Returning visitor', ['First time visitor', 'Returning visitor']],
+                countries: ['Countries', [], 'Country codes separated by commas'],
+                languages: ['Languages', [], 'Language codes separated by commas'],
+                cities: ['Cities', [], 'Cities separated by commas'],
+                custom_variable: ['Custom variable', [], 'variable=value']
+            },
+
+            get: function (onSuccess) {
+                SBF.ajax({
+                    function: 'automations-get'
+                }, (response) => {
+                    this.items = response[0];
+                    this.translations = Array.isArray(response[1]) && !response[1].length ? {} : response[1];
+                    onSuccess(response);
                 });
             },
 
-            // Set active agent status
-            setActiveAgentStatus: function(online) {
-                agent_online = online;
-                header.find('[data-value="status"]').html(sb_(online ? 'Online' : 'Offline')).attr('class', online ? 'sb-online' : 'sb-offline');
-                if (SBPusher.active) {
-                    if (online) {
-                        SBPusher.presence();
-                    } else {
-                        SBPusher.presenceUnsubscribe();
+            save: function (onSuccess = false) {
+                this.updateActiveItem();
+                SBF.ajax({
+                    function: 'automations-save',
+                    automations: this.items,
+                    translations: this.translations
+                }, (response) => {
+                    if (onSuccess) onSuccess(response);
+                });
+            },
+
+            show: function (id = false, language = false) {
+                this.updateActiveItem();
+                let items = language ? (language in this.translations ? this.translations[language] : []) : this.items;
+                let area = automations_area.find(' > .sb-tab > .sb-content');
+                if (id === false) id = this.activeID();
+                this.hide(false);
+                for (var key in items) {
+                    for (var i = 0; i < items[key].length; i++) {
+                        let item = items[key][i];
+                        let conditions = item['conditions'];
+                        if (item['id'] == id) {
+                            conditions_area.html('');
+                            for (var key in item) {
+                                let element = area.find(`[data-id="${key}"]`);
+                                if (element.hasClass('image')) {
+                                    element.css('background-image', `url(${item[key]})`).attr('data-value', item[key]);
+                                    if (item[key] == '') element.removeAttr('data-value');
+                                } else if (element.attr('type') == 'checkbox') {
+                                    element.prop('checked', item[key]);
+                                } else element.val(item[key]);
+                            }
+                            if (conditions) {
+                                for (var key in conditions) {
+                                    this.addCondition();
+                                    let condition = conditions_area.find(' > div:last-child');
+                                    condition.find('select').val(conditions[key][0]);
+                                    this.updateCondition(condition.find('select'));
+                                    condition.find(' > div').eq(1).find('select,input').val(conditions[key][1]);
+                                    if (conditions[key].length > 2) {
+                                        condition.find(' > div').eq(2).find('input').val(conditions[key][2]);
+                                    }
+                                }
+                            }
+                            conditions_area.parent().setClass('sb-hide', language);
+                            area.sbLanguageSwitcher(this.getTranslations(id), 'automations', language);
+                            return true;
+                        }
                     }
                 }
+                return false;
+            },
+
+            add: function () {
+                let id = SBF.random();
+                let name = `${sb_('Item')} ${automations_area_nav.find('li:not(.sb-no-results)').length + 1}`;
+                this.updateActiveItem();
+                this.items[this.activeType()].push(this.itemArray(this.activeType(), id, name));
+                this.hide(false);
+                automations_area_nav.find('.sb-active').sbActive(false);
+                automations_area_nav.find('.sb-no-results').remove();
+                automations_area_nav.append(`<li class="sb-active" data-id="${id}">${name}<i class="sb-icon-delete"></i></li>`);
+                automations_area.find('.sb-automation-values').find('input, textarea').val('');
+                automations_area.sbLanguageSwitcher([], 'automations');
+                conditions_area.html('');
+            },
+
+            delete: function (element) {
+                this.items[this.activeType()].splice($(element).parent().index(), 1);
+                $(element).parent().remove();
+                this.hide();
+                if (this.items[this.activeType()].length == 0) automations_area_nav.html(`<li class="sb-no-results">${sb_('No results found.')}</li>`);
+            },
+
+            populate: function (type = false) {
+                if (type === false) type = this.activeType();
+                let code = '';
+                let items = this.items[type];
+                this.updateActiveItem();
+                if (items.length) {
+                    for (var i = 0; i < items.length; i++) {
+                        code += `<li data-id="${items[i]['id']}">${items[i]['name']}<i class="sb-icon-delete"></i></li>`;
+                    }
+                } else {
+                    code = `<li class="sb-no-results">${sb_('No results found.')}</li>`;
+                }
+                automations_area_nav.html(code);
+                code = '';
+                switch (type) {
+                    case 'emails':
+                        code = `<h2>${sb_('Subject')}</h2><div class="sb-input-setting sb-type-text"><div><input data-id="subject" type="text"></div></div>`;
+                        break;
+                    case 'popups':
+                        code = `<h2>${sb_('Title')}</h2><div class="sb-input-setting sb-type-text"><div><input data-id="title" type="text"></div></div><h2>${sb_('Profile image')}</h2><div data-type="upload-image" class="sb-input-setting sb-type-upload-image"><div class="input"><div data-id="profile_image" class="image"><i class="sb-icon-close"></i></div></div></div><h2>${sb_('Message fallback')}</h2><div class="sb-input-setting sb-type-checkbox"><div><input data-id="fallback" type="checkbox"></div></div>`;
+                        break;
+                    case 'design':
+                        code = `<h2>${sb_('Header title')}</h2><div class="sb-input-setting sb-type-text"><div><input data-id="title" type="text"></div></div>`;
+                        for (var i = 1; i < 4; i++) {
+                            code += `<h2>${sb_((i == 1 ? 'Primary' : (i == 2 ? 'Secondary' : 'Tertiary')) + ' color')}</h2><div data-type="color" class="sb-input-setting sb-type-color"><div class="input"><input data-id="color_${i}" type="text"><i class="sb-close sb-icon-close"></i></div></div>`;
+                        }
+                        for (var i = 1; i < 4; i++) {
+                            code += `<h2>${sb_(i == 1 ? 'Header background image' : (i == 2 ? 'Header brand image' : 'Chat button icon'))}</h2><div data-type="upload-image" class="sb-input-setting sb-type-upload-image"><div class="input"><div data-id="${i == 1 ? 'background' : (i == 2 ? 'brand' : 'icon')}" class="image"><i class="sb-icon-close"></i></div></div></div>`;
+                        }
+                        break;
+                    case 'more':
+                        code = `<h2>${sb_('Department ID')}</h2><div class="sb-input-setting sb-type-number"><div><input data-id="department" type="number"></div></div><h2>${sb_('Agent ID')}</h2><div class="sb-input-setting sb-type-number"><div><input data-id="agent" type="number"></div></div>`;
+                        break;
+                }
+                automations_area.find('.sb-automation-extra').html(code);
+                automations_area.attr('data-automation-type', type);
+                SBSettings.initColorPicker(automations_area);
+                this.hide();
+            },
+
+            updateActiveItem: function () {
+                let id = this.activeID();
+                if (id) {
+                    let language = automations_area.find(`.sb-language-switcher [data-language].sb-active`).attr('data-language');
+                    let type = this.activeType();
+                    let items = language ? (language in this.translations ? this.translations[language][type] : []) : this.items[type];
+                    let conditions = conditions_area.find(' > div');
+                    for (var i = 0; i < items.length; i++) {
+                        if (items[i]['id'] == id) {
+                            items[i] = { id: id, conditions: [] };
+                            automations_area.find('.sb-automation-values').find('input,textarea,[data-type="upload-image"] .image').each(function () {
+                                items[i][$(this).attr('data-id')] = $(this).hasClass('image') && $(this)[0].hasAttribute('data-value') ? $(this).attr('data-value') : ($(this).attr('type') == 'checkbox' ? $(this).is(':checked') : $(this).val());
+                            });
+                            conditions.each(function () {
+                                let condition = [];
+                                $(this).find('input,select').each(function () {
+                                    condition.push($(this).val());
+                                });
+                                if (condition[0] && condition[1] && (condition.length == 2 || condition[2])) {
+                                    items[i]['conditions'].push(condition);
+                                }
+                            });
+                            if (SBF.null(items[i].name)) {
+                                this.delete(automations_area_nav.find(`[data-id="${id}"] i`));
+                            }
+                            break;
+                        }
+                    }
+                }
+            },
+
+            addCondition: function () {
+                conditions_area.append(`<div><div class="sb-input-setting sb-type-select sb-condition-1"><select>${this.getAvailableConditions()}</select></div></div>`);
+            },
+
+            updateCondition: function (element) {
+                $(element).parent().siblings().remove();
+                let parent = $(element).parents().eq(1);
+                if ($(element).val()) {
+                    let condition = this.conditions[$(element).val()];
+                    let code = '';
+                    if (condition[1].length) {
+                        code = '<div class="sb-input-setting sb-type-select sb-condition-2"><select>';
+                        for (var i = 0; i < condition[1].length; i++) {
+                            code += `<option value="${SBF.stringToSlug(condition[1][i])}">${sb_(condition[1][i])}</option>`;
+                        }
+                        code += '</select></div>';
+                    }
+                    parent.append(code + (condition.length > 2 ? `<div class="sb-input-setting sb-type-text"><input placeholder="${sb_(condition[2])}" type="text"></div>` : ''));
+                    parent.siblings().find('.sb-condition-1 select').each(function () {
+                        let value = $(this).val();
+                        $(this).html(SBSettings.automations.getAvailableConditions(value));
+                        $(this).val(value);
+                    });
+                } else {
+                    parent.remove();
+                }
+            },
+
+            getAvailableConditions: function (include = '') {
+                let code = '<option value=""></option>';
+                let existing_conditions = [];
+                conditions_area.find('.sb-condition-1 select').each(function () {
+                    existing_conditions.push($(this).val());
+                });
+                for (var key in this.conditions) {
+                    if (!existing_conditions.includes(key) || key == include) {
+                        code += `<option value="${key}">${sb_(this.conditions[key][0])}</option>`;
+                    }
+                }
+                return code;
+            },
+
+            addTranslation: function (id = false, type = false, language) {
+                if (id === false) id = this.activeID();
+                if (type === false) type = this.activeType();
+                if (this.getTranslations(id).includes(id)) {
+                    return console.warn('Automation translation already in array.');
+                }
+                if (!(language in this.translations)) this.translations[language] = { messages: [], emails: [], sms: [], popups: [], design: [] };
+                if (!(type in this.translations[language])) this.translations[language][type] = [];
+                this.translations[language][type].push(this.itemArray(type, id));
+            },
+
+            getTranslations: function (id = false) {
+                let translations = [];
+                if (id === false) id = this.activeID();
+                for (var key in this.translations) {
+                    let types = this.translations[key];
+                    for (var key2 in types) {
+                        let items = types[key2];
+                        for (var i = 0; i < items.length; i++) {
+                            if (items[i]['id'] == id) {
+                                translations.push(key);
+                                break;
+                            }
+                        }
+                    }
+                }
+                return translations;
+            },
+
+            deleteTranslation: function (id = false, language) {
+                if (id === false) id = this.activeID();
+                if (language in this.translations) {
+                    let types = this.translations[language];
+                    for (var key in types) {
+                        let items = types[key];
+                        for (var i = 0; i < items.length; i++) {
+                            if (items[i]['id'] == id) {
+                                this.translations[language][key].splice(i, 1);
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            },
+
+            activeID: function () {
+                let item = automations_area_nav.find('.sb-active');
+                return item.length ? item.attr('data-id') : false;
+            },
+
+            activeType: function () {
+                return automations_area_select.find('li.sb-active').data('value');
+            },
+
+            itemArray: function (type, id, name = '', message = '') {
+                return $.extend({ id: id, name: name, message: message }, type == 'emails' ? { subject: '' } : (type == 'popups' ? { title: '', profile_image: '' } : (type == 'design' ? { title: '', color_1: '', color_2: '', color_3: '', background: '', brand: '', icon: '' } : {})));
+            },
+
+            hide: function (hide = true) {
+                automations_area.find(' > .sb-tab > .sb-content').setClass('sb-hide', hide);
+            }
+        },
+
+        translations: {
+            translations: {},
+            originals: {},
+            to_update: {},
+
+            add: function (language) {
+                let setting = SBSettings.getSettingObject(language_switcher_target);
+                let setting_id = setting.attr('id');
+                let active_language = language_switcher_target.find('[data-language].sb-active');
+                this.save(setting, active_language.length ? active_language.attr('data-language') : false);
+                setting.find('textarea,input[type="text"]').val('');
+                this.save(setting, language);
+                language_switcher_target.remove();
+                setting.sbLanguageSwitcher(this.getLanguageCodes(setting_id), 'settings', language);
+            },
+
+            delete: function (setting, language) {
+                setting = SBSettings.getSettingObject(setting);
+                let setting_id = setting.attr('id');
+                delete this.translations[language][setting_id];
+                setting.find(`.sb-language-switcher [data-language="${language}"]`).remove();
+                this.activate(setting);
+            },
+
+            activate: function (setting, language = false) {
+                setting = SBSettings.getSettingObject(setting);
+                let setting_id = setting.attr('id');
+                let values = language ? this.translations[language][setting_id] : this.originals[setting_id];
+                if (typeof values == 'string') {
+                    setting.find('input, textarea').val(values);
+                } else {
+                    for (var key in values) {
+                        setting.find('#' + key).find('input, textarea').val(typeof values[key] == 'string' ? values[key] : values[key][0]);
+                    }
+                }
+            },
+
+            updateActive: function () {
+                let area = settings_area.find('.sb-translations-list')
+                let translations = { 'front': {}, 'admin': {}, 'admin/js': {}, 'admin/settings': {} };
+                let language_code = area.attr('data-value');
+                if (SBF.null(language_code)) return;
+                for (var key in translations) {
+                    area.find(' > [data-area="' + key + '"] .sb-input-setting:not(.sb-new-translation)').each(function () {
+                        translations[key][$(this).find('label').html()] = $(this).find('input').val();
+                    });
+                    area.find('> [data-area="' + key + '"] .sb-new-translation').each(function () {
+                        let original = $(this).find('input:first-child').val();
+                        let value = $(this).find('input:last-child').val();
+                        if (original && value) {
+                            translations[key][original] = value;
+                        }
+                    });
+                }
+                this.to_update[language_code] = translations;
+            },
+
+            save: function (setting, language = false) {
+                setting = SBSettings.getSettingObject(setting);
+                let values = {};
+                let setting_id = $(setting).attr('id');
+                if (setting.data('type') == 'multi-input') {
+                    setting.find('.multi-input-textarea,.multi-input-text').each(function () {
+                        values[$(this).attr('id')] = $(this).find('input, textarea').val();
+                    });
+                } else {
+                    values = setting.find('input, textarea').val();
+                }
+                if (language) {
+                    if (!(language in this.translations)) {
+                        this.translations[language] = {};
+                    }
+                    this.translations[language][setting_id] = values;
+                } else {
+                    this.originals[setting_id] = values;
+                }
+            },
+
+            load: function (language_code) {
+                let area = settings_area.find('.sb-translations > .sb-content');
+                area.find(' > .sb-hide').removeClass('sb-hide');
+                this.updateActive();
+                SBF.ajax({
+                    function: 'get-translation',
+                    language_code: language_code
+                }, (translations) => {
+                    if (language_code in this.to_update) translations = this.to_update[language_code];
+                    let code = '';
+                    let areas = ['front', 'admin', 'admin/js', 'admin/settings'];
+                    for (var i = 0; i < areas.length; i++) {
+                        let translations_area = translations[areas[i]];
+                        code += `<div${!i ? ' class="sb-active"' : ''} data-area="${areas[i]}">`;
+                        for (var key in translations_area) {
+                            code += `<div class="sb-input-setting sb-type-text"><label>${key}</label><div><input type="text" value="${translations_area[key]}"></div></div>`;
+                        }
+                        code += '</div>';
+                    }
+                    area.find('.sb-translations-list').attr('data-value', language_code).html(code);
+                    area.find('.sb-menu-wide li').sbActive(false).eq(0).sbActive(true);
+                    area.sbLoading(false);
+                });
+                area.sbLoading(true);
+            },
+
+            getLanguageCodes: function (setting_id) {
+                let languages = [];
+                for (var key in this.translations) {
+                    if (setting_id in this.translations[key]) {
+                        languages.push(key);
+                    }
+                }
+                return languages;
             }
         }
+    }
 
-        /*
-         * ----------------------------------------------------------
-         * # Conversations 
-         * ----------------------------------------------------------
-         */
+    /*
+    * ----------------------------------------------------------
+    * # Reports
+    * ----------------------------------------------------------
+    */
 
-        var SBConversations = {
-                real_time: null,
-                datetime_last_conversation: '2000-01-01 00:00:00',
-                user_typing: false,
-                desktop_notifications: false,
-                flash_notifications: false,
-                busy: false,
-                is_search: false,
-                menu_count_ajax: false,
+    var SBReports = {
+        chart: false,
+        active_report: false,
 
-                // Open the conversations tab
-                open: function(conversation_id = -1, user_id) {
-                    if (conversation_id != -1) {
-                        this.openConversation(conversation_id, user_id);
-                    }
-                    admin.sbHideLightbox();
-                    header.find('.sb-admin-nav a').sbActivate(false).parent().find('#sb-conversations').sbActivate();
-                    admin.find(' > main > div').sbActivate(false);
-                    conversations_area.sbActivate().find('.sb-board').removeClass('sb-no-conversation');
-                    this.startRealTime();
+        initChart: function (data, type = 'line', label_type = 1) {
+            let values = [];
+            let labels = [];
+            let blues = ['#049CFF', '#74C4F7', '#B9E5FF', '#0562A0', '#003B62', '#1F74C4', '#436786'];
+            for (var key in data) {
+                values.push(data[key][0]);
+                labels.push(key);
+            }
+            if (type != 'line' && values.length > 6) {
+                for (var i = 0; i < values.length; i++) {
+                    blues.push('hsl(' + 210 + ', ' + Math.floor(Math.random() * 100) + '%, ' + Math.floor(Math.random() * 100) + '%)');
+                }
+            }
+            if (this.chart) this.chart.destroy();
+            this.chart = new Chart(reports_area.find('canvas'), {
+                type: type,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: type == 'line' ? '#028be530' : blues,
+                        borderColor: type == 'line' ? '#049CFF' : '#FFFFFF',
+                        borderWidth: 0
+                    }],
                 },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                callback: function (tickValue, index, ticks) {
+                                    return label_type == 1 ? tickValue : (label_type == 2 ? new Date(tickValue * 1000).toISOString().substr(11, 8) : tickValue);
+                                },
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, chartData) {
+                                let index = tooltipItem['index'];
+                                let value = chartData['datasets'][0]['data'][index];
+                                switch (label_type) {
+                                    case 1: return value;
+                                    case 2: return new Date(values[index] * 1000).toISOString().substr(11, 8);
+                                    case 3: return value + '%';
+                                    case 4: let tds = reports_area.find('.sb-table tbody tr').eq(index).find('td'); return tds.eq(0).text() + ' ' + tds.eq(1).text();
+                                }
+                            },
+                        },
+                        displayColors: false
+                    }
+                }
+            });
+        },
 
-                // Open a single conversation
-                openConversation: function(conversation_id, user_id = false, scroll = true) {
-                    if (user_id === false && conversation_id) {
-                        SBF.ajax({
-                            function: 'get-user-from-conversation',
-                            conversation_id: conversation_id
-                        }, (response) => {
-                            if (!SBF.null(response['id'])) {
-                                this.openConversation(conversation_id, response['id'], scroll);
-                            } else SBF.error('User not found', 'SBAdmin.openConversation');
+        initTable: function (header, data, inverse = false) {
+            let code = '<thead><tr>';
+            let index = data[Object.keys(data)[0]].length - 1;
+            let list = [];
+            for (var i = 0; i < header.length; i++) {
+                code += `<th>${header[i]}</th>`;
+            }
+            code += '</tr></thead><tbody>';
+            for (var key in data) {
+                if (data[key][index] != 0) {
+                    list.push([key, data[key][index]]);
+                }
+            }
+            if (inverse) {
+                list.reverse();
+            }
+            for (var i = 0; i < list.length; i++) {
+                code += `<tr><td><div>${list[i][0]}</div></td><td>${list[i][1]}</td></tr>`;
+            }
+            code += '</tbody>';
+            reports_area.find('table').html(code);
+        },
+
+        initReport: function (name = false, date_range = false) {
+            let area = reports_area.find('.sb-tab > .sb-content');
+            date_range = SBF.null(date_range) ? [false, false] : date_range.split(' - ');
+            area.sbLoading(true);
+            if (name) this.active_report = name;
+            if (!this.active_report) return;
+            this.getData(this.active_report, date_range[0], date_range[1], (response) => {
+                if (response == false) {
+                    area.addClass('sb-no-results-active');
+                } else {
+                    area.removeClass('sb-no-results-active');
+                    this.initChart(response['data'], response['chart_type'], response['label_type']);
+                    this.initTable(response['table'], response['data'], response['table-inverse']);
+                    reports_area.find('.sb-reports-title').html(response['title']);
+                    reports_area.find('.sb-reports-text').html(response['description']);
+                    reports_area.find('.sb-collapse-btn').remove();
+                    if (!responsive) collapse(reports_area.find('.sb-collapse'), reports_area.find('canvas').outerHeight() - 135);
+                }
+                area.sbLoading(false);
+            });
+        },
+
+        getData: function (name, date_start = false, date_end = false, onSuccess) {
+            SBF.ajax({
+                function: 'reports',
+                name: name,
+                date_start: date_start,
+                date_end: date_end
+            }, (response) => {
+                onSuccess(response);
+            });
+        },
+
+        initDatePicker: function () {
+            let settings = {
+                ranges: {},
+                locale: {
+                    'format': 'DD/MM/YYYY',
+                    'separator': ' - ',
+                    'applyLabel': sb_('Apply'),
+                    'cancelLabel': sb_('Cancel'),
+                    'fromLabel': sb_('From'),
+                    'toLabel': sb_('To'),
+                    'customRangeLabel': sb_('Custom'),
+                    'weekLabel': sb_('W'),
+                    'daysOfWeek': [
+                        sb_('Su'),
+                        sb_('Mo'),
+                        sb_('Tu'),
+                        sb_('We'),
+                        sb_('Th'),
+                        sb_('Fr'),
+                        sb_('Sa')
+                    ],
+                    'monthNames': [
+                        sb_('January'),
+                        sb_('February'),
+                        sb_('March'),
+                        sb_('April'),
+                        sb_('May'),
+                        sb_('June'),
+                        sb_('July'),
+                        sb_('August'),
+                        sb_('September'),
+                        sb_('October'),
+                        sb_('November'),
+                        sb_('December')
+                    ],
+                    'firstDay': 1
+                },
+                showCustomRangeLabel: true,
+                alwaysShowCalendars: true,
+                autoApply: true
+            };
+            settings['ranges'][sb_('Today')] = [moment(), moment()];
+            settings['ranges'][sb_('Yesterday')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
+            settings['ranges'][sb_('Last 7 Days')] = [moment().subtract(6, 'days'), moment()];
+            settings['ranges'][sb_('Last 30 Days')] = [moment().subtract(29, 'days'), moment()];
+            settings['ranges'][sb_('This Month')] = [moment().startOf('month'), moment().endOf('month')];
+            settings['ranges'][sb_('Last Month')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
+            reports_area.find('#sb-date-picker').daterangepicker(settings).val('');
+        }
+    }
+
+    /*
+    * ----------------------------------------------------------
+    * # Users
+    * ----------------------------------------------------------
+    */
+
+    var SBUsers = {
+        real_time: null,
+        datetime_last_user: '2000-01-01 00:00:00',
+        sorting: ['creation_time', 'DESC'],
+        user_types: ['visitor', 'lead', 'user'],
+        user_main_fields: ['id', 'first_name', 'last_name', 'email', 'password', 'profile_image', 'user_type', 'creation_time', 'token', 'last_activity', 'department'],
+        search_query: '',
+        init: false,
+        busy: false,
+        table_extra: false,
+        history: [],
+
+        // Table menu filter
+        filter: function (type) {
+            if (type == 'all') {
+                type = ['visitor', 'lead', 'user'];
+            } else if (type == 'agent') {
+                type = ['agent', 'admin'];
+            } else {
+                type = [type];
+            }
+            this.user_types = type;
+            this.loading();
+            users_pagination = 1;
+            users_pagination_count = 1;
+            let settings = type[0] == 'online' ? ['get-online-users', SB_ACTIVE_AGENT['id'], this.sorting[0]] : ['get-users', -1, this.sorting];
+            SBF.ajax({
+                function: settings[0],
+                sorting: settings[2],
+                user_types: type,
+                search: this.search_query,
+                extra: this.table_extra
+            }, (response) => {
+                this.populate(response);
+                this.loading(false);
+            });
+        },
+
+        // Table menu sort
+        sort: function (field, direction = 'DESC') {
+            this.sorting = [field, direction];
+            this.loading();
+            users_pagination = 1;
+            users_pagination_count = 1;
+            SBF.ajax({
+                function: 'get-users',
+                sorting: this.sorting,
+                user_types: this.user_types,
+                search: this.search_query,
+                extra: this.table_extra
+            }, (response) => {
+                this.populate(response);
+                this.loading(false);
+            });
+        },
+
+        // Search users
+        search: function (input) {
+            searchInput(input, (search, icon) => {
+                users_pagination = 1;
+                users_pagination_count = 1;
+                SBF.ajax({
+                    function: search.length > 1 ? 'search-users' : 'get-users',
+                    search: search,
+                    user_types: this.user_types,
+                    sorting: this.sorting,
+                    extra: this.table_extra
+                }, (response) => {
+                    this.user_types = ['visitor', 'lead', 'user'];
+                    this.populate(response);
+                    this.search_query = search;
+                    $(icon).sbLoading(false);
+                    users_table_menu.find('li').sbActive(false).eq(0).sbActive(true);
+                });
+            });
+        },
+
+        // Populate the table
+        populate: function (response) {
+            let code = '';
+            let count = response.length;
+            if (count) {
+                for (var i = 0; i < count; i++) {
+                    code += this.getRow(new SBUser(response[i], response[i].extra));
+                }
+            } else {
+                code = `<p class="sb-no-results">${sb_('No users found.')}</p>`;
+            }
+            users_table.parent().scrollTop(0);
+            users_table.find('tbody').html(code);
+            if (this.user_types.includes('agent')) {
+                SBF.ajax({
+                    function: 'get-online-users',
+                    agents: true
+                }, (response) => {
+                    let ids = [];
+                    for (var i = 0; i < response.length; i++) {
+                        ids.push(response[i].id);
+                    }
+                    users_table.find('[data-user-id]').each(function () {
+                        $(this).find('.sb-td-profile').addClass('sb-' + (ids.includes($(this).attr('data-user-id')) ? 'online' : 'offline'));
+                    });
+                });
+            }
+        },
+
+        // Update users and table with new users
+        update: function () {
+            if (!this.busy) {
+                let checks = ['user', 'visitor', 'lead', 'agent'];
+                let populate = checks.includes(this.user_types[0]) && this.search_query == '';
+                let filter = users_table_menu.find('.sb-active').data('type');
+                if (filter == 'online') {
+                    this.filter(filter);
+                } else {
+                    this.busy = true;
+                    SBF.ajax({
+                        function: 'get-new-users',
+                        datetime: this.datetime_last_user
+                    }, (response) => {
+                        let count = response.length;
+                        this.busy = false;
+                        if (count > 0) {
+                            let code = '';
+                            for (var i = 0; i < count; i++) {
+                                let user = new SBUser(response[i]);
+                                users[user.id] = user;
+                                this.updateMenu('add', user.type);
+                                if (populate) {
+                                    code += this.getRow(user);
+                                }
+                            }
+                            if (populate) {
+                                users_table.find('tbody').prepend(code);
+                                if (checks.includes(filter)) {
+                                    let selector = '';
+                                    for (var i = 0; i < checks.length; i++) {
+                                        selector += checks[i] == filter ? '' : `[data-user-type="${checks[i]}"],`;
+                                    }
+                                    users_table.find(selector.slice(0, -1)).remove();
+                                }
+                            }
+                            this.datetime_last_user = response[0]['creation_time'];
+                        }
+                    });
+                }
+            }
+        },
+
+        // Get a user row code
+        getRow: function (user) {
+            if (user instanceof SBUser) {
+                let code = '';
+                for (var i = 0; i < this.table_extra.length; i++) {
+                    let slug = this.table_extra[i];
+                    code += `<td class="sb-td-${slug}">${this.user_main_fields.includes(slug) ? user.get(slug) : user.getExtra(slug)}</td>`;
+                }
+                return `<tr data-user-id="${user.id}" data-user-type="${user.type}"><td><input type="checkbox" /></td><td class="sb-td-profile"><a class="sb-profile"><img src="${user.image}" /><span>${user.name}</span></a></td>${code}<td class="sb-td-email">${user.get('email')}</td><td class="sb-td-ut">${sb_(user.type)}</td><td>${SBF.beautifyTime(user.get('last_activity'), true)}</td><td>${user.get('creation_time')}</td></tr>`;
+            } else {
+                SBF.error('User not of type SBUser', 'SBUsers.getRow');
+                return false;
+            }
+        },
+
+        // Update a user row
+        updateRow: function (user) {
+            let row = users_table.find(`[data-user-id="${user.id}"]`);
+            if (row.length) {
+                let menu_active = users_table_menu.find('.sb-active').data('type');
+                if ((user.type != menu_active) && !(user.type == 'admin' && menu_active == 'agent') && menu_active != 'all') {
+                    let counter = admin.find(`[data-type="${user.type == 'admin' ? 'agent' : user.type}"] span`);
+                    let count = parseInt(counter.attr('data-count'));
+                    counter.html(count + 1).attr('data-count', count + 1);
+                    row.remove();
+                } else {
+                    row.replaceWith(this.getRow(user));
+                }
+            } else {
+                users_table.find('tbody').append(this.getRow(user));
+            }
+        },
+
+        // Update users table menu
+        updateMenu: function (action = 'all', type = false) {
+            let user_types = ['all', 'user', 'lead', 'visitor'];
+            if (action == 'all') {
+                SBF.ajax({
+                    function: 'count-users'
+                }, (response) => {
+                    for (var i = 0; i < user_types.length; i++) {
+                        this.updateMenuItem('set', user_types[i], response[user_types[i]]);
+                    }
+                });
+            } else {
+                this.updateMenuItem(action, type);
+            }
+        },
+
+        updateMenuItem: function (action = 'set', type = false, count = 1) {
+            let item = users_table_menu.find(`[data-type="${type}"] span`);
+            let user_types = ['user', 'lead', 'visitor'];
+            if (action != 'set') {
+                count = parseInt(item.attr('data-count')) + (1 * (action == 'add' ? 1 : -1));
+            }
+            item.html(`(${count})`).attr('data-count', count);
+            count = 0;
+            for (var i = 0; i < user_types.length; i++) {
+                count += parseInt(users_table_menu.find(`[data-type="${user_types[i]}"] span`).attr('data-count'));
+            }
+            users_table_menu.find(`[data-type="all"] span`).html(`(${count})`).attr('data-count', count);
+        },
+
+        // Delete a user
+        delete: function (user_ids) {
+            this.loading();
+            if (Array.isArray(user_ids)) {
+                if (SB_ADMIN_SETTINGS.cloud) {
+                    user_ids = SBCloud.removeAdminID(user_ids);
+                    if (!user_ids.length) return;
+                }
+                SBF.ajax({
+                    function: 'delete-users',
+                    user_ids: user_ids
+                }, () => {
+                    for (var i = 0; i < user_ids.length; i++) {
+                        delete users[user_ids[i]];
+                        users_table.find(`[data-user-id="${user_ids[i]}"]`).remove();
+                        conversations_admin_list_ul.find(`[data-user-id="${user_ids[i]}"]`).remove();
+                    }
+                    if (users_table.find('[data-user-id]').length == 0) {
+                        this.filter(users_table_menu.find('.sb-active').data('type'));
+                    }
+                    showResponse('Users deleted');
+                    this.updateMenu();
+                    this.loading(false);
+                });
+            } else {
+                users[user_ids].delete(() => {
+                    let conversation = conversations_admin_list_ul.find(`[data-user-id="${user_ids}"]`);
+                    if (activeUser().id == user_ids) {
+                        activeUser(false);
+                    }
+                    if (conversation.sbActive()) {
+                        SBChat.conversation = false;
+                        setTimeout(() => { SBConversations.clickFirst() }, 300);
+                    }
+                    delete users[user_ids];
+                    users_table.find(`[data-user-id="${user_ids}"]`).remove();
+                    conversation.remove();
+                    admin.sbHideLightbox();
+                    showResponse('User deleted');
+                    this.updateMenu();
+                    this.loading(false);
+                });
+            }
+        },
+
+        // Start or stop the real time update of the users and table
+        startRealTime: function () {
+            if (SBPusher.active) return;
+            this.stopRealTime();
+            this.real_time = setInterval(() => {
+                this.update();
+            }, 1000);
+        },
+
+        stopRealTime: function () {
+            clearInterval(this.real_time);
+        },
+
+        // Table loading
+        loading: function (show = true) {
+            let loading = users_area.find('.sb-loading-table');
+            if (show) loading.sbActive(true);
+            else loading.sbActive(false);
+        },
+
+        // CSV generation and download
+        csv: function () {
+            SBF.ajax({ function: 'csv-users' }, (response) => window.open(response));
+        },
+
+        // Update user and agent activity status
+        updateUsersActivity: function () {
+            SBF.updateUsersActivity(agent_online ? SB_ACTIVE_AGENT['id'] : -1, activeUser() ? activeUser().id : -1, function (response) {
+                SBUsers.setActiveUserStatus(response == 'online');
+            });
+        },
+
+        // Set active agent status
+        setActiveAgentStatus: function (online = true) {
+            agent_online = online;
+            header.find('[data-value="status"]').html(sb_(online ? 'Online' : 'Offline')).attr('class', online ? 'sb-online' : 'sb-offline');
+            if (SBPusher.active) {
+                if (online) {
+                    SBPusher.presence();
+                } else {
+                    SBPusher.presenceUnsubscribe();
+                }
+            }
+        },
+
+        // Set active user status
+        setActiveUserStatus: function (online = true) {
+            let labels = conversations_area.find('.sb-conversation .sb-top > .sb-labels');
+            labels.find('.sb-status-online').remove();
+            if (online) labels.prepend(`<span class="sb-status-online">${sb_('Online')}</span>`);
+            SBChat.user_online = online;
+        },
+
+        // Notification for new online users
+        onlineUserNotification: function (member) {
+            let notification = SB_ADMIN_SETTINGS['online-users-notification'];
+            if (notification) {
+                let message = member.info.first_name + ' ' + member.info.last_name;
+                let icon = this.userProfileImage(member.info.profile_image);
+                if (SB_ADMIN_SETTINGS['push-notifications'] && 'id' in member.info && !this.history.includes(member.info.id)) {
+                    SBF.ajax({
+                        function: 'push-notification',
+                        title: notification,
+                        message: message,
+                        icon: icon,
+                        interests: SB_ACTIVE_AGENT['id'],
+                        user_id: member.info.id
+                    });
+                } else if (SBConversations.desktop_notifications) {
+                    SBChat.desktopNotification(notification, message, icon, false, member.info.id);
+                }
+                this.history.push(member.info.id);
+            }
+        },
+
+        // Get user profile image
+        userProfileImage: function (url) {
+            return !url || url.indexOf('user.svg') ? SB_ADMIN_SETTINGS['notifications-icon'] : url;
+        }
+    }
+
+    /*
+    * ----------------------------------------------------------
+    * # Conversations 
+    * ----------------------------------------------------------
+    */
+
+    var SBConversations = {
+        real_time: null,
+        datetime_last_conversation: '2000-01-01 00:00:00',
+        user_typing: false,
+        desktop_notifications: false,
+        flash_notifications: false,
+        busy: false,
+        is_search: false,
+        menu_count_ajax: false,
+
+        // Open the conversations tab
+        open: function (conversation_id = -1, user_id) {
+            if (conversation_id != -1) {
+                this.openConversation(conversation_id, user_id);
+            }
+            admin.sbHideLightbox();
+            header.find('.sb-admin-nav a').sbActive(false).parent().find('#sb-conversations').sbActive(true);
+            admin.find(' > main > div').sbActive(false);
+            conversations_area.sbActive(true).find('.sb-board').removeClass('sb-no-conversation');
+            this.startRealTime();
+        },
+
+        // Open a single conversation
+        openConversation: function (conversation_id, user_id = false, scroll = true) {
+            if (user_id === false && conversation_id) {
+                SBF.ajax({
+                    function: 'get-user-from-conversation',
+                    conversation_id: conversation_id
+                }, (response) => {
+                    if (!SBF.null(response['id'])) {
+                        this.openConversation(conversation_id, response['id'], scroll);
+                    } else SBF.error('Conversation not found', 'SBAdmin.openConversation');
+                });
+            } else {
+                let area = conversations_area.find('.sb-conversation .sb-list');
+                let new_user = SBF.null(users[user_id]) || !('email' in users[user_id].details);
+                let conversation = conversations_area.find(`[data-conversation-id="${conversation_id}"]`);
+                area.html('');
+                area.sbLoading(true);
+
+                // Init the user
+                if (new_user) {
+                    activeUser(new SBUser({ 'id': user_id }));
+                    activeUser().update(() => {
+                        users[user_id] = activeUser();
+                        this.updateUserDetails();
+                    });
+                } else {
+                    activeUser(users[user_id]);
+                }
+                if (SBPusher.active) {
+                    SBPusher.event('client-typing', (response) => {
+                        if (response.user_id == activeUser().id) {
+                            SBConversations.typing(true);
+                            clearTimeout(pusher_timeout);
+                            pusher_timeout = setTimeout(() => { SBConversations.typing(false) }, 1000);
+                        }
+                    });
+                    SBPusher.event('new-message', () => {
+                        SBChat.update();
+                    });
+                    SBPusher.event('agent-active-conversation-changed', (response) => {
+                        if (response.previous_conversation_id == conversation_id) {
+                            conversations_area.find('.sb-conversation-busy').remove();
+                        }
+                    }, 'agents');
+                    SBPusher.event('init', () => {
+                        SBConversations.updateCurrentURL();
+                    });
+                }
+                if (SB_ADMIN_SETTINGS['smart-reply']) suggestions_area.html('');
+
+                // Open the conversation
+                conversations_admin_list_ul.find('li').sbActive(false);
+                conversation.sbActive(true);
+                if (conversation_id != -1) {
+                    activeUser().getFullConversation(conversation_id, (response) => {
+
+                        let conversation_status_code = response.get('conversation_status_code');
+                        let select = conversations_admin_list.find('.sb-select');
+                        let select_status_code = select.find('.sb-active').attr('data-value');
+
+                        SBChat.setConversation(response);
+                        SBChat.populate();
+                        this.setReadIcon(conversation_status_code);
+                        conversations_area.find('.sb-conversation-busy').remove();
+                        this.updateUserDetails();
+                        conversations_area.find('.sb-top > a').html(response.get('title'));
+
+                        // Automatic translation
+                        SBAdmin.must_translate = SB_ADMIN_SETTINGS['translation'] && activeUser().language && SB_ADMIN_SETTINGS['active-agent-language'] != activeUser().language;
+                        if (SBAdmin.must_translate) {
+                            let strings = [];
+                            let message_ids = [];
+                            let message_user_types = [];
+                            for (var i = 0; i < response.messages.length; i++) {
+                                let message = response.messages[i];
+                                if (message.get('user_type') != 'bot') {
+                                    strings.push(message.message);
+                                    message_ids.push(message.id);
+                                    message_user_types.push(message.get('user_type'));
+                                }
+                            }
+                            SBApps.dialogflow.translate(strings, SB_ADMIN_SETTINGS['active-agent-language'], (response) => {
+                                if (response) {
+                                    for (var i = 0; i < response.length; i++) {
+                                        let message = SBChat.conversation.getMessage(message_ids[i]);
+                                        area.find(`[data-id="${message_ids[i]}"] .sb-message`).html(response[i].translatedText);
+                                        area.find(`[data-id="${message_ids[i]}"] .sb-menu`).prepend(`<li data-value="original">${sb_(SBF.isAgent(message_user_types[i]) ? 'View translation' : 'View original message')}</li>`);
+                                        if (message) message.set('translation', response[i].translatedText);
+                                    }
+                                }
+                            });
+                        }
+
+                        // Departments
+                        let select_departments = conversations_area.find('#conversation-department');
+                        if (select_departments.length) {
+                            let item = select_departments.find(`[data-id="${response.get('department')}"]`);
+                            select_departments.find(' > p').attr('data-value', item.data('value')).html(item.html());
+                        }
+
+                        // Agent assignment
+                        let select_agents = conversations_area.find('#conversation-agent');
+                        if (select_agents.length) {
+                            let item = select_agents.find(`[data-id="${response.get('agent_id')}"]`);
+                            select_agents.find(' > p').attr('data-value', item.data('id')).html(item.html());
+                        }
+
+                        // Activate conversation
+                        if ([1, 2].includes(conversation_status_code)) {
+                            conversation_status_code = 0;
+                        }
+                        if (select_status_code != conversation_status_code && !$(conversations_admin_list).find('.sb-search-btn').sbActive()) {
+                            select.find(`[data-value="${conversation_status_code}"]`).click();
+                            select.find('ul').sbActive(false);
+                        }
+                        if (responsive) {
+                            this.mobileOpenConversation();
+                        }
+                        if (!conversation.length && (select_status_code == conversation_status_code || (select_status_code == 0 && conversation_status_code == 1))) {
+                            conversations_admin_list_ul.prepend(SBConversations.getListCode(response).replace('<li', '<li class="sb-active"'));
+                        }
+                        conversation.sbActive(true);
+                        if (scroll) {
+                            this.scrollTo();
+                        }
+
+                        // Check if another agent has the conversation open
+                        let busy = response.get('busy');
+                        if (busy) {
+                            conversations_area.find('.sb-editor > .sb-labels').prepend(`<span data-agent="${busy.id}" class="sb-status-warning sb-conversation-busy">${busy.first_name} ${busy.last_name} ${sb_('is replying to this conversation')}</span>`);
+                        }
+
+                        // App panels
+                        if (SBApps.is('woocommerce')) {
+                            SBApps.woocommerce.conversationPanel();
+                        }
+                        if (SBApps.is('ump')) {
+                            SBApps.ump.conversationPanel();
+                        }
+                        if (SBApps.is('perfex')) {
+                            SBApps.perfex.conversationPanel();
+                        }
+                        if (SBApps.is('whmcs')) {
+                            SBApps.whmcs.conversationPanel();
+                        }
+                        if (SBApps.is('aecommerce')) {
+                            SBApps.aecommerce.conversationPanel();
+                        }
+                        if (SBApps.is('armember')) {
+                            SBApps.armember.conversationPanel();
+                        }
+                        if (SBApps.is('zendesk')) {
+                            SBApps.zendesk.conversationPanel();
+                        }
+
+                        // Notes
+                        this.notes.update(response['details']['notes']);
+
+                        // Attachments
+                        this.attachments();
+
+                        // Suggestions
+                        if (SB_ADMIN_SETTINGS['smart-reply']) {
+                            let message = response.getLastUserMessage();
+                            suggestions_area.html('');
+                            if (message && message.payload('sb-human-takeover')) {
+                                message = response.getLastUserMessage(message.get('index'));
+                            }
+                            if (message) {
+                                SBApps.dialogflow.smart_reply_data = false;
+                                SBApps.dialogflow.smartReply(message.message);
+                            }
+                        }
+
+                        // Rating
+                        for (var i = response.messages.length - 1; i > 0; i--) {
+                            let payload = response.messages[i].get('payload');
+                            let break_loop = false;
+                            if (payload && 'rich-messages' in payload) {
+                                for (var rich_message_id in payload['rich-messages']) {
+                                    let rich_message = payload['rich-messages'][rich_message_id];
+                                    if (rich_message.type == 'rating') {
+                                        conversations_area.find('.sb-profile-list > ul').append(`<li data-id="rating"><i class="sb-icon sb-icon-${rich_message.result.rating == 1 ? 'like' : 'dislike'}"></i><span>${sb_('User rating')}</span><label>${sb_(rich_message.result.rating == 1 ? 'Helpful' : 'Not helpful')}</label></li>`);
+                                        break_loop = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (break_loop) break;
+                        }
+
+                        // Populate user conversations on the bottom right area
+                        activeUser().getConversations(function (response) {
+                            conversations_area.find('.sb-user-conversations').html(activeUser().getConversationsCode(response));
                         });
-                    } else {
-                        let area = conversations_area.find('.sb-conversation .sb-list');
-                        let new_user = SBF.null(users[user_id]) || !('email' in users[user_id].details);
-                        let conversation = conversations_area.find(`[data-conversation-id="${conversation_id}"]`);
-                        area.html('');
-                        area.sbLoading(true);
 
-                        // Init the user
-                        if (new_user) {
-                            activeUser(new SBUser({ 'id': user_id }));
-                            activeUser().update(() => {
-                                users[user_id] = activeUser();
-                                this.updateUserDetails();
-                            });
-                        } else {
-                            activeUser(users[user_id]);
-                        }
-                        if (SBPusher.active) {
-                            SBPusher.event('client-typing', (response) => {
-                                if (response.user_id == activeUser().id) {
-                                    SBConversations.typing(true);
-                                    clearTimeout(pusher_timeout);
-                                    pusher_timeout = setTimeout(() => { SBConversations.typing(false) }, 1000);
+                        area.sbLoading(false);
+                    });
+                } else {
+                    SBChat.clear();
+                    conversations_admin_list_ul.find('li').sbActive(false);
+                    area.sbLoading(false);
+                }
+
+                // User details
+                if (!new_user) {
+                    this.updateUserDetails();
+                }
+
+                // More settings
+                conversations_area.find('.sb-board').removeClass('sb-no-conversation');
+                SBUsers.updateUsersActivity();
+                this.startRealTime();
+                if (SBF.getURL('conversation') != conversation_id) pushState('?conversation=' + conversation_id);
+            }
+        },
+
+        // [Deprecated] this method is obsolete and it will be removed soon
+        populate: function (conversation_id, user_id, scroll) {
+            this.openConversation(conversation_id, user_id, scroll);
+        },
+
+        // Populate conversations
+        populateList: function (response) {
+            let code = '';
+            conversations = [];
+            for (var i = 0; i < response.length; i++) {
+                code += this.getListCode(response[i]);
+                conversations.push(response[i]);
+            }
+            if (code == '') {
+                code = `<p class="sb-no-results">${sb_('No conversations found.')}</p>`;
+            }
+            conversations_admin_list_ul.html(code);
+            this.updateMenu();
+            SBF.event('SBAdminConversationsLoaded', { conversations: response });
+        },
+
+        // Update the left conversations list with new conversations or messages 
+        update: function () {
+            if (!this.busy) {
+                this.busy = true;
+                SBF.ajax({
+                    function: 'get-new-conversations',
+                    datetime: this.datetime_last_conversation,
+                    routing: SB_ADMIN_SETTINGS['routing'],
+                    routing_unassigned: SB_ADMIN_SETTINGS['assign-conversation-to-agent']
+                }, (response) => {
+                    this.busy = false;
+                    if (response.length) {
+                        let code_pending = '';
+                        let code_not_pending = '';
+                        let active_conversation_id = SBChat.conversation ? SBChat.conversation.id : -1;
+                        let item_not_pending;
+                        let scroll_to_conversation = false;
+                        let id_check = [];
+                        this.datetime_last_conversation = response[0]['creation_time'];
+
+                        for (var i = 0; i < response.length; i++) {
+                            if (!id_check.includes(response[i]['conversation_id'])) {
+                                let item = response[i];
+                                let status = item['conversation_status_code'];
+                                let user_id = item['user_id'];
+                                let conversation_id = item['conversation_id'];
+                                let active_conversation = active_conversation_id == conversation_id;
+                                let conversation_code = this.getListCode(item, null);
+                                let conversation_li = conversations_admin_list_ul.find(`[data-conversation-id="${conversation_id}"]`);
+                                let conversation_index = conversation_li.index();
+                                let conversation = conversation_li.length;
+                                let payload = SBF.null(response[i]['payload']) ? {} : JSON.parse(response[i]['payload']);
+
+                                // Active conversation
+                                if (active_conversation) {
+                                    conversation_code = conversation_code.replace('<li', '<li class="sb-active"');
+                                    if (conversation) {
+                                        if (item['message']) {
+                                            conversation_li.replaceWith(conversation_code);
+                                        }
+                                        conversations[conversation_index]['conversation_status_code'] = status;
+                                        this.setReadIcon(status);
+                                    } else {
+                                        scroll_to_conversation = true;
+                                    }
+                                } else if (conversation) {
+
+                                    // Conversation already in list but not active
+                                    conversations[conversation_index] = item;
+                                    conversations_admin_list_ul.find(`[data-conversation-id="${conversation_id}"]`).remove();
                                 }
-                            });
-                            SBPusher.event('new-message', () => {
-                                SBChat.update();
-                            });
-                            SBPusher.event('agent-active-conversation-changed', (response) => {
-                                if (response.previous_conversation_id == conversation_id) {
-                                    conversations_area.find('.sb-conversation-busy').remove();
+
+                                // Add the user to the global users array if it doesn't exists
+                                if (!(user_id in users)) {
+                                    users[user_id] = new SBUser({ 'id': user_id, 'first_name': item['first_name'], 'last_name': item['last_name'], 'profile_image': item['profile_image'], 'user_type': item['user_type'] });
                                 }
-                            }, 'agents');
-                            SBPusher.event('init', () => {
-                                SBConversations.updateCurrentURL();
-                            });
-                        }
-                        if (SB_ADMIN_SETTINGS['smart-reply']) suggestions_area.html('');
 
-                        // Open the conversation
-                        conversations_admin_list_ul.find('li').sbActivate(false);
-                        conversation.sbActivate();
-                        if (conversation_id != -1) {
-                            activeUser().getFullConversation(conversation_id, (response) => {
-
-                                let conversation_status_code = response.get('conversation_status_code');
-                                let select = conversations_admin_list.find('.sb-select');
-                                let select_status_code = select.find('.sb-active').attr('data-value');
-
-                                SBChat.setConversation(response);
-                                SBChat.populate();
-                                conversations_area.find('.sb-top > a').html(response.get('title'));
-                                conversations_area.find('.sb-top [data-value="read"]').sbActivate(conversation_status_code == 2);
-                                conversations_area.find('.sb-conversation-busy').remove();
-                                this.updateUserDetails();
-
-                                // Automatic translation
-                                SBAdmin.must_translate = SB_ADMIN_SETTINGS['translation'] && activeUser().language && SB_ADMIN_SETTINGS['active-agent-language'] != activeUser().language;
-                                if (SBAdmin.must_translate) {
-                                    let strings = [];
-                                    let message_ids = [];
-                                    let message_user_types = [];
-                                    for (var i = 0; i < response.messages.length; i++) {
-                                        let message = response.messages[i];
-                                        if (message.get('user_type') != 'bot') {
-                                            strings.push(message.message);
-                                            message_ids.push(message.id);
-                                            message_user_types.push(message.get('user_type'));
+                                // New conversation 
+                                if (!active_conversation || !conversation) {
+                                    if (status == 2) {
+                                        code_pending += conversation_code;
+                                        conversations.unshift(item);
+                                    } else if (status == 0 || status == 1) {
+                                        item_not_pending = conversations_admin_list_ul.find('[data-conversation-status="2"]').last();
+                                        if (item_not_pending.length == 0) {
+                                            code_pending += conversation_code;
+                                        } else {
+                                            conversations.splice(item_not_pending.index() + 1, 0, item);
+                                            code_not_pending += conversation_code;
                                         }
                                     }
-                                    SBApps.dialogflow.translate(strings, SB_ADMIN_SETTINGS['active-agent-language'], (response) => {
-                                        if (response) {
-                                            for (var i = 0; i < response.length; i++) {
-                                                let message = SBChat.conversation.getMessage(message_ids[i]);
-                                                area.find(`[data-id="${message_ids[i]}"] .sb-message`).html(response[i].translatedText);
-                                                area.find(`[data-id="${message_ids[i]}"] .sb-menu`).prepend(`<li data-value="original">${sb_(SBF.isAgent(message_user_types[i]) ? 'View translation' : 'View original message')}</li>`);
-                                                if (message) message.set('translation', response[i].translatedText);
-                                            }
-                                        }
+                                    if (user_id == activeUser().id) {
+                                        activeUser().getConversations(function (response) {
+                                            conversations_area.find('.sb-user-conversations').html(activeUser().getConversationsCode(response));
+                                        });
+                                    }
+                                    SBF.event('SBAdminNewConversation', { conversation: item });
+                                }
+
+                                // Update user
+                                if (activeUser() && (('event' in payload && payload['event'] == 'update-user') || (users[user_id].type != item['user_type']))) {
+                                    activeUser().update(() => {
+                                        this.updateUserDetails();
+                                        users[activeUser().id] = activeUser();
                                     });
                                 }
 
-                                // Departments
-                                let select_departments = conversations_area.find('#conversation-department');
-                                if (select_departments.length) {
-                                    let item = select_departments.find(`[data-id="${response.get('department')}"]`);
-                                    select_departments.find(' > p').attr('data-value', item.data('value')).html(item.html());
-                                }
-
-                                // Agent assignment
-                                let select_agents = conversations_area.find('#conversation-agent');
-                                if (select_agents.length) {
-                                    let item = select_agents.find(`[data-id="${response.get('agent_id')}"]`);
-                                    select_agents.find(' > p').attr('data-value', item.data('id')).html(item.html());
-                                }
-
-                                // Activate conversation
-                                if ([1, 2].includes(conversation_status_code)) {
-                                    conversation_status_code = 0;
-                                }
-                                if (select_status_code != conversation_status_code && !$(conversations_admin_list).find('.sb-search-btn').sbActive()) {
-                                    select.find(`[data-value="${conversation_status_code}"]`).click();
-                                    select.find('ul').sbActivate(false);
-                                }
-                                if (responsive) {
-                                    this.mobileOpenConversation();
-                                }
-                                if (!conversation.length && select_status_code == conversation_status_code) {
-                                    conversations_admin_list_ul.prepend(SBConversations.getListCode(response).replace('<li', '<li class="sb-active"'));
-                                }
-                                conversation.sbActivate();
-                                if (scroll) {
-                                    this.scrollTo();
-                                }
-
-                                // Check if another agent has the conversation open
-                                if (response.get('busy')) {
-                                    conversations_area.find('.sb-editor > .sb-labels').prepend(`<span data-agent="${response.get('busy')}" class="sb-status-warning sb-conversation-busy">${sb_('Another agent is replying to this conversation')}</span>`);
-                                }
-
-                                // Woocommerce
-                                if (SBApps.is('woocommerce')) {
-                                    SBApps.woocommerce.conversationPanel();
-                                }
-
-                                // UMP
-                                if (SBApps.is('ump')) {
-                                    SBApps.ump.conversationPanel();
-                                }
-
-                                // Perfex
-                                if (SBApps.is('perfex')) {
-                                    SBApps.perfex.conversationPanel();
-                                }
-
-                                // WHMCS
-                                if (SBApps.is('whmcs')) {
-                                    SBApps.whmcs.conversationPanel();
-                                }
-
-                                // Active eCommerce
-                                if (SBApps.is('aecommerce')) {
-                                    SBApps.aecommerce.conversationPanel();
-                                }
-
-                                // ARMember
-                                if (SBApps.is('armember')) {
-                                    SBApps.armember.conversationPanel();
-                                }
-
-                                // Notes
-                                this.notes.update(response['details']['notes']);
-
-                                // Attachments
-                                this.attachments();
-
-                                // Suggestions
-                                if (SB_ADMIN_SETTINGS['smart-reply']) {
-                                    let message = response.getLastUserMessage();
-                                    suggestions_area.html('');
-                                    if (message && message.payload('sb-human-takeover')) {
-                                        message = response.getLastUserMessage(message.get('index'));
+                                // Desktop, flash, sounds notifications
+                                if (!SBChat.tab_active && item['conversation_status_code'] == 2 && (!SBF.isAgent(item['message_user_type']) || 'preview' in payload) && (!SBF.null(item.message) || !SBF.null(item.attachments) || 'preview' in payload)) {
+                                    if (this.desktop_notifications) {
+                                        let user_details = [item['first_name'] + ' ' + item['last_name'], SBUsers.userProfileImage(item['profile_image'])];
+                                        SBChat.desktopNotification(user_details[0], 'preview' in payload ? payload.preview : item.message, user_details[1], conversation_id, user_id);
                                     }
-                                    if (message) {
-                                        SBApps.dialogflow.smart_reply_data = false;
-                                        SBApps.dialogflow.smartReply(message.message);
+                                    if (this.flash_notifications) {
+                                        SBChat.flashNotification();
+                                    }
+                                    if (SBChat.audio && ['a', 'c', 'ic'].includes(SB_ADMIN_SETTINGS['sounds'])) {
+                                        SBChat.audio.play();
                                     }
                                 }
-
-                                // Rating
-                                for (var i = response.messages.length - 1; i > 0; i--) {
-                                    let payload = response.messages[i].get('payload');
-                                    let break_loop = false;
-                                    if (payload && 'rich-messages' in payload) {
-                                        for (var rich_message_id in payload['rich-messages']) {
-                                            let rich_message = payload['rich-messages'][rich_message_id];
-                                            if (rich_message.type == 'rating') {
-                                                conversations_area.find('.sb-profile-list > ul').append(`<li data-id="rating"><i class="sb-icon sb-icon-${rich_message.result.rating == 1 ? 'like' : 'dislike'}"></i><span>${sb_('User rating')}</span><label>${sb_(rich_message.result.rating == 1 ? 'Helpful' : 'Not helpful')}</label></li>`);
-                                                break_loop = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    if (break_loop) break;
-                                }
-
-                                // Populate user conversations on the bottom right area
-                                activeUser().getConversations(function(response) {
-                                    conversations_area.find('.sb-user-conversations').html(activeUser().getConversationsCode(response));
-                                });
-
-                                area.sbLoading(false);
-                            });
-                        } else {
-                            SBChat.clear();
-                            conversations_admin_list_ul.find('li').sbActivate(false);
-                            area.sbLoading(false);
+                                id_check.push(conversation_id);
+                            }
                         }
-
-                        // User details
-                        if (!new_user) {
-                            this.updateUserDetails();
+                        if (code_pending) {
+                            conversations_admin_list_ul.prepend(code_pending);
                         }
-
-                        // More settings
-                        conversations_area.find('.sb-board').removeClass('sb-no-conversation');
-                        SBUsers.updateUsersActivity();
-                        this.startRealTime();
-                        if (SBF.getURL('conversation') != conversation_id) pushState('?conversation=' + conversation_id);
+                        if (code_not_pending) {
+                            $(code_not_pending).insertAfter(item_not_pending);
+                        }
+                        if (scroll_to_conversation) {
+                            this.scrollTo();
+                        }
+                        this.updateMenu();
                     }
-                },
-
-                // [Deprecated] this method is obsolete and it will be removed soon
-                populate: function(conversation_id, user_id, scroll) {
-                    this.openConversation(conversation_id, user_id, scroll);
-                },
-
-                // Populate conversations
-                populateList: function(response) {
-                    let code = '';
-                    conversations = [];
-                    for (var i = 0; i < response.length; i++) {
-                        code += this.getListCode(response[i]);
-                        conversations.push(response[i]);
-                    }
-                    if (code == '') {
-                        code = `<p class="sb-no-results">${sb_('No conversations found.')}</p>`;
-                    }
-                    conversations_admin_list_ul.html(code);
-                    this.updateMenu();
-                    SBF.event('SBAdminConversationsLoaded', { conversations: response });
-                },
-
-                // Update the left conversations list with new conversations or messages 
-                update: function() {
-                    if (!this.busy) {
-                        this.busy = true;
+                });
+                if (SB_ADMIN_SETTINGS['assign-conversation-to-agent'] || SB_ACTIVE_AGENT['department']) {
+                    let ids = conversations_admin_list_ul.find(' > li').map(function () { return $(this).attr('data-conversation-id') }).get();
+                    if (ids.length) {
                         SBF.ajax({
-                            function: 'get-new-conversations',
-                            datetime: this.datetime_last_conversation,
-                            routing: SB_ADMIN_SETTINGS['routing'],
-                            routing_unassigned: SB_ADMIN_SETTINGS['assign-conversation-to-agent']
+                            function: 'check-conversations-assignment',
+                            conversations_ids: ids,
+                            agent_id: SB_ADMIN_SETTINGS['assign-conversation-to-agent'] ? SB_ACTIVE_AGENT['id'] : false,
+                            department: SB_ACTIVE_AGENT['department']
                         }, (response) => {
-                            this.busy = false;
-                            if (response.length) {
-                                let code_pending = '';
-                                let code_not_pending = '';
-                                let active_conversation_id = SBChat.conversation ? SBChat.conversation.id : -1;
-                                let item_not_pending;
-                                let scroll_to_conversation = false;
-                                let id_check = [];
-                                this.datetime_last_conversation = response[0]['creation_time'];
-
+                            if (response) {
                                 for (var i = 0; i < response.length; i++) {
-                                    if (!id_check.includes(response[i]['conversation_id'])) {
-                                        let item = response[i];
-                                        let status = item['conversation_status_code'];
-                                        let user_id = item['user_id'];
-                                        let conversation_id = item['conversation_id'];
-                                        let active_conversation = active_conversation_id == conversation_id;
-                                        let conversation_code = this.getListCode(item, null);
-                                        let conversation_li = conversations_admin_list_ul.find(`[data-conversation-id="${conversation_id}"]`);
-                                        let conversation_index = conversation_li.index();
-                                        let conversation = conversation_li.length;
-                                        let payload = SBF.null(response[i]['payload']) ? {} : JSON.parse(response[i]['payload']);
-
-                                        // Active conversation
-                                        if (active_conversation) {
-                                            conversation_code = conversation_code.replace('<li', '<li class="sb-active"');
-                                            if (conversation) {
-                                                if (item['message']) {
-                                                    conversation_li.replaceWith(conversation_code);
-                                                }
-                                                conversations[conversation_index]['conversation_status_code'] = status;
-                                                conversations_area.find('.sb-top [data-value="read"]').sbActivate(status == 2);
-                                            } else {
-                                                scroll_to_conversation = true;
-                                            }
-                                        } else if (conversation) {
-
-                                            // Conversation already in list but not active
-                                            conversations[conversation_index] = item;
-                                            conversations_admin_list_ul.find(`[data-conversation-id="${conversation_id}"]`).remove();
-                                        }
-
-                                        // Add the user to the global users array if it doesn't exists
-                                        if (!(user_id in users)) {
-                                            users[user_id] = new SBUser({ 'id': user_id, 'first_name': item['first_name'], 'last_name': item['last_name'], 'profile_image': item['profile_image'], 'user_type': item['user_type'] });
-                                        }
-
-                                        // New conversation 
-                                        if (!active_conversation || !conversation) {
-                                            if (status == 2) {
-                                                code_pending += conversation_code;
-                                                conversations.unshift(item);
-                                            } else if (status == 0 || status == 1) {
-                                                item_not_pending = conversations_admin_list_ul.find('[data-conversation-status="2"]').last();
-                                                if (item_not_pending.length == 0) {
-                                                    code_pending += conversation_code;
-                                                } else {
-                                                    conversations.splice(item_not_pending.index() + 1, 0, item);
-                                                    code_not_pending += conversation_code;
-                                                }
-                                            }
-                                            if (user_id == activeUser().id) {
-                                                activeUser().getConversations(function(response) {
-                                                    conversations_area.find('.sb-user-conversations').html(activeUser().getConversationsCode(response));
-                                                });
-                                            }
-                                            SBF.event('SBAdminNewConversation', { conversation: item });
-                                        }
-
-                                        // Update user
-                                        if (activeUser() && (('event' in payload && payload['event'] == 'update-user') || (users[user_id].type != item['user_type']))) {
-                                            activeUser().update(() => {
-                                                this.updateUserDetails();
-                                                users[activeUser().id] = activeUser();
-                                            });
-                                        }
-
-                                        // Desktop, flash, sounds notifications
-                                        if (!SBChat.tab_active && item['conversation_status_code'] == 2 && (!SBF.isAgent(item['message_user_type']) || 'preview' in payload) && !(SBF.null(item.message) && SBF.null(item.attachments))) {
-                                            if (this.desktop_notifications) {
-                                                let user_details = [item['first_name'] + ' ' + item['last_name'], (item['profile_image'].indexOf('user.svg') > 0 ? SB_ADMIN_SETTINGS['notifications-icon'] : item['profile_image'])];
-                                                SBChat.desktopNotification(user_details[0], 'preview' in payload ? payload.preview : item.message, user_details[1], conversation_id, user_id);
-                                            }
-                                            if (this.flash_notifications) {
-                                                SBChat.flashNotification();
-                                            }
-                                            if (SBChat.audio && ['a', 'c', 'ic'].includes(SB_ADMIN_SETTINGS['sounds'])) {
-                                                SBChat.audio.play();
-                                            }
-                                        }
-                                        id_check.push(conversation_id);
-                                    }
+                                    conversations_admin_list_ul.find(`[data-conversation-id="${response[i]}"]`).remove();
                                 }
-                                if (code_pending) {
-                                    conversations_admin_list_ul.prepend(code_pending);
-                                }
-                                if (code_not_pending) {
-                                    $(code_not_pending).insertAfter(item_not_pending);
-                                }
-                                if (scroll_to_conversation) {
-                                    this.scrollTo();
-                                }
-                                this.updateMenu();
                             }
                         });
-                        if (SB_ADMIN_SETTINGS['assign-conversation-to-agent'] || SB_ACTIVE_AGENT['department']) {
-                            let ids = conversations_admin_list_ul.find(' > li').map(function() { return $(this).attr('data-conversation-id') }).get();
-                            if (ids.length) {
-                                SBF.ajax({
-                                    function: 'check-conversations-assignment',
-                                    conversations_ids: ids,
-                                    agent_id: SB_ADMIN_SETTINGS['assign-conversation-to-agent'] ? SB_ACTIVE_AGENT['id'] : false,
-                                    department: SB_ACTIVE_AGENT['department']
-                                }, (response) => {
-                                    if (response) {
-                                        for (var i = 0; i < response.length; i++) {
-                                            conversations_admin_list_ul.find(`[data-conversation-id="${response[i]}"]`).remove();
-                                        }
-                                    }
-                                });
-                            }
-                        }
                     }
-                },
+                }
+            }
+        },
 
-                // Update the top left filter
-                updateMenu: function() {
-                    let count = conversations_admin_list_ul.find('[data-conversation-status="2"]').length;
-                    let item = conversations_admin_list.find('.sb-select');
-                    let span = item.find(' > p span');
-                    if (count == 100 || this.menu_count_ajax) {
-                        let status = item.find('li.sb-active').data('value');
-                        this.menu_count_ajax = true;
-                        SBF.ajax({
-                            function: 'count-conversations',
-                            status_code: status == 0 ? 2 : status
-                        }, (response) => {
-                            span.html(`(${response})`);
-                        });
-                    } else {
-                        span.html(`(${count})`);
-                    }
-                },
+        // Update the top left filter
+        updateMenu: function () {
+            let count = conversations_admin_list_ul.find('[data-conversation-status="2"]').length;
+            let item = conversations_admin_list.find('.sb-select');
+            let span = item.find(' > p span');
+            if (count == 100 || this.menu_count_ajax) {
+                let status = item.find('li.sb-active').data('value');
+                this.menu_count_ajax = true;
+                SBF.ajax({
+                    function: 'count-conversations',
+                    status_code: status == 0 ? 2 : status
+                }, (response) => {
+                    span.html(`(${response})`);
+                });
+            } else {
+                span.html(`(${count})`);
+            }
+        },
 
-                // Return the code of the message menu
-                messageMenu: function(agent) {
-                        return `<i class="sb-menu-btn sb-icon-menu"></i><ul class="sb-menu">${SBApps.is('dialogflow') ? `<li data-value="bot">${sb_('Send to Dialogflow')}</li>` : ''}${agent ? `<li data-value="delete">${sb_('Delete')}</li>` : ''}</ul>`;
+        // Return the code of the message menu
+        messageMenu: function (agent) {
+            return `<i class="sb-menu-btn sb-icon-menu"></i><ul class="sb-menu">${SBApps.is('dialogflow') ? `<li data-value="bot">${sb_('Send to Dialogflow')}</li>` : ''}${agent ? `<li data-value="delete">${sb_('Delete')}</li>` : ''}</ul>`;
         },
 
         // Update the users details of the conversations area
         updateUserDetails() {
             if (!activeUser()) return;
-            conversations_area.find(`[data-user-id="${activeUser().id}"] .sb-name,.sb-top > a`).html(activeUser().name);
+            conversations_area.find(`[data-user-id="${activeUser().id}"] .sb-name:not(.sb-custom-name),.sb-top > a`).html(activeUser().name);
             conversations_area.find('.sb-user-details .sb-profile').setProfile();
             SBProfile.populate(activeUser(), conversations_area.find('.sb-profile-list'));
+        },
+
+        // Set the read status icon
+        setReadIcon(conversation_status_code) {
+            let unread = conversation_status_code == 2;
+            conversations_area.find('.sb-top [data-value="read"],.sb-top [data-value="unread"]').sbActive([0, 1, 2].includes(parseInt(conversation_status_code))).attr('data-value', unread ? 'read' : 'unread').attr('data-sb-tooltip', sb_(unread ? 'Mark as read' : 'Mark as unread')).parent().sbInitTooltips().find('i').attr('class', unread ? 'sb-icon-check-circle' : 'sb-icon-circle');
         },
 
         // Return the conversation code of the left conversations list
@@ -2874,12 +2907,14 @@
                 };
             }
             let message = conversation['message'];
+            let strip = new SBMessage();
+            let is_title = !SBF.null(conversation.title);
             if (conversation['payload'].includes('preview')) {
-                let payload = JSON.parse(conversation['payload']);
+                let payload = JSON.parse(conversation['payload'].replace("\\'", "'"));
                 if (payload && 'preview' in payload) message = payload.preview;
             }
             if (SBF.null(status)) status = conversation['conversation_status_code'];
-            if (message == '' && !SBF.null(conversation['attachments'])) {
+            if (!message && !SBF.null(conversation['attachments'])) {
                 let files = JSON.parse(conversation['attachments']);
                 if (Array.isArray(files)) {
                     for (var i = 0; i < files.length; i++) {
@@ -2893,7 +2928,7 @@
             if (message.length > 110) {
                 message = message.substr(0, 110) + ' ...';
             }
-            return `<li data-user-id="${conversation['user_id']}" data-conversation-id="${conversation['conversation_id']}" data-conversation-status="${status}"${!SBF.null(conversation['conversation_source']) ? ` data-conversation-source="${conversation['conversation_source']}"` : ''}><div class="sb-profile"><img src="${conversation['profile_image']}"><span class="sb-name">${conversation['first_name']} ${conversation['last_name']}</span><span class="sb-time">${SBF.beautifyTime(conversation['creation_time'])}</span></div><p>${message}</p></li>`;
+            return `<li data-user-id="${conversation['user_id']}" data-conversation-id="${conversation['conversation_id']}" data-conversation-status="${status}"${!SBF.null(conversation['conversation_source']) ? ` data-conversation-source="${conversation['conversation_source']}"` : ''}><div class="sb-profile"><img src="${conversation['profile_image']}"><span class="sb-name${is_title ? ' sb-custom-name' : ''}">${is_title ? conversation.title : conversation['first_name'] + ' ' + conversation['last_name']}</span><span class="sb-time">${SBF.beautifyTime(conversation['creation_time'])}</span></div><p>${strip.strip(message)}</p></li>`;
         },
 
         // Start or stop the real time update of left conversations list and chat 
@@ -2912,17 +2947,24 @@
         },
 
         // Transcript generation and download
-        transcript: function (conversation_id) {
+        transcript: function (conversation_id, action = false) {
+            if (action == 'email' && (!activeUser() || !activeUser().get('email'))) return false;
             SBF.ajax({
                 function: 'transcript',
                 conversation_id: conversation_id
-            }, (response) => window.open(response));
+            }, (response) => {
+                if (action == 'email') SBChat.sendEmail(SB_ADMIN_SETTINGS['transcript-message'], [[response, response]], true);
+                else window.open(response);
+            });
         },
 
         // Set the typing status
         typing: function (typing) {
             if (typing) {
-                if (SBChat.user_online && !this.user_typing) {
+                if (!SBChat.user_online) {
+                    SBUsers.setActiveUserStatus(true);
+                }
+                if (!this.user_typing) {
                     conversations_area.find('.sb-conversation .sb-top > .sb-labels').append('<span class="sb-status-typing">' + sb_('Typing') + '</span>');
                     this.user_typing = true;
                 }
@@ -3023,7 +3065,7 @@
         setActiveDepartment: function (department_id) {
             let select = conversations_area.find('#conversation-department');
             let li = select.find(`[data-id="${department_id}"]`);
-            select.find(' > p').attr('data-value', li.data('value')).html(li.html()).next().sbActivate(false);
+            select.find(' > p').attr('data-value', li.data('value')).html(li.html()).next().sbActive(false);
             if (SB_ACTIVE_AGENT['user_type'] == 'agent' && SB_ACTIVE_AGENT['department'] && SB_ACTIVE_AGENT['department'] != department_id) {
                 conversations_admin_list_ul.find(`[data-conversation-id="${SBChat.conversation.id}"]`).remove();
                 SBConversations.clickFirst();
@@ -3036,7 +3078,7 @@
             let select = conversations_area.find('#conversation-agent');
             let li = select.find(`[data-id="${agent_id}"]`);
             SBChat.conversation.set('agent_id', agent_id);
-            select.find(' > p').attr('data-value', li.data('value')).html(li.html()).next().sbActivate(false);
+            select.find(' > p').attr('data-value', li.data('value')).html(li.html()).next().sbActive(false);
             if (SB_ACTIVE_AGENT['user_type'] == 'agent' && (!SB_ADMIN_SETTINGS['assign-conversation-to-agent'] || agent_id)) {
                 conversations_admin_list_ul.find(`[data-conversation-id="${SBChat.conversation.id}"]`).remove();
                 SBConversations.clickFirst();
@@ -3046,16 +3088,17 @@
 
         // Mobile conversations menu
         mobileOpenConversation: function () {
-            conversations_area.find('.sb-admin-list').sbActivate(false);
-            conversations_area.find('.sb-conversation').sbActivate();
+            conversations_area.find('.sb-admin-list').sbActive(false);
+            conversations_area.find('.sb-conversation').sbActive(true);
             header.addClass('sb-hide');
         },
 
         mobileCloseConversation: function () {
-            conversations_admin_list_ul.find('li.sb-active').sbActivate(false);
-            conversations_area.find('.sb-admin-list').sbActivate();
-            conversations_area.find('.sb-conversation').sbActivate(false);
+            conversations_admin_list_ul.find('li.sb-active').sbActive(false);
+            conversations_area.find('.sb-admin-list').sbActive(true);
+            conversations_area.find('.sb-conversation').sbActive(false);
             header.removeClass('sb-hide');
+            window.history.replaceState({}, document.title, SBF.URL());
         },
 
         // Trigger the click event of the first conversation
@@ -3156,7 +3199,7 @@
             direct_message_box.find('.sb-bottom > div').html('');
             direct_message_box.find('.sb-top-bar > div:first-child').html(sb_(`Send ${type == 'sms' ? 'text message' : type}`));
             direct_message_box.find('.sb-loading').sbLoading(false);
-            direct_message_box.find('.sb-direct-message-subject').sbActivate(email).find('input').attr('required', email);
+            direct_message_box.find('.sb-direct-message-subject').sbActive(email).find('input').attr('required', email);
             direct_message_box.attr('data-type', type);
             direct_message_box.sbShowLightbox();
         }
@@ -3198,12 +3241,12 @@
                         this.agentData();
                     }
                     profile_box.find('.sb-user-conversations').html(activeUser().getConversationsCode(response));
-                    profile_box.find('.sb-top-bar [data-value]').sbActivate(false);
+                    profile_box.find('.sb-top-bar [data-value]').sbActive(false);
                     if (!SBF.null(activeUser().get('email'))) {
-                        profile_box.find('.sb-top-bar [data-value=email]').sbActivate();
+                        profile_box.find('.sb-top-bar [data-value=email]').sbActive(true);
                     }
                     if (activeUser().getExtra('phone') && SB_ADMIN_SETTINGS['sms']) {
-                        profile_box.find('.sb-top-bar [data-value=sms]').sbActivate();
+                        profile_box.find('.sb-top-bar [data-value=sms]').sbActive(true);
                     }
                     this.boxClasses(profile_box, user_type);
                     profile_box.attr('data-user-id', activeUser().id).sbShowLightbox();
@@ -3250,7 +3293,7 @@
 
                 // User type select
                 if (SB_ACTIVE_AGENT['user_type'] == 'admin' && SBF.isAgent(current_user_type)) {
-                    select.html('<option value="agent">Agent</option><option value="admin"' + (current_user_type == 'admin' ? ' selected' : '') + '>Admin</option>');
+                    select.html(`<option value="agent">${sb_('Agent')}</option><option value="admin"${current_user_type == 'admin' ? ' selected' : ''}>${sb_('Admin')}</option>`);
                 }
 
                 // Password
@@ -3266,7 +3309,7 @@
                 // Show the edit box
                 this.boxClasses(profile_edit_box, current_user_type);
                 profile_edit_box.sbShowLightbox();
-                SBF.event('SBProfileEditBoxOpened', { user_id: user_id });
+                SBF.event('SBProfileEditBoxOpened', { user_id: user.id });
             } else {
                 SBF.error('User not of type SBUser', 'SBUsers.showEdit');
                 return false;
@@ -3281,7 +3324,7 @@
                 let source = SBChat.conversation.get('source');
                 code = this.profileRow('conversation-id', SBChat.conversation.id, sb_('Conversation ID'));
                 if (!SBF.null(source)) {
-                    code += this.profileRow('conversation-source', source == 'fb' ? 'Facebook' : (source == 'wa' ? 'WhatsApp' : source), sb_('Source'));
+                    code += this.profileRow('conversation-source', source == 'fb' ? 'Facebook' : (source == 'wa' ? 'WhatsApp' : (source == 'tm' ? 'Text message' : (source == 'ig' ? 'Instagram' : (source == 'tg' ? 'Telegram' : (source == 'tk' ? 'Tickets' : (source == 'wc' ? 'WeChat' : (source == 'em' ? 'Email' : (source == 'tw' ? 'Twitter' : source)))))))), sb_('Source'));
                 }
             }
             if (SB_ACTIVE_AGENT['user_type'] != 'admin') {
@@ -3332,7 +3375,7 @@
                 case 'country_code':
                 case 'language':
                 case 'browser_language':
-                    icon = `<img src="${SB_URL}/media/flags/${key == 'country_code' ? 'countries' : 'languages'}/${value.toLowerCase()}.png" />`;
+                    icon = `<img src="${SB_URL}/media/flags/${value.toLowerCase()}.png" />`;
                     break;
                 case 'browser':
                     lowercase = value.toLowerCase();
@@ -3368,10 +3411,9 @@
                 case 'os':
                 case 'conversation-source':
                     if (image) {
-                        icon = `<img src="${SB_URL}/media/devices/${image}.svg" />`;
+                        icon = `<img src="${SB_URL}/media/${key == 'conversation-source' ? 'apps' : 'devices'}/${image}.svg" />`;
                     }
                     break;
-
             }
             return `<li data-id="${key}">${icon}<span>${sb_(SBF.slugToString(name))}</span><label>${value}</label></li>`;
         },
@@ -3420,7 +3462,7 @@
                     let total = response[0] + response[1];
                     let positive = response[0] * 100 / total;
                     let negative = response[1] * 100 / total;
-                    code = `<div><div>${sb_('Positive')}</div><span data-count="${response[0]}" style="width: ${Math.round(positive * 2)}px"></span><div>${positive.toFixed(2)} %</div></div><div><div>${sb_('Negative')}</div><span data-count="${response[1]}" style="width: ${Math.round(negative * 2)}px"></span><div>${negative.toFixed(2)} %</div></div><p class="sb-rating-count">${total} ${sb_('Ratings')}</p>`;
+                    code = `<div><div>${sb_('Helpful')}</div><span data-count="${response[0]}" style="width: ${Math.round(positive * 2)}px"></span><div>${positive.toFixed(2)} %</div></div><div><div>${sb_('Not helpful')}</div><span data-count="${response[1]}" style="width: ${Math.round(negative * 2)}px"></span><div>${negative.toFixed(2)} %</div></div><p class="sb-rating-count">${total} ${sb_('Ratings')}</p>`;
                 }
                 area.find('.sb-rating-area').html(code).sbLoading(false);
             });
@@ -3471,7 +3513,6 @@
         articles_area = settings_area.find('.sb-articles-area');
         articles_category_selects = articles_area.find('.sb-article-categories select');
         articles_category_parent_select = articles_area.find('.sb-article-parent-category select');
-        article_business_type = $('.sb-article-business-type select');
         saved_replies = conversations_area.find('.sb-replies');
         overlay = admin.find('.sb-lightbox-overlay');
         SITE_URL = typeof SB_URL != ND ? SB_URL.substr(0, SB_URL.indexOf('-content') - 3) : '';
@@ -3486,6 +3527,10 @@
 
         // Browser history
         window.onpopstate = function () {
+            admin.sbHideLightbox();
+            if (responsive && conversations_area.sbActive() && conversations_area.find('.sb-conversation').sbActive()) {
+                SBConversations.mobileCloseConversation();
+            }
             if (SBF.getURL('user')) {
                 if (!users_area.sbActive()) header.find('.sb-admin-nav #sb-users').click();
                 SBProfile.show(SBF.getURL('user'));
@@ -3616,7 +3661,7 @@
 
         // On Support Board close
         $(window).on('beforeunload', function () {
-            SBF.ajax({ function: 'on-close' });
+            if (activeUser()) SBF.ajax({ function: 'on-close' });
         });
 
         // Keyboard shortcuts
@@ -3689,6 +3734,18 @@
             }, '#3', 8000);
         });
 
+        // Image from clipboard
+        document.onpaste = function (pasteEvent) {
+            let item = pasteEvent.clipboardData.items[0];
+            if (item.type.indexOf('image') === 0) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    SBChat.insertText(`[image url="${event.target.result}"]`); 
+                };
+                reader.readAsDataURL(item.getAsFile());
+            }
+        }
+
         // Updates 
         $(header).on('click', '.sb-version', function () {
             let box = admin.find('.sb-updates-box');
@@ -3696,7 +3753,7 @@
                 function: 'get-versions'
             }, (response) => {
                 let code = '';
-                let names = { 'sb': 'Support Board', 'slack': 'Slack', 'dialogflow': 'Dialogflow', 'tickets': 'Tickets', 'woocommerce': 'Woocommerce', 'ump': 'Ultimate Membership Pro', 'perfex': 'Perfex', 'whmcs': 'WHMCS', 'aecommerce': 'Active eCommerce', 'messenger': 'Messenger', 'whatsapp': 'WhatsApp', 'armember': 'ARMember' };
+                let names = { 'sb': 'Support Board', 'slack': 'Slack', 'dialogflow': 'Dialogflow', 'tickets': 'Tickets', 'woocommerce': 'Woocommerce', 'ump': 'Ultimate Membership Pro', 'perfex': 'Perfex', 'whmcs': 'WHMCS', 'aecommerce': 'Active eCommerce', 'messenger': 'Messenger', 'whatsapp': 'WhatsApp', 'armember': 'ARMember', 'telegram': 'Telegram', 'wechat': 'WeChat', 'twitter': 'Twitter', 'zendesk': 'Zendesk' };
                 let updates = false;
                 for (var key in response) {
                     if (SBApps.is(key)) {
@@ -3717,7 +3774,7 @@
                 box.sbShowLightbox();
             });
             loadingGlobal(true);
-            box.sbActivate(false);
+            box.sbActive(false);
             box.find('.sb-input').remove();
         });
 
@@ -3738,15 +3795,18 @@
                     for (var key in response) {
                         if (response[key] != 'success') {
                             success = false;
+                            if (response[key] == 'expired') {
+                                error = `Your license key is expired. Please purchase a new license <a href="https://board.support/shop/${key}" target="_blank">here</a>.`
+                            }
                             break;
                         }
                     }
-                    if (!success) {
+                    if (!success && !error) {
                         error = JSON.stringify(response);
                     }
                 }
-                if (error == '') {
-                    clearCache();
+                clearCache();
+                if (!error) {
                     showResponse('Update completed.');
                     location.reload();
                 } else {
@@ -3799,7 +3859,7 @@
             box.find('.sb-top-bar > div:first-child').html($(this).find('h2').html());
             box.find('p').html($(this).find('p').html());
             box.attr('data-app', app_name);
-            box.find('.sb-btn-app-setting').sbActivate(SBApps.is(app_name));
+            box.find('.sb-btn-app-setting').sbActive(SBApps.is(app_name));
             box.find('.sb-btn-app-puchase').attr('href', 'https://board.support/shop/' + app_name + ga);
             box.find('.sb-btn-app-details').attr('href', 'https://board.support/' + app_name + ga);
             box.sbShowLightbox();
@@ -3824,7 +3884,7 @@
                         } else if (response == 'invalid-key') {
                             error = 'It looks like your license key is invalid. If you believe this is an error, please contact support.';
                         } else if (response == 'expired') {
-                            error = `Your license key is expired. Please purchase a new license <a href="https://board.support/shop/${app_name}" target="_blank"> here</a>.`;
+                            error = `Your license key is expired. Please purchase a new license <a href="https://board.support/shop/${app_name}" target="_blank">here</a>.`;
                         } else {
                             error = 'Error: ' + response;
                         }
@@ -3869,8 +3929,8 @@
             let active = $(this).sbActive();
             let height = active ? $(this).parent().data('height') + 'px' : '';
             $(this).html(sb_(active ? 'View more' : 'Close'));
-            $(this).parent().find(' > div, > ul').css({ 'height': height, 'max-height': height });
-            $(this).sbActivate(!active);
+            $(this).parent().find('> div, > ul').css({ 'height': height, 'max-height': height });
+            $(this).sbActive(!active);
         });
 
         // Close lightbox popup
@@ -3891,7 +3951,7 @@
             });
 
             $(admin).on('click', '.sb-menu-mobile a', function () {
-                $(this).closest('.sb-menu-mobile').find(' > i').sbActivate(false);
+                $(this).closest('.sb-menu-mobile').find(' > i').sbActive(false);
             });
 
             $(admin).on('click', '.sb-menu-wide,.sb-nav', function () {
@@ -3900,9 +3960,9 @@
 
             $(admin).on('click', '.sb-menu-wide > ul > li, .sb-nav > ul > li', function (e) {
                 let menu = $(this).parent().parent();
-                menu.find('li').sbActivate(false);
+                menu.find('li').sbActive(false);
                 menu.find('> div:not(.sb-menu-wide):not(.sb-btn)').html($(this).html());
-                menu.sbActivate(false);
+                menu.sbActive(false);
                 if (menu.find('> .sb-menu-wide').length) {
                     menu.closest('.sb-scroll-area').scrollTop(menu.next()[0].offsetTop - (admin.hasClass('sb-header-hidden') ? 70 : 130));
                 }
@@ -3943,6 +4003,50 @@
             $(users_table).on('click', 'th:first-child', function () {
                 $(this).parent().toggleClass('sb-active');
             });
+
+            // Touch move
+            document.addEventListener('touchstart', (e) => {
+                x_down = e.changedTouches[0].clientX;
+                y_down = e.changedTouches[0].clientY;
+            }, false);
+            document.addEventListener('touchmove', (e) => {
+                if (!x_down || !y_down) return;
+                var x_up = e.changedTouches[0].clientX;
+                var y_up = e.changedTouches[0].clientY;
+                var x_diff = x_down - x_up;
+                var y_diff = y_down - y_up;
+                if (Math.abs(x_diff) > Math.abs(y_diff)) {
+                    if (conversations_area.sbActive()) {
+                        let target = conversations_admin_list_ul.find('.sb-active');
+                        if (x_diff > 0) {
+                            // Left
+                            target.next().click();
+                        } else {
+                            // Right
+                            target.prev().click();
+                        }
+                    } else if (users_area.sbActive() && admin.find('.sb-lightbox').sbActive()) {
+                        let target = users_table.find(`[data-user-id="${activeUser().id}"]`);
+                        if (x_diff > 0) {
+                            target = target.next();
+                        } else {
+                            target = target.prev();
+                        }
+                        if (target.length) {
+                            admin.sbHideLightbox();
+                            SBProfile.show(target.attr('data-user-id'));
+                        }
+                    }     
+                } else {
+                    if (y_diff > 0) {
+                        // Top
+                    } else {
+                        // Bottom
+                    }
+                }
+                x_down = false;
+                y_down = false;
+            }, false);
         }
 
         /*
@@ -3953,9 +4057,9 @@
 
         $(header).on('click', ' .sb-admin-nav a', function () {
             let id = $(this).attr('id');
-            header.find('.sb-admin-nav a').sbActivate(false);
-            admin.find(' > main > div').sbActivate(false).eq($(this).index()).sbActivate();
-            $(this).sbActivate();
+            header.find('.sb-admin-nav a').sbActive(false);
+            admin.find(' > main > div').sbActive(false).eq($(this).index()).sbActive(true);
+            $(this).sbActive(true);
             SBF.deactivateAll();
 
             switch (id) {
@@ -4047,7 +4151,7 @@
             user.update(() => {
                 activeUser(user);
                 conversations_area.find('.sb-board').addClass('sb-no-conversation');
-                conversations_admin_list_ul.find('.sb-active').sbActivate(false);
+                conversations_admin_list_ul.find('.sb-active').sbActive(false);
                 SBProfile.showEdit(user);
             });
         });
@@ -4100,11 +4204,15 @@
                     message = 'All conversations in the trash (including their messages) will be deleted permanently.'
                     break;
                 case 'transcript':
-                    SBConversations.transcript(conversation_id);
+                    SBConversations.transcript(conversation_id, $(this).attr('data-action'));
                     break;
                 case 'read':
                     status_code = 0;
                     message += 'marked as read.';
+                    break;
+                case 'unread':
+                    status_code = 2;
+                    message += 'marked as unread.';
                     break;
             }
             if (status_code != -1) {
@@ -4122,15 +4230,16 @@
                                 }
                             }
                         }
-                        if (value == 'read') {
-                            conversations_admin_list_ul.find('.sb-active').attr('data-conversation-status', 0);
-                            conversations_area.find('.sb-top [data-value="read"]').sbActivate(false);
-                        } else {
-                            conversations_admin_list.find('.sb-select li.sb-active').click();
-                            conversations_admin_list.find('.sb-select ul').sbActivate(false);
-                        }
                         if (SB_ADMIN_SETTINGS['close-message'] && status_code == 3) {
                             SBF.ajax({ function: 'close-message', conversation_id: conversation_id, bot_id: SB_ADMIN_SETTINGS['bot-id'] });
+                            if (SB_ADMIN_SETTINGS['close-message-transcript']) SBConversations.transcript(conversation_id, 'email');
+                        }
+                        if (status_code == 0 || status_code == 2) {
+                            conversations_admin_list_ul.find('.sb-active').attr('data-conversation-status', status_code);
+                            SBConversations.setReadIcon(status_code);
+                        } else {
+                            conversations_admin_list.find('.sb-select li.sb-active').click();
+                            conversations_admin_list.find('.sb-select ul').sbActive(false);
                         }
                     });
                     if (SBChat.conversation && SBChat.conversation.id == conversation_id) SBChat.conversation.set('conversation_status_code', status_code);
@@ -4202,7 +4311,7 @@
                         }
                         pagination++;
                         conversations_admin_list_ul.append(code);
-                        scrollPagination(this);
+                        scrollPagination(this, false, 1000);
                     }
                     parent.find(' > .sb-loading').remove();
                     SBF.event('SBAdminConversationsLoaded', { conversations: response });
@@ -4226,6 +4335,7 @@
         $(document).on('SBMessageSent', function (e, response) {
             let conversation_id = response['conversation_id'];
             let item = conversations_admin_list_ul.find(`[data-conversation-id="${conversation_id}"]`);
+            let message_part = sb_('Error. Message not sent to');
             if (response['message']) {
                 item.find('p').html(response['message']);
             }
@@ -4236,14 +4346,37 @@
             if (SBApps.messenger.check(SBChat.conversation)) {
                 SBApps.messenger.send(activeUser().getExtra('facebook-id').value, SBChat.conversation.get('extra'), response.message, response.attachments, response.message_id, (response) => {
                     if (response && 'error' in response) {
-                        dialog('Error. Message not sent to Messenger. Error message: ' + response.error.message, 'info');
+                        dialog(message_part + ' Messenger' + ': ' + response.error.message, 'info');
                     }
                 });
             }
             if (SBApps.whatsapp.check(SBChat.conversation)) {
-                SBApps.whatsapp.send(SBApps.whatsapp.activeUserPhone(), response['message'], response['attachments'], (response) => {
-                    if ('ErrorCode' in response) {
-                        dialog('Error. Message not sent to WhatsApp. Error message: ' + response.errorMessage, 'info');
+                SBApps.whatsapp.send(SBApps.whatsapp.activeUserPhone(), response.message, response.attachments, (response) => {
+                    if ('ErrorCode' in response || ('meta' in response && 'success' in response.meta && !response.meta.success)) {
+                        dialog(message_part + ' WhatsApp' + ': ' + ('ErrorCode' in response ? response.errorMessage : response.meta.developer_message), 'info');
+                    } 
+                });
+            }
+            if (SBApps.telegram.check(SBChat.conversation)) {
+                SBApps.telegram.send(SBChat.conversation.get('extra'), response.message, response.attachments, (response) => {
+                    if (!('ok' in response) || !response.ok) {
+                        dialog(message_part + ' Telegram' + ': ' + JSON.stringify(response), 'info');
+                    }
+                });
+            }
+            if (SBApps.twitter.check(SBChat.conversation)) {
+                SBApps.twitter.send(activeUser().getExtra('twitter-id').value, response.message, response.attachments, (response_2) => {
+                    if (response_2 && !('event' in response_2)) {
+                        dialog(JSON.stringify(response_2), 'info');
+                    } else if (response.attachments.length > 1) {
+                        showResponse('Only the first attachment was sent to Twitter.', 'info');
+                    }
+                });
+            }
+            if (SBApps.wechat.check(SBChat.conversation)) {
+                SBApps.wechat.send(activeUser().getExtra('wechat-id').value, response.message, response.attachments, (response) => {
+                    if (!response || response.errmsg != 'ok') {
+                        dialog(message_part + ' WeChat' + ': ' + JSON.stringify(response), 'info');
                     }
                 });
             }
@@ -4262,11 +4395,12 @@
         $(document).on('SBNewMessagesReceived', function (e, response) {
             let payload = response.get('payload');
             let area = conversations_area.find('.sb-conversation');
+            let agent = SBF.isAgent(response.get('user_type'));
             setTimeout(function () {
                 area.find('.sb-top .sb-status-typing').remove();
             }, 300);
             if (SB_ADMIN_SETTINGS['smart-reply']) {
-                if (SBF.isAgent(response.get('user_type'))) {
+                if (agent) {
                     if (SB_ADMIN_SETTINGS['smart-reply-agent-assistant']) SBApps.dialogflow.smartReplyUpdate(response.message);
                 } else {
                     SBApps.dialogflow.smartReply(response.message);
@@ -4314,6 +4448,9 @@
             if ('whatsapp-template-fallback' in payload && !('whatsapp-fallback' in payload)) {
                 showResponse('The user has been notified via WhatsApp Template notification.');
             }
+            if (!agent && SBChat.conversation.id == response.get('conversation_id') && !SBChat.user_online) {
+                SBUsers.setActiveUserStatus();
+            }
             SBConversations.update();
         });
 
@@ -4323,12 +4460,12 @@
         });
 
         // Event: email notification sent
-        $(document).on('SBEmailSent', function (e, response) {
+        $(document).on('SBEmailSent', function () {
             showResponse(`The user has been notified by email.`);
         });
 
         // Event: SMS notification sent
-        $(document).on('SBSMSSent', function (e, response) {
+        $(document).on('SBSMSSent', function () {
             showResponse('The user has been notified by text message.');
         });
 
@@ -4370,7 +4507,7 @@
                     if (!responsive) {
                         if (SBChat.conversation != false) {
                             let conversation = conversations_admin_list_ul.find(`[data-conversation-id="${SBChat.conversation.id}"]`);
-                            if (conversation.length) conversation.sbActivate();
+                            if (conversation.length) conversation.sbActive(true);
                             else if (status_code == SBChat.conversation.get('conversation_status_code')) conversations_admin_list_ul.prepend(SBConversations.getListCode(SBChat.conversation).replace('<li', '<li class="sb-active"'));
                             else SBConversations.clickFirst();
                         } else SBConversations.clickFirst();
@@ -4412,10 +4549,15 @@
         });
 
         $(admin).on('click', '.sb-profile-list [data-id="conversation-source"]', function () {
-            if ($(this).find('img').attr('src').indexOf('whatsapp') && activeUser().getExtra('phone')) {
+            let source = $(this).find('label').html().toLowerCase();
+            if (source == 'whatsapp' && activeUser().getExtra('phone')) {
                 window.open('https://wa.me/' + SBApps.whatsapp.activeUserPhone());
-            } else {
+            } else if (source == 'facebook') {
                 window.open('https://www.facebook.com/messages/t/' + SBChat.conversation.get('extra'));
+            } else if (source == 'instagram') {
+                window.open('https://www.instagram.com/direct/inbox/');
+            } else if (source == 'twitter') {
+                window.open('https://twitter.com/messages/');
             }
         });
 
@@ -4464,12 +4606,16 @@
             SBApps.dialogflow.previewIntent(dialogflow_intent_box.find('#sb-intents-select').val());
         });
 
+        $(dialogflow_intent_box).on('change', '#sb-intents-select', function () {
+            dialogflow_intent_box.find('.sb-bot-response').css('opacity', $(this).val() ? .5 : 1);
+        });
+
         // Departments
         $(conversations_area).on('click', '#conversation-department li', function (e) {
             let select = $(this).parent().parent();
             if ($(this).data('value') == select.find(' > p').attr('data-value')) return true;
             if (SBChat.conversation == false) {
-                $(this).parent().sbActivate(false);
+                $(this).parent().sbActive(false);
                 e.preventDefault();
                 return false;
             }
@@ -4490,7 +4636,7 @@
             let agent_id = $(this).data('id');
             if (agent_id == select.find(' > p').attr('data-value') || agent_id == SB_ACTIVE_AGENT['id']) return true;
             if (!SBChat.conversation) {
-                $(this).parent().sbActivate(false);
+                $(this).parent().sbActive(false);
                 e.preventDefault();
                 return false;
             }
@@ -4625,14 +4771,14 @@
         $(users_table).on('click', 'th:not(:first-child)', function () {
             let direction = $(this).hasClass('sb-order-asc') ? 'DESC' : 'ASC';
             $(this).toggleClass('sb-order-asc');
-            $(this).siblings().sbActivate(false);
-            $(this).sbActivate();
+            $(this).siblings().sbActive(false);
+            $(this).sbActive(true);
             SBUsers.sort($(this).data('field'), direction);
         });
 
         // Pagination for users
         $(users_table).parent().on('scroll', function () {
-            if (!is_busy && SBUsers.search_query == '' && scrollPagination(this, true) && users_pagination_count) {
+            if (!is_busy && !SBUsers.search_query && scrollPagination(this, true) && users_pagination_count) {
                 is_busy = true;
                 users_area.append('<div class="sb-loading-global sb-loading sb-loading-pagination"></div>');
                 SBF.ajax({
@@ -4654,7 +4800,7 @@
                         }
                         users_pagination++;
                         users_table.find('tbody').append(code);
-                        scrollPagination(this);
+                        scrollPagination(this, false, 1000);
                     }
                     users_area.find(' > .sb-loading-pagination').remove();
                 });
@@ -4686,7 +4832,7 @@
             profile_edit_box.find('#email input').prop('required', true);
             profile_edit_box.find('input,select,textara').removeClass('sb-error');
             if (SB_ACTIVE_AGENT['user_type'] == 'admin') {
-                profile_edit_box.find('#user_type').find('select').html('<option value="user">User</option><option value="agent">Agent</option><option value="admin">Admin</option>');
+                profile_edit_box.find('#user_type').find('select').html(`<option value="user">${sb_('User')}</option><option value="agent">${sb_('Agent')}</option><option value="admin">${sb_('Admin')}</option>`);
             }
             SBProfile.clear(profile_edit_box);
             SBProfile.boxClasses(profile_edit_box);
@@ -4850,6 +4996,7 @@
                         if (response[slug].length) {
                             recursiveSending(response[slug], message, 0, [], type == 'email' ? 'custom-email' : 'sms', subject);
                         } else {
+                            $(this).sbLoading(false);
                             return SBForm.showErrorMessage(direct_message_box, 'No users found.');
                         }
                     });
@@ -4870,10 +5017,10 @@
                 template: false
             }, (response) => {
                 let user_ids_length = user_ids.length;
-                direct_message_box.find('.sb-bottom > div').html(sb_(`Sending ${settings[1]}... ${i + 1} / ${user_ids_length}`));
+                direct_message_box.find('.sb-bottom > div').html(`${sb_('Sending')} ${settings[1]}... ${i + 1} / ${user_ids_length}`);
                 if (!response) console.warn(response);
                 if (response !== true && 'status' in response && response.status == 400) {
-                    dialog(`${response.message}. Details at ${response.more_info}`, 'info');
+                    dialog(`${response.message} Details at ${response.more_info}`, 'info');
                     console.warn(response);
                     return;
                 }
@@ -4947,18 +5094,18 @@
         // Color palette
         $(settings_area).on('click', '.sb-color-palette span', function () {
             let active = $(this).hasClass('sb-active');
-            $(this).closest('.sb-repeater').find('.sb-active').sbActivate(false);
-            $(this).sbActivate(!active);
+            $(this).closest('.sb-repeater').find('.sb-active').sbActive(false);
+            $(this).sbActive(!active);
         });
 
         $(settings_area).on('click', '.sb-color-palette ul li', function () {
-            $(this).parent().parent().attr('data-value', $(this).data('value')).find('span').sbActivate(false);
+            $(this).parent().parent().attr('data-value', $(this).data('value')).find('span').sbActive(false);
         });
 
         // Select images
         $(settings_area).on('click', '[data-type="select-images"] .input > div', function () {
-            $(this).siblings().sbActivate(false);
-            $(this).sbActivate();
+            $(this).siblings().sbActive(false);
+            $(this).sbActive(true);
         });
 
         // Save
@@ -4986,6 +5133,15 @@
             return false;
         });
 
+        $(settings_area).on('click', '#dialogflow-saved-replies .sb-btn', function (e) {
+            if (!loading(this)) {
+                SBF.ajax({ function: 'dialogflow-saved-replies' }, () => { $(this).sbLoading(false) });
+            }
+            e.preventDefault();
+            return false;
+        });
+
+
         $(settings_area).on('click', '#google-domain-information .sb-btn', function (e) {
             let uri = SB_URL.substr(0, SB_URL.replace('//', '').indexOf('/') + 2);
             dialog(`Authorised JavaScript origins URI: ${uri}<br><br>Authorised redirect URI: ${SB_URL}/include/google.php`, 'info');
@@ -5010,20 +5166,20 @@
         $(settings_area).on('click', '.sb-timetable > div > div > div', function () {
             let timetable = $(this).closest('.sb-timetable');
             let active = $(this).sbActive();
-            $(timetable).find('.sb-active').sbActivate(false);
+            $(timetable).find('.sb-active').sbActive(false);
             if (active) {
-                $(this).sbActivate(false).find('.sb-custom-select').remove();
+                $(this).sbActive(false).find('.sb-custom-select').remove();
             } else {
                 let select = $(timetable).find('> .sb-custom-select').html();
                 $(timetable).find(' > div .sb-custom-select').remove();
-                $(this).append(`<div class="sb-custom-select">${select}</div>`).sbActivate();
+                $(this).append(`<div class="sb-custom-select">${select}</div>`).sbActive(true);
             }
         });
 
         $(settings_area).on('click', '.sb-timetable .sb-custom-select span', function () {
             let value = [$(this).html(), $(this).attr('data-value')];
             $(this).closest('.sb-timetable').find('> div > div > .sb-active').html(value[0]).attr('data-value', value[1]);
-            $(this).parent().sbActivate(false);
+            $(this).parent().sbActive(false);
         });
 
         $(settings_area).on('click', '#system-requirements a', function (e) {
@@ -5039,7 +5195,7 @@
                 box.find('.sb-main').html(code);
                 box.sbShowLightbox();
             });
-            box.sbActivate(false);
+            box.sbActive(false);
             loadingGlobal(true);
             e.preventDefault();
             return false;
@@ -5115,13 +5271,16 @@
             return false;
         });
 
-        $(admin).on('click', '#sb-export-settings-close', function () {
+        $(admin).on('click', '#sb-export-settings-close .sb-close', function () {
             SBF.ajax({ function: 'delete-file', path: admin.find('.sb-dialog-box p pre').html() });
         });
 
 
         // Slack  
-        $(settings_area).find('#slack-button .sb-btn').attr('href', 'https://board.support/synch/?service=slack&plugin_url=' + SB_URL + cloudURL());
+        $(settings_area).on('click', '#slack-button .sb-btn', () => {
+            window.open('https://board.support/synch/?service=slack&plugin_url=' + SB_URL + cloudURL());
+            return false;
+        });
 
         $(settings_area).on('click', '#slack-test .sb-btn', function (e) {
             if (loading(this)) return;
@@ -5172,6 +5331,7 @@
         });
 
         $(settings_area).on('click', '#slack-archive-channels .sb-btn', function (e) {
+            e.preventDefault();
             if (loading(this)) return;
             SBF.ajax({
                 function: 'archive-slack-channels'
@@ -5181,22 +5341,55 @@
                 }
                 $(this).sbLoading(false);
             });
-            e.preventDefault();
         });
 
         // Messenger
-        $(settings_area).find('#messenger-button .sb-btn').attr('href', 'https://board.support/synch/?service=messenger&plugin_url=' + SB_URL + cloudURL());
+        $(settings_area).on('click', '#messenger-button .sb-btn', () => {
+            window.open('https://board.support/synch/?service=messenger&plugin_url=' + SB_URL + cloudURL());
+            return false;
+        });
 
-        // WhatsApp
-        $(settings_area).on('click', '#whatsapp-twilio-btn .sb-btn', function (e) {
-            dialog(SB_URL + '/apps/whatsapp/post.php', 'info');
+        // WhatsApp, Text messages, Twitter, Telegram
+        $(settings_area).on('click', '#whatsapp-twilio-btn .sb-btn, #sms-btn .sb-btn, #wechat-btn .sb-btn, #twitter-callback .sb-btn', function (e) {
+            let id = $(this).closest('[id]').attr('id');
+            dialog(`<pre>${SB_URL + (id == 'sms-btn' ? '/inlude/api.php' : ('/apps/' + (id == 'wechat-btn' ? 'wechat' : (id == 'twitter-callback' ? 'twitter' : 'whatsapp')) + '/post.php')) + cloudURL().replace('&', '?')}</pre>`, 'info');
             return false;
             e.preventDefault();
         });
 
+        $(settings_area).on('click', '#telegram-button .sb-btn, #whatsapp-360-button .sb-btn', function (e) {
+            let telegram = $(this).parent().attr('id') == 'telegram-button';
+            let token = settings_area.find(telegram ? '#telegram-token input' : '#whatsapp-360-key input').val().trim();
+            e.preventDefault();
+            if (!token || loading(this)) return false;
+            SBF.ajax({
+                function: telegram ? 'telegram-synchronization' : 'whatsapp-360-synchronization',
+                token: token,
+                cloud_token: cloudURL()
+            }, () => {
+                dialog('Synchronization completed.', 'info');
+                $(this).sbLoading(false);
+            });
+            return false;
+        });
+
+        // Twitter
+        $(settings_area).on('click', '#twitter-subscribe .sb-btn', function (e) {
+            e.preventDefault();
+            if (loading(this)) return false;
+            SBF.ajax({
+                function: 'twitter-subscribe'
+            }, (response) => {
+                dialog(response === true ? 'Synchronization completed.' : JSON.stringify(response), 'info');
+                $(this).sbLoading(false);
+            });
+            return false;
+        });
+
         // WordPress
         $(settings_area).on('click', '#wp-sync .sb-btn', function (e) {
-            if (loading(this)) return;
+            e.preventDefault();
+            if (loading(this)) return false;
             SBApps.wordpress.ajax('wp-sync', {}, (response) => {
                 if (response === true || response === '1') {
                     SBUsers.update();
@@ -5207,7 +5400,6 @@
                 $(this).sbLoading(false);
             });
             return false;
-            e.preventDefault();
         });
 
         $('body').on('click', '#wp-admin-bar-logout', function () {
@@ -5221,7 +5413,7 @@
                 let code = '';
                 for (var key in SB_LANGUAGE_CODES) {
                     if (key == 'en') continue;
-                    code += `<li data-code="${key}"><img src="${SB_URL}/media/flags/languages/${key}.png" />${SB_LANGUAGE_CODES[key]}</li>`;
+                    code += `<li data-code="${key}"><img src="${SB_URL}/media/flags/${key}.png" />${SB_LANGUAGE_CODES[key]}</li>`;
                 }
                 nav.html(code);
             }
@@ -5232,7 +5424,7 @@
         });
 
         $(settings_area).on('click', '.sb-translations .sb-menu-wide li', function () {
-            settings_area.find(`.sb-translations [data-area="${$(this).data('value')}"]`).sbActivate().siblings().sbActivate(false);
+            settings_area.find(`.sb-translations [data-area="${$(this).data('value')}"]`).sbActive(true).siblings().sbActive(false);
         });
 
         $(settings_area).on('click', '.sb-add-translation', function () {
@@ -5259,7 +5451,7 @@
 
         // Articles
         $(settings_area).on('click', '#tab-articles', function () {
-            articles_area.find('.sb-menu-wide li').eq(0).sbActivate().next().sbActivate(false);
+            articles_area.find('.sb-menu-wide li').eq(0).sbActive(true).next().sbActive(false);
             SBSettings.articles.get((response) => {
                 SBSettings.articles.populate(response[0]);
                 SBSettings.articles.categories = response[1];
@@ -5300,7 +5492,7 @@
                 function: 'email-piping',
                 force: true
             }, (response) => {
-                dialog(response === true ? 'Email piping syncronization completed.' : response, 'info');
+                dialog(response === true ? 'Syncronization completed.' : response, 'info');
                 $(this).sbLoading(false);
             });
             e.preventDefault();
@@ -5465,7 +5657,7 @@
                     function: 'woocommerce-dialogflow-' + (id == 'wc-dialogflow-synch' ? 'entities' : 'intents')
                 }, (response) => {
                     $(this).sbLoading(false);
-                    dialog(response ? 'Dialogflow synchronization completed.' : 'Error. Something went wrong.', 'info');
+                    dialog(response ? 'Synchronization completed.' : 'Error. Something went wrong.', 'info');
                 });
             } else {
                 dialog('This feature requires the Dialogflow App. Get it from the apps area.', 'info');
@@ -5476,7 +5668,7 @@
 
         /*
         * ----------------------------------------------------------
-        * # Apps area
+        * # Apps functions
         * ----------------------------------------------------------
         */
 
@@ -5511,6 +5703,36 @@
             e.preventDefault();
         });
 
+        // Zendesk
+        $(conversations_area).on('click', '#sb-zendesk-btn', function (e) {
+            if (loading(this)) return;
+            SBF.ajax({
+                function: 'zendesk-create-ticket',
+                conversation_id: SBChat.conversation.id
+            }, (response) => {
+                if (response === true) {
+                    SBApps.zendesk.conversationPanel();
+                } else {
+                    dialog('Error. Response: ' + JSON.stringify(response), 'info');
+                }
+                $(this).sbLoading(false);
+            });
+            e.preventDefault();
+        }); 
+
+        $(conversations_area).on('click', '#sb-zendesk-update-ticket', function (e) {
+            if (loading(this)) return;
+            SBF.ajax({
+                function: 'zendesk-update-ticket',
+                conversation_id: SBChat.conversation.id,
+                zendesk_ticket_id: $(this).closest('[data-id]').attr('data-id')
+            }, () => {
+                $(this).sbLoading(false);
+            });
+            e.preventDefault();
+            return false;
+        }); 
+
         /*
         * ----------------------------------------------------------
         * # Components
@@ -5526,7 +5748,7 @@
             active_languages.push('en');
             for (var key in SB_LANGUAGE_CODES) {
                 if (!active_languages.includes(key)) {
-                    code += `<div data-language="${key}"><img src="${SB_URL}/media/flags/languages/${key}.png" />${sb_(SB_LANGUAGE_CODES[key])}</div>`;
+                    code += `<div data-language="${key}"><img src="${SB_URL}/media/flags/${key}.png" />${sb_(SB_LANGUAGE_CODES[key])}</div>`;
                 }
             }
             language_switcher_target = switcher;
@@ -5552,14 +5774,14 @@
                     SBSettings.translations.activate(item, language);
                     break;
             }
-            item.siblings().sbActivate(false);
-            item.sbActivate(!active);
+            item.siblings().sbActive(false);
+            item.sbActive(!active);
         });
 
         $(admin).on('click', '.sb-language-switcher span > i', function () {
             let item = $(this).parent();
             let language = item.attr('data-language');
-            dialog(`The ${sb_(SB_LANGUAGE_CODES[language])} translation will be deleted.`, 'alert', () => {
+            dialog(sb_('The {T} translation will be deleted.').replace('{T}', sb_(SB_LANGUAGE_CODES[language])), 'alert', () => {
                 switch (item.parent().attr('data-source')) {
                     case 'articles':
                         SBSettings.articles.deleteTranslation(false, language);
@@ -5602,7 +5824,7 @@
         });
 
         $(admin).on('click', '.sb-lightbox .sb-info', function () {
-            $(this).sbActivate(false);
+            $(this).sbActive(false);
         });
 
         // Alert and information box
@@ -5612,27 +5834,27 @@
                 alertOnConfirmation();
             }
             if (admin.find('.sb-lightbox.sb-active').length == 1) {
-                overlay.sbActivate(false);
+                overlay.sbActive(false);
             }
             SBAdmin.open_popup = false;
-            lightbox.sbActivate(false);
+            lightbox.sbActive(false);
         });
 
         /*
-       * ----------------------------------------------------------
-       * # Miscellaneous
-       * ----------------------------------------------------------
-       */
+        * ----------------------------------------------------------
+        * # Miscellaneous
+        * ----------------------------------------------------------
+        */
 
         $(admin).on('click', '.sb-menu-wide li, .sb-nav li', function () {
-            $(this).siblings().sbActivate(false);
-            $(this).sbActivate();
+            $(this).siblings().sbActive(false);
+            $(this).sbActive(true);
         });
 
         $(admin).on('click', '.sb-nav:not(.sb-nav-only) li:not(.sb-tab-nav-title)', function () {
             let area = $(this).closest('.sb-tab');
-            let tab = $(area).find(' > .sb-content > div').sbActivate(false).eq($(this).parent().find('li:not(.sb-tab-nav-title)').index(this));
-            tab.sbActivate();
+            let tab = $(area).find(' > .sb-content > div').sbActive(false).eq($(this).parent().find('li:not(.sb-tab-nav-title)').index(this));
+            tab.sbActive(true);
             tab.find('textarea').each(function () {
                 $(this).autoExpandTextarea();
                 $(this).manualExpandTextarea();
@@ -5651,7 +5873,7 @@
         });
 
         $(admin).on('click', '.sb-info-card', function () {
-            $(this).sbActivate(false);
+            $(this).sbActive(false);
         });
 
         $(admin).on('change', '.sb-upload-form-admin .sb-upload-files', function (data) {
@@ -5673,8 +5895,8 @@
             let parent = $(this).parent();
             let active = $(parent).sbActive();
             if (!$(e.target).is('span')) return;
-            parent.siblings().sbActivate(false);
-            parent.sbActivate(!active);
+            parent.siblings().sbActive(false);
+            parent.sbActive(!active);
         });
 
         $(admin).on('mousedown', function (e) {
@@ -5682,9 +5904,9 @@
                 let popup = $(SBAdmin.open_popup);
                 if (!popup.is(e.target) && popup.has(e.target).length === 0 && !['sb-btn-saved-replies', 'sb-btn-emoji'].includes($(e.target).attr('class'))) {
                     if (popup.hasClass('sb-popup')) popup.sbTogglePopup();
-                    else if (popup.hasClass('sb-select')) popup.find('ul').sbActivate(false);
-                    else if (popup.hasClass('sb-menu-mobile')) popup.find('i').sbActivate(false);
-                    else if (popup.hasClass('sb-menu')) popup.sbActivate(false);
+                    else if (popup.hasClass('sb-select')) popup.find('ul').sbActive(false);
+                    else if (popup.hasClass('sb-menu-mobile')) popup.find('i').sbActive(false);
+                    else if (popup.hasClass('sb-menu')) popup.sbActive(false);
                     else admin.sbHideLightbox();
                     SBAdmin.open_popup = false;
                 }
@@ -5703,7 +5925,7 @@
             }
             SBConversations.populateList(response);
             if (responsive) {
-                conversations_area.find('.sb-admin-list').sbActivate();
+                conversations_area.find('.sb-admin-list').sbActive(true);
             }
             if (SBF.getURL('conversation')) {
                 if (!conversations_area.sbActive()) header.find('.sb-admin-nav #sb-conversations').click();

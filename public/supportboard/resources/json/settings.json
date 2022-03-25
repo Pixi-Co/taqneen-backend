@@ -56,6 +56,12 @@
     },
     {
       "type": "checkbox",
+      "id": "close-chat",
+      "title": "Close chat",
+      "content": "Allow the user to archive a conversation and hide archived conversations."
+    },
+    {
+      "type": "checkbox",
       "id": "articles-active",
       "title": "Articles",
       "content": "Display the articles section in the dashboard area."
@@ -67,10 +73,34 @@
       "content": "Rename the Articles archive panel title. Default is 'Help Center'."
     },
     {
+      "type": "text",
+      "id": "articles-button-link",
+      "title": "Articles button link",
+      "content": "Add a link to the articles button."
+    },
+    {
       "type": "checkbox",
       "id": "chat-manual-init",
       "title": "Manual initialization",
-      "content": "Disable auto-initialization of the chat widget. When this setting is active you must initialize the chat widget via Javascript API."
+      "content": "Disable auto-initialization of the chat widget. When this setting is active you must initialize the chat widget with a custom JavaScript API code written by you. If the chat doesn't appear and this setting is enabled, disable it."
+    },
+    {
+      "type": "multi-input",
+      "id": "agents-menu",
+      "title": "Agents menu",
+      "content": "Show the agents menu in the dashboard and force the user to choose an agent to start a conversation.",
+      "value": [
+        {
+          "type": "checkbox",
+          "id": "agents-menu-active",
+          "title": "Active"
+        },
+        {
+          "type": "text",
+          "id": "agents-menu-title",
+          "title": "Dashboard title"
+        }
+      ]
     }
   ],
   "messages": [
@@ -323,6 +353,11 @@
           "title": "Active"
         },
         {
+          "type": "checkbox",
+          "id": "close-transcript",
+          "title": "Send transcript to user's email"
+        },
+        {
           "type": "textarea",
           "id": "close-msg",
           "title": "Message"
@@ -399,14 +434,21 @@
       "type": "upload-image",
       "id": "login-icon",
       "title": "Admin login logo",
-      "content": "Replace the Support Board logo on the admin login page.",
+      "content": "Replace the brand logo on the admin login page.",
+      "background-size": "auto 64px"
+    },
+    {
+      "type": "upload-image",
+      "id": "admin-icon",
+      "title": "Admin icon",
+      "content": "Replace the top-left brand icon on the admin area and the browser favicon.",
       "background-size": "auto 64px"
     },
     {
       "type": "text",
       "id": "login-message",
       "title": "Admin login message",
-      "content": "Replace the Support Board message on the admin login page."
+      "content": "Replace the admin login page message."
     },
     {
       "type": "checkbox",
@@ -418,7 +460,7 @@
       "type": "checkbox",
       "id": "admin-auto-translations",
       "title": "Automatically translate admin area",
-      "content": "Translate the admin area automatically to match the browser language.",
+      "content": "Automatically translate the admin area to match the agent profile language or browser language.",
       "help": "https://board.support/docs/#multilingual-admin"
     },
     {
@@ -441,9 +483,21 @@
     },
     {
       "type": "checkbox",
+      "id": "agents-delete",
+      "title": "Allow agents to delete conversations",
+      "content": "Allow agents to delete conversations and empty the trash."
+    },
+    {
+      "type": "checkbox",
       "id": "rtl-admin",
       "title": "RTL",
       "content": "Activate the Right-To-Left (RTL) reading layout for the admin area."
+    },
+    {
+      "type": "checkbox",
+      "id": "show-profile-images-admin",
+      "title": "Show profile images",
+      "content": "Show the profile image of agents and users within the conversation."
     },
     {
       "type": "checkbox",
@@ -458,13 +512,53 @@
       "content": "Disable the attachments list."
     },
     {
-      "type": "select",
-      "id": "transcript-type",
-      "title": "Transcript type",
-      "content": "Set the default transcript file type.",
+      "type": "multi-input",
+      "id": "transcript",
+      "title": "Transcript",
+      "content": "Transcript settings.",
       "value": [
-        [ "csv", "CSV" ],
-        [ "txt", "Text" ]
+        {
+          "type": "select",
+          "id": "transcript-type",
+          "title": "Type",
+          "value": [
+            [ "csv", "CSV" ],
+            [ "txt", "Text" ]
+          ]
+        },
+        {
+          "type": "select",
+          "id": "transcript-action",
+          "title": "Button action",
+          "value": [
+            [ "download", "Download" ],
+            [ "email", "Send to user's email" ]
+          ]
+        },
+        {
+          "type": "textarea",
+          "id": "transcript-message",
+          "title": "Message"
+        }
+      ]
+    },
+    {
+      "type": "multi-input",
+      "id": "grammarly",
+      "title": "Grammarly",
+      "content": "Grammarly settings.",
+      "help": "https://board.support/docs/#grammarly",
+      "value": [
+        {
+          "type": "checkbox",
+          "id": "grammarly-active",
+          "title": "Active"
+        },
+        {
+          "type": "text",
+          "id": "grammarly-client-id",
+          "title": "Client ID" 
+        }
       ]
     },
     {
@@ -492,6 +586,13 @@
       "id": "custom-css",
       "title": "Custom CSS",
       "content": "Enter the URL of a .css file, to load it automatically in the admin area."
+    },
+    {
+      "type": "text",
+      "id": "manifest-url",
+      "title": "Manifest file URL",
+      "content": "Use this option to change the PWA icon.  See the docs for more details.",
+      "help": "https://board.support/docs/#pwa"
     }
   ],
   "notifications": [
@@ -532,6 +633,13 @@
       "id": "notify-user-email",
       "title": "User email notifications",
       "content": "Send an email to the user when an agent replies and the user is offline."
+    },
+    {
+      "type": "checkbox",
+      "id": "online-users-notification",
+      "title": "Online users notification",
+      "content": "Show a notification and play a sound when a new user is online.",
+      "help": "https://board.support/docs/#users-info"
     },
     {
       "type": "select",
@@ -670,13 +778,20 @@
           "type": "textarea",
           "id": "sms-message-user",
           "title": "User message template"
+        },
+        {
+          "type": "button",
+          "id": "sms-btn",
+          "title": "Configuration URL",
+          "button-text": "Get configuration URL",
+          "button-url": "#"
         }
       ]
     },
     {
       "type": "multi-input",
       "id": "email-server",
-      "title": "Email settings",
+      "title": "SMTP",
       "content": "Outgoing SMTP server information.",
       "value": [
         {
@@ -758,6 +873,11 @@
           "type": "checkbox",
           "id": "email-piping-all",
           "title": "Convert all emails"
+        },
+        {
+          "type": "checkbox",
+          "id": "email-piping-disable-cron",
+          "title": "Disable cron job"
         },
         {
           "type": "button",
@@ -987,6 +1107,246 @@
       "content": "Make the registration phone field mandatory."
     },
     {
+      "type": "select",
+      "id": "phone-code",
+      "title": "Single phone country code",
+      "content": "Force users to use only one phone country code.",
+      "value": [
+        [ "", "" ],
+        [ "+1", "+1" ],
+        [ "+7", "+7" ],
+        [ "+20", "+20" ],
+        [ "+27", "+27" ],
+        [ "+30", "+30" ],
+        [ "+31", "+31" ],
+        [ "+32", "+32" ],
+        [ "+33", "+33" ],
+        [ "+34", "+34" ],
+        [ "+36", "+36" ],
+        [ "+39", "+39" ],
+        [ "+40", "+40" ],
+        [ "+41", "+41" ],
+        [ "+43", "+43" ],
+        [ "+44", "+44" ],
+        [ "+45", "+45" ],
+        [ "+46", "+46" ],
+        [ "+47", "+47" ],
+        [ "+48", "+48" ],
+        [ "+49", "+49" ],
+        [ "+51", "+51" ],
+        [ "+52", "+52" ],
+        [ "+53", "+53" ],
+        [ "+54", "+54" ],
+        [ "+55", "+55" ],
+        [ "+56", "+56" ],
+        [ "+57", "+57" ],
+        [ "+58", "+58" ],
+        [ "+60", "+60" ],
+        [ "+61", "+61" ],
+        [ "+62", "+62" ],
+        [ "+63", "+63" ],
+        [ "+64", "+64" ],
+        [ "+65", "+65" ],
+        [ "+66", "+66" ],
+        [ "+81", "+81" ],
+        [ "+82", "+82" ],
+        [ "+84", "+84" ],
+        [ "+86", "+86" ],
+        [ "+90", "+90" ],
+        [ "+91", "+91" ],
+        [ "+92", "+92" ],
+        [ "+93", "+93" ],
+        [ "+94", "+94" ],
+        [ "+95", "+95" ],
+        [ "+98", "+98" ],
+        [ "+211", "+211" ],
+        [ "+212", "+212" ],
+        [ "+213", "+213" ],
+        [ "+216", "+216" ],
+        [ "+218", "+218" ],
+        [ "+220", "+220" ],
+        [ "+221", "+221" ],
+        [ "+222", "+222" ],
+        [ "+223", "+223" ],
+        [ "+224", "+224" ],
+        [ "+225", "+225" ],
+        [ "+226", "+226" ],
+        [ "+227", "+227" ],
+        [ "+228", "+228" ],
+        [ "+229", "+229" ],
+        [ "+230", "+230" ],
+        [ "+231", "+231" ],
+        [ "+232", "+232" ],
+        [ "+233", "+233" ],
+        [ "+234", "+234" ],
+        [ "+235", "+235" ],
+        [ "+236", "+236" ],
+        [ "+237", "+237" ],
+        [ "+238", "+238" ],
+        [ "+239", "+239" ],
+        [ "+240", "+240" ],
+        [ "+241", "+241" ],
+        [ "+242", "+242" ],
+        [ "+243", "+243" ],
+        [ "+244", "+244" ],
+        [ "+245", "+245" ],
+        [ "+246", "+246" ],
+        [ "+248", "+248" ],
+        [ "+249", "+249" ],
+        [ "+250", "+250" ],
+        [ "+251", "+251" ],
+        [ "+252", "+252" ],
+        [ "+253", "+253" ],
+        [ "+254", "+254" ],
+        [ "+255", "+255" ],
+        [ "+256", "+256" ],
+        [ "+257", "+257" ],
+        [ "+258", "+258" ],
+        [ "+260", "+260" ],
+        [ "+261", "+261" ],
+        [ "+262", "+262" ],
+        [ "+263", "+263" ],
+        [ "+264", "+264" ],
+        [ "+265", "+265" ],
+        [ "+266", "+266" ],
+        [ "+267", "+267" ],
+        [ "+268", "+268" ],
+        [ "+269", "+269" ],
+        [ "+290", "+290" ],
+        [ "+291", "+291" ],
+        [ "+297", "+297" ],
+        [ "+298", "+298" ],
+        [ "+299", "+299" ],
+        [ "+350", "+350" ],
+        [ "+351", "+351" ],
+        [ "+352", "+352" ],
+        [ "+353", "+353" ],
+        [ "+354", "+354" ],
+        [ "+355", "+355" ],
+        [ "+356", "+356" ],
+        [ "+357", "+357" ],
+        [ "+358", "+358" ],
+        [ "+359", "+359" ],
+        [ "+370", "+370" ],
+        [ "+371", "+371" ],
+        [ "+372", "+372" ],
+        [ "+373", "+373" ],
+        [ "+374", "+374" ],
+        [ "+375", "+375" ],
+        [ "+376", "+376" ],
+        [ "+377", "+377" ],
+        [ "+378", "+378" ],
+        [ "+379", "+379" ],
+        [ "+380", "+380" ],
+        [ "+381", "+381" ],
+        [ "+382", "+382" ],
+        [ "+385", "+385" ],
+        [ "+386", "+386" ],
+        [ "+387", "+387" ],
+        [ "+389", "+389" ],
+        [ "+420", "+420" ],
+        [ "+421", "+421" ],
+        [ "+423", "+423" ],
+        [ "+500", "+500" ],
+        [ "+501", "+501" ],
+        [ "+502", "+502" ],
+        [ "+503", "+503" ],
+        [ "+504", "+504" ],
+        [ "+505", "+505" ],
+        [ "+506", "+506" ],
+        [ "+507", "+507" ],
+        [ "+508", "+508" ],
+        [ "+509", "+509" ],
+        [ "+590", "+590" ],
+        [ "+591", "+591" ],
+        [ "+592", "+592" ],
+        [ "+593", "+593" ],
+        [ "+594", "+594" ],
+        [ "+595", "+595" ],
+        [ "+596", "+596" ],
+        [ "+597", "+597" ],
+        [ "+598", "+598" ],
+        [ "+599", "+599" ],
+        [ "+670", "+670" ],
+        [ "+672", "+672" ],
+        [ "+673", "+673" ],
+        [ "+674", "+674" ],
+        [ "+675", "+675" ],
+        [ "+676", "+676" ],
+        [ "+677", "+677" ],
+        [ "+678", "+678" ],
+        [ "+679", "+679" ],
+        [ "+680", "+680" ],
+        [ "+681", "+681" ],
+        [ "+682", "+682" ],
+        [ "+683", "+683" ],
+        [ "+685", "+685" ],
+        [ "+686", "+686" ],
+        [ "+687", "+687" ],
+        [ "+688", "+688" ],
+        [ "+689", "+689" ],
+        [ "+690", "+690" ],
+        [ "+691", "+691" ],
+        [ "+692", "+692" ],
+        [ "+850", "+850" ],
+        [ "+852", "+852" ],
+        [ "+853", "+853" ],
+        [ "+855", "+855" ],
+        [ "+856", "+856" ],
+        [ "+870", "+870" ],
+        [ "+880", "+880" ],
+        [ "+886", "+886" ],
+        [ "+960", "+960" ],
+        [ "+961", "+961" ],
+        [ "+962", "+962" ],
+        [ "+963", "+963" ],
+        [ "+964", "+964" ],
+        [ "+965", "+965" ],
+        [ "+966", "+966" ],
+        [ "+967", "+967" ],
+        [ "+968", "+968" ],
+        [ "+970", "+970" ],
+        [ "+971", "+971" ],
+        [ "+972", "+972" ],
+        [ "+973", "+973" ],
+        [ "+974", "+974" ],
+        [ "+975", "+975" ],
+        [ "+976", "+976" ],
+        [ "+977", "+977" ],
+        [ "+992", "+992" ],
+        [ "+993", "+993" ],
+        [ "+994", "+994" ],
+        [ "+995", "+995" ],
+        [ "+996", "+996" ],
+        [ "+998", "+998" ],
+        [ "+1-242", "+1-242" ],
+        [ "+1-246", "+1-246" ],
+        [ "+1-264", "+1-264" ],
+        [ "+1-268", "+1-268" ],
+        [ "+1-284", "+1-284" ],
+        [ "+1-340", "+1-340" ],
+        [ "+1-345", "+1-345" ],
+        [ "+1-441", "+1-441" ],
+        [ "+1-473", "+1-473" ],
+        [ "+1-649", "+1-649" ],
+        [ "+1-664", "+1-664" ],
+        [ "+1-670", "+1-670" ],
+        [ "+1-671", "+1-671" ],
+        [ "+1-684", "+1-684" ],
+        [ "+1-758", "+1-758" ],
+        [ "+1-767", "+1-767" ],
+        [ "+1-784", "+1-784" ],
+        [ "+1-809", "+1-809" ],
+        [ "+1-868", "+1-868" ],
+        [ "+1-869", "+1-869" ],
+        [ "+1-876", "+1-876" ],
+        [ "+44-1481", "+44-1481" ],
+        [ "+44-1534", "+44-1534" ],
+        [ "+44-1624", "+44-1624" ],
+        [ "+358-18", "+358-18" ]
+      ]
+    },
+    {
       "type": "checkbox",
       "id": "registration-user-details-success",
       "title": "User details in success message",
@@ -1042,8 +1402,8 @@
     {
       "type": "checkbox",
       "id": "duplicate-emails",
-      "title": "Allow duplicate emails",
-      "content": "Allow registration with an email already used by creating a new user without email."
+      "title": "Allow duplicate emails and phone numbers",
+      "content": "Allow registration with an email and a phone number already registered."
     },
     {
       "type": "text",
@@ -1118,7 +1478,7 @@
       "type": "text",
       "id": "header-headline",
       "title": "Header title",
-      "content": "Change the title text in the header area of the chat widget. This text will be replaced by the agent's name once the first reply is sent. Default is 'Support Board Chat'."
+      "content": "Change the title text in the header area of the chat widget. This text will be replaced by the agent's name once the first reply is sent."
     },
     {
       "type": "text",
@@ -1234,7 +1594,8 @@
       "type": "multi-input",
       "id": "webhooks",
       "title": "Webhooks",
-      "content": "Webhooks are automated messages sent from Support Board when something happens. They have a message and are sent to a unique URL defined by you. See the API docs for more details.",
+      "content": "Webhooks are information sent in background to a unique URL defined by you when something happens.",
+      "help": "https://board.support/docs/api/web#Webhooks",
       "value": [
         {
           "type": "checkbox",
@@ -1250,6 +1611,11 @@
           "type": "password",
           "id": "webhooks-key",
           "title": "Secret Key"
+        },
+        {
+          "type": "text",
+          "id": "webhooks-allowed",
+          "title": "Active webhooks"
         }
       ]
     },
@@ -1308,7 +1674,12 @@
             [ "sendinblue", "Sendinblue" ],
             [ "sendgrid", "SendGrid" ],
             [ "elasticemail", "Elastic Email" ],
-            [ "campaignmonitor", "Campaign Monitor" ]
+            [ "campaignmonitor", "Campaign Monitor" ],
+            [ "hubspot", "Hubspot" ],
+            [ "moosend", "Moosend" ],
+            [ "getresponse", "GetResponse" ],
+            [ "convertkit", "ConvertKit" ],
+            [ "activecampaign", "ActiveCampaign" ]
           ]
         },
         {
@@ -1554,7 +1925,7 @@
       "type": "button",
       "id": "sb-export-settings",
       "title": "Export settings",
-      "content": "Export Support Board settings.",
+      "content": "Export all settings.",
       "button-text": "Export Settings",
       "button-url": "#"
     },
@@ -1562,7 +1933,7 @@
       "type": "button",
       "id": "sb-import-settings",
       "title": "Import settings",
-      "content": "Import settings into Support Board.",
+      "content": "Import all settings.",
       "button-text": "Import Settings",
       "button-url": "#"
     }

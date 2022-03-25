@@ -12,6 +12,7 @@
 .sb-rtl {
     direction: rtl;
     text-align: right;
+    overflow-x: hidden;
 
     textarea, .sb-panel, ul, ul li, .sb-table th, .sb-table td {
         direction: rtl;
@@ -26,6 +27,18 @@
     > .sb-header, > .sb-header > .sb-admin-nav-right {
         left: auto;
         right: 0;
+    }
+
+    > .sb-header > .sb-admin-nav-right .sb-account:hover > div {
+        left: auto;
+        right: 65px;
+
+        &:before {
+            left: auto;
+            right: -13px;
+            bottom: 25px;
+            transform: rotate( -90deg);
+        }
     }
 
     .sb-input.sb-input-btn > div {

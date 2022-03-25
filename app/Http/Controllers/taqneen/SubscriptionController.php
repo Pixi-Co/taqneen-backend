@@ -390,6 +390,10 @@ class SubscriptionController extends Controller
                 $resource->update();
             }
 
+            
+            // fire new subscription triger
+            Triger::fire(Triger::$NEW_SUBSCRIPTION, $resource->id);
+
             $output = [
                 "success" => 1,
                 "msg" => @trans('done')

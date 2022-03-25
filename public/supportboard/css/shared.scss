@@ -163,6 +163,7 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
 ==========================================================
 
 */
+
 .sb-user-conversations {
     > li {
         border-bottom: 1px solid $border-color;
@@ -230,7 +231,6 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
     }
 }
 
-
 /*
 
 # MESSAGES LIST AND CHAT
@@ -249,37 +249,28 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
         float: left;
         clear: both;
         position: relative;
-        margin: 10px 10px 30px 20px;
+        margin: 2px 10px 2px 20px;
         box-shadow: none;
         background-color: rgb(245, 245, 245);
         border-radius: 6px;
-        padding: 13px 15px;
+        padding: 8px 12px;
         max-width: calc(90% - 110px);
 
         &.sb-thumb-active {
-            margin: 10px 10px 30px 65px;
+            margin: 2px 10px 2px 55px;
 
             .sb-thumb {
                 display: block;
             }
 
             &.sb-rich-cnt {
-                max-width: calc(90% - 83px);
+                max-width: calc(90% - 115px);
             }
         }
 
         &.sb-rich-cnt {
-            border: 1px solid rgb(230, 230, 230);
-            border-bottom-color: rgb(219, 219, 219);
-            border-top-color: $color-blue;
-            box-shadow: 0 4px 5px rgba(0, 0, 0, 0.08);
             background-color: rgb(247, 247, 247);
-            max-width: calc(90% - 36px);
-            border-radius: 4px;
-
-            > div > .sb-time {
-                margin-top: 22px;
-            }
+            max-width: calc(90% - 80px);
 
             .sb-message {
                 overflow: visible;
@@ -289,61 +280,65 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
         &[data-type="slider"], &[data-type="slider-images"] {
             width: 100%;
         }
-    }
 
-    > div:first-child {
-        margin-top: 20px;
-    }
-
-    > div:last-child {
-        margin-bottom: 40px !important;
-    }
-
-    > div:not(.sb-right):last-child, > [data-id="sending"] {
-        animation: sb-fade-bottom-animation .4s;
-    }
-
-    > .sb-right {
-        float: right;
-        margin: 10px 20px 30px 10px;
-        background-color: #E6F2FC;
-
-        .sb-thumb {
-            right: -45px;
-            left: auto;
+        &:hover .sb-time {
+            animation: sb-fade-animation .4s forwards;
+            animation-delay: 1s;
         }
 
-        .sb-time {
-            right: 0;
-            left: auto;
-            flex-direction: row-reverse;
+        &:first-child > span {
+            margin-top: 0 !important;
+        }
 
-            &:hover > span + span {
-                padding-right: 10px;
-                padding-left: 0;
+        &:last-child {
+            margin-bottom: 30px !important;
+        }
+
+        &:not(.sb-right):last-child, > [data-id="sending"] {
+            animation: sb-fade-bottom-animation .4s;
+        }
+
+        &.sb-right {
+            float: right;
+            margin: 2px 20px 2px 10px;
+            background-color: #E6F2FC;
+
+            .sb-thumb {
+                right: -35px;
+                left: auto;
+            }
+
+            .sb-time {
+                right: calc(100% + 10px);
+                left: auto;
+                flex-direction: row-reverse;
+            }
+
+            .sb-message,
+            .sb-message a {
+                color: $color-dark-blue;
+            }
+
+            &.sb-thumb-active {
+                margin: 2px 50px 2px 10px;
             }
         }
 
-        .sb-message,
-        .sb-message a {
-            color: $color-dark-blue;
-        }
-
-        &.sb-thumb-active {
-            margin: 10px 65px 30px 10px;
+        &:not(.sb-right):not(.sb-label-date) + .sb-right, &.sb-right + div:not(.sb-right):not(.sb-label-date) {
+            margin-top: 15px;
         }
     }
 
     .sb-thumb {
         position: absolute;
-        left: -45px;
+        left: -35px;
         top: 1px;
-        width: 35px;
+        width: 25px;
         display: none;
 
         > img {
-            width: 35px;
-            height: 35px;
+            width: 25px;
+            height: 25px;
             border-radius: 50%;
         }
 
@@ -386,6 +381,13 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
             padding: 5px 5px 7px 5px;
             border-radius: 3px;
             border: 1px solid rgb(219, 219, 219);
+
+            code {
+                padding: 0;
+                color: rgb(44, 80, 106);
+                background: none;
+                display: inline;
+            }
         }
 
         .emoji-large {
@@ -394,11 +396,15 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
         }
 
         .sb-image {
-            margin-top: 15px;
+            margin-top: 6px;
         }
 
         .sb-rich-image .sb-image {
             margin-top: 0;
+        }
+
+        &:not(.sb-message-media) > .sb-image {
+            margin-bottom: 5px;
         }
     }
 
@@ -416,7 +422,7 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
             transition: $transition;
             padding-left: 25px;
             font-size: 13px;
-            line-height: 15px;
+            line-height: 21px;
             letter-spacing: 0.3px;
 
             &:before {
@@ -424,9 +430,9 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
                 font-family: "Support Board Icons";
                 position: absolute;
                 left: 0;
-                font-size: 13px;
+                font-size: 15px;
                 opacity: 0.8;
-                line-height: 15px;
+                line-height: 21px;
             }
 
             &:hover {
@@ -445,31 +451,23 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
 
     .sb-time {
         color: $color-gray;
-        opacity: 0.6;
+        opacity: 0;
         font-size: 11px;
         letter-spacing: 0.5px;
         line-height: 16px;
-        left: 0;
-        margin-top: 20px;
+        left: calc(100% + 10px);
+        top: 11px;
         white-space: nowrap;
         position: absolute;
         display: flex;
 
-        > span + span {
-            width: 0;
-            overflow: hidden;
-            display: block;
-        }
-
-        &:hover > span + span {
-            width: auto;
-            padding-left: 10px;
-            animation: sb-fade-animation .4s;
+        > span:first-child {
+            display: none;
         }
     }
 
     .sb-message-media {
-        margin: -15px;
+        margin: -7px -12px;
         background: $white;
 
         .sb-image:first-child {
@@ -505,13 +503,56 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
     }
 }
 
+.sb-list > div.sb-label-date, .sb-label-date-top {
+    text-align: center;
+    max-width: 100% !important;
+    width: auto;
+    float: none;
+    background: none;
+    margin: 0;
+
+    span {
+        display: inline-block;
+        background: #f5f7fa;
+        padding: 0 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        line-height: 26px;
+        letter-spacing: .3px;
+        margin: 15px auto 15px auto;
+        font-weight: 400;
+        color: $color-gray;
+    }
+}
+
+.sb-label-date-top {
+    position: absolute;
+    top: 73px;
+    left: 0;
+    right: 5px;
+    z-index: 2;
+    opacity: 0;
+    transition: $transition;
+
+    &.sb-active {
+        opacity: 1;
+    }
+
+    &:empty {
+        display: none;
+    }
+}
+
+.sb-label-date + .sb-label-date {
+    display: none;
+}
+
 /*
 
 # CHAT HTML COMPONENTS
 ==========================================================
 
 */
-
 .sb-list {
     .sb-form {
         & + .sb-btn {
@@ -654,7 +695,7 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
         font-weight: 400;
         resize: none !important;
         border: none !important;
-        color: $color-gray;
+        color: $color-gray !important;
         background: transparent !important;
         transition: $transition;
         overflow: hidden;
@@ -829,6 +870,206 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
 
 /*
 
+# ARTICLES 
+==========================================================
+
+*/
+
+.sb-article {
+    .sb-title {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 30px;
+        padding-bottom: 25px;
+        letter-spacing: 0.5px;
+        position: relative;
+
+        .sb-icon-close {
+            position: absolute;
+            right: 0;
+            top: 0px;
+            font-size: 12px;
+            transition: $transition;
+            cursor: pointer;
+
+            &:hover {
+                color: $color-red;
+            }
+        }
+    }
+
+    .sb-content {
+        font-size: 13px;
+        line-height: 25px;
+        color: $color-gray;
+        letter-spacing: 0.3px;
+
+        > img,
+        .sb-image {
+            max-width: 100%;
+            margin: 15px 0;
+            display: block;
+        }
+    }
+
+    .sb-btn-text {
+        margin-top: 25px;
+    }
+
+    ul {
+        padding-left: 15px;
+
+        li {
+            list-style: disc;
+        }
+    }
+
+    .sb-rating, .sb-btn-text + .sb-article-category-links {
+        display: flex;
+        padding-top: 30px;
+        margin-top: 30px;
+        margin-bottom: 0;
+        height: 20px;
+        border-top: 1px solid $border-color;
+    }
+
+    &[data-user-rating="1"] {
+        [data-rating="positive"] {
+            color: $color-green;
+            cursor: default;
+        }
+
+        [data-rating="negative"] {
+            display: none;
+        }
+    }
+
+    &[data-user-rating="-1"] {
+        [data-rating="positive"] {
+            display: none;
+        }
+
+        [data-rating="negative"] {
+            color: $color-red;
+            cursor: default;
+        }
+    }
+}
+
+.sb-panel-articles {
+    animation: sb-fade-animation .5s;
+}
+
+.sb-panel-articles .sb-title .sb-icon-close {
+    display: none;
+}
+
+.sb-articles-page {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    font-size: 15px;
+    line-height: 27px;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    background: $white;
+    color: $color-black;
+
+    .sb-panel-main {
+        flex: 1 1 100%;
+        width: 100%;
+        position: relative;
+        padding: 20px;
+    }
+
+    .sb-panel-side {
+        flex: 2 2 600px;
+        border-left: 1px solid $border-color;
+        background-color: $background-gray;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        position: relative;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+        padding: 20px;
+
+        .sb-title {
+            letter-spacing: 0.5px;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 22px;
+            margin: 0 0 20px 0;
+        }
+
+        .sb-input {
+            input {
+                background-color: $white;
+            }
+
+            & + .sb-title {
+                margin-top: 30px;
+            }
+        }
+    }
+
+    .sb-article .sb-content {
+        font-size: 14px;
+    }
+
+    .sb-articles, .sb-article {
+        animation: sb-fade-animation .5s;
+    }
+}
+
+.sb-article-categories {
+    > div {
+        padding-bottom: 10px;
+
+        span {
+            display: block;
+            cursor: pointer;
+            position: relative;
+            transition: $transition;
+
+            &:hover, &.sb-active {
+                color: $color-blue;
+            }
+        }
+    }
+}
+
+.sb-article-category-links {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    margin: 15px 0 15px 0;
+    height: auto !important;
+
+    > span {
+        position: relative;
+        display: block;
+        font-weight: 500;
+        font-size: 13px;
+        margin-right: 20px;
+        letter-spacing: .3px;
+        transition: $transition;
+
+        & + span:before {
+            content: "";
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            margin-top: -6px;
+            height: 12px;
+            width: 1px;
+            background: $color-blue;
+        }
+    }
+}
+
+/*
+
 # LOADING
 ==========================================================
 
@@ -887,7 +1128,7 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
 
 /*
 
-# BUTTON
+# BUTTONS
 ==========================================================
 
 */
@@ -1020,7 +1261,7 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
     }
 
     &.sb-btn-red:hover i {
-        color: $color-red;
+        color: $color-red !important;
     }
 }
 
@@ -1104,6 +1345,7 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
             border: 1px solid $color-blue;
             box-shadow: 0 0 5px rgba(39, 156, 255, 0.2);
             background: $white;
+            color: $color-black;
             outline: none !important;
         }
 
@@ -1296,6 +1538,11 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
         top: 13px;
         opacity: 0;
         padding: 0;
+        color: $color-black;
+        font-size: 13px;
+        line-height: 22px; 
+        padding-left: 5px;
+        font-weight: 400;
     }
 
     select {
@@ -1311,6 +1558,13 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
 
     input {
         padding: 5px 0 0 60px;
+    }
+
+    input[disabled] {
+        padding: 0 5px;
+        border: none;
+        background: none;
+        box-shadow: none;
     }
 
     .sb-active + div {
@@ -1595,6 +1849,7 @@ div ul.sb-menu, .sb-select ul, .sb-popup, .sb-menu-mobile > ul, .sb-menu-mobile 
                 font-size: 23px;
                 line-height: 28px;
                 margin: 0;
+                padding: 0;
                 transition: all 0.2s;
 
                 &:hover {
@@ -1756,7 +2011,7 @@ div ul.sb-menu,
 
     &.sb-scroll-area {
         height: auto;
-        max-height: 350px;
+        max-height: 300px;
         overflow-y: scroll;
     }
 
@@ -1838,6 +2093,7 @@ div ul.sb-menu,
             cursor: text;
             padding: 0 10px;
             box-sizing: border-box;
+            z-index: 8;
             transition: top 0.2s;
 
             &.sb-active {
@@ -1990,7 +2246,7 @@ div ul.sb-menu,
             height: 175px;
             background-size: cover;
             background-position: center center;
-            margin: -13px -15px 20px -15px;
+            margin: -13px -12px 20px -12px;
             border-top-right-radius: 3px;
             border-top-left-radius: 3px;
         }
@@ -2029,8 +2285,8 @@ div ul.sb-menu,
             border-top: 1px solid rgba(0, 0, 0, 0.18);
             display: block;
             text-decoration: none;
-            margin: 20px -15px 0 -15px;
-            padding: 15px 15px 0 15px;
+            margin: 20px -12px 0 -12px;
+            padding: 15px 15px 7px 15px;
             font-weight: 500;
             transition: $transition;
             position: relative;
@@ -2054,7 +2310,7 @@ div ul.sb-menu,
     }
 
     .sb-slider {
-        margin: -18px -15px 0 -15px;
+        margin: -13px -12px 0 -12px;
         overflow: hidden;
 
         > div {

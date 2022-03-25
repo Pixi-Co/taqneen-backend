@@ -9,6 +9,7 @@ class EmailTemplate extends Model
 {
     
     public static $TRIGERS = [
+        "NEW_SUBSCRIPTION" => "add new subscription",
         "CHANGE_SUBSCRIPTION_STATUS" => "change subscription status",
         "RENEW_SUBSCRIPTION" => "renew subscription", 
         "EXPIRE_SUBSCRIPTION_BEFORE_3_WEEKS" => "expire subscription before 3 week",
