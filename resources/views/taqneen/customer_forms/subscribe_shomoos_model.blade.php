@@ -117,7 +117,7 @@ input[type=submit]:hover{
                 </div>
             </div> --}}
 
-            <input type="hidden" name="customer_type" value="shomoos">
+            <input type="hidden" name="customer_type" value="{{ $instance::$SUBSCRIBE_SHOMOOS_MODEL_KEY }}">
 
 
             <div class="ginput_container ">

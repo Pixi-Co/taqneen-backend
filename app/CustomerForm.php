@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class CustomerForm extends Model
 {
+    public static $SUBSCRIBE_TAMMM_MODEL_KEY = "subscribe_tamm_model";
+    public static $SUBSCRIBE_SHOMOOS_MODEL_KEY = "subscribe_shomoos_model";
+
+
+
     protected $table = "customer_forms";
 
     protected $fillable = [

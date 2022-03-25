@@ -84,6 +84,12 @@
                 <div class="modal-body">
                     <div class="row">
                         @csrf
+
+                        <div class="form-group">
+                            <label class="my-2" for="inputName">@trans('pay date')</label>
+                            {!! Form::datetimeLocal('pay_date', date('Y-m-d\TH:i', strtotime(optional($row->payment)->paid_on)), ['class' => 'form-control']) !!}
+                        </div>
+
                         <div class="">
                             <label for="">@trans('payment method')</label>
                             {!! Form::select('method', $payment_methods, optional($row->payment)->method, ['class' => 'form-select']) !!}
@@ -101,6 +107,7 @@
                             <label class="my-2" for="inputName">@trans('number of transform')</label>
                             {!! Form::text('custom_field_4', $row->custom_field_4, ['class' => 'form-control']) !!}
                         </div>
+                        
                     </div>
                 </div>
                 <div class="modal-footer">

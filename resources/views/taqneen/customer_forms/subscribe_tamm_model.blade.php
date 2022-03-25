@@ -93,7 +93,7 @@ input[type=submit]:hover{
         <form class="form-group" action="{{ route('createcustomertamm.store') }}" method="post" enctype="multipart/form-data">
            @csrf
           @method('post')
-          <input type="hidden" name="customer_type" value="tamm">
+          <input type="hidden" name="customer_type" value="{{ $instance::$SUBSCRIBE_TAMMM_MODEL_KEY }}">
 
             <div class="ginput_container ginput_container_checkbox">
                 <legend class="gsection_title">نوع الطلب</legend>

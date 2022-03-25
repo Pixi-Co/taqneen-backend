@@ -62,14 +62,19 @@ class ReportController extends Controller
         )
             ->where('business_id', session('business.id'));
 
+        if (request()->user_id > 0) {
+            $query->where('users.id', request()->user_id);
+        } 
+
 
         $resources = $query->get();
 
         //dd($opportunities->toArray());
         $ops = Contact::where('business_id', session('business.id'))->where('type', 'opportunity')->get();
         $services = Category::where('business_id', session('business.id'))->where('category_type', 'service')->get();
+        $users = User::forDropdown(session('business_id'));
 
-        return view('taqneen.reports.sales_commision_reportes', compact('resources', 'services'));
+        return view('taqneen.reports.sales_commision_reportes', compact('resources', 'services', 'users'));
     }
 
 

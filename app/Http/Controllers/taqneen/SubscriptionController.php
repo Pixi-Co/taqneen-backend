@@ -120,10 +120,28 @@ class SubscriptionController extends Controller
                 return $row->service_names;
                 //return implode(", ", $row->subscription_lines()->select('*', DB::raw('(select name from categories where categories.id = service_id) as service'))->pluck('service')->toArray());
             })
+            ->addColumn('status', function ($row) {
+                $html = "";
+
+                if ($row->status == Subscription::$ACTIVE)
+                    $html = "<span class='label w3-green' >".__(Subscription::$ACTIVE)."</span>";
+                else if ($row->status == Subscription::$CANCEL)
+                    $html = "<span class='label w3-red' >".__(Subscription::$CANCEL)."</span>";
+                else if ($row->status == Subscription::$PAY_PENDING)
+                    $html = "<span class='label w3-orange' >".__(Subscription::$PAY_PENDING)."</span>";
+                else if ($row->status == Subscription::$PROCESSING)
+                    $html = "<span class='label w3-indigo' >".__(Subscription::$PROCESSING)."</span>";
+                else if ($row->status == Subscription::$WAITING)
+                    $html = "<span class='label w3-yellow' >".__(Subscription::$WAITING)."</span>";
+                else
+                    $html = "<span class='label w3-gray' >-</span>";
+                
+                return $html;
+            }) 
             ->addColumn('share', function ($row) {
                 return view('layouts.partials.share', ["phone" => optional($row->contact)->mobile, "email" => optional($row->contact)->email]);
             })
-            ->rawColumns(['action', 'share'])
+            ->rawColumns(['action', 'share', 'status'])
             ->make(true);
     }
 
@@ -300,7 +318,7 @@ class SubscriptionController extends Controller
             "created_by" => session('user.id'),
             "amount" => $newSubscription->final_total,
             "method" => $request->method,
-            "paid_on" => $payment->paid_on,
+            "paid_on" => $request->pay_date,
         ]);
 
         $resource = Subscription::find($id);

@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class Subscription extends Transaction
-{
+{ 
     
+    public static $WAITING = "waiting";
+    public static $PROCESSING = "processing";
+    public static $PAY_PENDING = "pay_pending";
+    public static $ACTIVE = "active";
+    public static $CANCEL = "cancel";
     //protected $appends = ['expire_date'];
 
     public function getExpireDate() {
