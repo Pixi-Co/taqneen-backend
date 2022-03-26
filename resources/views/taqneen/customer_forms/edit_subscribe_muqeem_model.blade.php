@@ -274,7 +274,7 @@ input[type=submit]:hover{
 
 <script>
     var date = $('.fc-datepicker').datepicker({
-        dateFormat: 'yy-mm-dd'
+        dateFormat: 'yyyy mm dd'
     }).val();
 </script>
 

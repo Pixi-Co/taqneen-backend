@@ -321,11 +321,11 @@ input[type=submit]:hover{
                         </label> 
                         <div class="gfield_checkbox" id="input_1_4">
                             <div class="gchoice" style="display: inline;">
-                                <input class="gfield-choice-input" name="form[lang_ar]" type="checkbox" value="العربية" checked="checked" id="lang_ar">
+                                <input class="gfield-choice-input" name="form[lang]" type="checkbox" value="العربية" checked="checked" id="lang_ar">
                                 <label for="choice" >العربية</label>
                             </div>
                             <div class="gchoice " style="display: inline;">
-                                <input class="gfield-choice-input" name="form[lang_en]" type="checkbox" value="الإنجليزية" id="lang_en">
+                                <input class="gfield-choice-input" name="form[lang]" type="checkbox" value="الإنجليزية" id="lang_en">
                                 <label for="choice" >الإنجليزية</label>
                             </div>
                         </div>
