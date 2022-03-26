@@ -8,6 +8,7 @@ class CustomerForm extends Model
 {
     public static $SUBSCRIBE_TAMMM_MODEL_KEY = "subscribe_tamm_model";
     public static $SUBSCRIBE_SHOMOOS_MODEL_KEY = "subscribe_shomoos_model";
+    public static $SUBSCRIBE_NABA_MODEL_KEY = "subscribe_naba_model";
 
 
 

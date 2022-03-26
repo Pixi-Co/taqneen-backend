@@ -93,7 +93,7 @@ input[type=submit]:hover{
         <form class="form-group" action="{{ route('createcustomernaba.store') }}" method="post" enctype="multipart/form-data">
            @csrf
           @method('post')
-            <input type="hidden" name="customer_type" value="naba">
+            <input type="hidden" name="customer_type" value="{{ $instance::$SUBSCRIBE_NABA_MODEL_KEY }}">
             <div class="ginput_container ginput_container_checkbox">
                 <legend class="gsection_title">الباقة </legend>
                 <div class="gfield_checkbox" id="input_1_4">
@@ -158,7 +158,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[owner_name]" type="text" value="" id="enterprise_phone" required>
+                        <input class="form-control" name="form[owner_phone]" type="text" value="" id="enterprise_phone" required>
                     </div>
                     <div class="col-md-4 " >
                         <label class="gfield_label pb-1" for="">موقع الشركة الالكتروني :
@@ -449,7 +449,7 @@ input[type=submit]:hover{
 
 <script>
     var date = $('.fc-datepicker').datepicker({
-        dateFormat: 'yy-mm-dd'
+        dateFormat: 'yyyy mm dd'
     }).val();
 </script>
 

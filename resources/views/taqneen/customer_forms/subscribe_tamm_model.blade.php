@@ -103,7 +103,7 @@ input[type=submit]:hover{
                         <label for="choice" >جديد</label>
                     </div>
                     <div class="gchoice " style="display: inline;">
-                        <input class="gfield-choice-input" name="form[choice_renewal]" type="checkbox" value="تجديد" id="choice_renewal">
+                        <input class="gfield-choice-input" name="form[choice_new]" type="checkbox" value="تجديد" id="choice_renewal">
                         <label for="choice" >تجديد</label>
                     </div>
                 </div>
@@ -196,7 +196,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[enterprise_phone]" type="text" value="" id="phone" required>
+                        <input class="form-control" name="form[owner_phone2]" type="text" value="" id="phone" required>
                     </div>
                     <div class="col-md-4 " >
                         <label class="gfield_label pb-1" for="">ص.ب
@@ -458,7 +458,7 @@ input[type=submit]:hover{
 
 <script>
     var date = $('.fc-datepicker').datepicker({
-        dateFormat: 'yy-mm-dd'
+        dateFormat: 'yyyy mm dd'
     }).val();
 </script>
 

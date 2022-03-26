@@ -44,7 +44,7 @@ class CustomerFormController extends Controller
             $resource = new CustomerForm();
 
         $data = json_decode($resource->value);
-
+        
         return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
     }
 }
