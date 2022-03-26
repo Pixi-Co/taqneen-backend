@@ -17,7 +17,7 @@
 
     <!-- row 2 -->
     <div  class="pdf-data w3-display-topright w3-center" style="top: 5.65cm;right: 16.4cm;" >
-        <p>{{ $data->activity_type }}</p>
+        <span>{{ $data->activity_type }}</span>
     </div>
 
     <div  class="pdf-data w3-display-topright w3-center" style="top: 6.65cm;right: 4.5cm;" >
@@ -42,7 +42,7 @@
     </div>
 
     <div  class="pdf-data w3-display-topright w3-center" style="top: 7.45cm;right: 16.5cm;" >
-        <h5>{{ $data->street_name }}</h5>
+        <span>{{ $data->street_name }}</span>
     </div>
 
     <!-- row 4 -->
@@ -60,7 +60,7 @@
 
     <!-- row 5 -->
     <div  class="pdf-data w3-display-topright w3-center" style="top: 9.30cm;right: 4.5cm;" >
-        <p>{{ $data->enterprise_email }}</p>
+        <span>{{ $data->enterprise_email }}</span>
     </div>
 
     <div  class="pdf-data w3-display-topright w3-center" style="top: 9.30cm;right: 11.6cm;" >
@@ -92,7 +92,7 @@
    
      <!-- row 8 -->
      <div  class="pdf-data w3-display-topright w3-center" style="top: 11.9cm;right: 4.5cm;" >
-        <h5>{{ $data->user_email }}</h5>
+        <span>{{ $data->user_email }}</span>
     </div>
 
     <div  class="pdf-data w3-display-topright w3-center" style="top: 11.9cm;right: 16.5cm;" >

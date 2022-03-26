@@ -93,7 +93,7 @@ input[type=submit]:hover{
         <form class="form-group" action="{{ route('createCustomerMuqeem.store') }}" method="post" enctype="multipart/form-data">
            @csrf
           @method('post')
-            <input type="hidden" name="customer_type" value="muqeem">
+            <input type="hidden" name="customer_type" value="{{ $instance::$SUBSCRIBE_MUQEEM_MODEL_KEY }}">
 
             <div class="ginput_container ginput_container_checkbox">
                 <legend class="gsection_title">فئة الاشتراك</legend>
@@ -232,7 +232,7 @@ input[type=submit]:hover{
                                 </span>
                             </label> 
                             <div class="col-sm-10">
-                                <input name="form[release_date]" id="release_date" type="text" value="" class="form-control  fc-datepicker" placeholder="yyyy/mm/dd" >
+                                <input name="form[release_date]" id="release_date" type="text" value="" class="form-control  fc-datepicker" placeholder="yyyy/mm/dd" autocomplete="off">
                             </div>
                             <div class="col-sm-2 pt-1">
                                 <img class="ui-datepicker-trigger" src="https://taqneen.com/wp-content/plugins/gravityforms/images/datepicker/datepicker.svg" alt="" title="">
@@ -367,7 +367,7 @@ input[type=submit]:hover{
 
 <script>
     var date = $('.fc-datepicker').datepicker({
-        dateFormat: 'yy-mm-dd'
+        dateFormat: 'yyyy mm dd'
     }).val();
 </script>
 

@@ -15,18 +15,21 @@
 
     <!-- ////////////////////////////الباقة/////////////////////////////////////// -->
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top:3.2cm;right: 3.2cm;" >
-
-        <img src="{{ url('assets/images/naba-pdf/check.png') }}" class="" alt="" style="width: 10px;">
-    </div>
-
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 3.2cm;right: 5.0cm;" >
-        <img src="{{ url('assets/images/naba-pdf/check.png') }}" class="" alt="" style="width: 10px;">
-    </div>
-
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 3.2cm;right: 7.1cm;" >
-        <img src="{{ url('assets/images/naba-pdf/check.png') }}" class="" alt="" style="width: 10px;">
-    </div>
+    @if ($data->portal_naba == 'بوابة نبأ')
+        <div  class="pdf-data w3-display-topright w3-center" style="top:3.3cm;right: 3.2cm;" >
+            <img src="{{ url('assets/images/naba-pdf/check.png') }}" class="" alt="" style="width: 10px;">
+        </div>
+    @elseif ($data->portal_naba == 'نبأ المباشرة')
+        <div  class="pdf-data w3-display-topright w3-center" style="top: 3.3cm;right: 5.1cm;" >
+            <img src="{{ url('assets/images/naba-pdf/check.png') }}" class="" alt="" style="width: 10px;">
+        </div>
+    @else
+        <div  class="pdf-data w3-display-topright w3-center" style="top: 3.3cm;right: 7.2cm;" >
+            <img src="{{ url('assets/images/naba-pdf/check.png') }}" class="" alt="" style="width: 10px;">
+        </div>   
+    @endif
+    
+   
     <!-- ////////////////////////////////بيانات المنشأة/////////////////////////////////// -->
     
     <!-- Row 1  -->
@@ -67,9 +70,14 @@
         <b>{{ $data->company_website }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 6.65cm;right: 13.8cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 6.85cm;right: 13.8cm;" >
         <div style="float:left;text-align: center;direction: ltr" >
-            <h2>{{trim(chunk_split($data->commercial_number, 1, ' '))  }}</h2>
+            @for($i = 0; $i < strlen($data->commercial_number); $i ++)
+            <span style="float: left;width: 0.51cm;font-size: 15px" >
+                {{ substr($data->commercial_number, $i, 1) }}
+            </span>
+            @endfor 
+            {{-- <h2>{{trim(chunk_split($data->commercial_number, 1, ' '))  }}</h2> --}}
         </div>
     </div>
 
@@ -115,9 +123,13 @@
         <b>{{ $data->leader_name }}</b>
     </div>
 
-    <div class="pdf-data w3-display-topright company_num" style="top: 9.45cm;right: 11.1cm; direction:ltr">
+    <div class="pdf-data w3-display-topright company_num" style="top: 9.55cm;right: 11.1cm; direction:ltr">
         <div style="float:left;text-align: center" >
-            <h2>{{ trim(chunk_split($data->leader_idenitiy,1,' ')) }}</h2>
+            @for($i = 0; $i < strlen($data->leader_idenitiy); $i ++)
+            <span style="float: left;width: 0.78cm;font-size: 16px" >
+                {{ substr($data->leader_idenitiy, $i, 1) }}
+            </span>
+            @endfor 
         </div>
     </div>
 
@@ -145,7 +157,11 @@
 
     <div class="pdf-data w3-display-topright company_num" style="top: 11.89cm;right: 10.98cm;" >
         <div style="float:left;text-align: center;direction: ltr;" >
-            <h3>{{ trim(chunk_split($data->user_idenitiy,1,' ')) }}</h3>
+            @for($i = 0; $i < strlen($data->user_idenitiy); $i ++)
+            <span style="float: left;width: 0.78cm;font-size: 16px" >
+                {{ substr($data->user_idenitiy, $i, 1) }}
+            </span>
+            @endfor 
         </div>
     </div>
 
@@ -170,9 +186,13 @@
         <b>{{ $data->sub_represent_name }}</b>
     </div>
 
-    <div class="pdf-data w3-display-topright company_num" style="top: 14.95cm;right: 12.3cm;" >
+    <div class="pdf-data w3-display-topright company_num" style="top: 14.95cm;right: 12.0cm;" >
         <div style="float:left;text-align: center;direction: ltr" >
-            <h3>{{ trim(chunk_split($data->sub_represent_idenitiy,1,' ')) }}</h3>
+            @for($i = 0; $i < strlen($data->sub_represent_idenitiy); $i ++)
+            <span style="float: left;width: 0.6cm;font-size: 16px" >
+                {{ substr($data->sub_represent_idenitiy, $i, 1) }}
+            </span>
+            @endfor 
         </div>
     </div>
 
@@ -211,27 +231,27 @@
     <!-- /////////////////////////ملحق نموزج المفوضين////////////////////////////////////////// -->
     
     <div  class="pdf-data w3-display-topright w3-center" style="top: 118.35cm;right: 11.0cm;" >
-        <b>{{ $data->pc_num }}</b>
+        <b></b>
     </div>
    
     <div  class="pdf-data w3-display-topright w3-center" style="top: 125.50cm;right: 2.0cm;" >
-        <b>{{ $data->pc_num }}</b>
+        <b></b>
     </div>
 
     <div  class="pdf-data w3-display-topright w3-center" style="top: 125.50cm;right: 5.3cm;" >
-        <b>{{ $data->pc_num }}</b>
+        <b></b>
     </div>
 
     <div  class="pdf-data w3-display-topright w3-center" style="top: 125.50cm;right: 8.7cm;" >
-        <b>{{ $data->pc_num }}</b>
+        <b></b>
     </div>
 
     <div  class="pdf-data w3-display-topright w3-center" style="top: 125.50cm;right: 11.8cm;" >
-        <b>{{ $data->pc_num }}</b>
+        <b></b>
     </div>
 
     <div  class="pdf-data w3-display-topright w3-center" style="top: 125.50cm;right: 15.7cm;" >
-        <b>{{ $data->pc_num }}</b>
+        <b></b>
     </div>
     <!-- /////////////////////////////////////////////////////////////////// -->
     <img src="{{ url('assets/images/naba-pdf/page5.png') }}" class="pdf_image " alt="">

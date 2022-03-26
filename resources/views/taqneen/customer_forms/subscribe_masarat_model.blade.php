@@ -94,7 +94,7 @@ input[type=submit]:hover{
            @csrf
           @method('post')
             <div class="ginput_container ">
-                <input type="hidden" name="customer_type" value="masarat">
+                <input type="hidden" name="customer_type" value="{{ $instance::$SUBSCRIBE_MASARAT_MODEL_KEY }}">
                 <h4 class="gsection_title">بيانات المنشأة</h4>
                 <div class="row" >
                     <div class="col-md-3" >
@@ -122,7 +122,7 @@ input[type=submit]:hover{
                                 </span>
                             </label> 
                             <div class="col-sm-10">
-                                <input name="form[release_date]" id="release_date" type="text" value="" class="form-control  fc-datepicker" placeholder="yyyy/mm/dd" >
+                                <input name="form[release_date]" id="release_date" type="text" value="" class="form-control  fc-datepicker" placeholder="yyyy/mm/dd" autocomplete="off" >
                             </div>
                             <div class="col-sm-2 pt-1">
                                 <img class="ui-datepicker-trigger" src="https://taqneen.com/wp-content/plugins/gravityforms/images/datepicker/datepicker.svg" alt="" title="">
@@ -141,7 +141,7 @@ input[type=submit]:hover{
                                 </span>
                             </label> 
                             <div class="col-sm-10">
-                                <input name="form[end_date]" id="end_date" type="text" value="" class="form-control  fc-datepicker" placeholder="yyyy/mm/dd" >
+                                <input name="form[end_date]" id="end_date" type="text" value="" class="form-control  fc-datepicker" placeholder="yyyy/mm/dd" autocomplete="off" >
                             </div>
                             <div class="col-sm-2 pt-1">
                                 <img class="ui-datepicker-trigger" src="https://taqneen.com/wp-content/plugins/gravityforms/images/datepicker/datepicker.svg" alt="" title="">
@@ -298,11 +298,11 @@ input[type=submit]:hover{
                                     <label for="choice_4_154_1" id="label_4_154_1">خدمة إدارة تأجير المركبات</label>
                                 </div>
                                 <div class="gchoice gchoice_4_154_2">
-                                    <input class="gfield-choice-input" name="form[select_service2]" type="checkbox" value="خدمة إدارة الصيانة والتشغيل للمركبات" id="select_service2">
+                                    <input class="gfield-choice-input" name="form[select_service]" type="checkbox" value="خدمة إدارة الصيانة والتشغيل للمركبات" id="select_service2">
                                     <label for="choice_4_154_2" id="label_4_154_2">خدمة إدارة الصيانة والتشغيل للمركبات</label>
                                 </div>
                                 <div class="gchoice gchoice_4_154_3">
-                                    <input class="gfield-choice-input" name="form[select_service3]" type="checkbox" value="خدمة تتبع المركبات شاملة إدارة الصيانة والتشغيل" id="select_service3">
+                                    <input class="gfield-choice-input" name="form[select_service]" type="checkbox" value="خدمة تتبع المركبات شاملة إدارة الصيانة والتشغيل" id="select_service3">
                                     <label for="choice_4_154_3" id="label_4_154_3">خدمة تتبع المركبات شاملة إدارة الصيانة والتشغيل</label>
                                 </div>
                             </div>
@@ -346,7 +346,7 @@ input[type=submit]:hover{
 
 <script>
     var date = $('.fc-datepicker').datepicker({
-        dateFormat: 'yy-mm-dd'
+        dateFormat: 'yyyy mm dd'
     }).val();
 </script>
 

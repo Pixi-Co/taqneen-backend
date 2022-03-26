@@ -102,11 +102,11 @@ input[type=submit]:hover{
                         <label for="choice" >بوابة نبأ</label>
                     </div>
                     <div class="gchoice " style="display: inline;">
-                        <input class="gfield-choice-input" name="form[naba_live]" type="checkbox" value="نبأ المباشرة" id="naba_live">
+                        <input class="gfield-choice-input" name="form[portal_naba]" type="checkbox" value="نبأ المباشرة" id="naba_live">
                         <label for="choice" >نبأ المباشرة</label>
                     </div>
                     <div class="gchoice " style="display: inline;">
-                        <input class="gfield-choice-input" name="form[naba_main]" type="checkbox" value=" نبأ الأساسية" id="naba_main">
+                        <input class="gfield-choice-input" name="form[portal_naba]" type="checkbox" value=" نبأ الأساسية" id="naba_main">
                         <label for="choice" > نبأ الأساسية</label>
                     </div>
                 </div>
