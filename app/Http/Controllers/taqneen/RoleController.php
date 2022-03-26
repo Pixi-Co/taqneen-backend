@@ -19,11 +19,12 @@ class RoleController extends Controller
         return view('taqneen.roles.index',compact('roles'));
     }
 
-    public function create(){
+    public function create() {
         $role = new Role();
-        $permission = Permission::orderBy('name')->get();
+        $groups = Permission::select('group')->distinct('group')->pluck('group')->toArray();
+        $permission = Permission::class;
         
-        return view('taqneen.roles.form',compact('role','permission'));
+        return view('taqneen.roles.form',compact('role','permission', 'groups'));
     }
 
 
@@ -57,13 +58,13 @@ class RoleController extends Controller
 
     }
 
-    public function edit($id){
-
-        $role = Role::find($id);
-        $permission = Permission::orderBy('name')->get();
+    public function edit($id){ 
+        $role = Role::find($id); 
         $rolePermissions  = $role->permissions->pluck('name');
+        $groups = Permission::select('group')->distinct('group')->pluck('group')->toArray();
+        $permission = Permission::class;
        // dd($rolePermissions,$role);
-        return view('taqneen.roles.form',compact('role','permission','rolePermissions'));
+        return view('taqneen.roles.form',compact('role','permission','rolePermissions', 'groups'));
     }
 
     public function update(Request $request, $id){

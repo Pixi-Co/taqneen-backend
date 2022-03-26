@@ -85,6 +85,11 @@
                                                 <b>@trans('publish date ') *</b>
                                                 <input type="date" name="dob" class="form-control" placeholder="@trans('publish data ')" value="{{ $opportunity->dob }}" required>
                                             </div>
+                                            
+                                            <div class="form-group col-md-4 pt-3">
+                                                <b>@trans('user')</b>
+                                                {!! Form::select("created_by", $users, $opportunity->created_by, ["class" => "form-select"]) !!} 
+                                            </div>
                     
                                         
                                         </div>

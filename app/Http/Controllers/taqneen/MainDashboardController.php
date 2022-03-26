@@ -113,7 +113,13 @@ class MainDashboardController extends Controller
         $totalExepnses  = Transaction::where('business_id', session('business.id'))->where('created_by',session('user.id'))->sum('custom_field_2');
         
         // get all opportunities
-        $opportunities = Contact::where('type','opportunity')->where('business_id', session('business.id'))->where('converted_by',session('user.id'))->latest()->get();
+        $opportunities = Contact::where('type','opportunity')
+            ->where('business_id', session('business.id'))
+            ->whereNull('converted_by')
+            ->orWhere('created_by',session('user.id'))
+            ->latest()
+            ->get();
+        
         $opportunitiesTotal = Contact::where('type', 'opportunity')->where('business_id', session('business.id'))->where('converted_by',session('user.id'))->count();
 
         $data = [

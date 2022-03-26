@@ -26,6 +26,7 @@
 
     @include('taqneen.layouts.css')
     @yield('style')
+    @yield('css')
   </head>
   <body @if(Route::current()->getName() == 'index') onload="startTime()" @endif>
     @if(Route::current()->getName() == 'index')

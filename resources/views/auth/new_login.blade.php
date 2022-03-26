@@ -87,16 +87,16 @@
                                         alt="looginpage"></a></div>
                             <div class="login-main">
                                 <form class="theme-form">
-                                    <h4>@trans('Sign in to account')</h4>
-                                    <p>@trans('Enter your email & password to login')</p>
+                                    <h4>{{ __('Sign in to account') }}</h4>
+                                    <p>{{ __('Enter your email & password to login') }}</p>
                                     <div class="form-group">
-                                        <label class="col-form-label">@trans('Email Address Or Username')</label>
+                                        <label class="col-form-label">{{ __('Email Address Or Username') }}</label>
                                         <input class="form-control" type="text" required="" name="username"
                                             placeholder="Test@gmail.com">
                                         <strong class="text-danger">{{ $errors->first('username') }}</strong>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-form-label">@trans('Password')</label>
+                                        <label class="col-form-label">{{ __('Password') }}</label>
                                         <input class="form-control password" type="password" name="password" required=""
                                             placeholder="">
                                         <strong class="text-danger" >{{ $errors->first('password') }}</strong>
@@ -107,10 +107,10 @@
                                     <div class="form-group mb-0">
                                         <div class="checkbox p-0">
                                             <input id="checkbox1" type="checkbox">
-                                            <label class="text-muted" for="checkbox1">@trans('Remember password')</label>
+                                            <label class="text-muted" for="checkbox1">{{ __('Remember password') }}</label>
                                         </div>
-                                        <a class="link" href="{{ url('/forget-password') }}">@trans('Forgot password?')</a>
-                                        <button class="btn btn-primary btn-block" type="submit">@trans('Sign in')</button>
+                                        <a class="link" href="{{ url('/forget-password') }}">{{ __('Forgot password?') }}</a>
+                                        <button class="btn btn-primary btn-block" type="submit">{{ __('Sign in') }}</button>
                                     </div> 
                                     <div class="social mt-4 hidden">
                                         

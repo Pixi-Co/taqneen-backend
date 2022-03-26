@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Imports\OpportunitImport;
 use App\ServicePackage;
+use App\User;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -30,7 +31,8 @@ class OpportunitController extends Controller
         $opportunity = new Contact();
         $services = Category::forDropdown(session('user.business_id'), "service"); 
         $packages = ServicePackage::where('business_id', session('user.business_id'))->pluck("name", "id")->toArray(); 
-        return view('taqneen.opportunities.form',compact('opportunity','services','packages'));
+        $users = User::forDropdown(session('business.id'));
+        return view('taqneen.opportunities.form',compact('opportunity','services','packages', 'users'));
     }//end create
 
 
@@ -38,7 +40,8 @@ class OpportunitController extends Controller
         $opportunity = Contact::find($id);
         $services = Category::forDropdown(session('user.business_id'), "service"); 
         $packages = ServicePackage::where('business_id', session('user.business_id'))->pluck("name", "id")->toArray();
-        return view('taqneen.opportunities.form',compact('opportunity','services','packages'));
+        $users = User::forDropdown(session('business.id'));
+        return view('taqneen.opportunities.form',compact('opportunity','services','packages', 'users'));
 
     }
 

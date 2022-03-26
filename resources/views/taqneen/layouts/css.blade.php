@@ -30,6 +30,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('css/iziToast.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/fullcalendar.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/daterangepicker.css')}}"> 
+<link rel="stylesheet" type="text/css" href="{{asset('css/print.min.css')}}"> 
 <style>
     * FullCalendar v3.10.2
     * Docs & License: https://fullcalendar.io/
@@ -55,6 +56,37 @@
 
     #sidebar-menu {
         height: calc(100vh - 146px)!important;
+    }
+
+    button:not(:disabled), [type="button"]:not(:disabled), [type="reset"]:not(:disabled), [type="submit"]:not(:disabled),
+    .btn-primary:hover, .btn-primary,
+    .btn-check:checked+.btn-primary, .btn-check:active+.btn-primary, .btn-primary:active, .btn-primary.active, .show>.btn-primary.dropdown-toggle
+     {
+        background-color: #104470!important;
+        border-color: #104470!important; 
+        color: white;
+    }
+
+    .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content>li:hover .sidebar-link:not(.active):hover span, .page-wrapper .page-body-wrapper .page-title .breadcrumb .breadcrumb-item a {
+        color: #104470!important;
+    }
+
+    .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content>li.sidebar-list:hover>a:hover {
+        background-color: #10437057!important;
+    }
+
+    .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content>li .sidebar-link.active span, 
+    .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content>li .sidebar-link.active svg, 
+    .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content>li .sidebar-link.active .according-menu i {
+        color: #104470!important;
+    }
+
+    .badge-secondary, .w3-deep-orange {
+        background-color: #d35a25!important;
+    }
+
+    .customizer-links {
+        display: none;
     }
 </style>
 

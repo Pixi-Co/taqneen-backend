@@ -42,6 +42,10 @@ class EmailTemplate extends Model
         return $resource? $resource : new EmailTemplate(); 
     }
 
+    public static function getEmailOfCourier(Subscription $subscription) {
+        return optional($subscription->user)->email;
+    }
+
     public static function getEmail($triger, Subscription $subscription) {
         $resource = self::getTemplate($triger);
         $body = $resource->email_body;
@@ -49,6 +53,10 @@ class EmailTemplate extends Model
         $emailList = explode(",", $cc);
         $emailList[] = optional($subscription->contact)->email;
         $emails = [];
+
+        if (self::getEmailOfCourier($subscription)) {
+            $emailList[] = self::getEmailOfCourier($subscription);
+        }
 
         foreach(self::$TAGS as $key => $value) {
             $body = str_replace($key, $subscription->getTagValue($value), $body);
