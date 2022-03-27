@@ -1,45 +1,44 @@
-@extends('taqneen.layouts.master')
-@section('title', 'Invoice')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>>@trans('view')</title>
+    @include("taqneen.layouts.css")
 
-@section('css')
-@endsection
 
-@section('style')
-
-@endsection
-
-@section('breadcrumb-title')
-    <h3>@trans('view')</h3>
-@endsection
-
-@section('breadcrumb-items')
-    <li class="breadcrumb-item">@trans('subscriptions')</li>
-    <li class="breadcrumb-item active">@trans('view')</li>
-@endsection
-
-@section('content')
+    <style>
+        * {
+            direction: rtl;
+        }
+    </style>
+</head>
+<body>
+ 
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <div class="card">
+                <div class="">
                     <div class="card-body">
                         <div class="invoice" id="invoice">
                             <div>
                                 <div>
                                     <div class="row">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 w3-col s6 l6 m6">
                                             <div class="media">
                                                 <div class="media-left"><img class="media-object img-60"
                                                         src="{{ asset('assets/images/other-images/logo.png') }}" alt="">
                                                 </div>
                                                 <div class="media-body m-l-20 text-right">
+                                                    <img src="{{ url('/images/logo.png') }}" width="100px" alt="">
                                                     <h4 class="media-heading">الشركة الوطنية </h4>
                                                     <p>hello@elwatnia.in<br><span>286503</span></p>
                                                 </div>
                                             </div>
                                             <!-- End Info-->
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 w3-col s6 l6 m6">
                                             <div class="text-md-end text-xs-center">
                                                 <h3>@trans('price show no') <span
                                                         class="counter">{{ $resource->id }}</span>#</h3>
@@ -113,10 +112,7 @@
                                                 <p class="legal"><strong>شكرا لحسن تعاونكم معنا</p>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12 text-center mt-0 ">
-                                            <a href="{{ url('/subscriptions/print') }}/{{ $resource->invoice_token }}" class="btn btn btn-primary me-2" type="button"
-                                               >طباعة</a>
-                                            <button class="btn btn-secondary" type="button">الغاء</button>
+                                        <div class="col-sm-12 text-center mt-0 "> 
                                         </div>
                                     </div>
                                 </div>
@@ -131,22 +127,15 @@
                 </div>
             </div>
         </div>
-    </div>
-@endsection
+    </div>   
+</body>
 
-@section('script')
-    <script src="{{ asset('assets/js/counter/jquery.waypoints.min.js') }}"></script>
-    <script src="{{ asset('assets/js/counter/jquery.counterup.min.js') }}"></script>
-    <script src="{{ asset('assets/js/counter/counter-custom.js') }}"></script>
-    <script src="{{ asset('/js/print.min.js') }}"></script>
+@include("taqneen.layouts.script")
 
-    <script>
-        function printSub() {
-            printJS({
-                printable: 'invoice',
-                type: 'html',
-                css: ['{{ asset('assets/css/style.css') }}', '{{ asset('assets/css/vendors/bootstrap.css') }}']
-            });
-        }
-    </script>
-@endsection
+<script>
+    $(document).ready(function(){
+        window.print();
+    });
+</script>
+</html>
+ 

@@ -53,7 +53,7 @@
                                                         <th>@trans('code')</th>
                                                         <th>@trans('name')</th>
                                                         <th>@trans('description')</th>
-                                                        <th>@trans('parent service')</th>
+                                                        <th>@trans('parent_service')</th>
                                                         <th>@trans('created_by')</th>
                                                         <th>@trans('actions')</th>
                                                     </tr>
@@ -83,7 +83,7 @@
                                                         <th>#</th>
                                                         <th>@trans('name')</th>
                                                         <th>@trans('description')</th>
-                                                        <th>@trans('parent service')</th>
+                                                        <th>@trans('parent_service')</th>
                                                         <th>@trans('created_by')</th>
                                                         <th>@trans('actions')</th>
                                                     </tr>

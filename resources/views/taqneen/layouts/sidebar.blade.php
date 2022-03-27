@@ -190,10 +190,10 @@
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('packages')}}" >@trans('packages')</a></li> 
 							@endcan
                             @can(find_or_create_p('setting.expense'))
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('categories')}}" >@trans('Categories')</a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('categories')}}" >@trans('lang.categories')</a></li>
 							@endcan
                             @can(find_or_create_p('setting.tax'))
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('taxs')}}" >@trans('Taxs')</a></li> 
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('taxs')}}" >@trans('taxs section')</a></li> 
 							@endcan
                             @can(find_or_create_p('setting.role'))
                             <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('role')}}" >@trans('roles')</a></li> 

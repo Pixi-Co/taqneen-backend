@@ -14,7 +14,16 @@ class Subscription extends Transaction
     public static $PAY_PENDING = "pay_pending";
     public static $ACTIVE = "active";
     public static $CANCEL = "cancel";
-    //protected $appends = ['expire_date'];
+    protected $appends = ['token'];
+
+    public function getTokenAttribute() {
+        if (!$this->invoice_token) {
+            $this->invoice_token = randToken();
+            $this->update();
+        }
+
+        return $this->invoice_token;
+    }
 
     public function getExpireDate() {
         $Transdate = $this->transaction_date;

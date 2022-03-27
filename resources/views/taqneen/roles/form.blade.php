@@ -64,18 +64,24 @@
                                             <div class="form-group">
                                                 <strong>الصلاحيات:</strong>
                                                 <br /><br>
-                                                <label for=""><input type="checkbox" class="cheack" id="cheack"> @trans(' select all')   </label>
+                                                <label for=""><input type="checkbox" class="cheack w3-check" id="cheack"> @trans(' select all')   </label>
                                                 <br><br><br>
-                                                @foreach ($permission as $value)
+                                                @foreach ($groups as $item)
+                                                <h3>@trans($item)</h3>
+                                                @foreach ($permission::orderBy('name')->where('group', $item)->get() as $value)
                                                 @php
                                                     $checked = $role->hasPermissionTo($value->name)? 'checked' : '';
                                                 @endphp
                                                     <label>
-                                                        {{ Form::checkbox('permission[]', $value->name, false, ['class' => 'name', $checked]) }}
+                                                        {{ Form::checkbox('permission[]', $value->name, false, ['class' => 'w3-check name', $checked]) }}
                                                         @trans($value->name)
-                                                    </label>
+                                                    </label> 
                                                     <br />
+                                                @endforeach  
+                                                <hr>
+                                                <br />
                                                 @endforeach
+                                                
                                             </div>
                                         </div>
                                         

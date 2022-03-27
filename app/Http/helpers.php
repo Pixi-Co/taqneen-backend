@@ -617,7 +617,7 @@ if (!function_exists('__')) {
             $userLang = "ar";
 
             // default business
-            $business = 19;
+            $business = 1;
 
             if (auth()->user()) {
                 $userLang = auth()->user()->language;

@@ -160,7 +160,7 @@
 
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <label class="my-2" for="user_id">@trans("taxs")</label>
+                                                        <label class="my-2" for="user_id">@trans("taxs section")</label>
                                                         <select class="form-select" name="tax_id" id="tax_id"
                                                             v-model="resource.tax_id" onchange="subscription.changeTax()">
                                                             <option value="">@trans('select tax')</option>
@@ -172,8 +172,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label class="my-2" for="user_id">@trans("taxs
-                                                            amount")</label>
+                                                        <label class="my-2" for="user_id">@trans("taxs amount")</label>
                                                         <input type="text" name="tax_amount" class="form-control" readonly
                                                             v-model="resource.tax_amount">
                                                     </div>
@@ -304,12 +303,12 @@
                                                                 v-model="resource.contact.mobile">
                                                         </div>
                                                         <div class="col-md-12 mt-3">
-                                                            <label class="labels">@trans('email')</label>
+                                                            <label class="labels">@trans('email ')</label>
                                                             <input type="text" class="form-control" readonly
                                                                 v-model="resource.contact.email">
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="labels">@trans('state')</label>
+                                                            <label class="labels">@trans('state ')</label>
                                                             <input type="text" class="form-control" readonly
                                                                 v-model="resource.contact.state">
                                                         </div>
@@ -318,11 +317,14 @@
                                                             <input type="text" class="form-control" readonly
                                                                 v-model="resource.contact.city">
                                                         </div>
-                                                        <div class="col-md-12 mt-3">
+
+                                                        <!--
+                                                        <div class="col-md- mt-3 hidden">
                                                             <label class="labels">@trans('address')</label>
                                                             <input type="text" class="form-control" readonly
                                                                 v-model="resource.contact.address_line_1">
                                                         </div>
+                                                    -->
                                                         <div class="col-md-12 mt-3">
                                                             <label class="labels">@trans('appartment_no')</label>
                                                             <input type="text" class="form-control" readonly

@@ -124,17 +124,17 @@ class SubscriptionController extends Controller
                 $html = "";
 
                 if ($row->status == Subscription::$ACTIVE)
-                    $html = "<span class='label w3-green' >".__(Subscription::$ACTIVE)."</span>";
+                    $html = "<span class='badge w3-green' >".__(Subscription::$ACTIVE)."</span>";
                 else if ($row->status == Subscription::$CANCEL)
-                    $html = "<span class='label w3-red' >".__(Subscription::$CANCEL)."</span>";
+                    $html = "<span class='badge w3-red' >".__(Subscription::$CANCEL)."</span>";
                 else if ($row->status == Subscription::$PAY_PENDING)
-                    $html = "<span class='label w3-orange' >".__(Subscription::$PAY_PENDING)."</span>";
+                    $html = "<span class='badge w3-orange' >".__(Subscription::$PAY_PENDING)."</span>";
                 else if ($row->status == Subscription::$PROCESSING)
-                    $html = "<span class='label w3-indigo' >".__(Subscription::$PROCESSING)."</span>";
+                    $html = "<span class='badge w3-indigo' >".__(Subscription::$PROCESSING)."</span>";
                 else if ($row->status == Subscription::$WAITING)
-                    $html = "<span class='label w3-yellow' >".__(Subscription::$WAITING)."</span>";
+                    $html = "<span class='badge w3-yellow' >".__(Subscription::$WAITING)."</span>";
                 else
-                    $html = "<span class='label w3-gray' >-</span>";
+                    $html = "<span class='badge w3-gray' >-</span>";
                 
                 return $html;
             }) 
@@ -150,6 +150,16 @@ class SubscriptionController extends Controller
     { 
         $resource = Subscription::find($id); 
         return view('taqneen.subscription.view', compact("resource"));
+    }
+
+
+    public function print($id)
+    { 
+        $resource = Subscription::where("invoice_token", $id)->first(); 
+        if (!$resource)
+            return back();
+
+        return view('taqneen.subscription.print', compact("resource"));
     }
 
     public function create()
@@ -281,7 +291,10 @@ class SubscriptionController extends Controller
         $newSubscription = Subscription::create($resource->toArray());
         $newSubscription = $newSubscription->refresh();
         $newSubscription->custom_field_4 = $request->custom_field_4;
-        $newSubscription->created_by = session('user.id');
+        $newSubscription->created_by = session('user.id'); 
+        if ($resource->is_expire == 1)
+            $newSubscription->transaction_date = $request->pay_date;
+    
         $newSubscription->update();
 
         // copy all subscription lines
