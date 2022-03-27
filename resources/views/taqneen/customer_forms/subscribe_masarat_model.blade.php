@@ -113,7 +113,7 @@ input[type=submit]:hover{
                             </span>
                         </label> 
                         <input class="form-control" name="form[commercial_number]" type="text" value="" id="commercial_number" required>
-                    </div>
+                    </div> 
                     <div class="col-md-3 " >
                         <div class="row ">
                             <label class="gfield_label pb-1 " for="">تاريخ إصدار السجل التجاري

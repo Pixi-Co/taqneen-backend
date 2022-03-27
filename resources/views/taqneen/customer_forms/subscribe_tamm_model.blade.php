@@ -78,7 +78,7 @@ input[type=submit]:hover{
 <li class="breadcrumb-item active">@trans('supportboard')</li> 
 @endsection --}}
 
-@section('content') 
+@section('content')  
 <section class="subscribe-model container p-3 ">
     <div class="row ">
         <div class="col-md-12">

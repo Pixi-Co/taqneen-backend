@@ -81,12 +81,12 @@
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == 'customer-form/createCustomerMasarat' ? 'down' : 'right' }}"></i></div>
                         </a>
                         <ul class="sidebar-submenu" >
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customer-form/subscribe_masarat_model')}}" >@trans('new customer masarat') </a></li>
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customer-form/subscribe_muqeem_model')}}" >@trans('new customer muqeem') </a></li>
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customer-form/subscribe_naba_model')}}" >@trans('new customer naba') </a></li>
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customer-form/subscribe_shomoos_model')}}" >@trans('new customer shomoos') </a></li>
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customer-form/subscribe_tamm_model')}}" >@trans('new customer tamm') </a></li>
-                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customer-form/edit_subscribe_muqeem_model')}}" >@trans('form of edit and remove tamm user') </a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customer-form/subscribe_masarat_model/index')}}" >@trans('new customer masarat') </a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customer-form/subscribe_muqeem_model/index')}}" >@trans('new customer muqeem') </a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customer-form/subscribe_naba_model/index')}}" >@trans('new customer naba') </a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customer-form/subscribe_shomoos_model/index')}}" >@trans('new customer shomoos') </a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customer-form/subscribe_tamm_model/index')}}" >@trans('new customer tamm') </a></li>
+                            <li><a style="font-family:  'Tajawal', sans-serif;" href="{{url('customer-form/edit_subscribe_muqeem_model/index')}}" >@trans('form of edit and remove tamm user') </a></li>
                         </ul>
                     </li>
 

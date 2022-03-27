@@ -99,11 +99,11 @@ input[type=submit]:hover{
                 <legend class="gsection_title">فئة الاشتراك</legend>
                 <div class="gfield_checkbox" id="input_1_4">
                     <div class="gchoice" style="display: inline;">
-                        <input class="gfield-choice-input" name="form[choice_overall]" type="checkbox" value="شامل" checked="checked" id="choice">
+                        <input class="gfield-choice-input" name="form[choice]" type="checkbox" value="شامل" checked="checked" id="choice">
                         <label for="choice" >شامل</label>
                     </div>
                     <div class="gchoice " style="display: inline;">
-                        <input class="gfield-choice-input" name="form[choice_process]" type="checkbox" value="عمليات" id="choice">
+                        <input class="gfield-choice-input" name="form[choice]" type="checkbox" value="عمليات" id="choice">
                         <label for="choice" >عمليات</label>
                     </div>
                 </div>

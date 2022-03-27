@@ -44,7 +44,7 @@
                                     </div> --}}
                                     <div class="card-body">
                                         @can(find_or_create_p('customer.create'))
-                                        <a role="button" href="{{ url('customer-form/subscribe_tamm_model') }}" class="btn btn-primary" >@trans('new_customer_tamm')</a>
+                                        <a role="button" href="{{ url('customer-form/subscribe_masarat_model') }}" class="btn btn-primary" >@trans('new_customer_masarat')</a>
                                         @endcan
 
                                         
@@ -56,7 +56,9 @@
                                                         <th>#</th>
                                                         <th>@trans('company_number')</th>
                                                         <th>@trans('name')</th>
-                                                        <th>@trans('enterprise_activity')</th>
+                                                        <th>@trans('commercial_number')</th>
+                                                        <th>@trans('release_date')</th>
+                                                        <th>@trans('end_date')</th>
                                                         <th>@trans('create_at')</th>
                                                         {{-- <th>@trans('actions')</th> --}}
                                                     </tr>
@@ -67,7 +69,9 @@
                                                         <td></td>
                                                         <td>{{ $data->company_num }}</td>          
                                                         <td>{{ $data->name_ar }}</td>          
-                                                        <td>{{ $data->enterprise_activity }}</td>          
+                                                        <td>{{ $data->commercial_number }}</td>          
+                                                        <td style="direction: ltr">{{ $data->release_date }}</td>          
+                                                        <td style="direction: ltr">{{ $data->end_date }}</td>          
                                                         <td>{{ $item->created_at }}</td>          
                                                                 
                                                          

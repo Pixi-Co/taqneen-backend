@@ -44,7 +44,7 @@
                                     </div> --}}
                                     <div class="card-body">
                                         @can(find_or_create_p('customer.create'))
-                                        <a role="button" href="{{ url('customer-form/subscribe_tamm_model') }}" class="btn btn-primary" >@trans('new_customer_tamm')</a>
+                                        <a role="button" href="{{ url('customer-form/subscribe_shomoos_model') }}" class="btn btn-primary" >@trans('new_customer_shomoos')</a>
                                         @endcan
 
                                         
@@ -54,9 +54,9 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>@trans('company_number')</th>
                                                         <th>@trans('name')</th>
-                                                        <th>@trans('enterprise_activity')</th>
+                                                        <th>@trans('activity_type')</th>
+                                                        <th>@trans('owner_name')</th>
                                                         <th>@trans('create_at')</th>
                                                         {{-- <th>@trans('actions')</th> --}}
                                                     </tr>
@@ -65,9 +65,9 @@
                                                    
                                                     <tr>
                                                         <td></td>
-                                                        <td>{{ $data->company_num }}</td>          
-                                                        <td>{{ $data->name_ar }}</td>          
-                                                        <td>{{ $data->enterprise_activity }}</td>          
+                                                        <td>{{ $data->company_name }}</td>          
+                                                        <td>{{ $data->activity_type }}</td>          
+                                                        <td>{{ $data->owner_name }}</td>          
                                                         <td>{{ $item->created_at }}</td>          
                                                                 
                                                          
