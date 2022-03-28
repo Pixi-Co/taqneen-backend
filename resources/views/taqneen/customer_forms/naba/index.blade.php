@@ -62,27 +62,15 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                   
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>{{ $data->pc_num }}</td>          
-                                                        <td>{{ $data->name_ar }}</td>          
-                                                        <td>{{ $data->portal_naba }}</td>          
-                                                        <td>{{ $item->created_at }}</td>          
-                                                                
-                                                         
-                                                        {{-- <td class="d-flex">
-                                                            @can(find_or_create_p('customer.edit'))
-                                                            <a role="button" href="/customers/{{ $item->id }}/edit" class="m-1 btn btn-primary btn-sm" >@trans('edit')</a>
-                                                            @endcan
-                                                            @can(find_or_create_p('customer.show'))
-                                                            <a role="button" href="/customers/{{ $item->id }}" class="m-1 btn btn-primary btn-sm" >@trans('show')</a>
-                                                            @endcan
-                                                            @can(find_or_create_p('customer.delete'))
-                                                            <button onclick="destroy('/customers/{{ $item->id }}')" class="m-1 btn btn-danger bt-sm" >@trans('remove')</button>
-                                                            @endcan
-                                                        </td>      --}}
-                                                    </tr> 
+                                                    @foreach ($data as $item)
+                                                        <tr>
+                                                            <td>{{ $loop->iteration }}</td>
+                                                            <td>{{ $item->pc_num }}</td>          
+                                                            <td>{{ $item->name_ar }}</td>          
+                                                            <td>{{ $item->portal_naba }}</td>          
+                                                            <td>{{ $createAt->created_at }}</td>          
+                                                        </tr> 
+                                                   @endforeach
                                                 </tbody>
                                                 {{-- <tfoot>
                                                     <tr>

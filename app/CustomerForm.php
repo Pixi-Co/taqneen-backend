@@ -49,7 +49,7 @@ class CustomerForm extends Model
 
         $resource = CustomerForm::where('key', $key)->where('customer_id', $customer_id)->first();
 
-        if (!$resource) {
+       
             $resource = self::create([
                 "key" => $key,
                 "value" => $text,
@@ -58,11 +58,11 @@ class CustomerForm extends Model
             ]);
 
             $resource = $resource->refresh();
-        }
+        
 
-        $resource->update([
-            "value" => $text
-        ]);
+        // $resource->update([
+        //     "value" => $text
+        // ]);
 
         return $resource;
     }

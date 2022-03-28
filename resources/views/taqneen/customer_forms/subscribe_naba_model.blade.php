@@ -98,15 +98,15 @@ input[type=submit]:hover{
                 <legend class="gsection_title">الباقة </legend>
                 <div class="gfield_checkbox" id="input_1_4">
                     <div class="gchoice" style="display: inline;">
-                        <input class="gfield-choice-input" name="form[portal_naba]" type="checkbox" value="بوابة نبأ" checked="checked" id="portal_naba">
+                        <input class="gfield-choice-input" name="form[portal_naba]" type="checkbox" value="بوابةنبأ"  id="portal_naba">
                         <label for="choice" >بوابة نبأ</label>
                     </div>
                     <div class="gchoice " style="display: inline;">
-                        <input class="gfield-choice-input" name="form[portal_naba]" type="checkbox" value="نبأ المباشرة" id="naba_live">
+                        <input class="gfield-choice-input" name="form[portal_naba]" type="checkbox" value="نبأالمباشرة" id="naba_live">
                         <label for="choice" >نبأ المباشرة</label>
                     </div>
                     <div class="gchoice " style="display: inline;">
-                        <input class="gfield-choice-input" name="form[portal_naba]" type="checkbox" value=" نبأ الأساسية" id="naba_main">
+                        <input class="gfield-choice-input" name="form[portal_naba]" type="checkbox" value="نبأالأساسية" id="naba_main">
                         <label for="choice" > نبأ الأساسية</label>
                     </div>
                 </div>

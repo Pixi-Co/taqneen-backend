@@ -14,20 +14,21 @@
     <img src="{{ url('/assets/images/naba-pdf/page1.png') }}" class="pdf_image " alt="">
 
     <!-- ////////////////////////////الباقة/////////////////////////////////////// -->
-
-    @if ($data->portal_naba == 'بوابة نبأ')
         <div  class="pdf-data w3-display-topright w3-center" style="top:3.3cm;right: 3.2cm;" >
-            <img src="{{ url('assets/images/naba-pdf/check.png') }}" class="" alt="" style="width: 10px;">
+            @if ($data->portal_naba == 'بوابةنبأ')
+                <img src="{{ url('assets/images/naba-pdf/check.png') }}" class="" alt="" style="width: 10px;">
+            @endif
         </div>
-    @elseif ($data->portal_naba == 'نبأ المباشرة')
         <div  class="pdf-data w3-display-topright w3-center" style="top: 3.3cm;right: 5.1cm;" >
+            @if ($data->portal_naba == 'نبأالمباشرة')
             <img src="{{ url('assets/images/naba-pdf/check.png') }}" class="" alt="" style="width: 10px;">
+            @endif
         </div>
-    @else
         <div  class="pdf-data w3-display-topright w3-center" style="top: 3.3cm;right: 7.2cm;" >
+            @if($data->portal_naba == 'نبأالأساسية')
             <img src="{{ url('assets/images/naba-pdf/check.png') }}" class="" alt="" style="width: 10px;">
+            @endif
         </div>   
-    @endif
     
    
     <!-- ////////////////////////////////بيانات المنشأة/////////////////////////////////// -->
