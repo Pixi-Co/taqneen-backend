@@ -215,7 +215,7 @@ input[type=submit]:hover{
                             </span>
                         </label> 
                         <input class="form-control" name="form[mail_notific]" type="text" value="" id="mail_notific" required>
-                    </div>
+                    </div> 
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم السجل التجاري
                             <span class="gfield_required">
