@@ -15,6 +15,7 @@ class CustomerFormController extends Controller
         $customer_id = CustomerForm::getCustomerId();
         $resource = CustomerForm::where('key', $form)->where('customer_id', $customer_id)->get();
         $createAt = CustomerForm::where('key', $form)->first();
+        $data = [];
         //dd($resource);
         foreach($resource as $item){
             $data[] = json_decode($item->value);
