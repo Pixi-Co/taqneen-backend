@@ -11,34 +11,36 @@
 
     <!-- /////////////////////page 1////////////////////////////////////////////// -->
 
-    <img src="{{ url('/assets/images/naba-pdf/page1.png') }}" class="pdf_image " alt="">
+    <img style="height: 26.458333333cm;" src="{{ url('/assets/images/naba-pdf/page1.png') }}" class="pdf_image " alt="">
 
     <!-- ////////////////////////////الباقة/////////////////////////////////////// -->
-        <div  class="pdf-data w3-display-topright w3-center" style="top:3.3cm;right: 3.2cm;" >
-            @if ($data->portal_naba == 'بوابةنبأ')
-                <img src="{{ url('assets/images/naba-pdf/check.png') }}" class="" alt="" style="width: 10px;">
-            @endif
-        </div>
-        <div  class="pdf-data w3-display-topright w3-center" style="top: 3.3cm;right: 5.1cm;" >
-            @if ($data->portal_naba == 'نبأالمباشرة')
+   @foreach ($data->portal_naba as $item)
+   @if ($item == 'بوابةنبأ')
+        <div  class="pdf-data w3-display-topright w3-center" style="top:3.02cm;right: 3.2cm;" >
             <img src="{{ url('assets/images/naba-pdf/check.png') }}" class="" alt="" style="width: 10px;">
-            @endif
         </div>
-        <div  class="pdf-data w3-display-topright w3-center" style="top: 3.3cm;right: 7.2cm;" >
-            @if($data->portal_naba == 'نبأالأساسية')
+    @elseif ($item == 'نبأالمباشرة')
+        <div  class="pdf-data w3-display-topright w3-center" style="top: 3.02cm;right: 5.1cm;" >
             <img src="{{ url('assets/images/naba-pdf/check.png') }}" class="" alt="" style="width: 10px;">
-            @endif
-        </div>   
+        </div>
+    @elseif($item == 'نبأالأساسية')
+        <div  class="pdf-data w3-display-topright w3-center" style="top: 3.02cm;right: 7.2cm;" >
+            <img src="{{ url('assets/images/naba-pdf/check.png') }}" class="" alt="" style="width: 10px;">
+        </div>
+    @endif
+  
+   @endforeach
+         
     
    
     <!-- ////////////////////////////////بيانات المنشأة/////////////////////////////////// -->
     
     <!-- Row 1  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 4.89cm;right: 3.8cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 4.49cm;right: 3.8cm;" >
         <b>{{ $data->name_ar }}</b>
     </div>
 
-    <div class="pdf-data w3-display-topright company_num" style="top: 4.87cm;right: 13.8cm;" >
+    <div class="pdf-data w3-display-topright company_num" style="top: 4.47cm;right: 13.8cm;" >
         <div style="float:left;text-align: center; direction: ltr;padding-top: 3px" >
             @for($i = 0; $i < strlen($data->pc_num); $i ++)
             <span style="float: left;width: 0.51cm;font-size: 15px" >
@@ -49,29 +51,29 @@
     </div>
 
     <!-- Row 2  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 5.55cm;right: 3.8cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 5.01cm;right: 3.8cm;" >
         <b>{{ $data->name_en }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 5.55cm;right: 12.6cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top:5.1cm;right: 12.6cm;" >
         <b>{{ $data->owner_name }}</b>
     </div>
 
     <!-- Row 3  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 6.1cm;right: 2.8cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 5.53cm;right: 2.8cm;" >
         <b>{{ $data->city }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 6.1cm;right: 12.55cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 5.53cm;right: 12.55cm;" >
         <b>{{ $data->owner_phone }}</b>
     </div>
 
     <!-- Row 4  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 6.75cm;right: 4.5cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top:6.13cm;right: 4.5cm;" >
         <b>{{ $data->company_website }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 6.85cm;right: 13.8cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 6.08cm;right: 13.8cm;" >
         <div style="float:left;text-align: center;direction: ltr" >
             @for($i = 0; $i < strlen($data->commercial_number); $i ++)
             <span style="float: left;width: 0.51cm;font-size: 15px" >
@@ -83,48 +85,48 @@
     </div>
 
     <!-- Row 5  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 7.35cm;right: 3.8cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 6.58cm;right: 3.8cm;" >
         <b>{{ $data->company_email }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 7.34cm;right: 14.25cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 6.58cm;right: 14.25cm;" >
         <div style="direction: ltr;text-align: centerdirection: ltr" >
             <h3>{{ $data->end_date}}</h3>
         </div>
     </div>
 
     <!-- Row 6  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 8.33cm;right: 4.7cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 7.56cm;right: 4.7cm;" >
         <b>{{ $data->building_num }}</b>
     </div>
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 8.33cm;right: 6.8cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 7.56cm;right: 6.8cm;" >
         <p>{{ $data->street }}</p>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 8.33cm;right: 9.3cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 7.56cm;right: 9.3cm;" >
         <b>{{ $data->district }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 8.33cm;right: 11.78cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 7.56cm;right: 11.78cm;" >
         <b>{{ $data->city }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 8.33cm;right: 14.48cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 7.56cm;right: 14.48cm;" >
         <b>{{ $data->postal_code }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 8.08cm;right: 16.5cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 7.11cm;right: 16.5cm;" >
         <b></b>
     </div>
     
 
     <!-- ///////////////////////////////////معلومات مدير المنشأة//////////////////////////////// -->
     <!-- Row 1  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 9.55cm;right: 3.5cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 8.58cm;right: 3.5cm;" >
         <b>{{ $data->leader_name }}</b>
     </div>
 
-    <div class="pdf-data w3-display-topright company_num" style="top: 9.55cm;right: 11.1cm; direction:ltr">
+    <div class="pdf-data w3-display-topright company_num" style="top: 8.58cm;right: 11.1cm; direction:ltr">
         <div style="float:left;text-align: center" >
             @for($i = 0; $i < strlen($data->leader_idenitiy); $i ++)
             <span style="float: left;width: 0.78cm;font-size: 16px" >
@@ -135,16 +137,16 @@
     </div>
 
     <!-- Row 2  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.12cm;right: 4.2cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top:9.15cm;right: 4.2cm;" >
         <b>{{ $data->leader_phone }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.12cm;right: 10.7cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 9.15cm;right: 10.7cm;" >
         <b>{{ $data->leader_phone2 }}</b>
     </div>
 
     <!-- Row 3  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.65cm;right: 3.66cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 9.72cm;right: 3.66cm;" >
         <b>{{ $data->leader_email }}</b>
     </div>
 
@@ -152,11 +154,11 @@
     <!-- ///////////////////////////////////معلوات الاتصال الرئيسية//////////////////////////////// -->
 
     <!-- Row 1  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 11.89cm;right: 3.5cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.83cm;right: 3.5cm;" >
         <b>{{ $data->user_name }}</b>
     </div>
 
-    <div class="pdf-data w3-display-topright company_num" style="top: 11.89cm;right: 10.98cm;" >
+    <div class="pdf-data w3-display-topright company_num" style="top: 10.83cm;right: 10.98cm;" >
         <div style="float:left;text-align: center;direction: ltr;" >
             @for($i = 0; $i < strlen($data->user_idenitiy); $i ++)
             <span style="float: left;width: 0.78cm;font-size: 16px" >
@@ -167,27 +169,27 @@
     </div>
 
     <!-- Row 2  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 12.59cm;right: 4.2cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 11.39cm;right: 4.2cm;" >
         <b>{{ $data->user_phone }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 12.59cm;right: 10.7cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 11.39cm;right: 10.7cm;" >
         <b>{{ $data->user_phone2 }}</b>
     </div>
 
     <!-- Row 3  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 13.2cm;right: 3.69cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 11.99cm;right: 3.69cm;" >
         <b>{{ $data->user_email }}</b>
     </div>
 
     <!-- ///////////////////////////////معلومات ممثلي المشترك//////////////////////////////////// -->
 
     <!-- Row 1  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 14.95cm;right: 3.5cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 13.55cm;right: 3.5cm;" >
         <b>{{ $data->sub_represent_name }}</b>
     </div>
 
-    <div class="pdf-data w3-display-topright company_num" style="top: 14.95cm;right: 12.0cm;" >
+    <div class="pdf-data w3-display-topright company_num" style="top: 13.55cm;right: 12.0cm;" >
         <div style="float:left;text-align: center;direction: ltr" >
             @for($i = 0; $i < strlen($data->sub_represent_idenitiy); $i ++)
             <span style="float: left;width: 0.6cm;font-size: 16px" >
@@ -198,36 +200,36 @@
     </div>
 
     <!-- Row 2  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 15.55cm;right: 4.2cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 14.05cm;right: 4.2cm;" >
         <b>{{ $data->sub_represent_phone }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 15.55cm;right: 12.42cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 14.05cm;right: 12.42cm;" >
         <b>{{ $data->sub_represent_phone2 }}</b>
     </div>
 
     <!-- Row 3  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 15.95cm;right: 3.6cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 14.45cm;right: 3.6cm;" >
         <b>{{ $data->sub_represent_email }}</b>
     </div>
 
     <!-- //////////////////////////////المدة///////////////////////////////////// -->
 
     <!-- Row 1  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 17.32cm;right: 8.0cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 15.72cm;right: 8.0cm;" >
         <b>{{ $data->sub_type }}</b>
     </div>
 
     <!-- Row 2  -->
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 17.9cm;right: 4.5cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 16.19cm;right: 4.5cm;" >
         <b>{{ $data->cost_data }}</b>
     </div>
    
     <!-- //////////////////////////الشروط والاحكام///////////////////////////////////////// -->
 
-    <img src="{{ url('assets/images/naba-pdf/page2.png') }}" class="pdf_image " alt="">
-    <img src="{{ url('assets/images/naba-pdf/page3.png') }}" class="pdf_image" alt="">
-    <img src="{{ url('assets/images/naba-pdf/page4.png') }}" class="pdf_image " alt="">
+    <img style="height: 1000px;" src="{{ url('assets/images/naba-pdf/page2.png') }}" class="pdf_image " alt="">
+    <img style="height: 1000px;" src="{{ url('assets/images/naba-pdf/page3.png') }}" class="pdf_image" alt="">
+    <img style="height: 1000px;" src="{{ url('assets/images/naba-pdf/page4.png') }}" class="pdf_image " alt="">
 
     <!-- /////////////////////////ملحق نموزج المفوضين////////////////////////////////////////// -->
     
@@ -255,7 +257,7 @@
         <b></b>
     </div>
     <!-- /////////////////////////////////////////////////////////////////// -->
-    <img src="{{ url('assets/images/naba-pdf/page5.png') }}" class="pdf_image " alt="">
+    <img style="height: 1000px;" src="{{ url('assets/images/naba-pdf/page5.png') }}" class="pdf_image " alt="">
 </body>
 </html>
 

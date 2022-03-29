@@ -19,7 +19,7 @@
     grid-column-gap: 19px;
 }
 
-input[type='text'],input[type="text"]:focus{
+input[type='text'],input[type='date'],input[type='date']:focus,input[type="text"]:focus{
     border-color: #ebebeb;
     background-color: #f8f8f8;
     color: #969696;
@@ -98,15 +98,15 @@ input[type=submit]:hover{
                 <legend class="gsection_title">الباقة </legend>
                 <div class="gfield_checkbox" id="input_1_4">
                     <div class="gchoice" style="display: inline;">
-                        <input class="gfield-choice-input" name="form[portal_naba]" type="checkbox" value="بوابةنبأ"  id="portal_naba">
+                        <input class="gfield-choice-input" name="form[portal_naba][]" type="checkbox" value="بوابةنبأ"  id="portal_naba">
                         <label for="choice" >بوابة نبأ</label>
                     </div>
                     <div class="gchoice " style="display: inline;">
-                        <input class="gfield-choice-input" name="form[portal_naba]" type="checkbox" value="نبأالمباشرة" id="naba_live">
+                        <input class="gfield-choice-input" name="form[portal_naba][]" type="checkbox" value="نبأالمباشرة" id="naba_live">
                         <label for="choice" >نبأ المباشرة</label>
                     </div>
                     <div class="gchoice " style="display: inline;">
-                        <input class="gfield-choice-input" name="form[portal_naba]" type="checkbox" value="نبأالأساسية" id="naba_main">
+                        <input class="gfield-choice-input" name="form[portal_naba][]" type="checkbox" value="نبأالأساسية" id="naba_main">
                         <label for="choice" > نبأ الأساسية</label>
                     </div>
                 </div>
@@ -203,7 +203,7 @@ input[type=submit]:hover{
                                 </span>
                             </label> 
                             <div class="col-sm-10">
-                                <input name="form[end_date]" id="end_date" type="text" value="" class="form-control  fc-datepicker" placeholder="yyyy/mm/dd" >
+                                <input name="form[end_date]" id="end_date" type="date" value="" class="form-control  fc-datepicker" placeholder="yyyy/mm/dd" >
                             </div>
                             <div class="col-sm-2 pt-1">
                                 <img class="ui-datepicker-trigger" src="https://taqneen.com/wp-content/plugins/gravityforms/images/datepicker/datepicker.svg" alt="" title="">
@@ -447,11 +447,7 @@ input[type=submit]:hover{
 <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatables/datatable.custom.js')}}"></script>
 
-<script>
-    var date = $('.fc-datepicker').datepicker({
-        dateFormat: 'yyyy mm dd'
-    }).val();
-</script>
+
 
 @endsection
 

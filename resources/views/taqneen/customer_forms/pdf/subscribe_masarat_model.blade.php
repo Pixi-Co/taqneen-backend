@@ -8,12 +8,12 @@
     <title>TamUser</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300&display=swap" rel="stylesheet">
 <body>
-    <img src="{{ url('/assets/images/masarat-pdf/page.png') }}" class="pdf_image w3-display-topleft"alt="">
+    <img style="height: 26.458333333cm" src="{{ url('/assets/images/masarat-pdf/page.png') }}" class="pdf_image w3-display-topleft"alt="">
     
     <!-- ////////////////////////////////بيانات المنشأة/////////////////////////////////// -->
     
     <!-- Row 1  -->
-    <div class="pdf-data w3-display-topright company_num" style="top: 7.4cm;right: 0.9cm;" >
+    <div class="pdf-data w3-display-topright company_num" style="top: 6.6cm;right: 0.9cm;" >
         <div style="float:left;text-align: center" >
             @for($i = 0; $i < strlen($data->company_num); $i ++)
             <span style="float: left;width: 0.38cm;font-size: 15px" >
@@ -23,11 +23,11 @@
         </div>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="direction: ltr; top: 7.4cm;right: 4.8cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="direction: ltr; top: 6.6cm;right: 4.8cm;" >
         <span>{{ $data->release_date }}</span>
     </div>
 
-    <div class="pdf-data w3-display-topright company_num" style="top: 7.45cm;right: 8.4cm;" >
+    <div class="pdf-data w3-display-topright company_num" style="top: 6.6cm;right: 8.4cm;" >
         <div style="float:left;text-align: center" >
             @for($i = 0; $i < strlen($data->commercial_number); $i ++)
             <span style="float: left;width: 0.38cm;font-size: 15px" >
@@ -37,73 +37,73 @@
         </div>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="direction: ltr; top: 7.4cm;right: 12.5cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="direction: ltr; top:6.6cm;right: 12.5cm;" >
         <span>{{ $data->end_date }}</span>
     </div>
 
      <!-- Row 2  -->
     
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 8.5cm;right: 1.1cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 7.5cm;right: 1.1cm;" >
         <b>{{ $data->fullname_ar }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 8.5cm;right: 8.5cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 7.5cm;right: 8.5cm;" >
         <b>{{ $data->fullname_en }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 8.5cm;right: 12.5cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 7.5cm;right: 12.5cm;" >
         <b>{{ $data->name_ar }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 8.5cm;right: 15.5cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 7.5cm;right: 15.5cm;" >
         <b>{{ $data->name_en }}</b>
     </div>
 
     <!-- ////////////////////////////عنوان المنشأة/////////////////////////////////// -->
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.6cm;right: 1.1cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 9.4cm;right: 1.1cm;" >
         <span>{{ $data->city }}</span>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.6cm;right: 4.2cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 9.4cm;right: 4.2cm;" >
         <span>{{ $data->mailbox }}</span>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.6cm;right: 7.2cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 9.4cm;right: 7.2cm;" >
         <span>{{ $data->postcode }}</span>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.6cm;right: 9.99cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 9.4cm;right: 9.99cm;" >
         <span>{{ $data->compony_phone }}</span>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.6cm;right: 12.99cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 9.4cm;right: 12.99cm;" >
         <span>{{ $data->fax_num }}</span>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.6cm;right: 16cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 9.4cm;right: 16cm;" >
         <span>{{ $data->company_website }}</span>
     </div>
 
     <!-- /////////////////////////معلومات مدير المنشأة/////////////////////////////////// -->
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 12.76cm;right: 1.1cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 11.46cm;right: 1.1cm;" >
         <span>{{ $data->owner_name }}</span>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 12.76cm;right: 4.85cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 11.46cm;right: 4.85cm;" >
         <span>{{ $data->owner_number }}</span>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 12.76cm;right: 8.4cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 11.46cm;right: 8.4cm;" >
         <span>{{ $data->owner_phone }}</span>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="font-size: 14px;top: 12.76cm;right: 11.75cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="font-size: 14px;top: 11.46cm;right: 11.75cm;" >
         <span >{{ $data->company_email }}</span >
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 12.76cm;right: 15.85cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 11.46cm;right: 15.85cm;" >
         <span>{{ $data->identity }}</span>
     </div>
 
@@ -130,21 +130,24 @@
     </div>
 
     <!-- //////////////////////الخدمات ضمن مسارات/////////////////////////////////// -->
-
-    @if ($data->select_service == 'خدمة إدارة تأجير المركبات')
-        <div  class="pdf-data w3-display-topright w3-center" style="top:16.25cm;right: 1cm;" >
+@foreach ($data->select_service as $item)
+    @if ( $item == 'خدمة إدارة تأجير المركبات')
+        <div  class="pdf-data w3-display-topright w3-center" style="top:14.59cm;right: .99cm;" >
             <img src="{{ url('/assets/images/masarat-pdf/check.png') }}" class="" alt="" style="width: 10px;">
         </div>
-    @elseif ($data->select_service == 'خدمة إدارة الصيانة والتشغيل للمركبات')
-        <div  class="pdf-data w3-display-topright w3-center" style="top: 16.84cm;right: 1cm;" >
+        @elseif ($item == 'خدمة إدارة الصيانة والتشغيل للمركبات')
+        <div  class="pdf-data w3-display-topright w3-center" style="top: 15.1cm;right: .99cm;" >
             <img src="{{ url('/assets/images/masarat-pdf/check.png') }}" class="" alt="" style="width: 10px;">
         </div>
-    @else
-        <div  class="pdf-data w3-display-topright w3-center" style="top: 17.45cm;right: 1cm;" >
+        @elseif( $item == 'خدمة تتبع المركبات شاملة إدارة الصيانة والتشغيل')
+        <div  class="pdf-data w3-display-topright w3-center" style="top: 15.59cm;right: .99cm;" >
             <img src="{{ url('/assets/images/masarat-pdf/check.png') }}" class="" alt="" style="width: 10px;">
         </div>
     @endif
 
+    
+@endforeach
+   
    
       
 </body>
