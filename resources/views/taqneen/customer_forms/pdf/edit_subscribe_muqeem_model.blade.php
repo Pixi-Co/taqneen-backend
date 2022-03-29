@@ -8,100 +8,128 @@
     <title>TamUser</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300&display=swap" rel="stylesheet">
 <body>
-    <img src="{{ url('/assets/images/muqeem-pdf/page.png') }}" class="pdf_image w3-display-topleft" alt="">
+    <img style="position: relative; top: -0.5cm" src="{{ url('/assets/images/muqeem-pdf/page.png') }}" class="pdf_image w3-display-topleft" alt="">
     
     <!-- /////////////////////////////////////////////////////////////////// -->
 
-    <div class="pdf-data w3-display-topright company_num" style="top: 6.9cm;right: 5.9cm;" >
-        <div style="width: 0.4cm;float:left;text-align: center" >
-            <p>1</p>
+    <div class="pdf-data w3-display-topright company_num" style="top: 6.62cm;right: 6cm;" >
+        <div style="float:left;text-align: center" >
+            @for($i = 0; $i < strlen($data->company_num); $i ++)
+            <span style="float: left;width: 0.45cm;font-size: 15px" >
+                {{ substr($data->company_num, $i, 1) }}
+            </span>
+            @endfor
         </div>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 8.1cm;right: 6.2cm;" >
-        <b>your Data</b>
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 7.79cm;right: 6.2cm;" >
+        <b>{{ $data->name_ar }}</b>
     </div>
 
     <!-- /////////////////معلومات المستخدم الرئيسى//////////////////////// -->
    
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.60cm;right: 1.17cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.39cm;right: 1.17cm;" >
         <img src="{{ url('/assets/images/muqeem-pdf/check.png') }}" class="" alt="" style="width: 7px;">
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.60cm;right: 2.35cm;" >
+    {{-- <div  class="pdf-data w3-display-topright w3-center" style="top: 10.60cm;right: 2.35cm;" >
         <img src="{{ url('/assets/images/muqeem-pdf/check.png') }}" class="" alt="" style="width: 7px;">
     </div>
 
     <div  class="pdf-data w3-display-topright w3-center" style="top: 10.60cm;right: 3.55cm;" >
         <img src="{{ url('/assets/images/muqeem-pdf/check.png') }}" class="" alt="" style="width: 7px;">
-    </div>
+    </div> --}}
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.5cm;right: 5.0cm;" >
-        <b>your Data</b>
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.35cm;right: 5.0cm;" >
+        <b>{{ $data->user_name }}</b>
     </div>
   
-    <div class="pdf-data w3-display-topright company_num" style="top: 10.6cm;right: 7.75cm;" >
-        <div style="width: 0.4cm;float:left;text-align: center" >
-            <p>1</p>
+    <div class="pdf-data w3-display-topright " style="top: 10.39cm;right: 7.93cm;" >
+        <div style="float:left;text-align: center" >
+            @for($i = 0; $i < strlen($data->user_identifi); $i ++)
+            <span style="float: left;width: 0.48cm;font-size: 15px" >
+                {{ substr($data->user_identifi, $i, 1) }}
+            </span>
+            @endfor
         </div>
     </div>
     
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.6cm;right: 13.0cm;" >
-        <b>your Data</b>
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.35cm;right: 13.0cm;" >
+        <b>{{ $data->user_phone }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.6cm;right: 15.6cm;font-size: 11px;" >
-        <b>your Data</b>
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.35cm;right: 15.8cm;font-size: 12px;" >
+        <b>{{ $data->user_email }}</b>
     </div>
 
-    <!-- ////////////////////////معلومات المستخدمين الاخرين////////////////////////////// -->
-
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 13.45cm;right: 1.17cm;" >
+    {{-- /////////////////////// معلومات المستخدم المطلوب حذفه ////////////////////////// --}}
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 11.01cm;right: 3.59cm;" >
         <img src="{{ url('/assets/images/muqeem-pdf/check.png') }}" class="" alt="" style="width: 7px;">
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 13.45cm;right: 2.23cm;" >
-        <img src="{{ url('/assets/images/muqeem-pdf/check.png') }}" class="" alt="" style="width: 7px;">
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 11.01cm;right: 5.0cm;" >
+        <b>{{ $data->user_name_delete }}</b>
     </div>
-
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 13.45cm;right: 3.26cm;" >
-        <img src="{{ url('/assets/images/muqeem-pdf/check.png') }}" class="" alt="" style="width: 7px;">
-    </div>
-
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 13.4cm;right: 4.3cm;" >
-        <b>your Data</b>
-    </div>
-
-    <div class="pdf-data w3-display-topright company_num" style="top: 13.5cm;right: 6.9cm;" >
-        <div style="width: 0.4cm;float:left;text-align: center" >
-            <p>1</p>
+  
+    <div class="pdf-data w3-display-topright " style="top: 11.02cm;right: 7.95cm;" >
+        <div style="float:left;text-align: center" >
+            @for($i = 0; $i < strlen($data->user_identifi); $i ++)
+            <span style="float: left;width: 0.47cm;font-size: 15px" >
+                {{ substr($data->user_identifi_delete, $i, 1) }}
+            </span>
+            @endfor
         </div>
     </div>
+    <!-- ////////////////////////معلومات المستخدمين الاخرين////////////////////////////// -->
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 13.45cm;right: 11.63cm;" >
-        <img src="{{ url('/assets/images/muqeem-pdf/check.png') }}" class="" alt="" style="width: 7px;">
+    @php
+        
+        $top1 = 13.4;
+    @endphp
+
+{{-- @foreach ( as ) --}}
+<div  class="pdf-data w3-display-topright w3-center" style="top: {{ $top1 }}cm;right: 3.26cm;" >
+    <img src="{{ url('/assets/images/muqeem-pdf/check.png') }}" class="" alt="" style="width: 7px;">
+</div>
+
+<div  class="pdf-data w3-display-topright w3-center" style="top: 13.4cm;right: 4.3cm;" >
+    <b></b>
+</div>
+
+<div class="pdf-data w3-display-topright company_num" style="top: 13.5cm;right: 6.9cm;" >
+    <div style="width: 0.4cm;float:left;text-align: center" >
+        <p>1</p>
     </div>
+</div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 13.45cm;right: 12.66cm;" >
-        <img src="{{ url('/assets/images/muqeem-pdf/check.png') }}" class="" alt="" style="width: 7px;">
-    </div>
+<div  class="pdf-data w3-display-topright w3-center" style="top: 13.45cm;right: 11.63cm;" >
+    <img src="{{ url('/assets/images/muqeem-pdf/check.png') }}" class="" alt="" style="width: 7px;">
+</div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 13.5cm;right: 14.0cm;font-size: 11px;" >
-        <b>your Data</b>
-    </div>
+<div  class="pdf-data w3-display-topright w3-center" style="top: 13.45cm;right: 12.66cm;" >
+    <img src="{{ url('/assets/images/muqeem-pdf/check.png') }}" class="" alt="" style="width: 7px;">
+</div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 13.5cm;right: 15.7cm;font-size: 11px;" >
-        <b>your Data</b>
-    </div>
+<div  class="pdf-data w3-display-topright w3-center" style="top: 13.5cm;right: 14.0cm;font-size: 11px;" >
+    <b>your Data</b>
+</div>
 
+<div  class="pdf-data w3-display-topright w3-center" style="top: 13.5cm;right: 15.7cm;font-size: 11px;" >
+    <b>your Data</b>
+</div>
+@php
+    $top1 += 1;
+@endphp
+{{-- @endforeach --}}
+    
     <!-- //////////////////////////////الاسم والمنصب/////////////////////////////////// -->
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 20.7cm;right: 2.7cm;" >
-        <b>your Data</b>
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 20.9cm;right: 2.85cm;" >
+        <b>{{ $data->applicant_name }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center " style="top: 20.7cm;right: 11.8cm;" >
-        <b>your Data</b>
+    <div  class="pdf-data w3-display-topright w3-center " style="top: 20.9cm;right: 12.11cm;" >
+        <b>{{ $data->position }}</b>
     </div>
 
 

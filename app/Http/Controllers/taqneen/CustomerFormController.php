@@ -52,13 +52,15 @@ class CustomerFormController extends Controller
 
     public function save(Request $request)
     {
+
+        // $value = json_encode($request->form);
+        // dd($value);
         try {
             $key = $request->customer_type;
             $value = json_encode($request->form);
             $resource = CustomerForm::createOrUpdate($key, $value);
 
-
-            return $this->viewPdf($key);
+            return $this->viewPdf($resource, $key);
         } catch (\Exception $th) {
             $output = [
                 "success" => 0,
@@ -68,11 +70,11 @@ class CustomerFormController extends Controller
         } 
     }
 
-    public function viewPdf($key)
+    public function viewPdf(CustomerForm $resource, $key)
     {
         $file = $key;
         $customer_id = CustomerForm::getCustomerId();
-        $resource = CustomerForm::where('key', $key)->where('customer_id', $customer_id)->first();
+        //$resource = CustomerForm::where('key', $key)->where('customer_id', $customer_id)->first();
         
 
         if (!$resource) 
@@ -80,6 +82,7 @@ class CustomerFormController extends Controller
 
         $data = json_decode($resource->value);
         
+        //dd($data);
         return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
     }
 }

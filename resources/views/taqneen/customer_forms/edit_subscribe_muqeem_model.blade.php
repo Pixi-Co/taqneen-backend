@@ -90,8 +90,10 @@ input[type=submit]:hover{
         </div>
     </div>
     <div class="row">
-        <form class="form-group" action="" method="" enctype="multipart/form-data">
+        <form class="form-group" action="{{ route('createCustomerMuqeem.store') }}" method="post" enctype="multipart/form-data">
             @csrf
+           @method('post')
+            <input type="hidden" name="customer_type" value="{{ $instance::$EDIT_SUBSCRIPE_MUQEEM_MODEL_KEY }}">
             <div class="ginput_container ">
                 <h3 class="gsection_title pb-3">بيانات المنشأة</h3>
                 <div class="row" >
@@ -158,7 +160,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[user_name]" type="text" value="" id="user_name" required placeholder="الأسم الأول والأخير">
+                        <input class="form-control" name="form[user_name_delete]" type="text" value="" id="user_name" required placeholder="الأسم الأول والأخير">
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهوية / الإقامة
@@ -166,7 +168,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[user_identifi]" type="text" value="" id="user_identifi" placeholder="05xxxxxxxx" required>
+                        <input class="form-control" name="form[user_identifi_delete]" type="text" value="" id="user_identifi" placeholder="05xxxxxxxx" required>
                     </div>
                 </div>
                 <div class="row pt-3 pb-3">
@@ -226,7 +228,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['applicant_name']" type="text" value="" id="applicant_name" required placeholder="الأسم الأول والأخير">
+                        <input class="form-control" name="form[applicant_name]" type="text" value="" id="applicant_name" required placeholder="الأسم الأول والأخير">
                     </div>
                     <div class="col-md-6 " >
                         <label class="gfield_label pb-1" for="">المنصب
@@ -234,7 +236,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form['position']" type="text" value="" id="position" placeholder="" required>
+                        <input class="form-control" name="form[position]" type="text" value="" id="position" placeholder="" required>
                     </div>
                 </div>
             </div>
@@ -283,13 +285,20 @@ input[type=submit]:hover{
         $('input[type="radio"]').click(function() {
              console.log($(this).attr('value'));
 
-    var html = `<div class="col-md-3 " >
+    
+    $('#show_input').empty();
+    
+            if ($(this).attr('value') > 0) {
+                for (let index = 0; index < $(this).attr('value') ; index++) {
+                    console.log(index);
+                  
+                  $('#show_input').append(`<div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">اسم المستخدم
                             <span class="gfield_required">
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[user_name][]" type="text" value="" id="user_name" required placeholder="الأسم الأول والأخير">
+                        <input class="form-control" name="form[other_user_name][]" type="text" value="" id="user_name" required placeholder="الأسم الأول والأخير">
                         </div>
                         <div class="col-md-3 " >
                             <label class="gfield_label pb-1" for="">رقم الهوية / الإقامة
@@ -297,15 +306,8 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[user_identifi][]" type="text" value="" id="user_identifi" placeholder="05xxxxxxxx" required>
-                        </div>`;
-    $('#show_input').empty();
-    
-            if ($(this).attr('value') > 0) {
-                for (let index = 0; index < $(this).attr('value') ; index++) {
-                    console.log(index);
-                  
-                  $('#show_input').append(html);
+                        <input class="form-control" name="form[other_user_identifi][]" type="text" value="" id="user_identifi" placeholder="05xxxxxxxx" required>
+                        </div>`);
                     // document.getElementById('show_input').value=$code;
                    
                 }
