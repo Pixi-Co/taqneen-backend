@@ -122,7 +122,8 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::resource('subscriptions', 'taqneen\SubscriptionController'); 
     Route::get('subscriptions-download',[SubscriptionController::class,'subscriptionDownload']);
     Route::post('subscriptions-upload_file',[SubscriptionController::class,'subscriptionImportFile']);
-    Route::get('/customer-form/{form_name}', 'taqneen\CustomerFormController@index');
+    Route::get('/customer-form/{form_name}', 'taqneen\CustomerFormController@create');
+    Route::get('/customer-form/{form_name}/index', 'taqneen\CustomerFormController@index');
     Route::get('/customer-pdf/{file}', 'taqneen\CustomerFormController@viewPdf');
     Route::get('/notification-template', 'taqneen\NotificationTemplateController@index');
     Route::post('/notification-template', 'taqneen\NotificationTemplateController@save');

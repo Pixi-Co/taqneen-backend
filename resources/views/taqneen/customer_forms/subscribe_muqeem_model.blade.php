@@ -99,11 +99,11 @@ input[type=submit]:hover{
                 <legend class="gsection_title">فئة الاشتراك</legend>
                 <div class="gfield_checkbox" id="input_1_4">
                     <div class="gchoice" style="display: inline;">
-                        <input class="gfield-choice-input" name="form[choice_overall]" type="checkbox" value="شامل" checked="checked" id="choice">
+                        <input class="gfield-choice-input" name="form[choice]" type="checkbox" value="شامل" checked="checked" id="choice">
                         <label for="choice" >شامل</label>
                     </div>
                     <div class="gchoice " style="display: inline;">
-                        <input class="gfield-choice-input" name="form[choice_process]" type="checkbox" value="عمليات" id="choice">
+                        <input class="gfield-choice-input" name="form[choice]" type="checkbox" value="عمليات" id="choice">
                         <label for="choice" >عمليات</label>
                     </div>
                 </div>
@@ -215,7 +215,7 @@ input[type=submit]:hover{
                             </span>
                         </label> 
                         <input class="form-control" name="form[mail_notific]" type="text" value="" id="mail_notific" required>
-                    </div>
+                    </div> 
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم السجل التجاري
                             <span class="gfield_required">

@@ -9,7 +9,42 @@ use Razorpay\Api\Customer;
 
 class CustomerFormController extends Controller
 {
-    public function index($form_name)
+
+    public function index($form){
+        $instance = CustomerForm::class;
+        $customer_id = CustomerForm::getCustomerId();
+        $resource = CustomerForm::where('key', $form)->where('customer_id', $customer_id)->get();
+        $createAt = CustomerForm::where('key', $form)->first();
+        //dd($resource);
+        foreach($resource as $item){
+            $data[] = json_decode($item->value);
+        }
+        
+       
+        if($form == 'subscribe_tamm_model')
+        {
+            return view('taqneen.customer_forms.tamm.index' , compact('instance','data','createAt'));
+        }
+        elseif($form == 'subscribe_masarat_model')
+        {
+            return view('taqneen.customer_forms.masarat.index' , compact('instance','data','createAt'));
+        }
+        elseif($form == 'subscribe_muqeem_model')
+        {
+            return view('taqneen.customer_forms.muqeem.index' , compact('instance','data','createAt'));
+        }
+        elseif($form == 'subscribe_naba_model')
+        {
+            return view('taqneen.customer_forms.naba.index' , compact('instance','data','createAt'));
+        }
+        else
+        {
+            return view('taqneen.customer_forms.shomoos.index' , compact('instance','data','createAt'));
+        }
+    }
+
+
+    public function create($form_name)
     {
         $instance = CustomerForm::class;
         return view('taqneen.customer_forms.' . $form_name, compact('instance'));

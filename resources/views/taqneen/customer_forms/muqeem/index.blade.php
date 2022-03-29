@@ -44,7 +44,7 @@
                                     </div> --}}
                                     <div class="card-body">
                                         @can(find_or_create_p('customer.create'))
-                                        <a role="button" href="{{ url('customer-form/subscribe_tamm_model') }}" class="btn btn-primary" >@trans('new_customer_tamm')</a>
+                                        <a role="button" href="{{ url('customer-form/subscribe_muqeem_model') }}" class="btn btn-primary" >@trans('new_customer_muqeem')</a>
                                         @endcan
 
                                         
@@ -56,21 +56,23 @@
                                                         <th>#</th>
                                                         <th>@trans('company_number')</th>
                                                         <th>@trans('name')</th>
-                                                        <th>@trans('enterprise_activity')</th>
+                                                        <th>@trans('commercial_number')</th>
+                                                        <th>@trans('release_date')</th>
                                                         <th>@trans('create_at')</th>
                                                         {{-- <th>@trans('actions')</th> --}}
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($data as $item)
+                                                   @foreach ($data as $item)
                                                         <tr>
-                                                            <td>{{$loop->iteration}}</td>
+                                                            <td>{{ $loop->iteration }}</td>
                                                             <td>{{ $item->company_num }}</td>          
                                                             <td>{{ $item->name_ar }}</td>          
-                                                            <td>{{ $item->enterprise_activity }}</td>          
+                                                            <td>{{ $item->commercial_number }}</td>          
+                                                            <td dir="ltr">{{ $item->release_date }}</td>          
                                                             <td>{{ $createAt->created_at }}</td>          
                                                         </tr> 
-                                                    @endforeach
+                                                   @endforeach
                                                 </tbody>
                                                 {{-- <tfoot>
                                                     <tr>
