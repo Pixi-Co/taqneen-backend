@@ -85,8 +85,17 @@
 
                                                                     <div class="form-group">
                                                                         <br>
-                                                                        <b>@trans('emails')</b>
-                                                                        {!! Form::text('cc', $resource->cc, ['class' => 'form-control', '', 'placeholder' => 'email1@example.com,email2@example.com']) !!}
+                                                                        <b>@trans('emails')</b> {{ __('or write email tag') }} 
+                                                                        
+                                                                        <span  class="btn btn-primary btn-xs" style="margin: 1px" 
+                                                                            data-bs-original-title="" title="">
+                                                                            {sales_commision_email}
+                                                                        </span> 
+                                                                        <span class="btn btn-primary btn-xs" style="margin: 1px" 
+                                                                            data-bs-original-title="" title="">
+                                                                            {customer_email}
+                                                                        </span>
+                                                                        {!! Form::text('cc', $resource->cc, ['class' => 'form-control', '', 'placeholder' => 'email1@example.com,email2@example.com', 'required']) !!}
                                                                     </div>
 
                                                                     <div class="form-group">

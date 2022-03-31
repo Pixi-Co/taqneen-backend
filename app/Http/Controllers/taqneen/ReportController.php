@@ -51,16 +51,25 @@ class ReportController extends Controller
 
     public function salesComissions()
     {
+        $where = "";
+
+        
+
+
         $query = User::select(
             '*',
-            DB::raw('(select sum(final_total) from transactions where is_renew=0 and transactions.business_id = users.business_id) as subscription_new_total'),
-            DB::raw('(select sum(final_total) from transactions where is_renew=1 and renew_date > expire_date and transactions.business_id = users.business_id) as subscription_renew_after_expire_total'),
-            DB::raw('(select sum(final_total) from transactions where is_renew=1 and renew_date < expire_date and transactions.business_id = users.business_id) as subscription_renew_before_expire_total'),
-            DB::raw('(select sum(final_total - tax_amount) from transactions where transactions.business_id = users.business_id) as subscription_before_tax_total'),
-            DB::raw('(select sum(final_total) from transactions where transactions.business_id = users.business_id) as subscription_after_tax_total'),
+            //DB::raw('(select sum(final_total) from transactions where is_renew=0 and transactions.business_id = users.business_id) as subscription_new_total'),
+            //DB::raw('(select sum(final_total) from transactions where is_renew=1 and renew_date > expire_date and transactions.business_id = users.business_id) as subscription_renew_after_expire_total'),
+            //DB::raw('(select sum(final_total) from transactions where is_renew=1 and renew_date < expire_date and transactions.business_id = users.business_id) as subscription_renew_before_expire_total'),
+            //DB::raw('(select sum(final_total - tax_amount) from transactions where transactions.business_id = users.business_id) as subscription_before_tax_total'),
+            //DB::raw('(select sum(final_total) from transactions where transactions.business_id = users.business_id) as subscription_after_tax_total'),
             DB::raw('(select count(id) from contacts as opport where opport.converted_by = users.id) as opportunity_count'),
         )
-            ->where('business_id', session('business.id'));
+
+        /*$query = User::query()->join(
+            "transactions", "transactions.created_by", "=", "users.id"
+        )*/
+        ->where('business_id', session('business.id'));
 
         if (request()->user_id > 0) {
             $query->where('users.id', request()->user_id);

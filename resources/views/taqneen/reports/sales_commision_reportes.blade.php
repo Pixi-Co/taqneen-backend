@@ -70,14 +70,32 @@
 
                                                     <div class="col-md-3 w3-padding">
                                                         <div class="form-group">
-                                                            <label for="">@trans('service type')</label>
+                                                            <label for="">@trans('subscription type')</label>
                                                             <select name="type" class="form-select  mb-3 ">
                                                                 <option value="">@trans('all')</option>
-                                                                <option value="include">@trans('include')</option>
-                                                                <option value="process">@trans('process')</option>
+                                                                <option value="new">@trans('new')</option>
+                                                                <option value="renew">@trans('renew')</option>
                                                             </select>
                                                         </div>
                                                     </div>
+
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="">@trans('expire date')</label>
+                                                            <input type="text"  class="form-control dateranger expire_date"  >
+                                                            <input type="hidden" name="" class="expire_date_start" >
+                                                            <input type="hidden" name="" class="expire_date_end" >
+                                                        </div>
+                                                    </div>  
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="">@trans('payment date')</label>
+                                                            <input type="text"  class="form-control dateranger payment_date"  >
+                                                            <input type="hidden" name="" class="payment_date_start" >
+                                                            <input type="hidden" name="" class="payment_date_end" >
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                                 <div class="form-group mt-4" style="width: 400px; height: 40px">
                                                     <input type="submit" class="btn btn-primary" value="@trans('submit')">
@@ -105,15 +123,21 @@
                                                         @foreach ($resources as $resource)
                                                             <tr>
                                                                 <td>{{ $loop->iteration }}</td>
-                                                                <td>{{ $resource->first_name }}
-                                                                    {{ $resource->last_name }}</td>
-                                                                <td>{{ $resource->subscription_new_total }}</td>
-                                                                <td>{{ $resource->subscription_renew_after_expire_total }}
+                                                                <td>{{ $resource->user_full_name }}</td>
+                                                                <td>
+                                                                    {{ $resource->subscriptionQueryReport()->where('is_renew', '0')->sum('final_total') }}</td>
+                                                                <td>
+                                                                    {{ $resource->subscriptionQueryReport()->where('is_renew', '1')->whereRaw('renew_date > expire_date')->sum('final_total') }}
                                                                 </td>
-                                                                <td>{{ $resource->subscription_renew_before_expire_total }}
+                                                                <td>
+                                                                    {{ $resource->subscriptionQueryReport()->where('is_renew', '1')->whereRaw('renew_date < expire_date')->sum('final_total') }}
                                                                 </td>
-                                                                <td>{{ $resource->subscription_before_tax_total }}</td>
-                                                                <td>{{ $resource->subscription_after_tax_total }}</td>
+                                                                <td>
+                                                                    {{ $resource->subscriptionQueryReport()->sum('final_total') - $resource->subscriptionQueryReport()->sum('tax_amount') }}
+                                                                </td>
+                                                                <td>
+                                                                    {{ $resource->subscriptionQueryReport()->sum('final_total') }}
+                                                                </td>
                                                                 <td>{{ $resource->opportunity_count }}</td>
                                                             </tr>
                                                         @endforeach
@@ -161,4 +185,21 @@
     <script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
+
+    <script>
+        
+    $(document).ready(function(){
+        initDateRanger();
+
+        $('.expire_date').change(function(){
+            $('.expire_date_start').val($('.expire_date').attr('data-start'));
+            $('.expire_date_end').val($('.expire_date').attr('data-end'));
+        });
+
+        $('.payment_date').change(function(){
+            $('.payment_date_start').val($('.payment_date').attr('data-start'));
+            $('.payment_date_end').val($('.payment_date').attr('data-end'));
+        });
+    });
+    </script>
 @endsection

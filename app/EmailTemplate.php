@@ -48,34 +48,56 @@ class EmailTemplate extends Model
         return optional($subscription->user)->email;
     }
 
+    public static function checkIfTagOrEmail($text, Subscription $subscription) {
+        $text = str_replace(" ", "", $text);
+
+        if ($text == "{sales_commision_email}") {
+            return optional($subscription->user)->email;
+        }
+
+        if ($text == "{customer_email}") {
+            return optional($subscription->contact)->email;
+        }
+
+        return $text;
+    }
+
     public static function getEmail($triger, Subscription $subscription) {
-        $resource = self::getTemplate($triger);
-        $body = $resource->email_body;
-        $cc = $resource->cc;
-        $emailList = explode(",", $cc);
-        $emailList[] = optional($subscription->contact)->email;
+        $resources = DB::table('notification_templates')
+            ->where('business_id', session('business.id'))
+            ->where('template_for', $triger)
+            ->get();
+        
         $emails = [];
-
-        if (self::getEmailOfCourier($subscription)) {
-            $emailList[] = self::getEmailOfCourier($subscription);
+    
+        foreach($resources as $resource) {   
+            $body = $resource->email_body;
+            $cc = $resource->cc;
+            $emailList = explode(",", $cc);
+            //$emailList[] = optional($subscription->contact)->email;
+    
+            if (self::getEmailOfCourier($subscription)) {
+                //$emailList[] = self::getEmailOfCourier($subscription);
+            }
+    
+            foreach(self::$TAGS as $key => $value) {
+                $body = str_replace($key, $subscription->getTagValue($value), $body);
+            } 
+    
+            foreach($emailList as $item) {
+                $email = self::checkIfTagOrEmail($item, $subscription);
+                if (strlen($email) > 1)
+                $emails[] = [
+                    "title" => "taqneen",
+                    "from" => "hello@elwatnia.in",
+                    "to" => $email,
+                    "subject" => $resource->subject,
+                    "body" => $body,
+                    "name" => "taqneen",
+                ];
+            }
         }
 
-        foreach(self::$TAGS as $key => $value) {
-            $body = str_replace($key, $subscription->getTagValue($value), $body);
-        } 
-
-        foreach($emailList as $item) {
-            $email = str_replace(" ", "", $item);
-            if (strlen($email) > 1)
-            $emails[] = [
-                "title" => "taqneen",
-                "from" => "hello@elwatnia.in",
-                "to" => $email,
-                "subject" => $resource->subject,
-                "body" => $body,
-                "name" => "taqneen",
-            ];
-        }
 
         return $emails;
     }

@@ -20,11 +20,12 @@ class NotificationTemplateController extends Controller
     }
 
 
-    public function create() { 
+    public function form() { 
         $trigers = EmailTemplate::$TRIGERS;
         $tags = EmailTemplate::$TAGS;
         $instance = EmailTemplate::class;
-        return view('taqneen.notification.form', compact('trigers', 'instance', 'tags'));
+        $resource = request()->id > 0? EmailTemplate::find(request()->id) : new EmailTemplate();
+        return view('taqneen.notification.form', compact('trigers', 'instance', 'tags', 'resource'));
     }
 
     public function save(Request $request) {
@@ -52,5 +53,11 @@ class NotificationTemplateController extends Controller
         }
 
         return responseJson(1, __('done'));
+    }
+
+    public function destroy($id) {
+        EmailTemplate::where('id', $id)->delete();
+
+        return responseJson(1, __('doen'));
     }
 }

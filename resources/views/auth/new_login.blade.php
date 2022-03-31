@@ -38,6 +38,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
 
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
     <style> 
         .login-card .login-main .theme-form label {
             font-size: 15px;
@@ -68,6 +69,13 @@
             background-image: url('/images/taqneen_login.jpg')!important;
             background-size: cover;
         }
+
+        *, h1, h2, h3, h4, h5, h6, label{
+            font-family: 'Tajawal', sans-serif!important;
+            direction: rtl;
+            text-align: right!important;
+        }
+ 
     </style>
 </head>
 
@@ -100,7 +108,7 @@
                                         <input class="form-control password" type="password" name="password" required=""
                                             placeholder="">
                                         <strong class="text-danger" >{{ $errors->first('password') }}</strong>
-                                        <div class="show-hide" onclick="$('.password').attr('type') == 'text'? $('.password').attr('type', 'password') : $('.password').attr('type', 'text')" >
+                                        <div class="show-hide " style="left: 20px;right: inherit" onclick="$('.password').attr('type') == 'text'? $('.password').attr('type', 'password') : $('.password').attr('type', 'text')" >
                                             <span class="show"> </span>
                                         </div>
                                     </div>

@@ -126,8 +126,9 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/customer-form/{form_name}/index', 'taqneen\CustomerFormController@index');
     Route::get('/customer-pdf/{file}', 'taqneen\CustomerFormController@viewPdf');
     Route::get('/notification-template', 'taqneen\NotificationTemplateController@index');
-    Route::get('/notification-template/create', 'taqneen\NotificationTemplateController@create');
+    Route::get('/notification-template/form', 'taqneen\NotificationTemplateController@form');
     Route::post('/notification-template', 'taqneen\NotificationTemplateController@save');
+    Route::delete('/notification-template/{id}', 'taqneen\NotificationTemplateController@destroy');
 /*
     Route::get('customerForm/createcustomermasarat', [CustomerFormController::class,'createCustomerMasarat']); 
     Route::get('customerForm/createcustomermuqeem', [CustomerFormController::class,'createCustomerMuqeem']); 

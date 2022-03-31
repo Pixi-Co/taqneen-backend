@@ -42,13 +42,14 @@
                                         <h5>@trans('lang.Opportunities')</h5>
                                     </div> --}}
                                     <div class="card-body">
-                                        <a role="button" href="/notification-template/create" class="btn btn-primary" >@trans('add new')</a>
+                                        <a role="button" href="/notification-template/form" class="btn btn-primary" >@trans('add new')</a>
                                     
                                         <div class="table-responsive">
                                             <table class="display" id="advance-4">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
+                                                        <th>@trans('action name')</th>
                                                         <th>@trans('subject')</th>
                                                         <th>@trans('actions')</th>
                                                     </tr>
@@ -57,9 +58,10 @@
                                                     @foreach($resources as $item)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
+                                                        <td>{{  __($item->template_for)  }}</td>               
                                                         <td>{{  $item->subject  }}</td>               
                                                         <td>
-                                                            <a role="button" href="/notification-template/{{ $item->id }}/edit" class="btn btn-primary" >@trans('edit')</a>
+                                                            <a role="button" href="/notification-template/form?id={{ $item->id }}" class="btn btn-primary" >@trans('edit')</a>
                                                             <button onclick="destroy('/notification-template/{{ $item->id }}')" class="btn btn-danger" >@trans('remove')</button>
                                                         </td>     
                                                     </tr> 

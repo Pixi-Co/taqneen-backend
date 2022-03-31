@@ -373,4 +373,46 @@ class User extends Authenticatable
     public function isAdmin() { 
         return (new BusinessUtil)->is_admin(auth()->user());
     }
+
+    public function subscriptionQueryReport() {
+        $query = Subscription::query();
+
+        if (request()->service_id > 0) {
+            $ids = DB::table('subscription_lines')->where('service_id', request()->service_id)->pluck('transaction_id')->toArray();
+            $query->whereIn("id", $ids);
+        }
+
+
+        if (request()->expire_date_start && request()->expire_date_end) {
+            $dates = [
+                request()->expire_date_start,
+                request()->expire_date_end
+            ];
+            $query->whereBetween('expire_date', $dates);
+        }
+
+        if (request()->payment_date_start && request()->payment_date_end) {
+            $dates = [
+                request()->payment_start . " 01:00:00",
+                request()->payment_date_end . " 00:00:00"
+            ];
+            $ids = DB::table('transaction_payments')
+                ->where('business_id', session('business.id'))
+                ->whereBetween('paid_on', $dates)
+                ->whereNotNull('transaction_id')
+                ->select('transaction_id')
+                ->distinct()
+                ->pluck('transaction_id')->toArray();
+            $query->whereIn("id", $ids);
+        }
+
+        if (request()->subscription_type) {
+            if (request()->subscription_type == 'new')
+                $query->where('is_renew', '0');
+            else
+                $query->where('is_renew', '1');
+        }
+
+        return clone $query;
+    }
 }
