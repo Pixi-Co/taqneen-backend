@@ -102,7 +102,7 @@ a[x-apple-data-detectors] {
                <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
                  <tr style="border-collapse:collapse"> 
                   <td valign="top" align="center" style="padding:0;Margin:0;width:600px"> 
-                   <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate;border-spacing:0px;background-color:#104470;border-radius:10px" width="100%" cellspacing="0" cellpadding="0" bgcolor="#104470" role="presentation"> 
+                   <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate;border-spacing:0px;background-color:#fafafa;border-radius:10px" width="100%" cellspacing="0" cellpadding="0" bgcolor="#104470" role="presentation"> 
                      <tr style="border-collapse:collapse"> 
                       <td align="center" style="padding:15px;Margin:0;font-size:0px"><a target="_blank" href="https://taqneen.com/" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:underline;color:#FFA73B;font-size:18px"><img class="adapt-img" src="{{ url('/images/logo.png') }}" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="187" height="65"></a></td> 
                      </tr> 
