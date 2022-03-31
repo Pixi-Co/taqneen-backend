@@ -40,12 +40,7 @@
                                     <div class="card">
                                         <div class="row product-page-main">
                                             <div class="col-sm-12">
-                                                <select class="form-control"
-                                                    onclick="$('.tab-pane').removeClass('fade active show');$('#' + this.value).addClass('fade active show')">
-                                                    @foreach ($trigers as $key => $value)
-                                                        <option value="{{ $key }}">{{ $value }}</option>
-                                                    @endforeach
-                                                </select>
+
                                                 <div class="tab-content" id="top-tabContent">
                                                     <br>
                                                     <br>
@@ -59,61 +54,57 @@
                                                     @endforeach
                                                     <br>
                                                     <br>
-                                                    @foreach ($trigers as $key => $value)
-                                                        <div class="tab-pane {{ $loop->iteration == 1 ? 'fade active show' : '' }}"
-                                                            id="{{ $key }}" role="tabpanel"
-                                                            aria-labelledby="top-home-tab">
+                                                    <div class="tab-pane fade active show"
+                                                        id="" role="tabpanel"
+                                                        aria-labelledby="top-home-tab">
 
-                                                            <div class="row">
-                                                                <form method="post"
-                                                                    action="{{ url('/notification-template') }}"
-                                                                    class="form">
-                                                                    @csrf
-                                                                    {!! Form::hidden('template_for', $key, []) !!}
-                                                                    {!! Form::hidden('email_body', '', []) !!}
+                                                        <div class="row">
+                                                            <form method="post" action="{{ url('/notification-template') }}" class="form">
+                                                                @csrf 
+                                                                {!! Form::hidden('id', $resource->id, []) !!}
+                                                                {!! Form::hidden('email_body', '', []) !!}
 
-                                                                    <div class="form-group">
-                                                                        <b>@trans('action name')</b>
-                                                                        {!! Form::text('triger_name', __($value), ['class' => 'form-control', 'readonly']) !!}
-                                                                    </div>
+                                                                <div class="form-group">
+                                                                    <b>@trans('action name')</b>
+                                                                    {!! Form::select('template_for', $trigers, $resource->template_for, ['class' => 'form-select', 'required']) !!}
+                                                                </div>
 
-                                                                    <div class="form-group">
-                                                                        <br>
-                                                                        <b>@trans('subject')</b>
-                                                                        {!! Form::text('subject', $resource->subject, ['class' => 'form-control', 'required']) !!}
-                                                                    </div>
+                                                                <div class="form-group">
+                                                                    <br>
+                                                                    <b>@trans('subject')</b>
+                                                                    {!! Form::text('subject', $resource->subject, ['class' => 'form-control', 'required']) !!}
+                                                                </div>
 
-                                                                    <div class="form-group">
-                                                                        <br>
-                                                                        <b>@trans('emails')</b> {{ __('or write email tag') }} 
-                                                                        
-                                                                        <span  class="btn btn-primary btn-xs" style="margin: 1px" 
-                                                                            data-bs-original-title="" title="">
-                                                                            {sales_commision_email}
-                                                                        </span> 
-                                                                        <span class="btn btn-primary btn-xs" style="margin: 1px" 
-                                                                            data-bs-original-title="" title="">
-                                                                            {customer_email}
-                                                                        </span>
-                                                                        {!! Form::text('cc', $resource->cc, ['class' => 'form-control', '', 'placeholder' => 'email1@example.com,email2@example.com', 'required']) !!}
-                                                                    </div>
+                                                                <div class="form-group">
+                                                                    <br>
+                                                                    <b>@trans('emails')</b> {{ __('or write email tag') }}
 
-                                                                    <div class="form-group">
-                                                                        <br>
-                                                                        <b>@trans('email_body')</b>
-                                                                        {!! Form::textarea('email_body_' . $key, $resource->email_body, ['class' => 'form-control']) !!}
-                                                                    </div>
+                                                                    <span class="btn btn-primary btn-xs" style="margin: 1px"
+                                                                        data-bs-original-title="" title="">
+                                                                        {sales_commision_email}
+                                                                    </span>
+                                                                    <span class="btn btn-primary btn-xs" style="margin: 1px"
+                                                                        data-bs-original-title="" title="">
+                                                                        {customer_email}
+                                                                    </span>
+                                                                    {!! Form::text('cc', $resource->cc, ['class' => 'form-control', '', 'placeholder' => 'email1@example.com,email2@example.com', 'required']) !!}
+                                                                </div>
 
-                                                                    <div class="form-group w3-center">
-                                                                        <br>
-                                                                        <button type="submit"
-                                                                            onclick="setEmailBody(this, '{{ $key }}')"
-                                                                            class="btn btn-primary">@trans('save')</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
+                                                                <div class="form-group">
+                                                                    <br>
+                                                                    <b>@trans('email_body')</b>
+                                                                    {!! Form::textarea('email_body_', $resource->email_body, ['class' => 'form-control']) !!}
+                                                                </div>
+
+                                                                <div class="form-group w3-center">
+                                                                    <br>
+                                                                    <button type="submit"
+                                                                        onclick="setEmailBody(this)"
+                                                                        class="btn btn-primary">@trans('save')</button>
+                                                                </div>
+                                                            </form>
                                                         </div>
-                                                    @endforeach
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -161,16 +152,13 @@
     <script src="https://cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
 
     <script>
-        function setEmailBody(btn, triger) {
-            var form = btn.form;
-            console.log(form.email_body);
-            var instance = "email_body_" + triger;
+        function setEmailBody(btn) {
+            var form = btn.form; 
+            var instance = "email_body_";
             form.email_body.value = CKEDITOR.instances[instance].getData();
         }
 
-        @foreach ($trigers as $key => $value)
-            CKEDITOR.replace( '{{ 'email_body_' . $key }}' );
-        @endforeach
+        CKEDITOR.replace( 'email_body_' ); 
 
 
         $(document).ready(function() {

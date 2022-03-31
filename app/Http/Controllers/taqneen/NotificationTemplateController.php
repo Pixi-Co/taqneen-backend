@@ -48,7 +48,7 @@ class NotificationTemplateController extends Controller
         } else {
             DB::table('notification_templates')
             ->where('business_id', session('business.id'))
-            ->where('template_for', $template_for)
+            ->where('id', $request->id)
             ->update($data);
         }
 
