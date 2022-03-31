@@ -68,6 +68,7 @@ class CustomerFormController extends Controller
                 "msg" => $th->getMessage()
             ];
  
+            dd($output);
             return back()->with('status', $output);
         } 
     }
@@ -93,7 +94,7 @@ class CustomerFormController extends Controller
 
         $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'))->render();
         $pdf = PDF::loadHTML($html); 
-
+ 
         return $pdf->stream('document.pdf');
 
         //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
