@@ -105,12 +105,13 @@ class EmailTemplate extends Model
     public static function send($triger, $subscriptionId) {
         $subscription = Subscription::find($subscriptionId);
         $emailList = self::getEmail($triger, $subscription);
-
-        dd($emailList);
+ 
         foreach($emailList as $data) { 
             try {
                 sendMailJet($data['to'], $data['subject'], $data['body'], $data['title'], null, "/images/img-25.jpg", "", $data['from']);
             } catch (\Exception $th) { 
+
+                dd($th->getMessage());
             }
         } 
     }
