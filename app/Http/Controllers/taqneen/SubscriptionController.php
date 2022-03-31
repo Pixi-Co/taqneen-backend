@@ -20,8 +20,7 @@ use DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
-use Yajra\DataTables\Facades\DataTables;
-use PDF;
+use Yajra\DataTables\Facades\DataTables; 
 
 class SubscriptionController extends Controller
 {
@@ -185,7 +184,7 @@ class SubscriptionController extends Controller
     public function print($id)
     {
         $resource = Subscription::where("invoice_token", $id)->first();
-        if (!$resource)
+        /*if (!$resource)
             return back();
 
         $data = [
@@ -193,7 +192,8 @@ class SubscriptionController extends Controller
         ];
         $pdf = PDF::loadView('taqneen.subscription.print', $data);
         return $pdf->stream('document.pdf');
-        //return view('taqneen.subscription.print', compact("resource"));
+        */
+        return view('taqneen.subscription.print', compact("resource"));
     }
 
     public function create()
