@@ -85,10 +85,11 @@ class CustomerFormController extends Controller
         
         //dd($data);
 
-        $data = [
-            'resource' => $resource
+        $data2 = [
+            'resource' => $resource,
+            'data' => $data,
         ];
-        $pdf = PDF::loadView('taqneen.customer_forms.pdf.' . $file, $data);
+        $pdf = PDF::loadView('taqneen.customer_forms.pdf.' . $file, $data2);
         return $pdf->stream('document.pdf');
 
         //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
