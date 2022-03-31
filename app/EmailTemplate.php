@@ -21,6 +21,7 @@ class EmailTemplate extends Model
         "EXPIRE_SUBSCRIPTION_AFTER_3_WEEKS" => "expire subscription after 3 week",
         "EXPIRE_SUBSCRIPTION_AFTER_2_WEEKS" => "expire subscription after 2 week",
         "EXPIRE_SUBSCRIPTION_AFTER_1_WEEKS" => "expire subscription after 1 week",
+        "ADD_OPPORTUNITY" => "add opportunities",
     ];
 
     public static $TAGS = [
@@ -105,6 +106,21 @@ class EmailTemplate extends Model
     public static function send($triger, $subscriptionId) {
         $subscription = Subscription::find($subscriptionId);
         $emailList = self::getEmail($triger, $subscription);
+ 
+        //dd($emailList);
+        foreach($emailList as $data) { 
+            try {
+                $res = sendMailJet($data['to'], $data['subject'], $data['body'], $data['title'], null, "/images/img-25.jpg", "", $data['from']);
+                 
+            } catch (\Exception $th) { 
+
+                //dd($th->getMessage());
+            }
+        } 
+    }
+
+    public static function send2($triger, $object) {
+        $emailList = self::getEmail($triger, $object);
  
         //dd($emailList);
         foreach($emailList as $data) { 

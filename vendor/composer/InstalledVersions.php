@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '1a15b6f9981002c5efd249c4d57abedaaae4a73b',
+    'reference' => '9d68cbc3bbed4dd3106389d5fb861cdf8cec9d4e',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -633,7 +633,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '1a15b6f9981002c5efd249c4d57abedaaae4a73b',
+      'reference' => '9d68cbc3bbed4dd3106389d5fb861cdf8cec9d4e',
     ),
     'laravel/passport' => 
     array (
@@ -900,6 +900,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '210577fe3cf7badcc5814d99455df46564f3c077',
+    ),
+    'niklasravnsborg/laravel-pdf' => 
+    array (
+      'pretty_version' => 'v4.1.0',
+      'version' => '4.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a5f5c22dd5e10d8f536102cec01c21282e18ebae',
     ),
     'nunomaduro/collision' => 
     array (
@@ -1271,8 +1280,8 @@ private static $installed = array (
     array (
       'provided' => 
       array (
-        0 => '1.0|2.0',
-        1 => '1.0.0',
+        0 => '1.0.0',
+        1 => '1.0|2.0',
       ),
     ),
     'psr/simple-cache' => 
@@ -1533,6 +1542,15 @@ private static $installed = array (
       array (
       ),
       'reference' => 'f517729b3793bca58f847c5fd383ec16f03ffec6',
+    ),
+    'spipu/html2pdf' => 
+    array (
+      'pretty_version' => 'v5.2.4',
+      'version' => '5.2.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'dcb5671cac3d60ff486cf16df389e3bd0dc16ba4',
     ),
     'srmklive/paypal' => 
     array (
@@ -1835,6 +1853,15 @@ private static $installed = array (
       array (
       ),
       'reference' => 'c441e9d2e340642ac8b951b753dea962d55b669d',
+    ),
+    'tecnickcom/tcpdf' => 
+    array (
+      'pretty_version' => '6.4.4',
+      'version' => '6.4.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '42cd0f9786af7e5db4fcedaa66f717b0d0032320',
     ),
     'theseer/tokenizer' => 
     array (
