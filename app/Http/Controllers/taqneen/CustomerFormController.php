@@ -67,6 +67,7 @@ class CustomerFormController extends Controller
                 "success" => 0,
                 "msg" => $th->getMessage()
             ];
+ 
             return back()->with('status', $output);
         } 
     }
@@ -81,17 +82,18 @@ class CustomerFormController extends Controller
         if (!$resource) 
             $resource = new CustomerForm();
 
-        $json = json_decode($resource->value);
+        $data = json_decode($resource->value);
         
         //dd($data);
 
-        $data = [
+        /*$data = [
             'resource' => $resource,
             'data' => $json,
-        ];
-        $pdf = PDF::loadView('taqneen.customer_forms.pdf.' . $file, $data);
+        ];*/
 
-        dd($pdf);
+        $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'))->render();
+        $pdf = PDF::loadHTML($html); 
+
         return $pdf->stream('document.pdf');
 
         //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
