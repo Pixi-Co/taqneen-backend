@@ -479,6 +479,7 @@ if (!function_exists('sendMailJet')) {
 
         $from = "alifaragmahmed@gmail.com";
 
+        dd($message);
         $body = [
             'Messages' => [
                 [

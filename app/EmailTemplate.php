@@ -106,6 +106,7 @@ class EmailTemplate extends Model
         $subscription = Subscription::find($subscriptionId);
         $emailList = self::getEmail($triger, $subscription);
  
+        //dd($emailList);
         foreach($emailList as $data) { 
             try {
                 $res = sendMailJet($data['to'], $data['subject'], $data['body'], $data['title'], null, "/images/img-25.jpg", "", $data['from']);
