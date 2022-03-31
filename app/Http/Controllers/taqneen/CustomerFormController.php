@@ -4,8 +4,8 @@ namespace App\Http\Controllers\taqneen;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\CustomerForm;
-use Razorpay\Api\Customer;
+use App\CustomerForm; 
+use PDF;
 
 class CustomerFormController extends Controller
 {
@@ -84,6 +84,13 @@ class CustomerFormController extends Controller
         $data = json_decode($resource->value);
         
         //dd($data);
-        return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
+
+        $data = [
+            'resource' => $resource
+        ];
+        $pdf = PDF::loadView('taqneen.customer_forms.pdf.' . $file, $data);
+        return $pdf->stream('document.pdf');
+
+        //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
     }
 }
