@@ -478,8 +478,7 @@ if (!function_exists('sendMailJet')) {
         $subject = str_replace("\n", "\r", $subject);
 
         $from = "alifaragmahmed@gmail.com";
-
-        dd($message);
+ 
         $body = [
             'Messages' => [
                 [
