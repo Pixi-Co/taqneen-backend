@@ -22,7 +22,6 @@ use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 use PDF;
-use Spipu\Html2Pdf\Html2Pdf;
 
 class SubscriptionController extends Controller
 {
@@ -189,9 +188,11 @@ class SubscriptionController extends Controller
         if (!$resource)
             return back();
 
-        $html2pdf = new Html2Pdf();
-        $html2pdf->writeHTML(view('taqneen.subscription.print', compact("resource")));
-        $html2pdf->output('myPdf.pdf');     
+        $data = [
+            'resource' => $resource
+        ];
+        $pdf = PDF::loadView('taqneen.subscription.print', $data);
+        return $pdf->stream('document.pdf');
         //return view('taqneen.subscription.print', compact("resource"));
     }
 
