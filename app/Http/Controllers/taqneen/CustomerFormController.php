@@ -81,15 +81,15 @@ class CustomerFormController extends Controller
         if (!$resource) 
             $resource = new CustomerForm();
 
-        $data = json_decode($resource->value);
+        $json = json_decode($resource->value);
         
         //dd($data);
 
-        $data2 = [
+        $data = [
             'resource' => $resource,
-            'data' => $data,
+            'data' => $json,
         ];
-        $pdf = PDF::loadView('taqneen.customer_forms.pdf.' . $file, $data2);
+        $pdf = PDF::loadView('taqneen.customer_forms.pdf.' . $file, $data);
         return $pdf->stream('document.pdf');
 
         //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
