@@ -17,8 +17,13 @@ class Triger {
     public static $EXPIRE_SUBSCRIPTION_BEFORE_3_WEEKS = "EXPIRE_SUBSCRIPTION_BEFORE_3_WEEKS";
     public static $EXPIRE_SUBSCRIPTION_BEFORE_2_WEEKS = "EXPIRE_SUBSCRIPTION_BEFORE_2_WEEKS";
     public static $EXPIRE_SUBSCRIPTION_BEFORE_1_WEEKS = "EXPIRE_SUBSCRIPTION_BEFORE_1_WEEKS";
+    public static $ADD_OPPORTUNITY = "ADD_OPPORTUNITY";
 
     public static function fire($triger, $subscriptionId) {
         EmailTemplate::send($triger, $subscriptionId);
+    }
+
+    public static function fire2($triger, $object) {
+        EmailTemplate::send2($triger, $object);
     }
 }

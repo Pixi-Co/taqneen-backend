@@ -180,6 +180,7 @@ return [
         App\Providers\DropboxServiceProvider::class,
         Buglinjo\LaravelWebp\WebpServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        niklasravnsborg\LaravelPdf\PdfServiceProvider::class
 
 
     ],
@@ -244,5 +245,6 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Tutorial' => Modules\Help\Entities\Tutorial::class,
         'Subscription' => Modules\Subscription\Entities\Subscription::class,  
+        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class
     ]
 ];

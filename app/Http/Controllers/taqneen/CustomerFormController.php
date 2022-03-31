@@ -4,8 +4,8 @@ namespace App\Http\Controllers\taqneen;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\CustomerForm;
-use Razorpay\Api\Customer;
+use App\CustomerForm; 
+use PDF;
 
 class CustomerFormController extends Controller
 {
@@ -62,11 +62,12 @@ class CustomerFormController extends Controller
             $resource = CustomerForm::createOrUpdate($key, $value);
 
             return $this->viewPdf($resource, $key);
-        } catch (\Exception $th) {
+        } catch (Exception $th) {
             $output = [
                 "success" => 0,
                 "msg" => $th->getMessage()
             ];
+ 
             return back()->with('status', $output);
         } 
     }
@@ -84,6 +85,17 @@ class CustomerFormController extends Controller
         $data = json_decode($resource->value);
         
         //dd($data);
-        return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
+
+        /*$data = [
+            'resource' => $resource,
+            'data' => $json,
+        ];*/
+
+        $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'))->render();
+        $pdf = PDF::loadHTML($html); 
+ 
+        return $pdf->stream('document.pdf');
+
+        //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
     }
 }

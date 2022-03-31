@@ -20,7 +20,7 @@ use DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
-use Yajra\DataTables\Facades\DataTables;
+use Yajra\DataTables\Facades\DataTables; 
 
 class SubscriptionController extends Controller
 {
@@ -69,7 +69,7 @@ class SubscriptionController extends Controller
                 $query->where('is_renew', '1');
         }
 
-        if (request()->payment_status) { 
+        if (request()->payment_status) {
             $query->where('shipping_custom_field_2', request()->payment_status);
         }
 
@@ -160,7 +160,7 @@ class SubscriptionController extends Controller
                 $html = "";
 
                 if ($row->status == "paid")
-                    $html = "<span class='badge w3-green' >" . __("paid") . "</span>"; 
+                    $html = "<span class='badge w3-green' >" . __("paid") . "</span>";
                 else
                     $html = "<span class='badge w3-red' >" . __("not_paid") . "</span>";
 
@@ -184,9 +184,15 @@ class SubscriptionController extends Controller
     public function print($id)
     {
         $resource = Subscription::where("invoice_token", $id)->first();
-        if (!$resource)
+        /*if (!$resource)
             return back();
 
+        $data = [
+            'resource' => $resource
+        ];
+        $pdf = PDF::loadView('taqneen.subscription.print', $data);
+        return $pdf->stream('document.pdf');
+        */
         return view('taqneen.subscription.print', compact("resource"));
     }
 
@@ -196,13 +202,13 @@ class SubscriptionController extends Controller
         $subscription = new Subscription();
         $payment = new TransactionPayment();
         $customers = Contact::where('business_id', $business_id)
-        ->onlyCustomers()
-        ->where(function($query){
-            if (!auth()->user()->isAdmin()) {
-                $query->onlyMe();
-            }
-        })
-        ->get();
+            ->onlyCustomers()
+            ->where(function ($query) {
+                if (!auth()->user()->isAdmin()) {
+                    $query->onlyMe();
+                }
+            })
+            ->get();
         $customerObject = Contact::getObject();
         $services = Category::forDropdown(session('user.business_id'), "service");
         $packages = ServicePackage::where('business_id', $business_id)->get();
@@ -214,13 +220,13 @@ class SubscriptionController extends Controller
         $subscription->created_by = auth()->user()->id;
         $subscription->contact = new Subscription();
         $roles = Role::where('business_id', session('business.id'))
-        ->where(function($query){
-            if (!auth()->user()->isAdmin()) { 
-                $query->where('name', 'customer#' . session('business.id'));
-            }
-        })
-        ->pluck('name','name')
-        ->all();
+            ->where(function ($query) {
+                if (!auth()->user()->isAdmin()) {
+                    $query->where('name', 'customer#' . session('business.id'));
+                }
+            })
+            ->pluck('name', 'name')
+            ->all();
         $status = [
             "waiting" => __('waiting'),
             "processing" => __('processing'),
@@ -270,13 +276,13 @@ class SubscriptionController extends Controller
         $subscription = Subscription::find($id);
         $payment = TransactionPayment::where('transaction_id', $id)->first();
         $customers = Contact::where('business_id', $business_id)
-        ->onlyCustomers()
-        ->where(function($query){
-            if (!auth()->user()->isAdmin()) {
-                $query->onlyMe();
-            }
-        })
-        ->get();
+            ->onlyCustomers()
+            ->where(function ($query) {
+                if (!auth()->user()->isAdmin()) {
+                    $query->onlyMe();
+                }
+            })
+            ->get();
         $customerObject = Contact::getObject();
         $services = Category::forDropdown(session('user.business_id'), "service");
         $packages = ServicePackage::where('business_id', $business_id)->get();
@@ -288,13 +294,13 @@ class SubscriptionController extends Controller
         $subscription->transaction_date = date('Y-m-d\TH:i', strtotime($subscription->transaction_date));
         $payment->paid_on = date('Y-m-d\TH:i', strtotime($payment->paid_on));
         $roles = Role::where('business_id', session('business.id'))
-        ->where(function($query){
-            if (!auth()->user()->isAdmin()) { 
-                $query->where('name', 'customer#' . session('business.id'));
-            }
-        })
-        ->pluck('name','name')
-        ->all();
+            ->where(function ($query) {
+                if (!auth()->user()->isAdmin()) {
+                    $query->where('name', 'customer#' . session('business.id'));
+                }
+            })
+            ->pluck('name', 'name')
+            ->all();
 
 
         $status = [
@@ -645,7 +651,7 @@ class SubscriptionController extends Controller
         $contact = null;
 
         try {
-            $data=[
+            $data = [
                 "supplier_business_name" => $request->supplier_business_name,
                 "custom_field1" => $request->custom_field1,
                 "mobile" => $request->mobile,
@@ -656,8 +662,8 @@ class SubscriptionController extends Controller
                 "zip_code" => $request->zip_code,
                 "first_name" => $request->first_name,
                 "last_name" => $request->last_name,
-                "name" => $request->first_name .' '. $request->last_name,
-                "business_id" =>session('business.id'),
+                "name" => $request->first_name . ' ' . $request->last_name,
+                "business_id" => session('business.id'),
                 "created_by" => session('user.id'),
                 "type" => 'customer',
             ];
