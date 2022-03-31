@@ -502,6 +502,7 @@ if (!function_exists('sendMailJet')) {
         // All resources are located in the Resources class
         $response = $mj->post(Mailjet\Resources::$Email, ['body' => $body]);
 
+        return $response;
         // Read the response
         //$response->success() && var_dump($response->getData());
     }

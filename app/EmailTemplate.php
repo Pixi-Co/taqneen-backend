@@ -108,10 +108,12 @@ class EmailTemplate extends Model
  
         foreach($emailList as $data) { 
             try {
-                sendMailJet($data['to'], $data['subject'], $data['body'], $data['title'], null, "/images/img-25.jpg", "", $data['from']);
+                $res = sendMailJet($data['to'], $data['subject'], $data['body'], $data['title'], null, "/images/img-25.jpg", "", $data['from']);
+                
+                dd($res);
             } catch (\Exception $th) { 
 
-                dd($th->getMessage());
+                //dd($th->getMessage());
             }
         } 
     }
