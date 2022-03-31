@@ -90,6 +90,8 @@ class CustomerFormController extends Controller
             'data' => $json,
         ];
         $pdf = PDF::loadView('taqneen.customer_forms.pdf.' . $file, $data);
+
+        dd($pdf);
         return $pdf->stream('document.pdf');
 
         //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
