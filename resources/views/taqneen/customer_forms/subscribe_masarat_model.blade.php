@@ -19,7 +19,7 @@
     grid-column-gap: 32px;
 }
 
-input[type='text'],input[type="text"]:focus{
+input[type='text'],input[type='date'],input[type='date']:focus,input[type="text"]:focus{
     border-color: #ebebeb;
     background-color: #f8f8f8;
     color: #969696;
@@ -122,7 +122,7 @@ input[type=submit]:hover{
                                 </span>
                             </label> 
                             <div class="col-sm-10">
-                                <input name="form[release_date]" id="release_date" type="text" value="" class="form-control  fc-datepicker" placeholder="yyyy/mm/dd" autocomplete="off" >
+                                <input name="form[release_date]" id="release_date" type="date" value="" class="form-control fc-datepicker" placeholder="yyyy/mm/dd" autocomplete="off" >
                             </div>
                             <div class="col-sm-2 pt-1">
                                 <img class="ui-datepicker-trigger" src="https://taqneen.com/wp-content/plugins/gravityforms/images/datepicker/datepicker.svg" alt="" title="">
@@ -141,7 +141,7 @@ input[type=submit]:hover{
                                 </span>
                             </label> 
                             <div class="col-sm-10">
-                                <input name="form[end_date]" id="end_date" type="text" value="" class="form-control  fc-datepicker" placeholder="yyyy/mm/dd" autocomplete="off" >
+                                <input name="form[end_date]" id="end_date" type="date" value="" class="form-control fc-datepicker" placeholder="yyyy/mm/dd" autocomplete="off" >
                             </div>
                             <div class="col-sm-2 pt-1">
                                 <img class="ui-datepicker-trigger" src="https://taqneen.com/wp-content/plugins/gravityforms/images/datepicker/datepicker.svg" alt="" title="">
@@ -279,7 +279,7 @@ input[type=submit]:hover{
                         </label> 
                         <input class="form-control" name="form[company_email]" type="text" value="" id="company_email" required placeholder="">
                     </div>
-                    <div class="col-md-6 " >
+                    <div class="col-md-6 pb-5" >
                         <label class="gfield_label pb-1" for="">رقم الهوية                            
                             <span class="gfield_required">
                                 <span class="gfield_required gfield_required_custom">*</span>
@@ -294,15 +294,15 @@ input[type=submit]:hover{
                         <div class="ginput_container ginput_container_checkbox">
                             <div class="" id="input_4_154">
                                 <div class="gchoice gchoice_4_154_1">
-                                    <input class="gfield-choice-input" name="form[select_service]" type="checkbox" value="خدمة إدارة تأجير المركبات" id="select_service">
+                                    <input class="gfield-choice-input" name="form[select_service][]" type="checkbox" value="خدمة إدارة تأجير المركبات" id="select_service">
                                     <label for="choice_4_154_1" id="label_4_154_1">خدمة إدارة تأجير المركبات</label>
                                 </div>
                                 <div class="gchoice gchoice_4_154_2">
-                                    <input class="gfield-choice-input" name="form[select_service]" type="checkbox" value="خدمة إدارة الصيانة والتشغيل للمركبات" id="select_service2">
+                                    <input class="gfield-choice-input" name="form[select_service][]" type="checkbox" value="خدمة إدارة الصيانة والتشغيل للمركبات" id="select_service2">
                                     <label for="choice_4_154_2" id="label_4_154_2">خدمة إدارة الصيانة والتشغيل للمركبات</label>
                                 </div>
                                 <div class="gchoice gchoice_4_154_3">
-                                    <input class="gfield-choice-input" name="form[select_service]" type="checkbox" value="خدمة تتبع المركبات شاملة إدارة الصيانة والتشغيل" id="select_service3">
+                                    <input class="gfield-choice-input" name="form[select_service][]" type="checkbox" value="خدمة تتبع المركبات شاملة إدارة الصيانة والتشغيل" id="select_service3">
                                     <label for="choice_4_154_3" id="label_4_154_3">خدمة تتبع المركبات شاملة إدارة الصيانة والتشغيل</label>
                                 </div>
                             </div>
@@ -344,11 +344,7 @@ input[type=submit]:hover{
 <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatables/datatable.custom.js')}}"></script>
 
-<script>
-    var date = $('.fc-datepicker').datepicker({
-        dateFormat: 'yyyy mm dd'
-    }).val();
-</script>
+
 
 @endsection
 

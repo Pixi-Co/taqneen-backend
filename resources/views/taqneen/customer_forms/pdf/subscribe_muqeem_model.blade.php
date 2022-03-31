@@ -8,11 +8,11 @@
     <title>TamUser</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300&display=swap" rel="stylesheet">
 <body>
-    <img src="{{ url('/assets/images/muqeem-pdf/page.png') }}" class="pdf_image w3-display-topleft" alt="">
+    <img style="height: 26.458333333cm;" src="{{ url('/assets/images/muqeem-pdf/page.png') }}" class="pdf_image w3-display-topleft" alt="">
     
     <!-- /////////////////////////////////////////////////////////////////// -->
 
-    <div class="pdf-data w3-display-topright company_num" style="top: 7.15cm;right: 6cm;" >
+    <div class="pdf-data w3-display-topright company_num" style="top: 6.39cm;right: 6cm;" >
         <div style="float:left;text-align: center" >
             @for($i = 0; $i < strlen($data->company_num); $i ++)
             <span style="float: left;width: 0.45cm;font-size: 15px" >
@@ -22,13 +22,13 @@
         </div>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 8.35cm;right: 6.2cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 7.46cm;right: 6.2cm;" >
         <b>{{ $data->name_ar }}</b>
     </div>
 
     <!-- /////////////////معلومات المستخدم الرئيسى//////////////////////// -->
    
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.95cm;right: 1.17cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 9.85cm;right: 1.17cm;" >
         <img src="{{ url('/assets/images/muqeem-pdf/check.png') }}" class="" alt="" style="width: 7px;">
     </div>
 
@@ -40,11 +40,11 @@
         <img src="{{ url('/assets/images/muqeem-pdf/check.png') }}" class="" alt="" style="width: 7px;">
     </div> --}}
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.9cm;right: 5.0cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 9.85cm;right: 5.0cm;" >
         <b>{{ $data->user_name }}</b>
     </div>
   
-    <div class="pdf-data w3-display-topright company_num" style="top: 10.99cm;right: 7.9cm;" >
+    <div class="pdf-data w3-display-topright company_num" style="top: 9.85cm;right: 7.9cm;" >
         <div style="float:left;text-align: center" >
             @for($i = 0; $i < strlen($data->id_number); $i ++)
             <span style="float: left;width: 0.48cm;font-size: 15px" >
@@ -54,11 +54,11 @@
         </div>
     </div>
     
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.99cm;right: 13.0cm;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 9.85cm;right: 13.0cm;" >
         <b>{{ $data->user_phone }}</b>
     </div>
 
-    <div  class="pdf-data w3-display-topright w3-center" style="top: 10.99cm;right: 15.9cm;font-size: 12px;" >
+    <div  class="pdf-data w3-display-topright w3-center" style="top: 9.85cm;right: 15.9cm;font-size: 12px;" >
         <b>{{ $data->user_mail }}</b>
     </div>
 
