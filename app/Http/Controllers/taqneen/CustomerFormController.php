@@ -62,13 +62,12 @@ class CustomerFormController extends Controller
             $resource = CustomerForm::createOrUpdate($key, $value);
 
             return $this->viewPdf($resource, $key);
-        } catch (\Exception $th) {
+        } catch (Exception $th) {
             $output = [
                 "success" => 0,
                 "msg" => $th->getMessage()
             ];
  
-            dd($output);
             return back()->with('status', $output);
         } 
     }
