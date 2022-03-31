@@ -126,6 +126,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/customer-form/{form_name}/index', 'taqneen\CustomerFormController@index');
     Route::get('/customer-pdf/{file}', 'taqneen\CustomerFormController@viewPdf');
     Route::get('/notification-template', 'taqneen\NotificationTemplateController@index');
+    Route::get('/notification-template/create', 'taqneen\NotificationTemplateController@create');
     Route::post('/notification-template', 'taqneen\NotificationTemplateController@save');
 /*
     Route::get('customerForm/createcustomermasarat', [CustomerFormController::class,'createCustomerMasarat']); 

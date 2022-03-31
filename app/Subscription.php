@@ -100,4 +100,31 @@ class Subscription extends Transaction
         return $subscriptions;
     }
 
+    public function getExpireStatusForCalendar() {
+        $now = Carbon::now()->addDays(30)->format('Y-m-d');
+        
+        if (str_contains($this->transaction_date, $now)) {
+            return [
+                "will_expire_in_month", "#ffeb3b"
+            ];
+        }
+
+        if (str_contains($this->expire_date, $now)) {
+            return [
+                "expired", "#f44336"
+            ];
+        }
+
+        return [
+            "active", "#4CAF50"
+        ];
+    }
+ 
+    public function scopeOnlyMe($query) {
+        $ids1 = DB::table('transactions')->where('created_by', auth()->user()->id)->pluck('contact_id')->toArray();
+        $ids2 = DB::table('contacts')->where('created_by', session('user.id'))->pluck('id')->toArray();
+        $ids = array_merge($ids1, $ids2);
+        
+        return $query->whereIn('contact_id', $ids);
+    }
 }

@@ -65,14 +65,13 @@ class UserController extends Controller
     //  dd($request->input('roles'));
        // $image =  bcrypt($request->image);
         try{
-            $image = $request->custom_field_1->hashName();
+            //$image = $request->custom_field_1->hashName();
             //dd($image);
             $data=[
                 "first_name" => $request->first_name,
                 "email" => $request->email,
                 "contact_number" => $request->contact_number,
-                "address" => $request->address,
-                "custom_field_1" => $request->custom_field_1->hashName(),
+                "address" => $request->address, 
                 "password" => bcrypt($request->password),
                 "business_id" =>session('business.id'),
                 "user_type" => 'user',
@@ -80,8 +79,9 @@ class UserController extends Controller
             
             //dd($request->custom_field_1->hashName());
             //Storage::save('/users_images/'.bcrypt($request->image),$request->image);
-            if($request->custom_field_1){
-                Storage::put('/users_images/',$request->custom_field_1);
+            if($request->hasFile('custom_field_1')){
+                $path = Storage::put('/users_images/',$request->file('custom_field_1'));
+                $data['custom_field_1']  = $path;
             }
             
             $user= User::create($data);     
@@ -116,8 +116,7 @@ class UserController extends Controller
                 "first_name" => $request->first_name,
                 "email" => $request->email,
                 "contact_number" => $request->contact_number,
-                "address" => $request->address,
-                "custom_field_1" => $request->custom_field_1->hashName(),
+                "address" => $request->address, 
                 "password" => $request->password,
             ];
             if(!empty($data["password"])){
@@ -125,11 +124,11 @@ class UserController extends Controller
             }else{
                 $data = Arr::except($data,array('password'));
             }
-            if($request->custom_field_1){
-                if($request->custom_field_1->hashName() != $user->custom_field_1){
-                    Storage::delete('/users_images/'.$user->custom_field_1);
-                }
-                Storage::put('/users_images/',$request->custom_field_1);
+            if($request->hasFile('custom_field_1')){ 
+                Storage::delete('/users_images/'.$user->custom_field_1); 
+                $path = Storage::put('/users_images/',$request->file('custom_field_1'));
+
+                $data['custom_field_1'] = $path;
             }
 
            

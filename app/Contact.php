@@ -336,4 +336,11 @@ class Contact extends Authenticatable
         return $this->hasMany(CustomerForm::class, "customer_id");
     }
 
+    public function scopeOnlyMe($query) {
+        $ids1 = DB::table('transactions')->where('created_by', auth()->user()->id)->pluck('contact_id')->toArray();
+        $ids2 = DB::table('contacts')->where('created_by', session('user.id'))->pluck('id')->toArray();
+        $ids = array_merge($ids1, $ids2);
+        
+        return $query->whereIn('id', $ids);
+    }
 }

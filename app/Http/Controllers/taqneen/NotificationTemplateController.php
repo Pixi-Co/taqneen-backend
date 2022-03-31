@@ -15,19 +15,24 @@ class NotificationTemplateController extends Controller
 
 
     public function index() { 
-        $trigers = EmailTemplate::$TRIGERS;
-        $tags = EmailTemplate::$TAGS;
-        $instance = EmailTemplate::class;
-        return view('taqneen.notification.index', compact('trigers', 'instance', 'tags'));
+        $resources = EmailTemplate::get();  
+        return view('taqneen.notification.index', compact('resources'));
     }
 
 
+    public function create() { 
+        $trigers = EmailTemplate::$TRIGERS;
+        $tags = EmailTemplate::$TAGS;
+        $instance = EmailTemplate::class;
+        return view('taqneen.notification.form', compact('trigers', 'instance', 'tags'));
+    }
+
     public function save(Request $request) {
         $template_for = $request->template_for;
-        $resource = DB::table('notification_templates')
+        $resource = DB::table('notification_templates')->find($request->id); /*DB::table('notification_templates')
             ->where('business_id', session('business.id'))
             ->where('template_for', $template_for)
-            ->first();
+            ->first();*/
         
         $data = [
             "template_for" => $template_for,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\taqneen;
 use App\ExpenseCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\TaxRate;
 use Illuminate\Support\Facades\DB;
 
 class ExpensesCategoryController extends Controller
@@ -17,13 +18,15 @@ class ExpensesCategoryController extends Controller
 
     public function create() {
         $category = new ExpenseCategory();
-        return view('taqneen.categories.form',compact('category'));
+        $taxs = TaxRate::forBusinessDropdown(session('business.id'));
+        return view('taqneen.categories.form',compact('category', 'taxs'));
     }//end create
 
 
     public function edit($id){
         $category = ExpenseCategory::find($id);
-        return view('taqneen.categories.form', compact("category"));
+        $taxs = TaxRate::forBusinessDropdown(session('business.id'));
+        return view('taqneen.categories.form', compact("category", 'taxs'));
     }//end edit
 
 
@@ -32,6 +35,7 @@ class ExpensesCategoryController extends Controller
             $date=[
                 "name" => $request->name,
                 "price" => $request->price,
+                "tax_id" => $request->tax_id,
                 "business_id" =>session('business.id'),
             ];
             
@@ -57,6 +61,7 @@ class ExpensesCategoryController extends Controller
             $date=[
                 "name" => $request->name,
                 "price" => $request->price,
+                "tax_id" => $request->tax_id,
                 "business_id" =>session('business.id'),
             ];
             

@@ -10,15 +10,16 @@ use App\Http\Controllers\Controller;
 use App\Imports\SubscriptionImport;
 use App\Media;
 use App\ServicePackage;
-use App\Subscription; 
+use App\Subscription;
 use App\TaxRate;
 use App\Triger;
-use App\TransactionPayment; 
+use App\TransactionPayment;
 use App\User;
-use App\Utils\ContactUtil; 
+use App\Utils\ContactUtil;
 use DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
 class SubscriptionController extends Controller
@@ -33,7 +34,12 @@ class SubscriptionController extends Controller
         $business_id = session('business.id');
         $services = Category::where("business_id", $business_id)->where('category_type', 'service')->get();
 
-        return view('taqneen.subscription.index', compact("services"));
+        $payment_status = [
+            "paid" => __('paid'),
+            "not_paid" => __('not_paid')
+        ];
+
+        return view('taqneen.subscription.index', compact("services", "payment_status"));
     }
 
     public function data()
@@ -61,6 +67,18 @@ class SubscriptionController extends Controller
                 $query->where('is_renew', '0');
             else
                 $query->where('is_renew', '1');
+        }
+
+        if (request()->payment_status) { 
+            $query->where('shipping_custom_field_2', request()->payment_status);
+        }
+
+        if (request()->register_date_start && request()->register_date_end) {
+            $dates = [
+                request()->register_date_start . " 01:00:00",
+                request()->register_date_end . " 00:00:00"
+            ];
+            $query->whereBetween('shipping_custom_field_1', $dates);
         }
 
         if (request()->transaction_date_start && request()->transaction_date_end) {
@@ -109,7 +127,7 @@ class SubscriptionController extends Controller
             })
             ->addColumn('first_name', function ($row) {
                 return optional($row->contact)->first_name;
-            }) 
+            })
             ->addColumn('mobile', function ($row) {
                 return optional($row->contact)->custom_field1;
             })
@@ -124,38 +142,48 @@ class SubscriptionController extends Controller
                 $html = "";
 
                 if ($row->status == Subscription::$ACTIVE)
-                    $html = "<span class='badge w3-green' >".__(Subscription::$ACTIVE)."</span>";
+                    $html = "<span class='badge w3-green' >" . __(Subscription::$ACTIVE) . "</span>";
                 else if ($row->status == Subscription::$CANCEL)
-                    $html = "<span class='badge w3-red' >".__(Subscription::$CANCEL)."</span>";
+                    $html = "<span class='badge w3-red' >" . __(Subscription::$CANCEL) . "</span>";
                 else if ($row->status == Subscription::$PAY_PENDING)
-                    $html = "<span class='badge w3-orange' >".__(Subscription::$PAY_PENDING)."</span>";
+                    $html = "<span class='badge w3-orange' >" . __(Subscription::$PAY_PENDING) . "</span>";
                 else if ($row->status == Subscription::$PROCESSING)
-                    $html = "<span class='badge w3-indigo' >".__(Subscription::$PROCESSING)."</span>";
+                    $html = "<span class='badge w3-indigo' >" . __(Subscription::$PROCESSING) . "</span>";
                 else if ($row->status == Subscription::$WAITING)
-                    $html = "<span class='badge w3-yellow' >".__(Subscription::$WAITING)."</span>";
+                    $html = "<span class='badge w3-yellow' >" . __(Subscription::$WAITING) . "</span>";
                 else
                     $html = "<span class='badge w3-gray' >-</span>";
-                
+
                 return $html;
-            }) 
+            })
+            ->addColumn('shipping_custom_field_2', function ($row) {
+                $html = "";
+
+                if ($row->status == "paid")
+                    $html = "<span class='badge w3-green' >" . __("paid") . "</span>"; 
+                else
+                    $html = "<span class='badge w3-red' >" . __("not_paid") . "</span>";
+
+                return $html;
+            })
             ->addColumn('share', function ($row) {
                 return view('layouts.partials.share', ["phone" => optional($row->contact)->mobile, "email" => optional($row->contact)->email]);
             })
-            ->rawColumns(['action', 'share', 'status'])
+            ->rawColumns(['action', 'share', 'status', 'shipping_custom_field_2'])
             ->make(true);
     }
 
 
     public function show($id)
-    { 
-        $resource = Subscription::find($id); 
+    {
+        $resource = Subscription::find($id);
         return view('taqneen.subscription.view', compact("resource"));
     }
 
 
     public function print($id)
-    { 
-        $resource = Subscription::where("invoice_token", $id)->first(); 
+    {
+        $resource = Subscription::where("invoice_token", $id)->first();
         if (!$resource)
             return back();
 
@@ -167,7 +195,14 @@ class SubscriptionController extends Controller
         $business_id = session('business.id');
         $subscription = new Subscription();
         $payment = new TransactionPayment();
-        $customers = Contact::where('business_id', $business_id)->onlyCustomers()->get();
+        $customers = Contact::where('business_id', $business_id)
+        ->onlyCustomers()
+        ->where(function($query){
+            if (!auth()->user()->isAdmin()) {
+                $query->onlyMe();
+            }
+        })
+        ->get();
         $customerObject = Contact::getObject();
         $services = Category::forDropdown(session('user.business_id'), "service");
         $packages = ServicePackage::where('business_id', $business_id)->get();
@@ -175,9 +210,17 @@ class SubscriptionController extends Controller
         $taxs = TaxRate::getObject();
         $expenses = ExpenseCategory::getObject();
         $expensesList = ExpenseCategory::where('business_id', $business_id)->pluck("name", "id")->toArray();
-        $disabled = auth()->user()->isAdmin()? "" : "disabled";
+        $disabled = auth()->user()->can(find_or_create_p('subscription.edit_courier')) ? "" : "disabled";
         $subscription->created_by = auth()->user()->id;
         $subscription->contact = new Subscription();
+        $roles = Role::where('business_id', session('business.id'))
+        ->where(function($query){
+            if (!auth()->user()->isAdmin()) { 
+                $query->where('name', 'customer#' . session('business.id'));
+            }
+        })
+        ->pluck('name','name')
+        ->all();
         $status = [
             "waiting" => __('waiting'),
             "processing" => __('processing'),
@@ -193,6 +236,10 @@ class SubscriptionController extends Controller
             "transform_from_taqneen" => __('transform_from_taqneen'),
             "for_elm" => __('for_elm'),
             "direct_pay" => __('direct_pay')
+        ];
+        $payment_status = [
+            "paid" => __('paid'),
+            "not_paid" => __('not_paid')
         ];
         $walk_in_customer = (new ContactUtil())->getWalkInCustomer($business_id);
 
@@ -212,6 +259,8 @@ class SubscriptionController extends Controller
             "payment_methods",
             "paper_status",
             "customerObject",
+            "payment_status",
+            "roles",
         ));
     }
 
@@ -220,7 +269,14 @@ class SubscriptionController extends Controller
         $business_id = session('business.id');
         $subscription = Subscription::find($id);
         $payment = TransactionPayment::where('transaction_id', $id)->first();
-        $customers = Contact::where('business_id', $business_id)->onlyCustomers()->get();
+        $customers = Contact::where('business_id', $business_id)
+        ->onlyCustomers()
+        ->where(function($query){
+            if (!auth()->user()->isAdmin()) {
+                $query->onlyMe();
+            }
+        })
+        ->get();
         $customerObject = Contact::getObject();
         $services = Category::forDropdown(session('user.business_id'), "service");
         $packages = ServicePackage::where('business_id', $business_id)->get();
@@ -228,9 +284,17 @@ class SubscriptionController extends Controller
         $taxs = TaxRate::getObject();
         $expenses = ExpenseCategory::getObject();
         $expensesList = ExpenseCategory::where('business_id', $business_id)->pluck("name", "id")->toArray();
-        $disabled = auth()->user()->isAdmin()? "" : "disabled";
+        $disabled = auth()->user()->can(find_or_create_p('subscription.edit_courier')) ? "" : "disabled";
         $subscription->transaction_date = date('Y-m-d\TH:i', strtotime($subscription->transaction_date));
         $payment->paid_on = date('Y-m-d\TH:i', strtotime($payment->paid_on));
+        $roles = Role::where('business_id', session('business.id'))
+        ->where(function($query){
+            if (!auth()->user()->isAdmin()) { 
+                $query->where('name', 'customer#' . session('business.id'));
+            }
+        })
+        ->pluck('name','name')
+        ->all();
 
 
         $status = [
@@ -248,6 +312,10 @@ class SubscriptionController extends Controller
             "transform_from_taqneen" => __('transform_from_taqneen'),
             "for_elm" => __('for_elm'),
             "direct_pay" => __('direct_pay')
+        ];
+        $payment_status = [
+            "paid" => __('paid'),
+            "not_paid" => __('not_paid')
         ];
         $walk_in_customer = (new ContactUtil())->getWalkInCustomer($business_id);
 
@@ -267,6 +335,8 @@ class SubscriptionController extends Controller
             "payment_methods",
             "paper_status",
             "customerObject",
+            "payment_status",
+            "roles",
         ));
     }
 
@@ -291,14 +361,14 @@ class SubscriptionController extends Controller
         $newSubscription = Subscription::create($resource->toArray());
         $newSubscription = $newSubscription->refresh();
         $newSubscription->custom_field_4 = $request->custom_field_4;
-        $newSubscription->created_by = session('user.id'); 
+        $newSubscription->created_by = session('user.id');
         if ($resource->is_expire == 1)
             $newSubscription->transaction_date = $request->pay_date;
-    
+
         $newSubscription->update();
 
         // copy all subscription lines
-        foreach ($resource->subscription_lines()->get() as $item) { 
+        foreach ($resource->subscription_lines()->get() as $item) {
             DB::table('subscription_lines')->insert([
                 "transaction_id" => $newSubscription->id,
                 "service_id" => $item->service_id,
@@ -308,14 +378,14 @@ class SubscriptionController extends Controller
         }
 
         // copy all subscription notes
-        foreach ($resource->subscription_notes()->get() as $item) { 
+        foreach ($resource->subscription_notes()->get() as $item) {
             DB::table('subscription_notes')->insert([
                 "transaction_id" => $newSubscription->id,
                 "user_id" => session('user.id'),
                 "notes" => $item->notes,
             ]);
         }
- 
+
         // upload transform photo
         if ($request->hasFile('custom_field_3')) {
             $file = Storage::put("/subscriptions", $request->file('custom_field_3'));
@@ -324,7 +394,7 @@ class SubscriptionController extends Controller
         }
 
         // copy payment
-        $payment = DB::table('transaction_payments')->where('transaction_id', $resource->id)->first();    
+        $payment = DB::table('transaction_payments')->where('transaction_id', $resource->id)->first();
         DB::table('transaction_payments')->insert([
             "transaction_id" => $newSubscription->id,
             "business_id" => session('business.id'),
@@ -369,6 +439,8 @@ class SubscriptionController extends Controller
                 "custom_field_1" => $request->custom_field_1,  // expenses ids
                 "custom_field_2" => $request->custom_field_2,  // expenses amount
                 "custom_field_4" => $request->custom_field_4,  // expenses amount
+                "shipping_custom_field_1" => $request->shipping_custom_field_1,  // register date
+                "shipping_custom_field_2" => $request->shipping_custom_field_2,  // payment status
                 "final_total" => $request->final_total,  // expenses amount
                 "transaction_date" => $request->transaction_date,  // expenses amount
                 "sub_type" => $request->sub_type,  // expenses amount
@@ -397,7 +469,7 @@ class SubscriptionController extends Controller
             DB::table('subscription_notes')->insert([
                 "transaction_id" => $resource->id,
                 "user_id" => session('user.id'),
-                "notes" => $request->notes 
+                "notes" => $request->notes
             ]);
 
             // insert payment 
@@ -414,6 +486,7 @@ class SubscriptionController extends Controller
             // insert media
             Media::uploadMedia(session('business.id'), $resource, $request, "file", false, "App\Transaction");
 
+
             // upload transform photo
             if ($request->hasFile('custom_field_3')) {
                 $file = Storage::put("/subscriptions", $request->file('custom_field_3'));
@@ -421,7 +494,7 @@ class SubscriptionController extends Controller
                 $resource->update();
             }
 
-            
+
             // fire new subscription triger
             Triger::fire(Triger::$NEW_SUBSCRIPTION, $resource->id);
 
@@ -452,6 +525,8 @@ class SubscriptionController extends Controller
                 "custom_field_1" => $request->custom_field_1,  // expenses ids
                 "custom_field_2" => $request->custom_field_2,  // expenses amount
                 "custom_field_4" => $request->custom_field_4,  // transform number
+                "shipping_custom_field_1" => $request->shipping_custom_field_1,  // register date
+                "shipping_custom_field_2" => $request->shipping_custom_field_2,  // payment status
                 "final_total" => $request->final_total,  // expenses amount
                 "transaction_date" => $request->transaction_date,  // expenses amount
                 "sub_type" => $request->sub_type,  // expenses amount
@@ -498,7 +573,7 @@ class SubscriptionController extends Controller
                     "user_id" => session('user.id'),
                     "notes" => $msg,
                 ]);
-                
+
                 // fire renew triger
                 Triger::fire(Triger::$CHANGE_SUBSCRIPTION_STATUS, $resource->id);
             }
@@ -570,7 +645,7 @@ class SubscriptionController extends Controller
         $contact = null;
 
         try {
-            $data = [
+            $data=[
                 "supplier_business_name" => $request->supplier_business_name,
                 "custom_field1" => $request->custom_field1,
                 "mobile" => $request->mobile,
@@ -581,12 +656,14 @@ class SubscriptionController extends Controller
                 "zip_code" => $request->zip_code,
                 "first_name" => $request->first_name,
                 "last_name" => $request->last_name,
-                "name" => $request->first_name . ' ' . $request->last_name,
-                "business_id" => session('business.id'),
+                "name" => $request->first_name .' '. $request->last_name,
+                "business_id" =>session('business.id'),
                 "created_by" => session('user.id'),
                 "type" => 'customer',
             ];
             $contact = Contact::create($data);
+            (new CustomerController())->createOrUpdateUser($contact, $request);
+
             $output = [
                 "success" => 1,
                 "msg" => __('done')
@@ -601,22 +678,27 @@ class SubscriptionController extends Controller
         return responseJson($output['success'], $output['msg'],  $contact->fresh());
     }
 
-    public function deleteMedia($id) {
-        $media = DB::table('media')->find($id);
-        $path = public_path("/uploads/media/" . $media->file_name);
+    public function deleteMedia($id)
+    {
+        try {
+            $media = DB::table('media')->find($id);
+            $path = public_path("/uploads/media/" . $media->file_name);
 
-        if (file_exists($path)) {
-            unlink($path);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+
+            DB::table('media')->where('id', $id)->delete();
+        } catch (\Exception $th) {
+            //throw $th;
         }
 
-        DB::table('media')->where('id', $id)->delete();
- 
         $output = [
-            "success" => 0,
+            "success" => 1,
             "msg" => __('done')
         ];
 
-        return $output;  
+        return $output;
     }
 
     public function subscriptionDownload()
@@ -625,12 +707,13 @@ class SubscriptionController extends Controller
         return  response()->download($files);
     }
 
-    public function subscriptionImportFile(Request $request){
-        
-       
+    public function subscriptionImportFile(Request $request)
+    {
+
+
         //return redirect('/customers');  
 
-        try { 
+        try {
             if ($request->hasFile('import_file')) {
                 $import_file = $request->file('import_file');
             }
@@ -648,6 +731,6 @@ class SubscriptionController extends Controller
         }
         //dd($output);
 
-         return back()->with('status', $output); ; 
+        return back()->with('status', $output);;
     }
 }

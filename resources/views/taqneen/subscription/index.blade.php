@@ -65,6 +65,7 @@
                                                         <th>@trans('final total')</th>
                                                         <th>@trans('sales commission agent')</th>
                                                         <th>@trans('status')</th> 
+                                                        <th>@trans('payment_status')</th> 
                                                         <th>@trans('actions')</th>
                                                         <th>@trans('share')</th>
                                                     </tr>
@@ -82,6 +83,7 @@
                                                         <th>@trans('final total')</th>
                                                         <th>@trans('sales commission agent')</th>
                                                         <th>@trans('status')</th> 
+                                                        <th>@trans('payment_status')</th> 
                                                         <th>@trans('actions')</th>
                                                         <th>@trans('share')</th>
                                                     </tr>
@@ -194,12 +196,17 @@ var session_layout = '{{ session()->get('layout') }}';
         var data = {
             service_id: $('.service_id').val(),
             subscription_type: $('.subscription_type').val(),
+            payment_status: $('.payment_status').val(),
             transaction_date_start: $('.transaction_date').attr('data-start'),
             transaction_date_end: $('.transaction_date').attr('data-end'),
             expire_date_end: $('.expire_date').attr('data-end'),
             expire_date_start: $('.expire_date').attr('data-start'),
+            
             payment_date_end: $('.payment_date').attr('data-end'),
             payment_date_start: $('.payment_date').attr('data-start'),
+
+            register_date_end: $('.register_date').attr('data-end'),
+            register_date_start: $('.register_date').attr('data-start'),
         };
         subscriptionTable.ajax.url('/subscriptions?' + $.param(data));
         subscriptionTable.ajax.reload();
@@ -220,6 +227,10 @@ var session_layout = '{{ session()->get('layout') }}';
         $('.payment_date').val('');
         $('.payment_date').attr('data-start', '');
         $('.payment_date').attr('data-end', '');
+        
+        $('.register_date').val('');
+        $('.register_date').attr('data-start', '');
+        $('.register_date').attr('data-end', '');
 
         subscriptionTable.ajax.url('/subscriptions');
         subscriptionTable.ajax.reload();
@@ -256,6 +267,7 @@ var session_layout = '{{ session()->get('layout') }}';
             { data: 'final_total', name: 'final_total' },
             { data: 'created_by', name: 'created_by' },
             { data: 'status', name: 'status' },
+            { data: 'shipping_custom_field_2', name: 'shipping_custom_field_2' },
             { data: 'action', name: 'action' },
             { data: 'share', name: 'share' },
         ],

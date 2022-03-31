@@ -53,4 +53,9 @@ class ExpenseCategory extends Model
 
         return true;
     }
+
+
+    public function tax() {
+        return $this->belongsTo(TaxRate::class, "tax_id");
+    }
 }

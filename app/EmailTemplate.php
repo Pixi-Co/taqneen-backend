@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 class EmailTemplate extends Model
 {
+
+    protected $table = "notification_templates";
     
     public static $TRIGERS = [
         "NEW_SUBSCRIPTION" => "add new subscription",

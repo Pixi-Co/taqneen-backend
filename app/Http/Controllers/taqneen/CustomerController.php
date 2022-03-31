@@ -25,9 +25,8 @@ class CustomerController extends Controller
         ->where('business_id', session('business.id'))
         ->latest();
         
-        if (!auth()->user()->isAdmin()) {
-            $ids = DB::table('transactions')->where('created_by', auth()->user()->id)->pluck('contact_id')->toArray();
-            $query->whereIn('id', $ids);
+        if (!auth()->user()->isAdmin()) { 
+            $query->onlyMe();
         }
 
         $customers = $query->get();
@@ -37,7 +36,14 @@ class CustomerController extends Controller
 
     public function create(){
         $customer = new Contact();
-        $roles = Role::where('business_id', session('business.id'))->pluck('name','name')->all();
+        $roles = Role::where('business_id', session('business.id'))
+        ->where(function($query){
+            if (!auth()->user()->isAdmin()) { 
+                $query->where('name', 'customer#' . session('business.id'));
+            }
+        })
+        ->pluck('name','name')
+        ->all();
 
 
         return view('taqneen.customers.form',compact('customer','roles'));
@@ -55,7 +61,14 @@ class CustomerController extends Controller
        
         $customer = Contact::find($id);
         $user = $customer->loginUser;
-        $roles = Role::where('business_id', session('business.id'))->pluck('name','name')->all();
+        $roles = Role::where('business_id', session('business.id'))
+        ->where(function($query){
+            if (!auth()->user()->isAdmin()) { 
+                $query->where('name', 'customer#' . session('business.id'));
+            }
+        })
+        ->pluck('name','name')
+        ->all();
         $userRole = $user? $user->roles()->first() : new Role();
         $customer->role = $userRole->name;
 

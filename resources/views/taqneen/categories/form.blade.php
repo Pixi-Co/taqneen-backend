@@ -66,6 +66,10 @@
                                             {!! Form::number("price", $category->price, ["required", "class" => 'form-control mb-3', "placeholder" => trans('price')]) !!}
                                         </div>
     
+                                        <div class="form-group mb-3"> 
+                                            <b>@trans('tax') </b>
+                                            {!! Form::select("tax_id", $taxs, $category->tax_id, ["class" => 'form-select mb-3']) !!}
+                                        </div>
                                         
                                     </div>
                                 </div>

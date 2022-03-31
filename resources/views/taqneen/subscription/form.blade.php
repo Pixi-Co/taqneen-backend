@@ -59,7 +59,14 @@
 
                                                 <div class="mt-3 my-3">
                                                     <label for="">@trans('status')</label>
+
+                                                    @if(auth()->user()->can(find_or_create_p('subscription.edit_status')) || auth()->user()->isAdmin())
                                                     {!! Form::select('status', $status, $subscription->status, ['class' => 'form-select']) !!}
+                                                    @endif
+
+                                                    @if(!auth()->user()->can(find_or_create_p('subscription.edit_status')) || !auth()->user()->isAdmin())
+                                                    {!! Form::text("status", $subscription->status? $subscription->status : $status[0], ['class' => 'form-control']) !!}
+                                                    @endif
                                                 </div>
 
 
@@ -205,12 +212,22 @@
                                                     {!! Form::datetimeLocal('transaction_date', $subscription->transaction_date, ['class' => 'form-control']) !!}
                                                 </div>
 
+                                                <div class="form-group mb-3">
+                                                    <label class="my-2" for="inputName">@trans('register date')</label>
+                                                    {!! Form::datetimeLocal('shipping_custom_field_1', $subscription->shipping_custom_field_1, ['class' => 'form-control']) !!}
+                                                </div>
+
                                                 <div class="mt-3 my-3">
+                                                    <label for="">@trans('payment status')</label>
+                                                    {!! Form::select('shipping_custom_field_2', $payment_status, $subscription->shipping_custom_field_2, ['class' => 'form-select mb-3', 'onchange' => 'subscription.checkOnPaymentStatus(this.value)']) !!}
+                                                </div>
+
+                                                <div class="mt-3 my-3 payment_field">
                                                     <label for="">@trans('payment method')</label>
                                                     {!! Form::select('payment[method]', $payment_methods, $payment->method, ['class' => 'form-select']) !!}
                                                 </div>
 
-                                                <div class="form-group mb-3">
+                                                <div class="form-group mb-3 payment_field">
                                                     <label class="my-2" for="inputName">@trans('photo of transform')</label>
                                                     {!! Form::file('custom_field_3', ['class' => 'form-control']) !!}
                                                     @if ($subscription->transform_photo_url)
@@ -218,12 +235,12 @@
                                                     @endif
                                                 </div>
 
-                                                <div class="form-group mb-3">
+                                                <div class="form-group mb-3 payment_field">
                                                     <label class="my-2" for="inputName">@trans('number of transform')</label>
                                                     {!! Form::text('custom_field_4', $subscription->custom_field_4, ['class' => 'form-control']) !!}
                                                 </div>
 
-                                                <div class="form-group mb-3">
+                                                <div class="form-group mb-3 payment_field">
                                                     <label class="my-2" for="inputName">@trans('pay date')</label>
                                                     {!! Form::datetimeLocal('payment[paid_on]', $payment->paid_on, ['class' => 'form-control']) !!}
                                                 </div>
@@ -231,10 +248,7 @@
                                                 <div class="mt-3 my-3">
                                                     <label for="">@trans('paper status')</label>
                                                     {!! Form::select('sub_type', $paper_status, $subscription->sub_type, ['class' => 'form-select mb-3']) !!}
-
                                                 </div>
-
-
 
 
                                                 <div>
@@ -271,7 +285,7 @@
                                                             @endforeach
                                                         </ul>
                                                         <br>
-                                                        {!! Form::file('file', ['class' => 'form-control']) !!}
+                                                        {!! Form::file('file[]', ['class' => 'form-control', "multiple"]) !!}
                                                     </div>
 
 
@@ -406,79 +420,122 @@
                 <div class="container-fluid">
                     <form action="/subscriptions/customer-api" method="post" class="form" enctype="multipart/form-data">
                         @csrf
-                        <fieldset>
-                            <legend>@trans('Company Info')</legend>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label>@trans('Company Name')</label>
-                                    <input type="text" name="supplier_business_name" class="form-control"
-                                        placeholder="@trans('company name')"
-                                        value="{{ $customer->supplier_business_name }}" required>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label>@trans('Acountant No')</label>
-                                    <input type="text" name="custom_field1" class="form-control"
-                                        placeholder="@trans('acountant no')">
-                                </div>
+                        
+            <div class="row"> 
+                <!-- Content Wrapper. Contains page content -->
+                <div class="content-wrapper">
+                    <!-- Content Header (Page header) -->
+                    <section class="content-header">
+                        <div class="container-fluid">
+    
+                        </div><!-- /.container-fluid -->
+                    </section>
+                    <section class="content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-primary"> 
+                                    @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                                    <div class="card-body">
+                                        <fieldset>
+                                            <legend>@trans('Company Info')</legend>
+                                            <div class="row">
+                                             <div class="form-group col-md-4">
+                                                 <label>@trans('Company Name')</label>
+                                                 <input type="text" name="supplier_business_name" class="form-control" placeholder="@trans('company name')"  required>
+                                             </div>
+                                             <div class="form-group col-md-4">
+                                                 <label>@trans('accountant no')</label>
+                                                 <input type="text" name="custom_field1" class="form-control" placeholder="@trans('acountant no')"  >
+                                             </div>
+                                             
+                                             <div class="form-group col-md-4">
+                                                 <label>@trans('Phone')</label>
+                                                 <input type="text" name="mobile" class="form-control" placeholder="@trans('phone ')" required>
+                                             </div>
 
-                                <div class="form-group col-md-4">
-                                    <label>@trans('Phone ')</label>
-                                    <input type="text" name="mobile" class="form-control"
-                                        placeholder="@trans('phone ')" required>
+                                             <div class="form-group col-md-6 pt-3">
+                                                 <label>@trans('State')</label>
+                                                 <input type="text" name="state" class="form-control" placeholder="@trans('state ')" >
+                                             </div>
+
+                                             <div class="form-group col-md-4 pt-3">
+                                                 <label>@trans('Streat')</label>
+                                                 <input type="text" name="address_line_1" class="form-control" placeholder="@trans('streat  ')" >
+                                             </div>
+
+                                             <div class="form-group col-md-4 pt-3">
+                                                 <label>@trans('Appartment No')</label>
+                                                 <input type="text" name="address_line_2" class="form-control" placeholder="@trans('appartment no ')" >
+                                             </div>
+                                             
+                                             <div class="form-group col-md-4 pt-3">
+                                                 <label>@trans('zip_code')</label>
+                                                 <input type="text" name="zip_code" class="form-control" placeholder="@trans(' Zip Code  ')" >
+                                             </div>
+                     
+                                             
+                                         </div>
+                                         
+                                        </fieldset><br><br>
+
+                                        <fieldset >
+                                            <legend>@trans('Customer Info')</legend>
+                                            <div class="row">
+                                             <div class="form-group col-md-4">
+                                                 <label>@trans('First Name')</label>
+                                                 <input type="text" name="first_name" class="form-control" placeholder="@trans('first name')" required>
+                                             </div>
+                                             <div class="form-group col-md-4">
+                                                 <label>@trans('Last Name')</label>
+                                                 <input type="text" name="last_name" class="form-control" placeholder="@trans('last name')" required>
+                                             </div>
+                                         </div>
+                                         
+                                        </fieldset> <br><br>
+
+                                        <fieldset >
+                                            <legend>@trans('User Info')</legend>
+                                            <div class="row">
+                                             
+                                                <div class="form-group col-md-12 pt-3">
+                                                    <label>@trans('Email ')</label>
+                                                    <input type="email" name="email" class="form-control" placeholder="@trans('Email ')" required>
+                                                </div>
+                                                <div class="form-group col-md-12 pt-3">
+                                                    <label>@trans('select roles  ')</label>
+                                                    {!! Form::select("roles", $roles, null, ["class" => "form-select"]) !!} 
+                                                </div>
+
+                                                <div class="form-group col-md-12 pt-3">
+                                                    <label>@trans('password ')</label>
+                                                    <input type="password" name="password" class="form-control image" placeholder="@trans('password ')">
+                                                </div>
+    
+                                                <div class="form-group col-md-12 pt-3">
+                                                    <label>@trans('confirm password  ')</label>
+                                                    <input type="password" name="confirm_password" class="form-control" placeholder="@trans('confirm password  ')" >
+                                                </div>
+                                         </div>
+                                         
+                                        </fieldset>
+                                        
+                                    </div>
                                 </div>
-
-                                <div class="form-group col-md-6 pt-3">
-                                    <label>@trans('Email ')</label>
-                                    <input type="email" name="email" class="form-control"
-                                        placeholder="@trans('Email ')" required>
-                                </div>
-
-                                <div class="form-group col-md-6 pt-3">
-                                    <label>@trans('State ')</label>
-                                    <input type="text" name="state" class="form-control"
-                                        placeholder="@trans('state ')">
-                                </div>
-
-                                <div class="form-group col-md-4 pt-3">
-                                    <label>@trans('Streat ')</label>
-                                    <input type="text" name="address_line_1" class="form-control"
-                                        placeholder="@trans('streat  ')">
-                                </div>
-
-                                <div class="form-group col-md-4 pt-3">
-                                    <label>@trans('Appartment No ')</label>
-                                    <input type="text" name="address_line_2" class="form-control"
-                                        placeholder="@trans('appartment no ')">
-                                </div>
-
-                                <div class="form-group col-md-4 pt-3">
-                                    <label>@trans('Zip Code ')</label>
-                                    <input type="text" name="zip_code" class="form-control"
-                                        placeholder="@trans(' Zip Code  ')">
-                                </div>
-
-
+    
                             </div>
-
-                        </fieldset><br>
-
-                        <fieldset>
-                            <legend>@trans('Customer Info')</legend>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label>@trans('First Name')</label>
-                                    <input type="text" name="first_name" class="form-control"
-                                        placeholder="@trans('first name')" required>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label>@trans('Last Name')</label>
-                                    <input type="text" name="last_name" class="form-control"
-                                        placeholder="@trans('last name')" required>
-                                </div>
-                            </div>
-
-                        </fieldset>
-
+    
+                    </section>
+                </div>
+    
+            </div>
                         <div class="row">
                             <div class="col-12 my-3 text-center">
                                 <input type="submit" value="@trans('submit')" class="btn btn-primary"
@@ -564,11 +621,19 @@
                 var expenseIds = $('.expenses').val();
                 $('.expenses_hidden').val(expenseIds);
                 var expensesAmount = 0;
-
+ 
                 for (var i = 0; i < expenseIds.length; i++) {
                     var id = expenseIds[i];
                     var expense = this.expenses[id];
-                    expensesAmount += expense.price;
+                    var price = parseFloat(expense.price);
+
+                    if (expense.tax_id > 0) {
+                        var taxRate = subscription.taxs[expense.tax_id]; 
+                        var taxAmount = price * (taxRate.amount / 100); 
+                        price = parseFloat(price) + parseFloat(taxAmount); 
+                    } 
+                    
+                    expensesAmount += price;
                 }
 
                 app.resource.custom_field_2 = expensesAmount;
@@ -607,6 +672,13 @@
                 
                 customerSelect.html(html);
                 customerSelect.select2();
+            },
+            checkOnPaymentStatus: function(status){
+                if (status == 'not_paid') {
+                    $('.payment_field').hide();
+                } else {
+                    $('.payment_field').show();
+                }
             }
         };
 
@@ -629,6 +701,8 @@
             $('.expenses').on('select2:select', function(e) {
                 subscription.changeExpenses();
             });
+
+            subscription.checkOnPaymentStatus('{{ $subscription->shipping_custom_field_2 }}');
 
             // set expenses
             @if ($subscription->custom_field_1)

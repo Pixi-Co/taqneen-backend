@@ -47,6 +47,22 @@
                     </select>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">@trans('expiration status')</label>
+                    <ul>
+                        <li>
+                            <i class="fa fa-circle w3-text-yellow" ></i> {{ __('will expire in month') }} 
+                        </li>
+                        <li>
+                            <i class="fa fa-circle w3-text-red" ></i> {{ __('expired') }}
+                        </li>
+                        <li>
+                            <i class="fa fa-circle w3-text-green" ></i> {{ __('active') }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <!-- Main content -->
         <section class="content card">

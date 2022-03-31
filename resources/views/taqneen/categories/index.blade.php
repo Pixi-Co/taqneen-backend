@@ -52,6 +52,7 @@
                                                         <th>#</th>
                                                         <th>@trans('name')</th>
                                                         <th>@trans('price')</th> 
+                                                        <th>@trans('tax')</th> 
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                 </thead>
@@ -61,6 +62,7 @@
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{  $item->name  }}</td>          
                                                         <td>{{  $item->price  }}</td>          
+                                                        <td>{{  optional($item->tax)->name  }}</td>          
                                                          
                                                         <td>
                                                             @can(find_or_create_p('expense.edit'))
