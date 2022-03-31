@@ -58,17 +58,17 @@
                                             <legend>@trans('opportunity Info')</legend>
                                             <div class="row">
                                             
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-6">
                                                 <b>@trans('name') *</b>
                                                 <input type="text" name="name" class="form-control" placeholder="@trans('Name')" value="{{ $opportunity->name }}" required >
                                             </div>
                                             
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-6">
                                                 <b>@trans('phone ') *</b>
                                                 <input type="text" name="mobile" class="form-control" placeholder="@trans('phone ')" value="{{ $opportunity->mobile }}" required>
                                             </div>
 
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('Email ') *</b>
                                                 <input type="email" name="email" class="form-control" placeholder="@trans('Email ')" value="{{ $opportunity->email }}" required>
                                             </div>
@@ -81,14 +81,18 @@
                                                 <b>@trans('select packages  ') *</b>
                                                 {!! Form::select("custom_field3", $packages, $opportunity->custom_field3, ["class" => "form-select"]) !!} 
                                             </div>
-                                            <div class="form-group col-md-4 pt-3">
+                                            <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('publish date ') *</b>
                                                 <input type="date" name="dob" class="form-control" placeholder="@trans('publish data ')" value="{{ $opportunity->dob }}" required>
                                             </div>
                                             
-                                            <div class="form-group col-md-4 pt-3">
+                                            <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('user')</b>
                                                 {!! Form::select("created_by", $users, $opportunity->created_by, ["class" => "form-select"]) !!} 
+                                            </div>
+                                            <div class="form-group col-md-6 pt-3">
+                                                <b>@trans('select status  ') *</b>
+                                                {!! Form::select("custom_field4", $status, $opportunity->custom_field4, ["class" => "form-select", 'placeholder'=> __('select status')]) !!} 
                                             </div>
                     
                                         

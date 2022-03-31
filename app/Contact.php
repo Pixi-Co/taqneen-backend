@@ -323,7 +323,10 @@ class Contact extends Authenticatable
     public function service() {
         return $this->belongsTo(Category::class, "custom_field2");
     }
-     
+
+    function oppUser() {
+        return $this->belongsTo(User::class, "created_by");
+    }
     public function package() {
         return $this->belongsTo(ServicePackage::class, "custom_field3");
     }
