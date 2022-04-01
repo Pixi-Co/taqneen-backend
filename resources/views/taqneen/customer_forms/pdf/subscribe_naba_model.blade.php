@@ -6,7 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <title>NabaUser</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300&display=swap" rel="stylesheet">
+
+    <style>
+        @font-face {
+            font-family: 'my_font';
+            src: url({{ url('fonts\Tajawal-Regular.ttf') }}) format("truetype");
+            font-weight: 400; // use the matching font-weight here ( 100, 200, 300, 400, etc).
+            font-style: normal; // use the matching font-style here
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'my_font' !important;
+        }
+
+        * {
+            font-family: 'my_font';
+        }
+
+    </style>
 <body>
 
     <!-- /////////////////////page 1////////////////////////////////////////////// -->
