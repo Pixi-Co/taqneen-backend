@@ -114,7 +114,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-12 text-center mt-0 ">
-                                            <a href="{{ url('/subscriptions/print') }}/{{ $resource->invoice_token }}" class="btn btn btn-primary me-2" type="button"
+                                            <a href="{{ url('/subscriptions/print') }}/{{ $resource->getTokenAttribute() }}" class="btn btn btn-primary me-2" type="button"
                                                >طباعة</a>
                                             <button class="btn btn-secondary" type="button">الغاء</button>
                                         </div>
