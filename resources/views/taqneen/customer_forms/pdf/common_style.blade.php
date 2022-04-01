@@ -7,7 +7,7 @@
             font-weight: 400; 
             font-style: normal; 
         }
-
+/*
         h1,
         h2,
         h3,
@@ -20,5 +20,5 @@
         * {
             font-family: Calibri;
         }
-
+*/
     </style>
