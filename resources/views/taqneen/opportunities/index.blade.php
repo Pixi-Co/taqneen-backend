@@ -63,6 +63,8 @@
                                                             <th>@trans('email')</th>
                                                             <th>@trans('serivce')</th>
                                                             <th>@trans('package')</th>
+                                                            <th>@trans('status')</th>
+                                                            <th>@trans('create_by')</th>
                                                             <th>@trans('publish date')</th>
                                                             <th>@trans('actions')</th>
                                                         </tr>
@@ -76,6 +78,18 @@
                                                                 <td>{{ $item->email }}</td>
                                                                 <td>{{ optional($item->service)->name }}</td>
                                                                 <td>{{ optional($item->package)->name }}</td>
+                                                                <td>
+                                                                  @if ($item->custom_field4 == 'waiting')
+                                                                        <label class="badge badge-warning">{{ $item->custom_field4}}</label>
+                                                                  @elseif ($item->custom_field4 == 'processing')
+                                                                        <label class="badge badge-info">{{ $item->custom_field4}}</label>
+                                                                  @elseif ($item->custom_field4 == 'active')
+                                                                        <label class="badge badge-success">{{ $item->custom_field4}}</label>
+                                                                  @else
+                                                                        <label class="badge badge-secondary">{{ $item->custom_field4}}</label>
+                                                                  @endif
+                                                                </td>
+                                                                <td>{{ optional($item->oppUser)->first_name }}</td>
                                                                 <td>{{ $item->dob }}</td>
 
                                                                 <td class="d-flex">

@@ -28,20 +28,33 @@ class OpportunitController extends Controller
     }
 
     public function create() {
+        $status = [
+            "waiting" => trans('waiting'),
+            "processing" => trans('processing'),
+            "active" => trans('active'),
+            "cancel" => trans('cancel'),
+        ];
+        
         $opportunity = new Contact();
         $services = Category::forDropdown(session('user.business_id'), "service"); 
         $packages = ServicePackage::where('business_id', session('user.business_id'))->pluck("name", "id")->toArray(); 
         $users = User::forDropdown(session('business.id'));
-        return view('taqneen.opportunities.form',compact('opportunity','services','packages', 'users'));
+        return view('taqneen.opportunities.form',compact('opportunity','services','packages', 'users','status'));
     }//end create
 
 
     public function edit($id){
+        $status = [
+            "waiting" => trans('waiting'),
+            "processing" => trans('processing'),
+            "active" => trans('active'),
+            "cancel" => trans('cancel'),
+        ];
         $opportunity = Contact::find($id);
         $services = Category::forDropdown(session('user.business_id'), "service"); 
         $packages = ServicePackage::where('business_id', session('user.business_id'))->pluck("name", "id")->toArray();
         $users = User::forDropdown(session('business.id'));
-        return view('taqneen.opportunities.form',compact('opportunity','services','packages', 'users'));
+        return view('taqneen.opportunities.form',compact('opportunity','services','packages', 'users','status'));
 
     }
 
@@ -55,8 +68,9 @@ class OpportunitController extends Controller
                 "dob" => $request->dob,
                 "custom_field2" => $request->custom_field2, // service ,
                 "custom_field3" => $request->custom_field3, // package,
+                "custom_field4" => $request->custom_field4, // status,
                 "business_id" =>session('business.id'),
-                "created_by" => session('user.id'),
+                "created_by" => $request->created_by,
                 "type" => 'opportunity',
             ];
             
@@ -87,7 +101,8 @@ class OpportunitController extends Controller
                 "dob" => $request->dob,
                 "custom_field2" => $request->custom_field2, // service ,
                 "custom_field3" => $request->custom_field3, // package,
-                
+                "custom_field4" => $request->custom_field4, // status,
+                "created_by" => $request->created_by,
             ];
             
            Contact::find($id)->update($data);
