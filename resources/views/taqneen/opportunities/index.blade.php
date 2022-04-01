@@ -43,6 +43,7 @@
                                         <h5>@trans('lang.Opportunities')</h5>
                                     </div> --}}
                                         <div class="card-body">
+                                           @include('taqneen.opportunities.filter')
                                             @can(find_or_create_p('opportunity.create'))
                                                 <a role="button" href="/opportunities/create"
                                                     class="btn btn-primary">@trans('add new')</a>
