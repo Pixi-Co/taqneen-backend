@@ -13,13 +13,13 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="">@trans('users')</label>
-                    {!! Form::select("created_by", $users, ["class" => "form-select"]) !!}
+                    {!! Form::select("created_by", $users, request()->created_by, ["class" => "form-select"]) !!}
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="">@trans('status')</label>
-                    {!! Form::select("custom_field4", $status, ["class" => "form-select", 'placeholder'=> __('select status')]) !!}
+                    {!! Form::select("custom_field4", $status, request()->status,  ["class" => "form-select", 'placeholder'=> __('select status')]) !!}
                 </div>
             </div>
            
