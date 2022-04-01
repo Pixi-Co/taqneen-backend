@@ -80,18 +80,22 @@ class Subscription extends Transaction
     }
 
     public function getTagValue($tag) {
+        $url = url('/subscriptions/print') . "/" . $this->getTokenAttribute();
+ 
         $resource = DB::table('transactions')
             ->select(
                 "*",
                 "transaction_date as subscription_date",
+                DB::raw( "'".$url."' as invoice_url"),
                 DB::raw( "(select first_name from contacts where contacts.id = contact_id) as contact_name"),
                 DB::raw( "(select first_name from contacts where contacts.id = contact_id) as customer"),
                 DB::raw("(select first_name from users where users.id = created_by) as sales_commission"),
                 DB::raw("(select method from transaction_payments where transaction_payments.transaction_id = transactions.id) as payment_method"),
                 DB::raw("(select paid_on from transaction_payments where transaction_payments.transaction_id = transactions.id) as paid_on"),
-            )->first();
+            )->first(); 
 
-        $resource->invoice_url = url('/subscriptions/print') . "/" . $resource->getTokenAttribute();
+ 
+        //$resource->invoice_url = url('/subscriptions/print') . "/" . $this->getTokenAttribute();
         return $resource->$tag;
     }
 
