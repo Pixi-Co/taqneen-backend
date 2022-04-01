@@ -94,7 +94,7 @@ class CustomerFormController extends Controller
 
 
     public function getPdf1($html) {
-        $stylesheet = file_get_contents('css/customer_forms.css');/
+        $stylesheet = file_get_contents('css/customer_forms.css');
         //$pdf = PDF::loadHTML($html);  
         $pdf = new \Mpdf\Mpdf();
         $pdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
