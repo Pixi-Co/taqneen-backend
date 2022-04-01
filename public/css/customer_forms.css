@@ -10624,8 +10624,7 @@ fieldset:disabled .btn {
 
 .w3-display-topright {
     position: fixed!important;
-    padding-top: 0.6cm;
-    padding-right: -0.05cm;
+    padding-top: 0.6cm; 
     top: 0px;
     right: 0px;
 }
