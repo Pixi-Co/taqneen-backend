@@ -1,9 +1,11 @@
-*{
-    
-        font-family: 'Tajawal', sans-serif;
-    
+* {
+    font-family: 'Tajawal', sans-serif;
 }
-body{margin-top:20px;}
+
+body {
+    margin-top: 20px;
+}
+
 .timeline {
     border-right: 3px solid #ff1e00;
     border-bottom-right-radius: 4px;
@@ -121,11 +123,13 @@ body{margin-top:20px;}
 
 .list1 .form-control {
     border-color: transparent;
-  }
+}
+
 .list1 .form-control:focus {
     border-color: transparent;
     box-shadow: none;
-  }
+}
+
 .list1 .select-input.form-control[readonly]:not([disabled]) {
     background-color: #fbfbfb;
-  }
+}
