@@ -43,7 +43,7 @@
                                         <h5>@trans('lang.Opportunities')</h5>
                                     </div> --}}
                                         <div class="card-body">
-                                           @include('taqneen.opportunities.filter')
+                                            @include('taqneen.opportunities.filter')
                                             @can(find_or_create_p('opportunity.create'))
                                                 <a role="button" href="/opportunities/create"
                                                     class="btn btn-primary">@trans('add new')</a>
@@ -80,15 +80,19 @@
                                                                 <td>{{ optional($item->service)->name }}</td>
                                                                 <td>{{ optional($item->package)->name }}</td>
                                                                 <td>
-                                                                  @if ($item->custom_field4 == 'waiting')
-                                                                        <label class="badge badge-warning">{{ $item->custom_field4}}</label>
-                                                                  @elseif ($item->custom_field4 == 'processing')
-                                                                        <label class="badge badge-info">{{ $item->custom_field4}}</label>
-                                                                  @elseif ($item->custom_field4 == 'active')
-                                                                        <label class="badge badge-success">{{ $item->custom_field4}}</label>
-                                                                  @else
-                                                                        <label class="badge badge-secondary">{{ $item->custom_field4}}</label>
-                                                                  @endif
+                                                                    @if ($item->custom_field4 == 'waiting')
+                                                                        <label
+                                                                            class="badge badge-warning">{{ $item->custom_field4 }}</label>
+                                                                    @elseif ($item->custom_field4 == 'processing')
+                                                                        <label
+                                                                            class="badge badge-info">{{ $item->custom_field4 }}</label>
+                                                                    @elseif ($item->custom_field4 == 'active')
+                                                                        <label
+                                                                            class="badge badge-success">{{ $item->custom_field4 }}</label>
+                                                                    @else
+                                                                        <label
+                                                                            class="badge badge-secondary">{{ $item->custom_field4 }}</label>
+                                                                    @endif
                                                                 </td>
                                                                 <td>{{ optional($item->oppUser)->first_name }}</td>
                                                                 <td>{{ $item->dob }}</td>
@@ -222,7 +226,14 @@
 
 
     <script>
+        function setDate() { 
+            $('input[name=publish_date_start]').val($('.publish_date').attr('data-start'));
+            $('input[name=publish_date_end]').val($('.publish_date').attr('data-end'));
+        }
+
         $(document).ready(function() {
+            initDateRanger();
+
             $('#next').click(function() {
                 $('#staticBackdrop').hide();
                 $('#staticBackdrop2').show();

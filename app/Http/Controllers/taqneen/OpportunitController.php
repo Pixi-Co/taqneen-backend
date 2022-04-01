@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Imports\OpportunitImport;
 use App\ServicePackage;
+use App\Triger;
 use App\User;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -20,6 +21,10 @@ class OpportunitController extends Controller
 
         if (!auth()->user()->isAdmin()) {
             $query->where('converted_by', auth()->user()->id);
+        }
+
+        if (request()->publish_date_start && request()->publish_date_end) {
+            $query->whereBetween('dob', [request()->publish_date_start, request()->publish_date_end]);
         }
 
         $opportunities = $query->get();
@@ -87,7 +92,9 @@ class OpportunitController extends Controller
                 "msg" => $th->getMessage()
             ];
         }
-        // dd($output);
+        // dd($output); 
+        Triger::fire2(Triger::$ADD_OPPORTUNITY, new Contact());
+
         return back()->with('status', $output); 
 
     }
