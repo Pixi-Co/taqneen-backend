@@ -95,10 +95,11 @@ class CustomerFormController extends Controller
 
     public function getPdf1($html) {
         $stylesheet = file_get_contents('css/customer_forms.css');
-        $stylesheet = file_get_contents('css/w3.css');
+        $stylesheet2 = file_get_contents('css/w3.css');
         //$pdf = PDF::loadHTML($html);  
         $pdf = new \Mpdf\Mpdf();
         $pdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
+        $pdf->WriteHTML($stylesheet2,\Mpdf\HTMLParserMode::HEADER_CSS);
         $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
         
         return $pdf->output();
