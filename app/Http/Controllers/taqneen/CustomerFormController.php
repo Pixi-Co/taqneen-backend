@@ -87,6 +87,7 @@ class CustomerFormController extends Controller
         $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'))->render();
         
 
+        header("Content-type:application/pdf");
         return $html;
        //return $this->getPdf1($html);
         //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
@@ -94,7 +95,9 @@ class CustomerFormController extends Controller
 
 
     public function getPdf1($html) {
+        $stylesheet = file_get_contents('css/customer_forms.css');
         $pdf = PDF::loadHTML($html);  
+        $pdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
         return $pdf->stream('document.pdf');
     }
 
