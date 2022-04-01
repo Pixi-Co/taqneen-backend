@@ -8,7 +8,7 @@
     <title>TamUser</title>
     @include('taqneen.customer_forms.pdf.common_style')
 <body>
-    <img style="height: 26.458333333cm" src="{{ url('/assets/images/masarat-pdf/page.jpg') }}" class="pdf_image w3-display-topleft"alt="">
+    <img __style="height: 26.458333333cm" src="{{ url('/assets/images/masarat-pdf/page.jpg') }}" class="pdf_image w3-display-topleft"alt="">
     
     <!-- ////////////////////////////////بيانات المنشأة/////////////////////////////////// -->
     
