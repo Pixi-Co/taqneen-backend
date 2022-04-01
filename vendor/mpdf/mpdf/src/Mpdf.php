@@ -14494,11 +14494,9 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		$actual_h = $this->y - $y;
 		$use_w = $w;
 		$use_h = $h;
-		if ($use_w > 0)
 		$ratio = $actual_h / $use_w;
 
 		if ($overflow != 'hidden' && $overflow != 'visible') {
-			if ($w > 0)
 			$target = $h / $w;
 			if ($target > 0) {
 				if (($ratio / $target) > 1) {
@@ -14535,7 +14533,6 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 					$this->pageBackgrounds = [];
 					$this->WriteHTML($html, HTMLParserMode::HTML_HEADER_BUFFER);
 					$actual_h = $this->y - $y;
-					if ($use_w > 0)
 					$ratio = $actual_h / $use_w;
 				}
 			}
