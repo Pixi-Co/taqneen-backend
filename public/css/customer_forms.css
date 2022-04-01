@@ -10621,3 +10621,9 @@ fieldset:disabled .btn {
     top: 6.6cm;
     right: 0.9cm;
 }
+
+.w3-display-topright {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
