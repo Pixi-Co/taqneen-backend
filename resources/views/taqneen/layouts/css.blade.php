@@ -28,6 +28,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('css/fullcalendar.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/daterangepicker.css')}}"> 
 <link rel="stylesheet" type="text/css" href="{{asset('css/print.min.css')}}">  
+<link rel="stylesheet" type="text/css" href="{{url('/fonts/stylessheet.css')}}">  
 <style>
     * FullCalendar v3.10.2
     * Docs & License: https://fullcalendar.io/
@@ -38,8 +39,12 @@
 <style>
 
     h1, h2, h3, h4, h5, h6 {
-        font-family: 'Tajawal', sans-serif!important;
+        font-family: 'Calibri', sans-serif!important;
     }
+    * {
+        font-family: 'Calibri', sans-serif;
+    }
+
     .material-shadow {
         box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%)!important;
     }
