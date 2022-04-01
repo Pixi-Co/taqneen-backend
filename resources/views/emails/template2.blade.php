@@ -134,20 +134,11 @@ a[x-apple-data-detectors] {
                style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color: white;"> 
                  <tr style="border-collapse:collapse"> 
                   <td valign="top" align="center" style="padding:0;Margin:0;width:600px"> 
-
-                    <div style="width: 100%" >
-                      <div align="center" style="padding:0;Margin:0;font-size:0px">
-                        <img class="adapt-img" src="https://iznjin.stripocdn.email/content/guids/CABINET_edafcdcb84bf01ccaf1c0c95b87081d5/images/untitled_design.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" >
-                      </div> 
-                    </div>
-                     
-                      
+   
                     <div align="center" style="text-align: center;Margin:0;padding-left:10px;padding-right:10px;padding-top:35px;padding-bottom:35px">
                       {!! $message !!}
                     </div> 
-                     
-                    <div class="es-m-txt-l" align="left" style="Margin:0;padding-top:20px;padding-left:30px;padding-right:30px;padding-bottom:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;line-height:27px;color:#666666;font-size:18px">Regards,</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;line-height:27px;color:#666666;font-size:18px">taqneen Team</p></div> 
-  
+                    
                   </td> 
                  </tr> 
                </table></td> 
