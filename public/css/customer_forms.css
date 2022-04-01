@@ -10623,8 +10623,24 @@ fieldset:disabled .btn {
 }
 
 .w3-display-topright {
-    position: fixed;
-    padding-top: 0.6cm;
+    position: fixed!important;
+    padding-bottom: 0.6cm;
     top: 0px;
     right: 0px;
+}
+
+.pdf_image {
+    padding: 0px!important;
+}
+
+*,
+h1,
+h2,
+h3,
+h4,
+h5,
+h5,
+h6 {
+    font-family: 'Tajawal';
+    direction: rtl;
 }

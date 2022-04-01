@@ -17,5 +17,17 @@ return [
     'margin_top' => 0,
     'margin_bottom' => 0,
     'margin_header' => 0,
-    'margin_footer' => 0
+    'margin_footer' => 0,// ...
+	'font_path' => base_path('public/fonts/'),
+	'font_data' => [
+		'Tajawal' => [ 
+			'R'  => 'Tajawal-Black.ttf',    // regular font
+			'B'  => 'Tajawal-Bold.ttf',       // optional: bold font
+			'I'  => 'Tajawal-Black.ttf',     // optional: italic font
+			'BI' => 'Tajawal-Black.ttf' // optional: bold-italic font
+			//'useOTL' => 0xFF,    // required for complicated langs like Persian, Arabic and Chinese
+			//'useKashida' => 75,  // required for complicated langs like Persian, Arabic and Chinese
+		]
+		// ...add as many as you want.
+	]
 ];
