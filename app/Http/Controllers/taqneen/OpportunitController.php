@@ -16,6 +16,13 @@ use Maatwebsite\Excel\Facades\Excel;
 class OpportunitController extends Controller
 {
     public function index(){
+        $status = [
+            "waiting" => trans('waiting'),
+            "processing" => trans('processing'),
+            "active" => trans('active'),
+            "cancel" => trans('cancel'),
+        ];
+        $users = User::forDropdown(session('business.id'));
         $query = Contact::where('type','opportunity')->where('business_id', session('business.id'))
         ->latest();
 
@@ -26,10 +33,15 @@ class OpportunitController extends Controller
         if (request()->publish_date_start && request()->publish_date_end) {
             $query->whereBetween('dob', [request()->publish_date_start, request()->publish_date_end]);
         }
-
+        if(request()->created_by){
+            $query->where('created_by',request()->created_by)->get();
+        }
+        if(request()->custom_field4){
+            $query->where('custom_field4',request()->custom_field4)->get();
+        }
         $opportunities = $query->get();
 
-        return view('taqneen.opportunities.index',compact('opportunities'));
+        return view('taqneen.opportunities.index',compact('opportunities','users','status'));
     }
 
     public function create() {

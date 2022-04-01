@@ -1,23 +1,28 @@
 <div class="row">
     <form action="" method="get">
 
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="">@trans('date')</label>
-                <input type="text" class="form-control dateranger publish_date">
-                <input type="hidden" name="publish_date_start">
-                <input type="hidden" name="publish_date_end">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">@trans('date')</label>
+                    <input type="text" class="form-control dateranger publish_date">
+                    <input type="hidden" name="publish_date_start">
+                    <input type="hidden" name="publish_date_end">
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="">@trans('users')</label>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">@trans('users')</label>
+                    {!! Form::select("created_by", $users, ["class" => "form-select"]) !!}
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="">@trans('status')</label>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">@trans('status')</label>
+                    {!! Form::select("custom_field4", $status, ["class" => "form-select", 'placeholder'=> __('select status')]) !!}
+                </div>
             </div>
+           
         </div>
 
         <div class="col-md-4 pb-5">
