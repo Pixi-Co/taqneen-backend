@@ -13,7 +13,7 @@
     <!-- ////////////////////////////////بيانات المنشأة/////////////////////////////////// -->
     
     <!-- Row 1  -->
-    <div class="pdf-data w3-display-topright company_num" style="top: 6.6cm;right: 0.9cm;" >
+    <div class="pdf-data w3-display-topright company_num field-1" style="" >
         <div style="float:left;text-align: center" >
             @for($i = 0; $i < strlen($data->company_num); $i ++)
             <span style="float: left;width: 0.38cm;font-size: 15px" >
