@@ -46,11 +46,11 @@ class EmailTemplate extends Model
         return $resource? $resource : new EmailTemplate(); 
     }
 
-    public static function getEmailOfCourier(Subscription $subscription) {
+    public static function getEmailOfCourier($subscription) {
         return optional($subscription->user)->email;
     }
 
-    public static function checkIfTagOrEmail($text, Subscription $subscription) {
+    public static function checkIfTagOrEmail($text, $subscription) {
         $text = str_replace(" ", "", $text);
 
         if ($text == "{sales_commision_email}") {
@@ -64,7 +64,7 @@ class EmailTemplate extends Model
         return $text;
     }
 
-    public static function getEmail($triger, Subscription $subscription) {
+    public static function getEmail($triger, $subscription) {
         $resources = DB::table('notification_templates')
             ->where('business_id', session('business.id'))
             ->where('template_for', $triger)
