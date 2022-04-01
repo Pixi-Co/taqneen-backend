@@ -65,8 +65,8 @@ Route::get('/migrate', function(){
 
 
 Route::middleware(['setData'])->group(function () {
-
-    Route::get('/invoice/{token}', 'SellPosController@showInvoice')->name('show_invoice');
+ 
+    Route::get('subscriptions/print/{id}', 'taqneen\SubscriptionController@print');
         
     Auth::routes();
     
@@ -149,7 +149,6 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::post('subscriptions/customer-api', 'taqneen\SubscriptionController@customerApi');
     Route::post('subscriptions/add-note/{id}', 'taqneen\SubscriptionController@addNote');
     Route::post('subscriptions/renew/{id}', 'taqneen\SubscriptionController@renew');
-    Route::get('subscriptions/print/{id}', 'taqneen\SubscriptionController@print');
     Route::delete('subscriptions/delete-media/{id}', 'taqneen\SubscriptionController@deleteMedia');
     
     Route::resource('languages', 'LanguageController');

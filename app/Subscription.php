@@ -91,6 +91,7 @@ class Subscription extends Transaction
                 DB::raw("(select paid_on from transaction_payments where transaction_payments.transaction_id = transactions.id) as paid_on"),
             )->first();
 
+        $resource->invoice_url = url('/subscriptions/print') . "/" . $resource->getTokenAttribute();
         return $resource->$tag;
     }
 

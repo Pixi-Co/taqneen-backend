@@ -33,7 +33,8 @@ class EmailTemplate extends Model
         '{subscription_date}' => "transaction_date",
         '{pay_date}' => "paid_on",
         '{renew_date}' => "renew_date",
-        '{expire_date}' => "expire_date"
+        '{expire_date}' => "expire_date",
+        '{invoice_url}' => "invoice url"
     ];
     
     public static function getTemplate($triger) {

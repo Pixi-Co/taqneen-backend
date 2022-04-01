@@ -500,6 +500,9 @@ class SubscriptionController extends Controller
                 $resource->update();
             }
 
+            // create token 
+            $resource->getTokenAttribute();
+
 
             // fire new subscription triger
             Triger::fire(Triger::$NEW_SUBSCRIPTION, $resource->id);
