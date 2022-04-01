@@ -1,8 +1,5 @@
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
  
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{asset('assets/css/css.css')}}">
 
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/font-awesome.css')}}">
@@ -30,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('css/iziToast.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/fullcalendar.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/daterangepicker.css')}}"> 
-<link rel="stylesheet" type="text/css" href="{{asset('css/print.min.css')}}"> 
+<link rel="stylesheet" type="text/css" href="{{asset('css/print.min.css')}}">  
 <style>
     * FullCalendar v3.10.2
     * Docs & License: https://fullcalendar.io/

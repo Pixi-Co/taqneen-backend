@@ -1123,6 +1123,7 @@ class ComposerStaticInit9164d368ed2a4cc0013257556c8717ab
         'AddUnitPriceBeforeDiscountColumnToTransactionSellLineTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_26_170424_add_unit_price_before_discount_column_to_transaction_sell_line_table.php',
         'AddUpdatePurchaseStatusPermission' => __DIR__ . '/../..' . '/database/migrations/2019_10_29_132521_add_update_purchase_status_permission.php',
         'AddUserContactAccess' => __DIR__ . '/../..' . '/database/migrations/2018_10_31_175627_add_user_contact_access.php',
+        'AddUserToCustoemrFormsTable' => __DIR__ . '/../..' . '/database/migrations/2022_04_01_180003_add_user_to_custoemr_forms_table.php',
         'AddUserToTrainerRateTable' => __DIR__ . '/../..' . '/database/migrations/2021_11_22_145112_add_user_to_trainer_rate_table.php',
         'AddUserTypeToUsersTable' => __DIR__ . '/../..' . '/database/migrations/2020_04_15_151802_add_user_type_to_users_table.php',
         'AddViewPurchasePricePermission' => __DIR__ . '/../..' . '/database/migrations/2019_05_25_104922_add_view_purchase_price_permission.php',

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\CustomerForm; 
 use PDF;
+use Spipu\Html2Pdf\Html2Pdf;
 
 class CustomerFormController extends Controller
 {
@@ -82,20 +83,23 @@ class CustomerFormController extends Controller
         if (!$resource) 
             $resource = new CustomerForm();
 
-        $data = json_decode($resource->value);
-        
-        //dd($data);
-
-        /*$data = [
-            'resource' => $resource,
-            'data' => $json,
-        ];*/
-
+        $data = json_decode($resource->value); 
         $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'))->render();
-        $pdf = PDF::loadHTML($html); 
- 
-        return $pdf->stream('document.pdf');
+        
 
+        return $this->getPdf2($html);
         //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
+    }
+
+
+    public function getPdf1($html) {
+        $pdf = PDF::loadHTML($html);  
+        return $pdf->stream('document.pdf');
+    }
+
+    public function getPdf2($html) {
+        $html2pdf = new Html2Pdf();
+        $html2pdf->writeHTML($html);
+        $html2pdf->output('myPdf.pdf');
     }
 }

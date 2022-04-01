@@ -18,7 +18,7 @@ class CustomerForm extends Model
     protected $table = "customer_forms";
 
     protected $fillable = [
-        'key', 'value', 'customer_id', 'number'
+        'key', 'value', 'customer_id', 'number', 'created_by'
     ];
 
     public function customer()
@@ -55,6 +55,7 @@ class CustomerForm extends Model
             "key" => $key,
             "value" => $text,
             "customer_id" => $customer_id,
+            "created_by" => auth()->user()->id,
             "number" => time(),
         ]);
 
