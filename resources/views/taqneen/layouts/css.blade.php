@@ -27,8 +27,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('css/iziToast.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/fullcalendar.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/daterangepicker.css')}}"> 
-<link rel="stylesheet" type="text/css" href="{{asset('css/print.min.css')}}"> 
-<link rel="stylesheet" type="text/css" href="{{asset('fonts/stylessheet.css')}}"> 
+<link rel="stylesheet" type="text/css" href="{{asset('css/print.min.css')}}">  
 <style>
     * FullCalendar v3.10.2
     * Docs & License: https://fullcalendar.io/
