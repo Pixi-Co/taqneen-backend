@@ -14,11 +14,11 @@
         h4,
         h5,
         h6 {
-            font-family: my_font!important;
+            font-family: Calibri!important;
         }
 
         * {
-            font-family: my_font;
+            font-family: Calibri;
         }
 
     </style>
