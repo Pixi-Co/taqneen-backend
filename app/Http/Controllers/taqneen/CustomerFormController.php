@@ -100,7 +100,7 @@ class CustomerFormController extends Controller
         $pdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
         $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
         
-        return $pdf->stream('document.pdf');
+        return $pdf->output();
     }
 
     public function getPdf2($html) {
