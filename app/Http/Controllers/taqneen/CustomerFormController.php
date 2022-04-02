@@ -23,10 +23,7 @@ class CustomerFormController extends Controller
         foreach($resources as $item){
             $item->assignData();
         }
-
         $data = $resources;
-        
-       
         if($form == 'subscribe_tamm_model')
         {
             return view('taqneen.customer_forms.tamm.index' , compact('instance','data'));
@@ -52,8 +49,19 @@ class CustomerFormController extends Controller
 
     public function create($form_name)
     {
+        $subscribe_customer = new CustomerForm();
+        $data = json_decode($subscribe_customer->value); 
         $instance = CustomerForm::class;
-        return view('taqneen.customer_forms.' . $form_name, compact('instance'));
+        return view('taqneen.customer_forms.' . $form_name, compact('instance','subscribe_customer','data'));
+    }
+    
+    public function edit($form_name,$id)
+    {
+        
+        $subscribe_customer = CustomerForm::find($id);
+        $data = json_decode($subscribe_customer->value);
+        $instance = CustomerForm::class;
+        return view('taqneen.customer_forms.' . $form_name,compact('instance','data','subscribe_customer'));
     }
 
 
@@ -86,9 +94,9 @@ class CustomerFormController extends Controller
 
     public function save(Request $request)
     {
+        if ($request->id)
+            return $this->update($request);
 
-        // $value = json_encode($request->form);
-        // dd($value);
         try {
             $key = $request->customer_type;
             $value = json_encode($request->form);
@@ -106,6 +114,21 @@ class CustomerFormController extends Controller
  
             return back()->with('status', $output);
         } 
+    }
+    public function update(Request $request){ 
+            $key = $request->key;
+            $value = json_encode($request->form); 
+            $resource = CustomerForm::find($request->id);
+            $resource->update([ 
+                "value" => $value, 
+            ]); 
+            $output = [
+                "success" => 1,
+                "msg" =>__('done')
+            ];
+
+            $redir = "/customer-form/" . $resource->key . "/index";
+            return redirect($redir)->with('status', $output);
     }
 
     public function viewPdf(CustomerForm $resource, $key)

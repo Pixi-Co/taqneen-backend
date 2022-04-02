@@ -11,6 +11,7 @@ class CustomerForm extends Model
     public static $SUBSCRIBE_NABA_MODEL_KEY = "subscribe_naba_model";
     public static $SUBSCRIBE_MUQEEM_MODEL_KEY = "subscribe_muqeem_model";
     public static $SUBSCRIBE_MASARAT_MODEL_KEY = "subscribe_masarat_model";
+    public static $EDIT_SUBSCRIBE_MASARAT_MODEL_KEY = "subscribe_masarat_model";
     public static $EDIT_SUBSCRIPE_MUQEEM_MODEL_KEY = "edit_subscribe_muqeem_model";
 
 
@@ -80,6 +81,9 @@ class CustomerForm extends Model
 
         return $resource;
     }
+<<<<<<< HEAD
+     
+=======
 
     
     public function getTagValue($tag) {  
@@ -91,4 +95,5 @@ class CustomerForm extends Model
         //$resource->invoice_url = url('/subscriptions/print') . "/" . $this->getTokenAttribute();
         return $resource->$tag;
     }
+>>>>>>> 147559d75949998db7cebfc4d1f9bde9ee5bb6a7
 }

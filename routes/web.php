@@ -125,6 +125,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('subscriptions-download',[SubscriptionController::class,'subscriptionDownload']);
     Route::post('subscriptions-upload_file',[SubscriptionController::class,'subscriptionImportFile']);
     Route::get('/customer-form/{form_name}', 'taqneen\CustomerFormController@create');
+    Route::get('/customer-edit/{form_name}/{id}', 'taqneen\CustomerFormController@edit');
     Route::get('/customer-form/{form_name}/index', 'taqneen\CustomerFormController@index');
     Route::get('/notification-template', 'taqneen\NotificationTemplateController@index');
     Route::get('/notification-template/form', 'taqneen\NotificationTemplateController@form');
