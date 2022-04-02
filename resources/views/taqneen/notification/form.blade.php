@@ -87,6 +87,10 @@
                                                                         data-bs-original-title="" title="">
                                                                         {customer_email}
                                                                     </span>
+                                                                    <span class="btn btn-primary btn-xs" style="margin: 1px"
+                                                                        data-bs-original-title="" title="">
+                                                                        {customer_form_user_email}
+                                                                    </span>
                                                                     {!! Form::text('cc', $resource->cc, ['class' => 'form-control', '', 'placeholder' => 'email1@example.com,email2@example.com', 'required']) !!}
                                                                 </div>
 
@@ -162,7 +166,9 @@
 
 
         $(document).ready(function() {
-            formAjax(true);
+            formAjax(true, function(){
+                window.location = '{{ url('/notification-template') }}';
+            });
         });
     </script>
 @endsection

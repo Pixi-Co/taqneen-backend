@@ -346,4 +346,11 @@ class Contact extends Authenticatable
         
         return $query->whereIn('id', $ids);
     }
+    
+    
+    public function getTagValue($tag) {  
+        $resource = $this; 
+        //$resource->invoice_url = url('/subscriptions/print') . "/" . $this->getTokenAttribute();
+        return $resource->$tag;
+    }
 }
