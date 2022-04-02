@@ -65,10 +65,12 @@ Route::get('/migrate', function(){
 
 
 Route::middleware(['setData'])->group(function () {
- 
-    Route::get('subscriptions/print/{id}', 'taqneen\SubscriptionController@print');
+    Route::get('subscriptions/print/{id}', 'taqneen\SubscriptionController@print'); 
+    Route::get('/customer-pdf/{id}', 'taqneen\CustomerFormController@viewPdfApi');
+    Route::get('/customer-pdf-download/{id}', 'taqneen\CustomerFormController@downloadPdfApi');
         
     Auth::routes();
+    Route::post('/register', 'taqneen\CustomerFormController@createAccount');
     
     Route::get('/verify-email', "UserController@verifyEmail");
     Route::get('/verify', 'BusinessController@verfiy')->name('business.verfiy');
@@ -124,8 +126,6 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::post('subscriptions-upload_file',[SubscriptionController::class,'subscriptionImportFile']);
     Route::get('/customer-form/{form_name}', 'taqneen\CustomerFormController@create');
     Route::get('/customer-form/{form_name}/index', 'taqneen\CustomerFormController@index');
-    Route::get('/customer-pdf/{id}', 'taqneen\CustomerFormController@viewPdfApi');
-    Route::get('/customer-pdf-download/{id}', 'taqneen\CustomerFormController@downloadPdfApi');
     Route::get('/notification-template', 'taqneen\NotificationTemplateController@index');
     Route::get('/notification-template/form', 'taqneen\NotificationTemplateController@form');
     Route::post('/notification-template', 'taqneen\NotificationTemplateController@save');

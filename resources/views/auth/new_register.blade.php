@@ -1,359 +1,171 @@
 <!DOCTYPE html>
-<html>
-@php
-$config_languages = config('constants.langs');
-$languages = [];
-foreach ($config_languages as $key => $value) {
-    $languages[$key] = $value['full_name'];
-}
-@endphp
+<html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-    <!-- fav Icon -->
-    <link rel="shortcut icon" href="images/favicon.png" title="Favicon" sizes="16x16" />
-    <!--With LTR -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Cuba admin is super flexible, powerful, clean &amp; modern responsive bootstrap 5 admin template with unlimited possibilities.">
+    <meta name="keywords"
+        content="admin template, Cuba admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="pixelstrap">
+    <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
+    <title>Cuba - Premium Admin Template - @yield('title')</title>
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/font-awesome.css') }}">
+    <!-- ico-font-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/icofont.css') }}">
+    <!-- Themify icon-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/themify.css') }}">
+    <!-- Flag icon-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/flag-icon.css') }}">
+    <!-- Feather icon-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/feather-icon.css') }}">
+    <!-- Plugins css start-->
+    @yield('css')
+    <!-- Plugins css Ends-->
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
+    <!-- App css-->
+    <link id="color" rel="stylesheet" href="{{ asset('assets/css/color-1.css') }}" media="screen">
+    <!-- Responsive css-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
 
-    <title>register</title>
-
-    @include("layouts.partials.css")
-    @include("layouts.partials.new_css")
-
-    <style>
-        html,
-        body,
-        .currency_page {
-            height: 100% !important;
-            overflow: auto!important;
+    @include("taqneen.layouts.css")
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <style> 
+        .login-card .login-main .theme-form label {
+            font-size: 15px;
+            letter-spacing: .4px;
+        }
+        .theme-form .checkbox label {
+            padding-left: 10px;
+        }
+        .checkbox label {
+            display: inline-block;
+            position: relative;
+            padding-left: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .login-card .login-main .theme-form .link {
+            position: absolute;
+            top: 10px;
+            right: 0;
         }
 
-        .step,
-        .step-min {
-            display: none;
+        .form-group {
+            position: relative;
         }
 
-        .step1 {
-            display: block
+        .login-card {
+            background-image: url('/images/taqneen_login.jpg')!important;
+            background-size: cover;
         }
 
-        .step-min1 {
-            display: block
+        *, h1, h2, h3, h4, h5, h6, label{
+            font-family: 'Tajawal', sans-serif!important;
+            direction: rtl;
+            text-align: right!important;
         }
-
-        .toast-success {
-            background: #41bc85!important;
-            color: white!important;
-        }
+ 
     </style>
 </head>
 
-<body style=" background: linear-gradient(-45deg, #fff, #fff);">
-
-    {!! Form::open(['url' => route('business.postRegister'), 'style' => 'height: 100%', 'id' => 'register_form']) !!}
-    {!! Form::token() !!}
-
-    <div class="currency_page business_types pb-5">
-        <div class="container " style="margin-top: 0px">
-
-            <input type="hidden" name="google_id" >
-            <input type="hidden" name="package_id" class="package_id">
-
-            <div class="row ">
-                <img class=" currency_logo" style="width:200px;height: auto" src="images/logo2.png" alt="">
-                {!! Form::open(['url' => '', 'method' => 'get', 'files' => true]) !!}
-                <div class="dropdown lang btn m-8 btn-sm mt-10">
-                    <a href="#" class="dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                        aria-expanded="true">
-                        <span class="-flag-{{ request()->language ? request()->language : 'en' }}"></span>
-                        {{ $languages[request()->language ? request()->language : 'en'] }}
-                    </a>
-                    <div class="dropdown-menu new-shadow lang-dropdown" aria-labelledby="dropdownMenuLink"
-                        x-placement="bottom-start"
-                        style="height: 100px;display: hidden; position: absolute; will-change: transform; top: 10px; left: 0px; transform: translate3d(10px, 22px, 0px);">
-
-                        <input type="hidden" name="is_header" value="1">
-                        <input type="hidden" name="language" id="selectedLang">
-                        @foreach ($languages as $key => $value)
-                            @if (in_array($key, ['ar', 'en']))
-                                <a class="dropdown-item" href="?language={{ $key }}"
-                                    onclick="$('#selectedLang').val('{{ $key }}');$('#edit_user_profile_form')[0].submit()">
-                                    <span class="-flag-{{ $key }}"></span>
-
-                                    {{ $value }}
-                                </a>
-                            @endif
-                        @endforeach
+<body>
+    <!-- login page start-->
+    <div class="container-fluid p-0">
+        <form class="theme-" id="form" method="post" >
+            @csrf
+            <div class="row m-0">
+                <div class="col-12 p-0">
+                    <div class="login-card">
+                        <div>
+                            <div>
+                                <a class="logo text-center" href="{{ url('/login') }}" style="margin: auto" >
+                                    <img class="img-fluid for-light" src="{{ asset('assets/images/logo/login.png') }}"
+                                        alt="looginpage">
+                                    <img class="img-fluid for-dark" src="{{ asset('assets/images/logo/logo_dark.png') }}"
+                                        alt="looginpage">
+                                    </a>
+                                </div>
+                                <br>
+                            <div class="login-main">
+                                <form class="theme-" id="form" method="post" >
+                                    @csrf
+                                    <h4>{{ __('create_account') }}</h4>
+                                    <p>{{ __('enter_your_account_data') }}</p>
+                                    <div class="form-group">
+                                        <label class="col-form-label">{{ __('name') }}</label>
+                                        <input class="form-control" type="text" required="" name="name"
+                                            placeholder="{{ __('name') }}"> 
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">{{ __('pc_number') }}</label>
+                                        <input class="form-control" type="text" required="" name="pc_number"
+                                            placeholder="000000"> 
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">{{ __('Email') }}</label>
+                                        <input class="form-control" type="email" required="" name="email"
+                                            placeholder="Test@gmail.com"> 
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">{{ __('Password') }}</label>
+                                        <input class="form-control password" type="password" name="password" required=""
+                                            placeholder="">
+                                        <strong class="text-danger" >{{ $errors->first('password') }}</strong>
+                                        <div class="show-hide " style="left: 20px;right: inherit" onclick="$('.password').attr('type') == 'text'? $('.password').attr('type', 'password') : $('.password').attr('type', 'text')" >
+                                            <span class="show"> </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-0"> 
+                                        <button class="btn btn-primary btn-block" type="submit">{{ __('create account') }}</button>
+                                    </div> 
+                                    <div class="social mt-4 hidden">
+                                        
+                                    </div> 
+                            </div>
+                        </div>
                     </div>
                 </div>
-                {!! Form::close() !!}
             </div>
-
-            @include('auth.register.step3')
-
-            @include('auth.register.step1')
-
-            @include('auth.register.step2')
-
-            @include('auth.register.step4')
-        </div>
+        </form>
     </div>
 
+    <!-- latest jquery-->
+    <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
+    <!-- Bootstrap js-->
+    <script src="{{ asset('assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <!-- feather icon js-->
+    <script src="{{ asset('assets/js/icons/feather-icon/feather.min.js') }}"></script>
+    <script src="{{ asset('assets/js/icons/feather-icon/feather-icon.js') }}"></script>
+    <!-- scrollbar js-->
+    <!-- Sidebar jquery-->
+    <script src="{{ asset('assets/js/config.js') }}"></script>
+    <!-- Plugins JS start-->
+    @yield('script')
+    <!-- Plugins JS Ends-->
+    <!-- Theme js-->
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="{{ asset('/js/formajax.js') }}"></script>
+    <!-- Plugin used-->
 
-    {!! Form::close() !!}
-
-    @include('layouts.partials.javascripts')
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/login.js?v=' . $asset_v) }}"></script>
-
-    <script>
-        // activate Icheck 
-        $('input[type=checkbox]').iCheck({
-            checkboxClass: 'icheckbox_flat-green',
-            radioClass: 'iradio_flat-green'
-        });
-        $('.business-check').iCheck({
-            checkboxClass: 'icheckbox_flat-green',
-            radioClass: 'iradio_flat-green'
-        });
-
-        $('.business-check').on('ifChecked', function(event) {
-            console.log(event);
-            $('.autoUpdate').slideUp(300);
-            $(event.target).parent().parent().find('.autoUpdate').slideDown(300);
-
-            $('.businesstype_id').val($(this).attr('data-id'));
-            // 
-        });
-    </script>
-
+    @include("taqneen.layouts.script")
 
     <script>
-        function validateOnStep1Old() {
-            if (
-                !$('input[name=name]').val() ||
-                !$('input[name=surname]').val() ||
-                !$('input[name=first_name]').val() ||
-                !$('input[name=last_name]').val() ||
-                !$('input[name=username]').val() ||
-                !$('input[name=email]').val() ||
-                !$('input[name=password]').val() ||
-                !$('input[name=confirm_password]').val()
-            ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        function validateOnStep2() {
-            if (!$('input[name=currency_id]').val()) {
-                return false;
-            }
-
-            return true;
-        }
-
-        function validateOnStep3() {
-            if (!$('.businesstype_id').val()) {
-                return false;
-            }
-
-            return true;
-        }
-
-        function validateOnStep1() {
-            if (!document.email_valid) {
-              toastr.error("@trans('email not valid')");
-              return false;
-            }
-
-            if (!validatePassword()) {
-                return false;
-            }
-
-            return true;
-        }
-
-        function gotoStep(step) { 
-
-            if (step == 2) {
-                if (!validateOnStep1()) {
-                    return false;
-                }
-            } 
-
-            if (step == 3) {
-                if (!validateOnStep2()) {
-                    return toastr.error("@trans('choose the currency')");
-                }
-            }
-
-            if (step == 4) {
-                if (!validateOnStep3()) {
-                    return toastr.error("@trans('choose your business type')");
-                }
-
-                showBusinessType($('.businesstype_id').val()); 
-            }
-
-
-            $('.step').slideUp(300);
-            $('.step' + step).slideDown(300);
-        }
-
-        function validateStepMin1() {
-          if (
-            !$('.name').val() &&
-            !$('.first_name').val() ||
-            !$('.last_name').val()  
-            ) 
-            return false;
-          else 
-            return true;
-        }
-
-        function gotoStepMin(step) {
-            if (step == 2) {
-              if (!validateStepMin1()) {
-                return toastr.error("@trans('Enter name, First name and Last name')");
-              }
-            }
-
-            if (step == 2)
-              generateUsername();
-
-            $('.step-min').slideUp(300);
-            $('.step-min' + step).slideDown(300);
-        }
-
-        function showBusinessType(id) { 
-            console.log("business id", id);
-            $('.business-type').slideUp();
-            $('.business-type-' + id).slideDown();
-        }
-
-        function choosePackage(package) {
-            $('.package_id').val(package);
-            $('.btn-package').removeClass('w3-green');
-            $('.btn-package').addClass('btn-default');
-            $('.btn-package-' + package).removeClass('btn-default');
-            $('.btn-package-' + package).addClass('w3-green');
-        }
-
-        function generatePassword() {
-            var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-            var string_length = 10;
-            var randomstring = '';
-            for (var i = 0; i < string_length; i++) {
-                var rnum = Math.floor(Math.random() * chars.length);
-                randomstring += chars.substring(rnum, rnum + 1);
-            }
-            randomstring = randomstring.toLowerCase();
-
-            if (confirm('@trans("generated password is : ")' + randomstring)) { 
-
-                $('.password').val(randomstring);
-                $('.confirm_password').val(randomstring);
-    
-                return randomstring;
-            }
-
-            return randomstring;
-        }
-
-        function generateUsername() {
-          $.get('{{ url("/api/generate-username") }}', function(id){
-            var username = $('.first_name').val().toLowerCase() + "_" + $('.last_name').val().toLowerCase() + "_" + id;
-            $('.username').val(username);
-          }); 
-        }
-
-        function validateEmail() {
-          var email = $('.email').val();
-          var data = {
-            email: email
-          };
-          $.post('{{ url("/api/validate-email") }}', $.param(data), function(valid){
-            if (valid == 1) {
-              document.email_valid = false;
-              $('.email-validation')[0].className = 'email-validation w3-text-red';
-              $('.email-validation').text('@trans("email not valid")');
-            } else {
-              document.email_valid = true;
-              $('.email-validation')[0].className = 'email-validation w3-text-green';
-              $('.email-validation').text('@trans("email is valid")');
-            }
-          });
-        }
-
-        function validatePassword() {
-          var password = $('.password').val();
-          var cpassword = $('.confirm_password').val();
-
-          if (password.length < 8) {
-            toastr.error("@trans('password must be at least 8 characters')");
-            return false;
-          } 
-
-          if (password != cpassword) {
-            toastr.error("@trans('passwords not matchs')");
-            return false;
-          } 
-
-          return true;
-        }
-
-        function loadGoogleSignIfExists() {
-            var googleProfile = JSON.parse(localStorage.getItem('vaux_google_profile'));
-
-            console.log("googleProfile", googleProfile);
-
-            if (googleProfile) {
-                $("input[name=google_id]").val(googleProfile.id);
-                $("input[name=first_name]").val(googleProfile.first_name);
-                $("input[name=last_name]").val(googleProfile.last_name);
-                $("input[name=email]").val(googleProfile.email);
-
-                $("input[name=email]").attr('readonly', 'readonly');
-                generateUsername();
-                validateEmail();
-                //
-                localStorage.removeItem('vaux_google_profile');
-            }
-        }
- 
-
-        $('input[name=currency_id]').val('');
-        loadGoogleSignIfExists();
-        
-    </script>
-
-    <script>
-        $('.slider').owlCarousel({
-            loop: true,
-            rtl: false,
-            margin: 10,
-            center: false,
-            nav: true,
-            responsive: {
-                0: {
-                    items: 1
-                },
-                600: {
-                    items: 2
-                },
-                1000: {
-                    items: 3
-                }
-            }
-        });
-
-    </script>
+        formAjax(true, function(){
+            window.location = "{{ url('/login') }}";
+        }, "#form");
+    </script>    
 </body>
 
 </html>
