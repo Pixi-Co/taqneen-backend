@@ -87,7 +87,7 @@ class CustomerForm extends Model
         $resource->customer_form_name = __($this->key);
         $resource->customer_form_user = auth()->user()->first_name;
         $resource->customer_form_pdf_url = url('/customer-pdf') . "/" . $this->id; 
-        $resource->customer_form_pdf = "<a style='text-align: center;width: 100px' href='" . url('/customer-pdf-download') . "/" . $this->id . "' style='display: block' ><img style='border: 1px solid lightgray;width: 100px;border-radius: 6px;box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;' src='".url('/images/pdf_file.jpg')."' > <b>تحميل</b> </a><br>";
+        $resource->customer_form_pdf = "<a style='border: 1px solid lightgray;text-align: center;width: 100px' href='" . url('/customer-pdf-download') . "/" . $this->id . "' ><img style='width: 100px;border-radius: 6px;box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;' src='".url('/images/pdf_file.jpg')."' ><br> <b>تحميل</b> </a><br>";
         //$resource->invoice_url = url('/subscriptions/print') . "/" . $this->getTokenAttribute();
         return $resource->$tag;
     }
