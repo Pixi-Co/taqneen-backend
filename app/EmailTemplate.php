@@ -38,7 +38,8 @@ class EmailTemplate extends Model
         '{invoice_url}' => "invoice_url",
         '{customer_form_name}' => "customer_form_name",
         '{customer_form_user}' => "customer_form_user",
-        '{customer_form_pdf_url}' => "customer_form_pdf_url"
+        '{customer_form_pdf_url}' => "customer_form_pdf_url",
+        '{customer_form_pdf}' => "customer_form_pdf"
     ];
     
     public static function getTemplate($triger) {

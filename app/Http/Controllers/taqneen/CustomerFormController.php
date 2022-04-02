@@ -62,6 +62,25 @@ class CustomerFormController extends Controller
         return $this->viewPdf($resource, $key);
     }
 
+    public function downloadPdfApi($id)
+    { 
+        $resource = CustomerForm::find($id);
+        $file = $resource->key; 
+        $data = json_decode($resource->value); 
+        $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'))->render();
+        
+
+        //return $html;
+        $stylesheet = file_get_contents('css/customer_forms.css');
+        //$pdf = PDF::loadHTML($html);  
+        $pdf = new \Mpdf\Mpdf();
+        $pdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
+        //$pdf->WriteHTML($stylesheet2,\Mpdf\HTMLParserMode::HEADER_CSS);
+        $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
+        
+        return $pdf->Output('form.pdf', 'D');
+    }
+
     public function save(Request $request)
     {
 
@@ -73,9 +92,6 @@ class CustomerFormController extends Controller
             $resource = CustomerForm::createOrUpdate($key, $value);
 
             // fire triger after register customer form
-            $resource->customer_form_name = __($key);
-            $resource->customer_form_user = auth()->user()->first_name;
-            $resource->customer_form_pdf_url = url('/customer-pdf') . "/" . $resource->id;
             Triger::fire2(Triger::$ADD_CUSTOMER_FORM, $resource);
 
             return $this->viewPdf($resource, $key);

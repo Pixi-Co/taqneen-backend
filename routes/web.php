@@ -125,6 +125,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/customer-form/{form_name}', 'taqneen\CustomerFormController@create');
     Route::get('/customer-form/{form_name}/index', 'taqneen\CustomerFormController@index');
     Route::get('/customer-pdf/{id}', 'taqneen\CustomerFormController@viewPdfApi');
+    Route::get('/customer-pdf-download/{id}', 'taqneen\CustomerFormController@downloadPdfApi');
     Route::get('/notification-template', 'taqneen\NotificationTemplateController@index');
     Route::get('/notification-template/form', 'taqneen\NotificationTemplateController@form');
     Route::post('/notification-template', 'taqneen\NotificationTemplateController@save');
