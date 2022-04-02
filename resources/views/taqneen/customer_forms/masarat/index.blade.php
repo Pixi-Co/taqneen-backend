@@ -59,6 +59,7 @@
                                                         <th>@trans('commercial_number')</th>
                                                         <th>@trans('release_date')</th>
                                                         <th>@trans('end_date')</th>
+                                                        <th>@trans('user')</th>
                                                         <th>@trans('create_at')</th>
                                                         <th>-</th>
                                                         {{-- <th>@trans('actions')</th> --}}
@@ -73,6 +74,7 @@
                                                             <td>{{ $item->commercial_number }}</td>          
                                                             <td style="direction: ltr">{{ $item->release_date }}</td>          
                                                             <td style="direction: ltr">{{ $item->end_date }}</td>          
+                                                            <td>{{ optional($item->user)->user_full_name }}</td> 
                                                             <td>{{ $item->created_at }}</td> 
                                                             <td>
                                                                 <div style="width: 120px" >
@@ -86,7 +88,7 @@
                                                                     <a 
                                                                     class="w3-btn w3-card w3-white w3-text-orange"
                                                                     style="width: 30px;height: 30px;border-radius: 5em;padding: 5px;"
-                                                                    href="{{ url('/customer-edit') }}/{{ $item->id }}">
+                                                                    href="{{ url('/customer-edit/subscribe_masarat_model') }}/{{ $item->id }}">
                                                                         <i class="fa fa-edit"></i>
                                                                     </a>
                                                                     @endcan
