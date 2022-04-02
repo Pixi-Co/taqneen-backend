@@ -58,6 +58,9 @@ class NotificationTemplateController extends Controller
     public function destroy($id) {
         EmailTemplate::where('id', $id)->delete();
 
-        return responseJson(1, __('doen'));
+        return [
+            "success" => 1,
+            "msg" => __('doen'),
+        ]; 
     }
 }

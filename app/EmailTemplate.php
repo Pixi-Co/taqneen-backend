@@ -37,7 +37,8 @@ class EmailTemplate extends Model
         '{expire_date}' => "expire_date",
         '{invoice_url}' => "invoice_url",
         '{customer_form_name}' => "customer_form_name",
-        '{customer_form_user}' => "customer_form_user"
+        '{customer_form_user}' => "customer_form_user",
+        '{customer_form_pdf_url}' => "customer_form_pdf_url"
     ];
     
     public static function getTemplate($triger) {
@@ -62,6 +63,10 @@ class EmailTemplate extends Model
 
         if ($text == "{customer_email}") {
             return optional($subscription->contact)->email;
+        }
+
+        if ($text == "{customer_form_user_email}") {
+            return optional($subscription->user)->email;
         }
 
         return $text;

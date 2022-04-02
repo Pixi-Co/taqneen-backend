@@ -75,6 +75,7 @@ class CustomerFormController extends Controller
             // fire triger after register customer form
             $resource->customer_form_name = __($key);
             $resource->customer_form_user = auth()->user()->first_name;
+            $resource->customer_form_pdf_url = url('/customer-pdf') . "/" . $resource->id;
             Triger::fire2(Triger::$ADD_CUSTOMER_FORM, $resource);
 
             return $this->viewPdf($resource, $key);
