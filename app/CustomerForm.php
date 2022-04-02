@@ -80,12 +80,8 @@ class CustomerForm extends Model
         // ]);
 
         return $resource;
-<<<<<<< HEAD
-    }
-=======
-    } 
->>>>>>> d410b09b39a8aa53843dc291a74e55a3a38eb22b
 
+        }
     
     public function getTagValue($tag) {  
         $resource = $this; 
