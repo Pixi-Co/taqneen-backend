@@ -80,4 +80,11 @@ class CustomerForm extends Model
 
         return $resource;
     }
+
+    
+    public function getTagValue($tag) {  
+        $resource = $this; 
+        //$resource->invoice_url = url('/subscriptions/print') . "/" . $this->getTokenAttribute();
+        return $resource->$tag;
+    }
 }
