@@ -133,8 +133,7 @@ class CustomerFormController extends Controller
 
     public function viewPdf(CustomerForm $resource, $key)
     {
-        $file = $key;
-        $customer_id = CustomerForm::getCustomerId();
+        $file = $key; 
         //$resource = CustomerForm::where('key', $key)->where('customer_id', $customer_id)->first();
         
 
