@@ -21,7 +21,7 @@
 
         <!-- header -->
         <div class="d-flex justify-content-center bg-danger" >
-            <img class="pn" style="width: 100%;margin-bottom: 0px;" src="{{ url('/images/header.JPG') }}" alt="">
+            <img class="pn" style="width: 100%;margin-bottom: 0px;" src="{{ url('/images/header.jpg') }}" alt="">
         </div>
 
         <div class="container">
