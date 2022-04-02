@@ -52,12 +52,15 @@ class CustomerFormController extends Controller
         $subscribe_customer = new CustomerForm();
         $data = json_decode($subscribe_customer->value); 
         $instance = CustomerForm::class;
+
+        if (!$data)
+            $data = new CustomerForm();
+            
         return view('taqneen.customer_forms.' . $form_name, compact('instance','subscribe_customer','data'));
     }
     
     public function edit($form_name,$id)
-    {
-        
+    { 
         $subscribe_customer = CustomerForm::find($id);
         $data = json_decode($subscribe_customer->value);
         $instance = CustomerForm::class;
