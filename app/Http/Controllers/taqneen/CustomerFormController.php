@@ -4,7 +4,8 @@ namespace App\Http\Controllers\taqneen;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\CustomerForm; 
+use App\CustomerForm;
+use App\Triger;
 use PDF;
 use Spipu\Html2Pdf\Html2Pdf;
 
@@ -14,34 +15,34 @@ class CustomerFormController extends Controller
     public function index($form){
         $instance = CustomerForm::class;
         $customer_id = CustomerForm::getCustomerId();
-        $resource = CustomerForm::where('key', $form)->where('customer_id', $customer_id)->get();
-        $createAt = CustomerForm::where('key', $form)->first();
-        $data = [];
+        $resources = CustomerForm::where('key', $form)->where('customer_id', $customer_id)->get(); 
         //dd($resource);
-        foreach($resource as $item){
-            $data[] = json_decode($item->value);
+        foreach($resources as $item){
+            $item->assignData();
         }
+
+        $data = $resources;
         
        
         if($form == 'subscribe_tamm_model')
         {
-            return view('taqneen.customer_forms.tamm.index' , compact('instance','data','createAt'));
+            return view('taqneen.customer_forms.tamm.index' , compact('instance','data'));
         }
         elseif($form == 'subscribe_masarat_model')
         {
-            return view('taqneen.customer_forms.masarat.index' , compact('instance','data','createAt'));
+            return view('taqneen.customer_forms.masarat.index' , compact('instance','data'));
         }
         elseif($form == 'subscribe_muqeem_model')
         {
-            return view('taqneen.customer_forms.muqeem.index' , compact('instance','data','createAt'));
+            return view('taqneen.customer_forms.muqeem.index' , compact('instance','data'));
         }
         elseif($form == 'subscribe_naba_model')
         {
-            return view('taqneen.customer_forms.naba.index' , compact('instance','data','createAt'));
+            return view('taqneen.customer_forms.naba.index' , compact('instance','data'));
         }
         else
         {
-            return view('taqneen.customer_forms.shomoos.index' , compact('instance','data','createAt'));
+            return view('taqneen.customer_forms.shomoos.index' , compact('instance','data'));
         }
     }
 
@@ -50,6 +51,15 @@ class CustomerFormController extends Controller
     {
         $instance = CustomerForm::class;
         return view('taqneen.customer_forms.' . $form_name, compact('instance'));
+    }
+
+
+    public function viewPdfApi($id)
+    { 
+        $resource = CustomerForm::find($id);
+        $key = $resource->key;
+        
+        return $this->viewPdf($resource, $key);
     }
 
     public function save(Request $request)
@@ -61,6 +71,11 @@ class CustomerFormController extends Controller
             $key = $request->customer_type;
             $value = json_encode($request->form);
             $resource = CustomerForm::createOrUpdate($key, $value);
+
+            // fire triger after register customer form
+            $resource->customer_form_name = __($key);
+            $resource->customer_form_user = auth()->user()->first_name;
+            Triger::fire2(Triger::$ADD_CUSTOMER_FORM, $resource);
 
             return $this->viewPdf($resource, $key);
         } catch (Exception $th) {

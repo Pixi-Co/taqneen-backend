@@ -12,6 +12,8 @@
     <link rel="shortcut icon" href="{{asset('/images/logo.png')}}" type="image/x-icon">
     <title>Taqneen</title> 
  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
     @include('taqneen.layouts.css')
     @yield('style')

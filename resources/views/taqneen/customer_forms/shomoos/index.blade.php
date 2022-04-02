@@ -68,7 +68,7 @@
                                                             <td>{{ $item->company_name }}</td>          
                                                             <td>{{ $item->activity_type }}</td>          
                                                             <td>{{ $item->owner_name }}</td>          
-                                                            <td>{{ $createAt->created_at }}</td>          
+                                                            <td>{{ $item->created_at }}</td>          
                                                         </tr>
                                                     @endforeach 
                                                 </tbody>

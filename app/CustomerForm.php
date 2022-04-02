@@ -26,12 +26,24 @@ class CustomerForm extends Model
         return $this->belongsTo(Contact::class, "customer_id");
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, "created_by");
+    }
+
     public function form($attr)
     {
         $attr = "'$attr'";
         $data = json_decode($this->value, true);
 
         return isset($data[$attr]) ? $data[$attr] : '';
+    }
+
+    public function assignData() {
+        $data = json_decode($this->value);
+        foreach($data as $key => $value) {
+            $this->$key = $value;
+        }
     }
 
     public static function getCustomerId()

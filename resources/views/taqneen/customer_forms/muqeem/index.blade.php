@@ -70,7 +70,7 @@
                                                             <td>{{ $item->name_ar }}</td>          
                                                             <td>{{ $item->commercial_number }}</td>          
                                                             <td dir="ltr">{{ $item->release_date }}</td>          
-                                                            <td>{{ $createAt->created_at }}</td>          
+                                                            <td>{{ $item->created_at }}</td>          
                                                         </tr> 
                                                    @endforeach
                                                 </tbody>

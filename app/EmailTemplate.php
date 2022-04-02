@@ -22,6 +22,7 @@ class EmailTemplate extends Model
         "EXPIRE_SUBSCRIPTION_AFTER_2_WEEKS" => "expire subscription after 2 week",
         "EXPIRE_SUBSCRIPTION_AFTER_1_WEEKS" => "expire subscription after 1 week",
         "ADD_OPPORTUNITY" => "add opportunities",
+        "ADD_CUSTOMER_FORM" => "add customer form",
     ];
 
     public static $TAGS = [
@@ -34,7 +35,9 @@ class EmailTemplate extends Model
         '{pay_date}' => "paid_on",
         '{renew_date}' => "renew_date",
         '{expire_date}' => "expire_date",
-        '{invoice_url}' => "invoice_url"
+        '{invoice_url}' => "invoice_url",
+        '{customer_form_name}' => "customer_form_name",
+        '{customer_form_user}' => "customer_form_user"
     ];
     
     public static function getTemplate($triger) {

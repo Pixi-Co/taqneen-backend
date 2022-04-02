@@ -1,9 +1,7 @@
 <?php
 
 namespace App;
-
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+ 
  
 
 class Triger { 
@@ -18,6 +16,7 @@ class Triger {
     public static $EXPIRE_SUBSCRIPTION_BEFORE_2_WEEKS = "EXPIRE_SUBSCRIPTION_BEFORE_2_WEEKS";
     public static $EXPIRE_SUBSCRIPTION_BEFORE_1_WEEKS = "EXPIRE_SUBSCRIPTION_BEFORE_1_WEEKS";
     public static $ADD_OPPORTUNITY = "ADD_OPPORTUNITY";
+    public static $ADD_CUSTOMER_FORM = "ADD_CUSTOMER_FORM";
 
     public static function fire($triger, $subscriptionId) {
         EmailTemplate::send($triger, $subscriptionId);

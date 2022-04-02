@@ -68,7 +68,7 @@
                                                             <td>{{ $item->pc_num }}</td>          
                                                             <td>{{ $item->name_ar }}</td>          
                                                             <td>{{ $item->portal_naba }}</td>          
-                                                            <td>{{ $createAt->created_at }}</td>          
+                                                            <td>{{ $item->created_at }}</td>          
                                                         </tr> 
                                                    @endforeach
                                                 </tbody>

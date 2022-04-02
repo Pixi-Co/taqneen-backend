@@ -68,7 +68,7 @@
                                                             <td>{{ $item->company_num }}</td>          
                                                             <td>{{ $item->name_ar }}</td>          
                                                             <td>{{ $item->enterprise_activity }}</td>          
-                                                            <td>{{ $createAt->created_at }}</td>          
+                                                            <td>{{ $item->created_at }}</td>          
                                                         </tr> 
                                                     @endforeach
                                                 </tbody>
