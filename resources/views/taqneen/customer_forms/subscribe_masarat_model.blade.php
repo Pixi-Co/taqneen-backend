@@ -309,9 +309,6 @@ input[type=submit]:hover{
                         <legend class="gfield_label gfield_label_before_complex">الخدمات ضمن خدمة مسارات</legend>
                         <div class="ginput_container ginput_container_checkbox">
                             <div class="" id="input_4_154">
-                                @foreach ($data->select_service as $service)
-                                       
-                                @endforeach
                                 <div class="gchoice gchoice_4_154_1">
                                    
                                     <input class="gfield-choice-input" name="form[select_service][]" type="checkbox" value="خدمة إدارة تأجير المركبات" id="select_service">
