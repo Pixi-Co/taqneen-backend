@@ -71,7 +71,7 @@
         }
 
         *, h1, h2, h3, h4, h5, h6, label{
-            font-family:  sans-serif!important;
+            font-family: 'Tajawal', sans-serif!important;
             direction: rtl;
             text-align: right!important;
         }
@@ -88,11 +88,14 @@
                 <div class="col-12 p-0">
                     <div class="login-card">
                         <div>
-                            <div><a class="logo" href="{{ url('/login') }}">
+                            <div>
+                                <a class="logo text-center" href="{{ url('/login') }}" style="margin: auto" >
                                     <img class="img-fluid for-light" src="{{ asset('assets/images/logo/login.png') }}"
                                         alt="looginpage">
                                     <img class="img-fluid for-dark" src="{{ asset('assets/images/logo/logo_dark.png') }}"
-                                        alt="looginpage"></a></div>
+                                        alt="looginpage">
+                                    </a>
+                                </div>
                             <div class="login-main">
                                 <form class="theme-form">
                                     <h4>{{ __('Sign in to account') }}</h4>
@@ -117,7 +120,7 @@
                                             <input id="checkbox1" type="checkbox">
                                             <label class="text-muted" for="checkbox1">{{ __('Remember password') }}</label>
                                         </div>
-                                        <a class="link" href="{{ url('/forget-password') }}">{{ __('Forgot password?') }}</a>
+                                        <a class="link" href="{{ url('/register') }}">{{ __('sign_up') }}</a>
                                         <button class="btn btn-primary btn-block" type="submit">{{ __('Sign in') }}</button>
                                     </div> 
                                     <div class="social mt-4 hidden">

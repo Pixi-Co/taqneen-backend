@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\taqneen;
 
+use App\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\CustomerForm;
 use App\Triger;
+use App\User;
 use PDF;
+use Spatie\Permission\Models\Role;
 use Spipu\Html2Pdf\Html2Pdf;
 
 class CustomerFormController extends Controller
@@ -130,8 +133,7 @@ class CustomerFormController extends Controller
 
     public function viewPdf(CustomerForm $resource, $key)
     {
-        $file = $key;
-        $customer_id = CustomerForm::getCustomerId();
+        $file = $key; 
         //$resource = CustomerForm::where('key', $key)->where('customer_id', $customer_id)->first();
         
 
@@ -163,5 +165,90 @@ class CustomerFormController extends Controller
         $html2pdf = new Html2Pdf();
         $html2pdf->writeHTML($html);
         $html2pdf->output('myPdf.pdf');
+    }
+
+    public function createAccount(Request $request) {
+ 
+        $validator = validator($request->all(), [
+            "email" => "email|required|unique:users,email|max:191",
+            "pc_number" => "required|unique:contacts,custom_field1|max:191",
+            "name" => "required|max:191",
+            "password" => "required|max:191|min:8",
+        ]);
+ 
+        if ($validator->fails()) {
+            return responseJson(0, $validator->errors()->first());
+        }
+
+        $customer = Contact::where('custom_field1', $request->pc_number)->first(); 
+        $names = explode(" ", $request->name);
+        $first_name = $names[0];
+        $last_name = str_replace($first_name, "", $request->name);
+
+        $customer = Contact::create([
+            "supplier_business_name" => $request->name,
+            "custom_field1" => $request->pc_number,
+            "mobile" => $request->email,
+            "email" => $request->email,
+            "state" => '',
+            "address_line_1" => '',
+            "zip_code" => '',
+            "first_name" => $first_name,
+            "last_name" => $last_name,
+            "name" =>  $request->name,
+            "business_id" => 19,
+            "created_by" => optional(User::first())->id,
+            "type" => 'customer',
+        ]); 
+        $customer = $customer->refresh();
+
+        $userData = [
+            "password" => $request->password,
+            "role" => "customer"
+        ];
+        $this->createUser($customer, $userData);
+
+        return responseJson(1, __('your_account_has_been_created'));
+    }
+
+    public function createUser(Contact $contact, array $data)
+    {
+        $user = $contact->loginUser;
+        $contact = $contact->refresh();
+
+
+        $fill = [
+            "first_name" => $contact->first_name,
+            "last_name" => $contact->last_name,
+            "email" => $contact->email,
+            "username" => $contact->email,
+            "contact_number" => $contact->mobile,
+            "address" => $contact->address_line_1,
+            "user_type" => 'user_customer',
+            "business_id" => '19',
+            "password" => isset($data['password']) ? bcrypt($data['password']) : '',
+        ]; 
+
+        if ($user) {
+            $user->update($fill);
+        } else {
+            $user = User::create($fill);
+        }
+
+
+        if (isset($data['role'])) {
+            $data['role'] = strtolower($data['role']) . "#19";
+            $role = $user->roles()->first();
+            $newRole = Role::where('name', $role)->first();
+            if ($newRole) {
+                if ($role)
+                    $user->removeRole($role->name);
+                $user->roles()->detach();
+                $user->forgetCachedPermissions();
+                $user->assignRole($newRole->name);
+            }
+        }
+
+        return $user->refresh();
     }
 }

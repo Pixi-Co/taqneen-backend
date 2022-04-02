@@ -100,26 +100,12 @@ class LoginController extends Controller
                     'status',
                     ['success' => 0, 'msg' => __('lang_v1.login_not_allowed')]
                 );
-        } elseif (($user->user_type == 'user_customer') && !$this->moduleUtil->hasThePermissionInSubscription($user->business_id, 'crm_module')) {
-            \Auth::logout();
-            return redirect('/login')
-                ->with(
-                    'status',
-                    ['success' => 0, 'msg' => __('lang_v1.business_dont_have_crm_subscription')]
-                );
-        }
+        } 
     }
 
     protected function redirectTo()
     {
-        $user = \Auth::user();
-        if (!$user->can('dashboard.data') && $user->can('sell.create')) {
-            return '/pos/create';
-        }
-
-        if ($user->user_type == 'user_customer') {
-            return 'contact/contact-dashboard';
-        }
+        
 
         return '/';
     }
