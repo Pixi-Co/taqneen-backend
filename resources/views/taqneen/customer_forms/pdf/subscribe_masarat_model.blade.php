@@ -18,7 +18,7 @@
      @foreach ($data as $key => $value)
          @php
              $opt = $options[$key] ?? [];
-             $style = 'position: absolute;';
+             $style = 'position: fixed;';
              
              $style .= isset($opt['left']) ? 'left:' . $opt['left'] . ';' : '';
              $style .= isset($opt['top']) ? 'top:' . $opt['top'] . ';' : '';
