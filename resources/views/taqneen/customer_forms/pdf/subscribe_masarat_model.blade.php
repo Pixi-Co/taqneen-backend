@@ -17,10 +17,10 @@
         $opt = $options[$key]?? []; 
         $style = "position: fixed;";
 
-        $style .= $opt['left']? "left:" . $opt['left'] . ";" : ''; 
-        $style .= $opt['top']? "top:" . $opt['top'] . ";" : ''; 
-        $style .= $opt['fontSize']? "font-size:" . $opt['fontSize'] . ";" : ''; 
-        $style .= $opt['letterSpacing']? "letter-spacing:" . $opt['letterSpacing'] . ";" : ''; 
+        $style .= isset($opt['left'])? "left:" . $opt['left'] . ";" : ''; 
+        $style .= isset($opt['top'])? "top:" . $opt['top'] . ";" : ''; 
+        $style .= isset($opt['fontSize'])? "font-size:" . $opt['fontSize'] . ";" : ''; 
+        $style .= isset($opt['letterSpacing'])? "letter-spacing:" . $opt['letterSpacing'] . ";" : ''; 
  
     @endphp
     <div style="{{ $style }}" >
