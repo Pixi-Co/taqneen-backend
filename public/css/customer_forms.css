@@ -7,6 +7,9 @@
 
 .pdf_image {
     width: 100%;
+    position: absolute!important;
+    top: 0px;
+    right: 0px;
 }
 
 .pdf-data {
@@ -15,7 +18,6 @@
 
 .w3-display-topright {
     position: absolute!important;
-    padding-top: 0.6cm;
     top: 0px;
     right: 0px;
 }
