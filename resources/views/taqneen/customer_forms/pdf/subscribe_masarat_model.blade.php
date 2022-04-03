@@ -11,7 +11,7 @@
 
  <body>
      <img style="height: 26.458333333cm" src="{{ url('/assets/images/masarat-pdf/page.jpg') }}"
-         class="pdf_image w3-display-topleft" alt="">
+         class="pdf_image w3-display-topleft" style="position: fixed" alt="">
 
      <!-- ////////////////////////////////بيانات المنشأة/////////////////////////////////// -->
      @foreach ($data as $key => $value)
