@@ -202,7 +202,7 @@ class CustomerFormController extends Controller
     public function getPdf1($html) {
         $stylesheet = file_get_contents('css/customer_forms.css');
         //$pdf = PDF::loadHTML($html);  
-        $pdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [190, 236]]);
+        $pdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [210, 297]]);
         $pdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
         //$pdf->WriteHTML($stylesheet2,\Mpdf\HTMLParserMode::HEADER_CSS);
         $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
