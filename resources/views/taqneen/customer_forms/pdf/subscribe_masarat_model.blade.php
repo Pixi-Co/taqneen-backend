@@ -8,7 +8,7 @@
     <title>TamUser</title>
     @include('taqneen.customer_forms.pdf.common_style')
   
-<body style="background-image: url('{{ url('/assets/images/masarat-pdf/page.jpg') }}');background-size: contain;background-repeat: no-repeat;" >
+<body style="background-image: url('{{ url('/assets/images/masarat-pdf/page.jpg') }}');background-size: cover;background-repeat: no-repeat;" >
     
     <!-- ////////////////////////////////بيانات المنشأة/////////////////////////////////// -->
     @foreach ($data as $key => $value)

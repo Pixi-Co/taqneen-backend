@@ -193,7 +193,7 @@ class CustomerFormController extends Controller
         
 
 
-        return $html;
+        //return $html;
         return $this->getPdf1($html); 
         //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
     }
