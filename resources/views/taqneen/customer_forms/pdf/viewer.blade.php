@@ -170,10 +170,10 @@
                 Pdf.createComponent({
                     key: '{{ $key }}', 
                     value: '{{ $value->dataValue?? $key }}',  
-                    letterSpacing: '{{ str_replace("px", "", $value->letterSpacing?? 0) }}', 
-                    fontSize: '{{ str_replace("px", "", $value->fontSize?? 15) }}',  
-                    left: {{ str_replace("px", "", $value->left?? 0) }},
-                    top: {{ str_replace("px", "", $value->top?? $top) }},
+                    letterSpacing: '{{ str_replace(["px", "mm"], "", $value->letterSpacing?? 0) }}', 
+                    fontSize: '{{ str_replace(["px", "mm"], "", $value->fontSize?? 15) }}',  
+                    left: {{ str_replace(["px", "mm"], "", $value->left?? 0) }},
+                    top: {{ str_replace(["px", "mm"], "", $value->top?? $top) }},
                 });
             @endif
                 @php 
