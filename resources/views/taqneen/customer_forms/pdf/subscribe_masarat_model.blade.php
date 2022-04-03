@@ -8,11 +8,9 @@
      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
      <title>TamUser</title>
      @include('taqneen.customer_forms.pdf.common_style')
-
- <body>
-     <img  src="{{ url('/assets/images/masarat-pdf/page.jpg') }}"
-         class=" w3-display-topleft" style="position: fixed!important;width: 100%" alt="">
-
+ 
+ <body style="background-image: url('{{ url('/assets/images/masarat-pdf/page.jpg') }}');background-size: cover;background-repeat: no-repeat" >
+ 
      <!-- ////////////////////////////////بيانات المنشأة/////////////////////////////////// -->
      @foreach ($data as $key => $value)
          @php
