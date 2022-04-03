@@ -7,12 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class CustomerForm extends Model
 {
     public static $SUBSCRIBE_TAMMM_MODEL_KEY = "subscribe_tamm_model";
+    public static $EDIT_SUBSCRIBE_TAMMM_MODEL_KEY = "subscribe_tamm_model";
+
     public static $SUBSCRIBE_SHOMOOS_MODEL_KEY = "subscribe_shomoos_model";
+    public static $EDIT_SUBSCRIBE_SHOMOOS_MODEL_KEY = "subscribe_shomoos_model";
+    
     public static $SUBSCRIBE_NABA_MODEL_KEY = "subscribe_naba_model";
+    public static $EDIT_SUBSCRIBE_NABA_MODEL_KEY = "subscribe_naba_model";
+
     public static $SUBSCRIBE_MUQEEM_MODEL_KEY = "subscribe_muqeem_model";
-    public static $SUBSCRIBE_MASARAT_MODEL_KEY = "subscribe_masarat_model";
-    public static $EDIT_SUBSCRIBE_MASARAT_MODEL_KEY = "subscribe_masarat_model";
+    public static $INFO_SUBSCRIBE_MUQEEM_MODEL_KEY = "subscribe_muqeem_model";
     public static $EDIT_SUBSCRIPE_MUQEEM_MODEL_KEY = "edit_subscribe_muqeem_model";
+
+    public static $SUBSCRIBE_MASARAT_MODEL_KEY = "subscribe_masarat_model";
+    public static $EDIT_SUBSCRIPE_MASARAT_MODEL_KEY = "subscribe_masarat_model";
 
 
 

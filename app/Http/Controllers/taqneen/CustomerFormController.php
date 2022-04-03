@@ -49,19 +49,42 @@ class CustomerFormController extends Controller
 
     public function create($form_name)
     {
+        
+        //variable to  shomoos form 'activity_type'
+        $activity_type=[
+            'وحدات ايواء' => 'وحدات ايواء',
+            'محلات ذهب' => 'محلات ذهب',
+            'تًٌَُُأجير السايرات' => 'تأجير السيارات',
+            'المجمعات الخاصة' => 'المجمعات الخاصة',
+            'المكاتب العقارية' => 'المكاتب العقارية',
+            'مقاهي الانترنت' => 'مقاهي الانترنت',
+            'شركة الحراسات الامنية الخاصة' => 'شركة الحراسات الامنية الخاصة',
+            'السكك الحديدية' => 'السكك الحديدية',
+        ];
         $subscribe_customer = new CustomerForm();
         $data = json_decode($subscribe_customer->value); 
         $instance = CustomerForm::class;
-        return view('taqneen.customer_forms.' . $form_name, compact('instance','subscribe_customer','data'));
+        return view('taqneen.customer_forms.' . $form_name, compact('instance','subscribe_customer','data','activity_type'));
     }
     
     public function edit($form_name,$id)
     {
-        
+         //variable to  shomoos form 'activity_type'
+         $activity_type=[
+            'وحدات ايواء' => 'وحدات ايواء',
+            'محلات ذهب' => 'محلات ذهب',
+            'تًٌَُُأجير السايرات' => 'تأجير السيارات',
+            'المجمعات الخاصة' => 'المجمعات الخاصة',
+            'المكاتب العقارية' => 'المكاتب العقارية',
+            'مقاهي الانترنت' => 'مقاهي الانترنت',
+            'شركة الحراسات الامنية الخاصة' => 'شركة الحراسات الامنية الخاصة',
+            'السكك الحديدية' => 'السكك الحديدية',
+        ];
         $subscribe_customer = CustomerForm::find($id);
         $data = json_decode($subscribe_customer->value);
+        
         $instance = CustomerForm::class;
-        return view('taqneen.customer_forms.' . $form_name,compact('instance','data','subscribe_customer'));
+        return view('taqneen.customer_forms.' . $form_name,compact('instance','data','subscribe_customer','activity_type'));
     }
 
 
@@ -144,7 +167,7 @@ class CustomerFormController extends Controller
         $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'))->render();
         
 
-        //return $html;
+        return $html;
         return $this->getPdf1($html); 
         //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
     }
@@ -251,4 +274,27 @@ class CustomerFormController extends Controller
 
         return $user->refresh();
     }
+
+    public function destroy($form_name,$id)
+    {
+        $instance = CustomerForm::class;
+        dd($form_name);
+        try { 
+            $subscribe_customer = CustomerForm::find($id);
+            $subscribe_customer->delete();
+           
+            $output = [
+                "success" => 1,
+                "msg" => __('delete successfull')
+            ];
+        } catch (\Exception $th) {
+            $output = [
+                "success" => 0,
+                "msg" => $th->getMessage()
+            ];
+        }
+
+        return $output ; 
+    }
+    
 }

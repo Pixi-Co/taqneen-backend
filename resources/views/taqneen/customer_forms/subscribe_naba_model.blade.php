@@ -93,7 +93,14 @@ input[type=submit]:hover{
         <form class="form-group" action="{{ route('createcustomernaba.store') }}" method="post" enctype="multipart/form-data">
            @csrf
           @method('post')
-            <input type="hidden" name="customer_type" value="{{ $instance::$SUBSCRIBE_NABA_MODEL_KEY }}">
+          @if ($subscribe_customer->id)
+          <input type="hidden" name="customer_type" value="{{ $instance::$EDIT_SUBSCRIBE_NABA_MODEL_KEY }}">
+          @else
+          <input type="hidden" name="customer_type" value="{{ $instance::$SUBSCRIBE_NABA_MODEL_KEY }}">
+          @endif
+          @if ($subscribe_customer->id)
+          <input type="hidden" name="id" value="{{ $subscribe_customer->id }}" >
+          @endif
             <div class="ginput_container ginput_container_checkbox">
                 <legend class="gsection_title">الباقة </legend>
                 <div class="gfield_checkbox" id="input_1_4">
@@ -120,8 +127,8 @@ input[type=submit]:hover{
                             <span class="gfield_required">
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
-                        </label>                       
-                        <input class="form-control" name="form[pc_num]" type="text" value="" required placeholder="70xxxxxxxxxxx" id="pc_num" >
+                        </label>  
+                        {!! Form::text("form[pc_num]", $subscribe_customer->id?$data->pc_num:'', ["class"=> "form-control", "placholder" =>"123xxxxxx" , "required"]) !!}                     
                         {{-- <div class="charleft ginput_counter warningTextareaInfo" aria-live="polite">0 من  10 حرف كحد أقصى</div> --}}
                     </div>
                     <div class="col-md-3 " >
@@ -129,8 +136,9 @@ input[type=submit]:hover{
                             <span class="gfield_required">
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
-                        </label> 
-                        <input class="form-control" name="form[name_ar]" type="text" value="" id="namr_ar">
+                        </label>
+                        {!! Form::text("form[name_ar]", $subscribe_customer->id?$data->name_ar:'' , ["class" => "form-control" , "required"]) !!}
+                        
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">الإسم بالانجليزي
@@ -138,7 +146,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[name_en]" type="text" value="" id="name_en">
+                        {!! Form::text("form[name_en]", $subscribe_customer->id?$data->name_en:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">المدينة
@@ -146,7 +154,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[city]" type="text" value="" id="city">
+                        {!! Form::text("form[city]", $subscribe_customer->id?$data->city:'' , ["class" => "form-control" , "required"]) !!}
                     </div> 
                     
                 </div>
@@ -158,7 +166,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[owner_phone]" type="text" value="" id="enterprise_phone" required>
+                        {!! Form::text("form[owner_phone]", $subscribe_customer->id?$data->owner_phone:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-4 " >
                         <label class="gfield_label pb-1" for="">موقع الشركة الالكتروني :
@@ -166,7 +174,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[company_website]" type="text" value="" id="company_website" required placeholder="  ">
+                        {!! Form::text("form[company_website]", $subscribe_customer->id?$data->company_website:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-4 " >
                         <label class="gfield_label pb-1" for="">البريد الإلكتروني :
@@ -174,7 +182,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[company_email]" type="text" value="" id="company_email" required placeholder="">
+                        {!! Form::text("form[company_email]", $subscribe_customer->id?$data->company_email:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     
                 </div>
@@ -185,7 +193,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[owner_name]" type="text" value="" id="phone" required>
+                        {!! Form::text("form[owner_name]", $subscribe_customer->id?$data->owner_name:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-4 " >
                         <label class="gfield_label pb-1" for="">رقم السجل التجاري
@@ -193,7 +201,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[commercial_number]" type="text" value="" id="commercial_number" required>
+                        {!! Form::text("form[commercial_number]", $subscribe_customer->id?$data->commercial_number:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-4 " >
                         <div class="row ">
@@ -203,7 +211,7 @@ input[type=submit]:hover{
                                 </span>
                             </label> 
                             <div class="col-sm-10">
-                                <input name="form[end_date]" id="end_date" type="date" value="" class="form-control  fc-datepicker" placeholder="yyyy/mm/dd" >
+                                {!! Form::date("form[end_date]", $subscribe_customer->id?$data->end_date:'' , ["class" => "form-control" , "required"]) !!}
                             </div>
                             <div class="col-sm-2 pt-1">
                                 <img class="ui-datepicker-trigger" src="https://taqneen.com/wp-content/plugins/gravityforms/images/datepicker/datepicker.svg" alt="" title="">
@@ -223,7 +231,8 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[building_num]" type="text" value="" id="building_num" required placeholder=" ">
+                        {!! Form::text("form[building_num]", $subscribe_customer->id?$data->building_num:'' , ["class" => "form-control" , "required"]) !!}
+
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">الشارع
@@ -231,7 +240,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[street]" type="text" value="" id="street" placeholder="" required>
+                        {!! Form::text("form[street]", $subscribe_customer->id?$data->street:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">الحي
@@ -239,7 +248,8 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[district]" type="text" value="" id="district" required>
+                        {!! Form::text("form[district]", $subscribe_customer->id?$data->district:'' , ["class" => "form-control" , "required"]) !!}
+
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">
@@ -248,7 +258,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[postal_code]" type="text" value="" id="postal_code" required>
+                        {!! Form::text("form[postal_code]", $subscribe_customer->id?$data->postal_code:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                 </div>
                 <div class="row pt-3">
@@ -259,7 +269,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[leader_name]" type="text" value="" id="leader_name" required placeholder="">
+                        {!! Form::text("form[leader_name]", $subscribe_customer->id?$data->leader_name:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهوية
@@ -267,7 +277,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[leader_idenitiy]" type="text" value="" id="leader_idenitiy" required placeholder="">
+                        {!! Form::text("form[leader_idenitiy]", $subscribe_customer->id?$data->leader_idenitiy:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الجوال الاساسي
@@ -275,7 +285,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[leader_phone]" type="text" value="" id="leader_phone" required placeholder="">
+                        {!! Form::text("form[leader_phone]", $subscribe_customer->id?$data->leader_phone:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهاتف الثانوي
@@ -283,7 +293,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[leader_phone2]" type="text" value="" id="leader_phone2" required>
+                        {!! Form::text("form[leader_phone2]", $subscribe_customer->id?$data->leader_phone2:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-sm-12 pt-3">
                         <label class="gfield_label pb-1" for="">البريد الالكتروني
@@ -291,7 +301,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[leader_email]" type="text" value="" id="leader_email" required>
+                        {!! Form::text("form[leader_email]", $subscribe_customer->id?$data->leader_email:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     
                 </div>
@@ -303,7 +313,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[user_name]" type="text" value="" id="user_name" required placeholder="">
+                        {!! Form::text("form[user_name]", $subscribe_customer->id?$data->user_name:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهوية
@@ -311,7 +321,8 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[user_idenitiy]" type="text" value="" id="user_idenitiy" required placeholder="">
+                        {!! Form::text("form[user_idenitiy]", $subscribe_customer->id?$data->user_idenitiy:'' , ["class" => "form-control" , "required"]) !!}
+
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الجوال الاساسي
@@ -319,7 +330,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[user_phone]" type="text" value="" id="user_phone" required placeholder="">
+                        {!! Form::text("form[user_phone]", $subscribe_customer->id?$data->user_phone:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهاتف الثانوي
@@ -327,7 +338,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[user_phone2]" type="text" value="" id="user_phone2" required>
+                        {!! Form::text("form[user_phone2]", $subscribe_customer->id?$data->user_phone2:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-sm-12 pt-3">
                         <label class="gfield_label pb-1" for="">البريد الالكتروني
@@ -335,7 +346,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[user_email]" type="text" value="" id="user_email" required>
+                        {!! Form::text("form[user_email]", $subscribe_customer->id?$data->user_email:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                 </div>
                 <div class="row pt-3">
@@ -346,7 +357,8 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[sub_represent_name]" type="text" value="" id="sub_represent_name" required placeholder="">
+                        {!! Form::text("form[sub_represent_name]", $subscribe_customer->id?$data->sub_represent_name:'' , ["class" => "form-control" , "required"]) !!}
+
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهوية
@@ -354,7 +366,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[sub_represent_idenitiy]" type="text" value="" id="sub_represent_idenitiy" required placeholder="">
+                        {!! Form::text("form[sub_represent_idenitiy]", $subscribe_customer->id?$data->sub_represent_idenitiy:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الجوال الاساسي
@@ -362,7 +374,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[sub_represent_phone]" type="text" value="" id="sub_represent_phone" required placeholder="">
+                        {!! Form::text("form[sub_represent_phone]", $subscribe_customer->id?$data->sub_represent_phone:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">رقم الهاتف الثانوي
@@ -370,7 +382,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[sub_represent_phone2]" type="text" value="" id="sub_represent_phone2" required>
+                        {!! Form::text("form[sub_represent_phone2]", $subscribe_customer->id?$data->sub_represent_phone2:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-sm-12 pt-3">
                         <label class="gfield_label pb-1" for="">البريد الالكتروني
@@ -378,7 +390,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[sub_represent_email]" type="text" value="" id="sub_represent_email" required>
+                        {!! Form::text("form[sub_represent_email]", $subscribe_customer->id?$data->sub_represent_email:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                 </div>
 
@@ -391,7 +403,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[sub_type]" type="text" value="" id="sub_type" required placeholder="">
+                        {!! Form::text("form[sub_type]", $subscribe_customer->id?$data->sub_type:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-6 " >
                         <label class="gfield_label pb-1" for="">بيانات التكلفة أن وجدت
@@ -399,7 +411,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[cost_data]" type="text" value="" placeholder="" id="cost_data" required>
+                        {!! Form::text("form[cost_data]", $subscribe_customer->id?$data->cost_data:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-12 pt-3 " >
                         <label class="gfield_label pb-1" for="">سبب أستخدام الخدمة
@@ -407,7 +419,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[reason]" type="text" value="" placeholder="" id="reason" required>
+                        {!! Form::text("form[reason]", $subscribe_customer->id?$data->reason:'' , ["class" => "form-control" , "required"]) !!}
                     </div>
                  
                     

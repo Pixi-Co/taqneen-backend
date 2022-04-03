@@ -58,6 +58,7 @@
                                                         <th>@trans('name')</th>
                                                         <th>@trans('enterprise_activity')</th>
                                                         <th>@trans('create_at')</th>
+                                                        <th>-</th>
                                                         {{-- <th>@trans('actions')</th> --}}
                                                     </tr>
                                                 </thead>
@@ -68,7 +69,33 @@
                                                             <td>{{ $item->company_num }}</td>          
                                                             <td>{{ $item->name_ar }}</td>          
                                                             <td>{{ $item->enterprise_activity }}</td>          
-                                                            <td>{{ $item->created_at }}</td>          
+                                                            <td>{{ $item->created_at }}</td>    
+                                                            <td>
+                                                                <div style="width: 120px" >
+                                                                    <a 
+                                                                    class="w3-btn w3-card w3-white w3-text-red"
+                                                                    style="width: 30px;height: 30px;border-radius: 5em;padding: 5px;"
+                                                                    href="{{ url('/customer-pdf') }}/{{ $item->id }}">
+                                                                        <i class="fa fa-file-pdf-o"></i>
+                                                                    </a>
+                                                                    @can('customer_form.edit')
+                                                                    <a 
+                                                                    class="w3-btn w3-card w3-white w3-text-orange"
+                                                                    style="width: 30px;height: 30px;border-radius: 5em;padding: 5px;"
+                                                                    href="{{ url('/customer-edit/subscribe_tamm_model') }}/{{ $item->id }}">
+                                                                        <i class="fa fa-edit"></i>
+                                                                    </a>
+                                                                    @endcan
+                                                                    @can('customer_form.remove')
+                                                                    <a 
+                                                                    class="w3-btn w3-card w3-white w3-text-red"
+                                                                    style="width: 30px;height: 30px;border-radius: 5em;padding: 5px;"
+                                                                    onclick="destroy('{{ url('customer-delete/subscribe_muqeem_model') }}/{{ $item->id }}')">
+                                                                        <i class="fa fa-trash"></i>
+                                                                    </a>
+                                                                    @endcan
+                                                                </div>
+                                                            </td>      
                                                         </tr> 
                                                     @endforeach
                                                 </tbody>
