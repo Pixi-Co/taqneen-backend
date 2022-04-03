@@ -12,8 +12,8 @@
     }
 
     .pdf-viewer {
-        width: 210mm;
-        height: 297mm;
+        width: 907px;
+        height: 1284px;
         margin: auto;
         background-image: url('{{ optional($data)->image }}');
         background-size: contain;
