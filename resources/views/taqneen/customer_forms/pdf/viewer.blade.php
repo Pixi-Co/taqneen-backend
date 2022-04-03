@@ -5,15 +5,15 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+<script src="/js/jquery-ui.js"></script>
 <style>
     body {
         background-color: #fafafa;
     }
 
     .pdf-viewer {
-        width: 217.424mm;
-        height: 311.785mm;
+        width: 210mm;
+        height: 297mm;
         margin: auto;
         background-image: url('{{ optional($data)->image }}');
         background-size: contain;
