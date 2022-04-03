@@ -6,6 +6,7 @@ use App\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\CustomerForm;
+use App\System;
 use App\Triger;
 use App\User;
 use PDF;
@@ -14,6 +15,47 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 class CustomerFormController extends Controller
 {
+    public function pdfViewer() {
+        $resource = CustomerForm::find(42);
+
+        if (request()->ajax()) {
+            $key = request()->key;
+            $data = request()->data;
+            $setting = System::where('key', $resource->key)->first();
+
+            if (!$setting) {
+                $setting = System::create([
+                    "key" => $key,
+                    "value" => json_encode($data),
+                ]);
+            } else {
+                $setting->update([
+                    "value" => json_encode($data)
+                ]);
+            }
+
+            return 1;
+        }
+
+        /*System::create([
+            "key" => $resource->key,
+            "value" => json_encode($resource->value),
+        ]);
+        return 1;*/
+        $setting = System::where('key', $resource->key)->first();
+
+        if (!$setting)
+            $setting = new System();
+
+        $data = json_decode(json_decode($setting->value));  
+        if (!$data)
+            $data = new System();
+ 
+        $data->image = url('/assets/images/masarat-pdf/page.jpg');
+        
+ 
+        return view("taqneen.customer_forms.pdf.viewer", compact("resource", "setting", "data"));
+    }
 
     public function index($form){
         $instance = CustomerForm::class;
@@ -143,12 +185,16 @@ class CustomerFormController extends Controller
         if (!$resource) 
             $resource = new CustomerForm();
 
-        $data = json_decode($resource->value); 
-        $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'))->render();
+        $setting = System::where('key', $resource->key)->first();
+        $options = json_decode(json_decode($setting->value), true); 
+ 
+        $data = json_decode($resource->value, true); 
+        $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data', 'options'))->render();
         
 
-        //return $html;
-        return $this->getPdf1($html); 
+
+        return $html;
+        //return $this->getPdf1($html); 
         //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
     }
 
