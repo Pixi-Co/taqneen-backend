@@ -6,6 +6,7 @@ use App\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\CustomerForm;
+use App\System;
 use App\Triger;
 use App\User;
 use PDF;
@@ -14,6 +15,47 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 class CustomerFormController extends Controller
 {
+    public function pdfViewer() {
+        $resource = CustomerForm::find(42);
+
+        if (request()->ajax()) {
+            $key = request()->key;
+            $data = request()->data;
+            $setting = System::where('key', $resource->key)->first();
+
+            if (!$setting) {
+                $setting = System::create([
+                    "key" => $key,
+                    "value" => json_encode($data),
+                ]);
+            } else {
+                $setting->update([
+                    "value" => json_encode($data)
+                ]);
+            }
+
+            return 1;
+        }
+
+        /*System::create([
+            "key" => $resource->key,
+            "value" => json_encode($resource->value),
+        ]);
+        return 1;*/
+        $setting = System::where('key', $resource->key)->first();
+
+        if (!$setting)
+            $setting = new System();
+
+        $data = json_decode(json_decode($setting->value));  
+        if (!$data)
+            $data = new System();
+ 
+        $data->image = url('/assets/images/masarat-pdf/page.jpg');
+        
+ 
+        return view("taqneen.customer_forms.pdf.viewer", compact("resource", "setting", "data"));
+    }
 
     public function index($form){
         $instance = CustomerForm::class;
@@ -64,6 +106,7 @@ class CustomerFormController extends Controller
         $subscribe_customer = new CustomerForm();
         $data = json_decode($subscribe_customer->value); 
         $instance = CustomerForm::class;
+<<<<<<< HEAD
         return view('taqneen.customer_forms.' . $form_name, compact('instance','subscribe_customer','data','activity_type'));
     }
     
@@ -80,6 +123,17 @@ class CustomerFormController extends Controller
             'شركة الحراسات الامنية الخاصة' => 'شركة الحراسات الامنية الخاصة',
             'السكك الحديدية' => 'السكك الحديدية',
         ];
+=======
+
+        if (!$data)
+            $data = new CustomerForm();
+            
+        return view('taqneen.customer_forms.' . $form_name, compact('instance','subscribe_customer','data'));
+    }
+    
+    public function edit($form_name,$id)
+    { 
+>>>>>>> d61df8d96eb53c9c4a2ee2621bb3802bbc1c1ce0
         $subscribe_customer = CustomerForm::find($id);
         $data = json_decode($subscribe_customer->value);
         
@@ -163,11 +217,19 @@ class CustomerFormController extends Controller
         if (!$resource) 
             $resource = new CustomerForm();
 
-        $data = json_decode($resource->value); 
-        $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'))->render();
+        $setting = System::where('key', $resource->key)->first();
+        $options = json_decode(json_decode($setting->value), true); 
+ 
+        $data = json_decode($resource->value, true); 
+        $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data', 'options'))->render();
         
 
+<<<<<<< HEAD
         return $html;
+=======
+
+        //return $html;
+>>>>>>> d61df8d96eb53c9c4a2ee2621bb3802bbc1c1ce0
         return $this->getPdf1($html); 
         //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
     }
@@ -176,10 +238,18 @@ class CustomerFormController extends Controller
     public function getPdf1($html) {
         $stylesheet = file_get_contents('css/customer_forms.css');
         //$pdf = PDF::loadHTML($html);  
-        $pdf = new \Mpdf\Mpdf();
+        $pdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [210, 297]]);
+        
+        $pdf->autoScriptToLang = true;
+        $pdf->baseScript = 1;
+        $pdf->autoVietnamese = true;
+        $pdf->autoArabic = true; 
+        $pdf->autoLangToFont  = true; 
+
         $pdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
         //$pdf->WriteHTML($stylesheet2,\Mpdf\HTMLParserMode::HEADER_CSS);
-        $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
+        $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY); 
+        
         
         return $pdf->output();
     }

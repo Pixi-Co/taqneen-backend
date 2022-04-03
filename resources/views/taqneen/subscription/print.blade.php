@@ -21,7 +21,7 @@
 
         <!-- header -->
         <div class="d-flex justify-content-center bg-danger" >
-            <img class="pn" style="width: 100%;margin-bottom: 0px;" src="{{ url('assets/images/other-images/header.JPG') }}" alt="">
+            <img class="pn" style="width: 100%;margin-bottom: 0px;" src="{{ url('/images/header.jpg') }}" alt="">
         </div>
 
         <div class="container">
@@ -215,14 +215,19 @@
             </div>
 
             <!-- footer -->
-            <div class="d-flex justify-content-center  mt-5">
-                <img class="" style="width: 100%;margin-bottom: 0px; margin-top: 12px;" src="{{ url('assets/images/other-images/footer.jpg') }}" alt="">
+            <div class="d-flex justify-content-center  mt-5" style="position: fixed;top: 24cm;width: 100%;">
+                <img class="" style="width: 100%;margin-bottom: 0px; margin-top: 12px;" src="{{ url('/images/footer.jpg') }}" alt="">
             </div>
 
         </div>
     </div>
 </body>
 
+<script>
+    window.onload = function(){
+        window.print();
+    }
+</script>
 </html>
 
 <style>

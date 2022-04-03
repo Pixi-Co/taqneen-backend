@@ -47,7 +47,7 @@
                                                     <b>@trans('tags')</b>
                                                     <br>
                                                     @foreach ($tags as $key => $value)
-                                                        <a class="btn btn-primary btn-xs" style="margin: 1px" href="#"
+                                                        <a class="btn btn-primary btn-xs" onclick="copyTextToClipboard(this.innerText)" style="margin: 1px" href="#"
                                                             data-bs-original-title="" title="">
                                                             {{ $key }}
                                                         </a>
@@ -80,15 +80,15 @@
                                                                     <b>@trans('emails')</b> {{ __('or write email tag') }}
 
                                                                     <span class="btn btn-primary btn-xs" style="margin: 1px"
-                                                                        data-bs-original-title="" title="">
+                                                                        data-bs-original-title="" onclick="copyTextToClipboard(this.innerText)" title="">
                                                                         {sales_commision_email}
                                                                     </span>
                                                                     <span class="btn btn-primary btn-xs" style="margin: 1px"
-                                                                        data-bs-original-title="" title="">
+                                                                        data-bs-original-title="" onclick="copyTextToClipboard(this.innerText)" title="">
                                                                         {customer_email}
                                                                     </span>
                                                                     <span class="btn btn-primary btn-xs" style="margin: 1px"
-                                                                        data-bs-original-title="" title="">
+                                                                        data-bs-original-title="" onclick="copyTextToClipboard(this.innerText)" title="">
                                                                         {customer_form_user_email}
                                                                     </span>
                                                                     {!! Form::text('cc', $resource->cc, ['class' => 'form-control', '', 'placeholder' => 'email1@example.com,email2@example.com', 'required']) !!}
@@ -156,6 +156,19 @@
     <script src="https://cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
 
     <script>
+        function copyTextToClipboard(text) {
+            if (!navigator.clipboard) {
+              fallbackCopyTextToClipboard(text);
+              return;
+            }
+            navigator.clipboard.writeText(text).then(function() {
+              console.log('Async: Copying to clipboard was successful!');
+              toastr.success(text + " {{ __('copied_to_clipboard') }}");
+            }, function(err) {
+              console.error('Async: Could not copy text: ', err);
+            });
+        }
+
         function setEmailBody(btn) {
             var form = btn.form; 
             var instance = "email_body_";

@@ -65,7 +65,7 @@
                                                             <th>@trans('serivce')</th>
                                                             <th>@trans('package')</th>
                                                             <th>@trans('status')</th>
-                                                            <th>@trans('create_by')</th>
+                                                            <th>@trans('assign_user')</th>
                                                             <th>@trans('publish date')</th>
                                                             <th>@trans('actions')</th>
                                                         </tr>
