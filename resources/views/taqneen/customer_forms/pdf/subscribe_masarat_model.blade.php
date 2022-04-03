@@ -10,7 +10,7 @@
      @include('taqneen.customer_forms.pdf.common_style')
 
  <body>
-     <img style="height: 26.458333333cm" src="{{ url('/assets/images/masarat-pdf/page.jpg') }}"
+     <img style="width: 100%" src="{{ url('/assets/images/masarat-pdf/page.jpg') }}"
          class="pdf_image w3-display-topleft" style="position: fixed" alt="">
 
      <!-- ////////////////////////////////بيانات المنشأة/////////////////////////////////// -->
