@@ -37,3 +37,17 @@ h6 {
     font-family: 'Tajawal';
     direction: rtl;
 }
+
+@page {
+    sheet-size: 210mm 297mm;
+    margin: 0px!important;
+    padding: 0px!important;
+}
+
+@page bigger {
+    sheet-size: 210mm 297mm;
+}
+
+@page toc {
+    sheet-size: A4;
+}

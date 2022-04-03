@@ -82,7 +82,7 @@
 <body>
     <!-- login page start-->
     <div class="container-fluid p-0">
-        <form action="/login" method="post">
+        <form action="{{ url('/login') }}" method="post">
             @csrf
             <div class="row m-0">
                 <div class="col-12 p-0">

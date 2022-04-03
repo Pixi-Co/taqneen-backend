@@ -8,7 +8,7 @@
      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
      <title>TamUser</title>
      @include('taqneen.customer_forms.pdf.common_style')
- 
+  
  <body style="background-image: url('{{ url('/assets/images/masarat-pdf/page.jpg') }}');background-size: cover;background-repeat: no-repeat" >
      
     <img  src="{{ url('/assets/images/masarat-pdf/page.jpg') }}"
@@ -18,7 +18,7 @@
      @foreach ($data as $key => $value)
          @php
              $opt = $options[$key] ?? [];
-             $style = 'position: fixed;';
+             $style = 'position: absolute;';
              
              $style .= isset($opt['left']) ? 'left:' . $opt['left'] . ';' : '';
              $style .= isset($opt['top']) ? 'top:' . $opt['top'] . ';' : '';
