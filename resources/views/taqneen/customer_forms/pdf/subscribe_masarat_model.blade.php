@@ -10,7 +10,10 @@
      @include('taqneen.customer_forms.pdf.common_style')
  
  <body style="background-image: url('{{ url('/assets/images/masarat-pdf/page.jpg') }}');background-size: cover;background-repeat: no-repeat" >
- 
+     
+    <img  src="{{ url('/assets/images/masarat-pdf/page.jpg') }}"
+        style="position: fixed;width: 100%;top: 0px;left: 0px;" alt="">
+
      <!-- ////////////////////////////////بيانات المنشأة/////////////////////////////////// -->
      @foreach ($data as $key => $value)
          @php
