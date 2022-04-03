@@ -203,9 +203,17 @@ class CustomerFormController extends Controller
         $stylesheet = file_get_contents('css/customer_forms.css');
         //$pdf = PDF::loadHTML($html);  
         $pdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [210, 297]]);
+        
+        $pdf->autoScriptToLang = true;
+        $pdf->baseScript = 1;
+        $pdf->autoVietnamese = true;
+        $pdf->autoArabic = true; 
+        $pdf->autoLangToFont  = true; 
+
         $pdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
         //$pdf->WriteHTML($stylesheet2,\Mpdf\HTMLParserMode::HEADER_CSS);
-        $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
+        $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY); 
+        
         
         return $pdf->output();
     }

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
-<title>Pdf Viewer</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -15,12 +16,30 @@
         width: 210mm;
         height: 297mm;
         margin: auto;
+        /*
         background-image: url('{{ optional($data)->image }}');
         background-size: contain;
-        background-repeat: no-repeat;
+        background-repeat: no-repeat;*/
         position: relative;
     }
-
+    @font-face {
+        font-family: 'my_font';
+        src: url('fonts\Tajawal-Regular.ttf') format("truetype");
+        font-weight: 400;
+        font-style: normal;
+    }
+    
+    *,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h5,
+    h6 {
+        font-family: 'Arial'!important;
+        direction: rtl;
+    }
 </style>
 <style>
     #draggable { width: 150px; height: 150px; padding: 0.5em; }
@@ -31,6 +50,9 @@
 
     <div class="pdf-viewer w3-card w3-white">
  
+        <img  src="{{ optional($data)->image }}"
+        style="position: absolute;width: 100%;top: 0px;left: 0px;height: 26.458333333cm;" alt="">
+
         
     </div>
     <br>
