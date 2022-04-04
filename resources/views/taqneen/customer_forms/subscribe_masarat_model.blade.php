@@ -97,7 +97,7 @@ input[type=submit]:hover{
                @if ($subscribe_customer->id)
                <input type="hidden" name="customer_type" value="{{ $instance::$EDIT_SUBSCRIPE_MASARAT_MODEL_KEY }}">
                @else
-               <input type="hidden" name="customer_type" value="{{ $instance::$SUBSCRIBE_MUQEEM_MODEL_KEY }}">
+               <input type="hidden" name="customer_type" value="{{ $instance::$EDIT_SUBSCRIPE_MASARAT_MODEL_KEY }}">
                @endif
                @if ($subscribe_customer->id)
                <input type="hidden" name="id" value="{{ $subscribe_customer->id }}" >
