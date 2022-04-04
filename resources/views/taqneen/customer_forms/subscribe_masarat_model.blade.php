@@ -95,9 +95,9 @@ input[type=submit]:hover{
           @method('post')
             <div class="ginput_container ">
                @if ($subscribe_customer->id)
-               <input type="hidden" name="customer_type" value="{{ $instance::$EDIT_SUBSCRIPE_MUQEEM_MODEL_KEY }}">
+               <input type="hidden" name="customer_type" value="{{ $instance::$EDIT_SUBSCRIPE_MASARAT_MODEL_KEY }}">
                @else
-               <input type="hidden" name="customer_type" value="{{ $instance::$SUBSCRIBE_MASARAT_MODEL_KEY }}">
+               <input type="hidden" name="customer_type" value="{{ $instance::$SUBSCRIBE_MUQEEM_MODEL_KEY }}">
                @endif
                @if ($subscribe_customer->id)
                <input type="hidden" name="id" value="{{ $subscribe_customer->id }}" >
@@ -309,8 +309,28 @@ input[type=submit]:hover{
                         <legend class="gfield_label gfield_label_before_complex">الخدمات ضمن خدمة مسارات</legend>
                         <div class="ginput_container ginput_container_checkbox">
                             <div class="" id="input_4_154">
+                               @if ($subscribe_customer->id)
+                                @foreach ($data->select_service as $item)
+                                @if ( $item == 'خدمة إدارة تأجير المركبات')
+                                    <div class="gchoice gchoice_4_154_1">
+                                        <input class="gfield-choice-input" name="form[select_service][]"  @if ( $item == 'خدمة إدارة تأجير المركبات')checked @endif type="checkbox" value="خدمة إدارة تأجير المركبات" id="select_service">
+                                        <label for="choice_4_154_1" id="label_4_154_1">خدمة إدارة تأجير المركبات</label>
+                                    </div>
+                                    @elseif ($item == 'خدمة إدارة الصيانة والتشغيل للمركبات')
+                                    <div class="gchoice gchoice_4_154_2">
+                                        <input class="gfield-choice-input" name="form[select_service][]" @if ($item == 'خدمة إدارة الصيانة والتشغيل للمركبات')checked @endif type="checkbox" value="خدمة إدارة الصيانة والتشغيل للمركبات" id="select_service2">
+                                        <label for="choice_4_154_2" id="label_4_154_2">خدمة إدارة الصيانة والتشغيل للمركبات</label>
+                                    </div>
+                                    @elseif( $item == 'خدمة تتبع المركبات شاملة إدارة الصيانة والتشغيل')
+                                    <div class="gchoice gchoice_4_154_3">
+                                        <input class="gfield-choice-input" name="form[select_service][]" @if( $item == 'خدمة تتبع المركبات شاملة إدارة الصيانة والتشغيل')checked @endif type="checkbox" value="خدمة تتبع المركبات شاملة إدارة الصيانة والتشغيل" id="select_service3">
+                                        <label for="choice_4_154_3" id="label_4_154_3">خدمة تتبع المركبات شاملة إدارة الصيانة والتشغيل</label>
+                                    </div> 
+                                @endif
+                                @endforeach
+                              
+                               @else
                                 <div class="gchoice gchoice_4_154_1">
-                                   
                                     <input class="gfield-choice-input" name="form[select_service][]" type="checkbox" value="خدمة إدارة تأجير المركبات" id="select_service">
                                     <label for="choice_4_154_1" id="label_4_154_1">خدمة إدارة تأجير المركبات</label>
                                 </div>
@@ -322,6 +342,7 @@ input[type=submit]:hover{
                                     <input class="gfield-choice-input" name="form[select_service][]" type="checkbox" value="خدمة تتبع المركبات شاملة إدارة الصيانة والتشغيل" id="select_service3">
                                     <label for="choice_4_154_3" id="label_4_154_3">خدمة تتبع المركبات شاملة إدارة الصيانة والتشغيل</label>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </fieldset>

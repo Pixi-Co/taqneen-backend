@@ -17,7 +17,12 @@
 }
 
 .w3-display-topright {
+<<<<<<< HEAD
+    position: fixed!important;
+   
+=======
     position: absolute!important;
+>>>>>>> d61df8d96eb53c9c4a2ee2621bb3802bbc1c1ce0
     top: 0px;
     right: 0px;
 }

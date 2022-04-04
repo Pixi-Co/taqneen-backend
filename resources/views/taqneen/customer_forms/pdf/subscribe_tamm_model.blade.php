@@ -153,7 +153,7 @@
     </div>
     
     <div  class="pdf-data w3-display-topright w3-center" style="top: 9.24cm;right: 15.9cm;" >
-        <b>{{ $data->mail_notific }}</b>
+        <b>{{ $data->mail_notfic }}</b>
     </div>
 
      <!-- Row 12  -->
