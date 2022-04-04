@@ -162,11 +162,14 @@ class CustomerFormController extends Controller
     public function downloadPdfApi($id)
     { 
         $resource = CustomerForm::find($id);
-        $file = $resource->key; 
-        $data = json_decode($resource->value); 
-        $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'))->render();
-        
-
+        $file = $resource->key;   
+        $setting = System::where('key', $resource->key)->first();
+        $options = json_decode(json_decode($setting->value), true); 
+ 
+        $data = json_decode($resource->value, true); 
+        $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data', 'options'))->render();
+         
+         
         //return $html;
         $stylesheet = file_get_contents('css/customer_forms.css');
         //$pdf = PDF::loadHTML($html);  
