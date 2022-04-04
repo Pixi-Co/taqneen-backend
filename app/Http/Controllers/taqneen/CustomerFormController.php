@@ -191,7 +191,8 @@ class CustomerFormController extends Controller
             // fire triger after register customer form
             Triger::fire2(Triger::$ADD_CUSTOMER_FORM, $resource);
 
-            return $this->viewPdf($resource, $key);
+            return redirect("/customer-pdf/" . $resource->id);
+            //return $this->viewPdf($resource, $key);
         } catch (Exception $th) {
             $output = [
                 "success" => 0,
