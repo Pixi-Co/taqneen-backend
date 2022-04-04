@@ -69,6 +69,7 @@ Route::middleware(['setData'])->group(function () {
     Route::get('/customer-pdf/{id}', 'taqneen\CustomerFormController@viewPdfApi');
     Route::get('/customer-pdf-download/{id}', 'taqneen\CustomerFormController@downloadPdfApi');
     Route::get('/customer-pdf-viewer', 'taqneen\CustomerFormController@pdfViewer');
+    Route::post('/customer-pdf-viewer', 'taqneen\CustomerFormController@pdfViewer');
         
     Auth::routes();
     Route::post('/register', 'taqneen\CustomerFormController@createAccount');

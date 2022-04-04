@@ -14,21 +14,8 @@
         style="position: absolute;width: 100%;top: 0px;left: 0px;height: 26.458333333cm;" alt="">
 
      <!-- ////////////////////////////////بيانات المنشأة/////////////////////////////////// -->
-     @foreach ($data as $key => $value)
-         @php
-             $opt = $options[$key] ?? [];
-             $style = 'position: absolute;';
-             
-             $style .= isset($opt['left']) ? 'left:' . $opt['left'] . ';' : '';
-             $style .= isset($opt['top']) ? 'top:' . $opt['top'] . ';' : '';
-             $style .= isset($opt['fontSize']) ? 'font-size:' . $opt['fontSize'] . ';' : '';
-             $style .= isset($opt['letterSpacing']) ? 'letter-spacing:' . $opt['letterSpacing'] . ';' : '';
-             
-         @endphp
-         <div style="{{ $style }}" lang="ar" >
-             {{ is_array($value) ? '' : $value }}
-         </div>
-     @endforeach
+     
+    @include("taqneen.customer_forms.pdf.pdf_viewer_component", ["data" => $data, "options" => $options])
 
  </body>
 

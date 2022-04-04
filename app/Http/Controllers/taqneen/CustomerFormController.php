@@ -25,12 +25,13 @@ class CustomerFormController extends Controller
             "subscribe_tamm_model" => url('/assets/images/tamm-pdf/page1.png'),
             "edit_subscribe_muqeem_model" => url('/assets/images/muqeem-pdf/page.png'),
         ];
-        $resource = CustomerForm::where('key', $defaultKey)->first();
+        $resource = CustomerForm::where('key', $defaultKey)->first(); 
+        
 
         if (request()->ajax()) {
             $key = request()->key;
             $data = request()->data;
-            $setting = System::where('key', $resource->key)->first();
+            $setting = System::where('key', $defaultKey)->first();
 
             if (!$setting) {
                 $setting = System::create([
@@ -51,18 +52,24 @@ class CustomerFormController extends Controller
             "value" => json_encode($resource->value),
         ]);
         return 1;*/
- 
-        $setting = System::where('key', $resource->key)->first();
-
+        $setting = System::where('key', $defaultKey)->first(); 
         if (!$setting)
-            $setting = new System();
+            $setting = new System(); 
 
         $data = json_decode(json_decode($setting->value));  
         if (!$data)
-            $data = new System();
- 
+            $data = new System(); 
+
         $data->image = $keys[$defaultKey];
-        
+
+        if (request()->is_sync == '1') {
+            $resourceData = json_decode($resource->value, true);
+            foreach($resourceData as $k => $v) {
+                if (!optional($data)->$k) {
+                    $data->$k = $k;
+                }
+            }
+        } 
  
         return view("taqneen.customer_forms.pdf.viewer", compact("resource", "setting", "data", "keys"));
     }
@@ -116,12 +123,15 @@ class CustomerFormController extends Controller
         $subscribe_customer = new CustomerForm();
         $data = json_decode($subscribe_customer->value); 
         $instance = CustomerForm::class;
-<<<<<<< HEAD
         return view('taqneen.customer_forms.' . $form_name, compact('instance','subscribe_customer','data','activity_type'));
     }
     
     public function edit($form_name,$id)
     {
+        $subscribe_customer = CustomerForm::find($id);
+        $data = json_decode($subscribe_customer->value);
+        
+        $instance = CustomerForm::class;
          //variable to  shomoos form 'activity_type'
          $activity_type=[
             'وحدات ايواء' => 'وحدات ايواء',
@@ -133,23 +143,12 @@ class CustomerFormController extends Controller
             'شركة الحراسات الامنية الخاصة' => 'شركة الحراسات الامنية الخاصة',
             'السكك الحديدية' => 'السكك الحديدية',
         ];
-=======
 
         if (!$data)
             $data = new CustomerForm();
             
-        return view('taqneen.customer_forms.' . $form_name, compact('instance','subscribe_customer','data'));
-    }
-    
-    public function edit($form_name,$id)
-    { 
->>>>>>> d61df8d96eb53c9c4a2ee2621bb3802bbc1c1ce0
-        $subscribe_customer = CustomerForm::find($id);
-        $data = json_decode($subscribe_customer->value);
-        
-        $instance = CustomerForm::class;
         return view('taqneen.customer_forms.' . $form_name,compact('instance','data','subscribe_customer','activity_type'));
-    }
+    } 
 
 
     public function viewPdfApi($id)
@@ -233,13 +232,7 @@ class CustomerFormController extends Controller
         $data = json_decode($resource->value, true); 
         $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data', 'options'))->render();
         
-
-<<<<<<< HEAD
-        return $html;
-=======
-
-        //return $html;
->>>>>>> d61df8d96eb53c9c4a2ee2621bb3802bbc1c1ce0
+ 
         return $this->getPdf1($html); 
         //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
     }

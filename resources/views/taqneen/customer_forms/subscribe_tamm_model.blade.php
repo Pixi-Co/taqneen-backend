@@ -108,12 +108,16 @@ input[type=submit]:hover{
                 <legend class="gsection_title">نوع الطلب</legend>
                 <div class="gfield_checkbox" id="input_1_4">
                     <div class="gchoice" style="display: inline;">
-                        <input class="gfield-choice-input" name="form[choice_new]" type="checkbox" value="جديد" checked="checked" id="choice_new">
-                        <label for="choice" >جديد</label>
+                        <label for="">
+                            <input type="checkbox" name="form[choice_new_1]" {{ $subscribe_customer->id?optional($data)->choice_new_1? 'checked' : '' : '' }} value="{{ $subscribe_customer->id?optional($data)->choice_new_1? '1' : '0' : '0' }}" onchange="this.value = this.checked? '1' : '0'"  >
+                            جديد                             
+                        </label>  
                     </div>
                     <div class="gchoice " style="display: inline;">
-                        <input class="gfield-choice-input" name="form[choice_new]" type="checkbox" value="تجديد" id="choice_renewal">
-                        <label for="choice" >تجديد</label>
+                        <label for="">
+                            <input type="checkbox" name="form[choice_new_2]" {{ $subscribe_customer->id?optional($data)->choice_new_2? 'checked' : '' : '' }} value="{{ $subscribe_customer->id?optional($data)->choice_new_2? '1' : '0' : '0' }}" onchange="this.value = this.checked? '1' : '0'"  >
+                            تجديد                             
+                        </label>  
                     </div>
                 </div>
             </div>
@@ -162,13 +166,17 @@ input[type=submit]:hover{
                            
                         </label> 
                         <div class="gfield_checkbox" id="input_1_4">
-                            <div class="gchoice" style="display: inline;">
-                                <input class="gfield-choice-input" name="form[company_type]" type="radio" value="شركة" id="choice_new">
-                                <label for="choice" >شركة</label>
+                            <div class="gchoice" style="display: inline;"> 
+                                <label for="">
+                                    <input type="checkbox" name="form[company_type_1]" {{ $subscribe_customer->id?optional($data)->company_type_1? 'checked' : '' : '' }} value="{{ $subscribe_customer->id?optional($data)->company_type_1? '1' : '0' : '0' }}" onchange="this.value = this.checked? '1' : '0'"  >
+                                    شركة                             
+                                </label>    
                             </div>
                             <div class="gchoice " style="display: inline;">
-                                <input class="gfield-choice-input" name="form[company_type]" type="radio" value="مؤسسة" id="choice_renewal">
-                                <label for="choice" >مؤسسة</label>
+                                <label for="">
+                                    <input type="checkbox" name="form[company_type_2]" {{ $subscribe_customer->id?optional($data)->company_type_2? 'checked' : '' : '' }} value="{{ $subscribe_customer->id?optional($data)->company_type_2? '1' : '0' : '0' }}" onchange="this.value = this.checked? '1' : '0'"  >
+                                    مؤسسة                             
+                                </label>     
                             </div>
                         </div>
                     </div>
@@ -265,7 +273,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        {!! Form::text('form[mail_notfic]', $subscribe_customer->id?$data->mail_notfic:'', ["class" => 'form-control', "placeholder"=>"",'required']) !!}                      
+                        {!! Form::text('form[mail_notfic]', $subscribe_customer->id?optional($data)->mail_notfic:'', ["class" => 'form-control', "placeholder"=>"",'required']) !!}                      
                     </div>
                     
                 </div>
@@ -329,13 +337,17 @@ input[type=submit]:hover{
                             </span>
                         </label> 
                         <div class="gfield_checkbox" id="input_1_4">
-                            <div class="gchoice" style="display: inline;">
-                                <input class="gfield-choice-input" name="form[lang]" type="checkbox" value="العربية" checked="checked" id="lang_ar">
-                                <label for="choice" >العربية</label>
+                            <div class="gchoice" style="display: inline;"> 
+                                <label for="">
+                                    <input type="checkbox" name="form[lang_1]" {{ $subscribe_customer->id?optional($data)->lang_1? 'checked' : '' : '' }} value="{{ $subscribe_customer->id?optional($data)->lang_1? '1' : '0' : '0' }}" onchange="this.value = this.checked? '1' : '0'"  >
+                                    العربية                             
+                                </label>   
                             </div>
                             <div class="gchoice " style="display: inline;">
-                                <input class="gfield-choice-input" name="form[lang]" type="checkbox" value="الإنجليزية" id="lang_en">
-                                <label for="choice" >الإنجليزية</label>
+                                <label for="">
+                                    <input type="checkbox" name="form[lang_2]" {{ $subscribe_customer->id?optional($data)->lang_2? 'checked' : '' : '' }} value="{{ $subscribe_customer->id?optional($data)->lang_2? '1' : '0' : '0' }}" onchange="this.value = this.checked? '1' : '0'"  >
+                                    الإنجليزية                             
+                                </label>  
                             </div>
                         </div>
                     </div>

@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
@@ -89,12 +89,17 @@
                 component.style.top = (options.top? options.top : 0) + this.unit;
                 component.style.letterSpacing = (options.letterSpacing? options.letterSpacing : 0) + this.unit;
                 component.style.fontSize = (options.fontSize? options.fontSize : 0) + this.unit;
+                component.style.width = options.width > 0? options.width + this.unit : 'auto';
 
                 var key = options.key? options.key : '';
                 var value = options.value? options.value : '';
+                var replace = options.replace? options.replace : '';
                 component.innerHTML = value;
                 component.setAttribute('data-key', key);
                 component.setAttribute('data-value', value);
+                component.setAttribute('data-replace', replace);
+                
+                this.replaceTag(component, replace);
                 component.id = key;
 
                 $('.pdf-viewer').append(component); 
@@ -110,14 +115,33 @@
                     }
                 });
             },
+            replaceTag: function(component, value){
+                var option = "data-replace";
+                var innerText = component.innerHTML;
+                if (value.toString().length > 0) {
+                    var replaces = value.split(",");
+                    for(var i = 0; i < replaces.length; i ++) {
+                        var replace = replaces[i].split("|");
+                        if (replace.length > 1) {
+                            //var text = "/" . replace[0] . "/ig";
+                            innerText = innerText.replaceAll(replace[0], replace[1]);
+                        }
+                    }
+                    component.setAttribute(option, value);
+                    component.innerHTML = innerText;
+                    console.log(innerText);
+                }
+            },
             storeMoving: function(component){
                 var key = $(component).attr('data-key');
                 this.data[key] = {
                     top: component.style.top,
                     left: component.style.left,
+                    width: component.style.width,
                     fontSize: component.style.fontSize,
                     letterSpacing: component.style.letterSpacing,
                     dataValue: component.getAttribute('data-value'),
+                    replace: component.getAttribute('data-replace'),
                 };
 
                 this.sync();
@@ -128,7 +152,7 @@
                     key: '{{ $setting->key }}',
                     data: JSON.stringify(this.data)
                 };
-                $.get("{{ url('/customer-pdf-viewer') }}", $.param(params), function(){ 
+                $.post("{{ url('/customer-pdf-viewer') }}", $.param(params), function(){ 
                     console.log('sync done');
                 });
             },
@@ -137,6 +161,8 @@
                 if (option == 'data-value') {
                     component.setAttribute(option, value);
                     component.innerHTML = value;
+                } else if (option == 'data-replace') {
+                    this.replaceTag(component, value);
                 } else
                     component.style[option] = value;
 
@@ -182,6 +208,14 @@
                             <th>letter spacing</th>
                             <td><input  value="${component.style.letterSpacing}" min="1" max="100" onchange="Pdf.saveOptions('${key}', 'letterSpacing', this.value)" ></td>
                         </tr>
+                        <tr>
+                            <th>width</th>
+                            <td><input  value="${component.style.width}" min="1" max="100" onchange="Pdf.saveOptions('${key}', 'width', this.value)" ></td>
+                        </tr>
+                        <tr>
+                            <th>replace</th>
+                            <td><input  value="${component.getAttribute('data-replace')}" min="1" max="100" onchange="Pdf.saveOptions('${key}', 'data-replace', this.value)" ></td>
+                        </tr>
                     </table>
                 `;
 
@@ -210,6 +244,8 @@
                     fontSize: '{{ str_replace(["px", "mm"], "", $value->fontSize?? 15) }}',  
                     left: {{ str_replace(["px", "mm"], "", $value->left?? 0) }},
                     top: {{ str_replace(["px", "mm"], "", $value->top?? $top) }},
+                    width: '{{ str_replace(["px", "mm"], "", $value->width?? 0) }}',
+                    replace: "{!! html_entity_decode(strlen(optional($value)->replace) > 0? optional($value)->replace : null, ENT_QUOTES) !!}",
                 });
             @endif
                 @php 

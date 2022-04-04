@@ -104,18 +104,28 @@ input[type=submit]:hover{
             <div class="ginput_container ginput_container_checkbox">
                 <legend class="gsection_title">الباقة </legend>
                 <div class="gfield_checkbox" id="input_1_4">
-                    <div class="gchoice" style="display: inline;">
-                        <input class="gfield-choice-input" name="form[portal_naba][]" type="checkbox" value="بوابةنبأ"  id="portal_naba">
-                        <label for="choice" >بوابة نبأ</label>
+                    
+                    <div class="gchoice" style="display: inline;"> 
+                        <label for="">
+                            <input type="checkbox" name="form[portal_naba_1]" {{ $subscribe_customer->id?optional($data)->portal_naba_1? 'checked' : '' : '' }} value="{{ $subscribe_customer->id?optional($data)->portal_naba_1? '1' : '0' : '0' }}" onchange="this.value = this.checked? '1' : '0'"  >
+                            بوابة نبأ
+                        </label>  
                     </div>
-                    <div class="gchoice " style="display: inline;">
-                        <input class="gfield-choice-input" name="form[portal_naba][]" type="checkbox" value="نبأالمباشرة" id="naba_live">
-                        <label for="choice" >نبأ المباشرة</label>
+                    
+                    <div class="gchoice" style="display: inline;"> 
+                        <label for="">
+                            <input type="checkbox" name="form[portal_naba_2]" {{ $subscribe_customer->id?optional($data)->portal_naba_1? 'checked' : '' : '' }} value="{{ $subscribe_customer->id?optional($data)->portal_naba_2? '1' : '0' : '0' }}" onchange="this.value = this.checked? '1' : '0'"  >
+                            نبأ المباشرة
+                        </label>  
                     </div>
-                    <div class="gchoice " style="display: inline;">
-                        <input class="gfield-choice-input" name="form[portal_naba][]" type="checkbox" value="نبأالأساسية" id="naba_main">
-                        <label for="choice" > نبأ الأساسية</label>
+                    
+                    <div class="gchoice" style="display: inline;"> 
+                        <label for="">
+                            <input type="checkbox" name="form[portal_naba_3]" {{ $subscribe_customer->id?optional($data)->portal_naba_1? 'checked' : '' : '' }} value="{{ $subscribe_customer->id?optional($data)->portal_naba_3? '1' : '0' : '0' }}" onchange="this.value = this.checked? '1' : '0'"  >
+                            نبأ الأساسية
+                        </label>  
                     </div>
+                     
                 </div>
             </div>
 

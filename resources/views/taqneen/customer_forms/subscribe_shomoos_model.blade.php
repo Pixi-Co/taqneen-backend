@@ -288,12 +288,16 @@ input[type=submit]:hover{
                         <label class="gfield_label pb-1" for="">نوع الهوية</label> 
                         <div class="gfield_checkbox" id="input_1_4">
                             <div class="gchoice" style="display: inline;">
-                                {!! Form::radio("form[id_type]",'بطاقة', $subscribe_customer->id?$data->id_type?'checked':'':'')!!}
-                                <label for="choice" >بطاقة</label>
+                                <label for="">
+                                    <input type="checkbox" name="form[id_type_1]" {{ $subscribe_customer->id?optional($data)->id_type_1? 'checked' : '' : '' }} value="{{ $subscribe_customer->id?optional($data)->id_type_1? '1' : '0' : '0' }}" onchange="this.value = this.checked? '1' : '0'"  >
+                                    بطاقة                                   
+                                </label> 
                             </div>
-                            <div class="gchoice " style="display: inline;">
-                                {!! Form::radio("form[id_type]",'إقامة', $subscribe_customer->id?$data->id_type?'checked':'':'')!!}
-                                <label for="choice" >إقامة</label>
+                            <div class="gchoice " style="display: inline;"> 
+                                <label for="">
+                                    <input type="checkbox" name="form[id_type_2]" {{ $subscribe_customer->id?optional($data)->id_type_2? 'checked' : '' : '' }} value="{{ $subscribe_customer->id?optional($data)->id_type_2? '1' : '0' : '0' }}" onchange="this.value = this.checked? '1' : '0'"  >
+                                    اقامة                                   
+                                </label> 
                             </div>
                         </div>
                     </div>
