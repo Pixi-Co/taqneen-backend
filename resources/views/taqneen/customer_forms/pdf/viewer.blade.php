@@ -47,6 +47,20 @@
 <body>
 
     <br>
+    <div style="width: 210mm;margin: auto" >  
+        <form action="">
+            <label for="">key</label>
+            <br>
+            <select name="key" id="" class="w3-input" >
+                @foreach ($keys as $key => $value)
+                <option value="{{ $key }}" {{ request()->key == $key? 'selected' : '' }} >{{ $key }}</option>
+                @endforeach
+            </select>
+            <br>
+            <button class="w3-button w3-indigo" >submit</button>
+        </form>
+    </div>
+    <br>
 
     <div class="pdf-viewer w3-card w3-white">
  
@@ -199,7 +213,7 @@
                 });
             @endif
                 @php 
-                    $top += 10;
+                    $top += 20;
                 @endphp
             @endforeach 
  

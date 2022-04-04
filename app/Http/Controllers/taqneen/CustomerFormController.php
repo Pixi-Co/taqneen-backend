@@ -15,8 +15,17 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 class CustomerFormController extends Controller
 {
-    public function pdfViewer() {
-        $resource = CustomerForm::find(42);
+    public function pdfViewer() { 
+        $defaultKey = request()->key? request()->key : "subscribe_masarat_model";
+        $keys = [
+            "subscribe_masarat_model" => url('/assets/images/masarat-pdf/page.jpg'),
+            "subscribe_muqeem_model" => url('/assets/images/muqeem-pdf/page.png'),
+            "subscribe_naba_model" => url('/assets/images/naba-pdf/page1.png'),
+            "subscribe_shomoos_model" => url('/assets/images/shomoos-pdf/page.png'),
+            "subscribe_tamm_model" => url('/assets/images/tamm-pdf/page1.png'),
+            "edit_subscribe_muqeem_model" => url('/assets/images/muqeem-pdf/page.png'),
+        ];
+        $resource = CustomerForm::where('key', $defaultKey)->first();
 
         if (request()->ajax()) {
             $key = request()->key;
@@ -42,6 +51,7 @@ class CustomerFormController extends Controller
             "value" => json_encode($resource->value),
         ]);
         return 1;*/
+ 
         $setting = System::where('key', $resource->key)->first();
 
         if (!$setting)
@@ -51,10 +61,10 @@ class CustomerFormController extends Controller
         if (!$data)
             $data = new System();
  
-        $data->image = url('/assets/images/masarat-pdf/page.jpg');
+        $data->image = $keys[$defaultKey];
         
  
-        return view("taqneen.customer_forms.pdf.viewer", compact("resource", "setting", "data"));
+        return view("taqneen.customer_forms.pdf.viewer", compact("resource", "setting", "data", "keys"));
     }
 
     public function index($form){
