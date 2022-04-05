@@ -28,6 +28,8 @@ Route::get('reset_admin', function(){
     auth()->user()->update([
         "password" => bcrypt("123456789")
     ]);
+
+    return 'done';
 });
 
 Route::get('/remove_notfound_img', function(){
