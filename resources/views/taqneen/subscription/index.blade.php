@@ -121,7 +121,7 @@
             <button id="next" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
                @trans('next')
             </button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('close') }}</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('close_') }}</button>
         </div>
       </div>
     </div>
