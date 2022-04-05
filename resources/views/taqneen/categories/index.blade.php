@@ -13,12 +13,12 @@
 @endsection
 
 @section('breadcrumb-title')
-<h3>@trans('categories')</h3>
+<h3>@trans('categories_')</h3>
 @endsection
 
 @section('breadcrumb-items')
 <li class="breadcrumb-item">@trans('dashboard_')</li>
-<li class="breadcrumb-item active">@trans('categories')</li> 
+<li class="breadcrumb-item active">@trans('categories_')</li> 
 @endsection
 
 @section('content') 
