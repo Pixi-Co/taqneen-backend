@@ -94,6 +94,12 @@
     .customizer-links {
         display: none;
     }
+
+    .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content>li .sidebar-link.active {
+         
+        background-color: #10437057!important;
+        border-color: #1044704d!important; 
+    }
 </style>
 
 
