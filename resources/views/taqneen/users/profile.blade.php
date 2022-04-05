@@ -45,7 +45,7 @@
                                                 <div class="col-md-5 border-right">
                                                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                                                         <img class="rounded-circle mt-5" width="150px" src="{{ $user->custom_fuild_1?$user->image_path:'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg' }}">
-                                                        <span class="font-weight-bold">{{ $user->first_name . $user->last_name }}</span><span class="text-black-50">{{ $user->email }}</span><span>
+                                                        <span class="font-weight-bold">{{ $user->first_name . " " . $user->last_name }}</span><span class="text-black-50">{{ $user->email }}</span><span>
                                                         {{-- <a class="btn btn-primary"  href="">متابعت العميل</a> --}}
                                                     </span></div>
                                                     <br>
