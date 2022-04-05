@@ -342,7 +342,7 @@
                 <div class="media profile-media">
                     <img class="b-r-10" src="{{ asset('/images/avatar.png') }}" style="width: 40px;height: 40px;border-radius: 8px" alt="">
                     <div class="media-body">
-                        <span class="">{{ session('user.first_name') }}</span>
+                        <span class="">{{ auth()->user()->first_name }}</span>
                         <p class=" mb-0 font-roboto">{{ optional(auth()->user()->roles()->first())->name }} <i
                                 class="middle fa fa-angle-down"></i></p>
                     </div>

@@ -69,6 +69,7 @@ class UserController extends Controller
             //dd($image);
             $data=[
                 "first_name" => $request->first_name,
+                "last_name" => $request->last_name,
                 "email" => $request->email,
                 "contact_number" => $request->contact_number,
                 "address" => $request->address, 
@@ -114,6 +115,7 @@ class UserController extends Controller
         try{
             $data=[
                 "first_name" => $request->first_name,
+                "last_name" => $request->last_name,
                 "email" => $request->email,
                 "contact_number" => $request->contact_number,
                 "address" => $request->address, 
@@ -177,6 +179,7 @@ class UserController extends Controller
         try{
             $data=[
                 "first_name" => $request->first_name,
+                "last_name" => $request->last_name,
                 "email" => $request->email,
                 "contact_number" => $request->contact_number,
                 "address" => $request->address,
