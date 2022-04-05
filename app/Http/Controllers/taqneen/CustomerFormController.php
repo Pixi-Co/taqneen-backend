@@ -352,9 +352,8 @@ class CustomerFormController extends Controller
         return $user->refresh();
     }
 
-    public function destroy($form_name,$id)
-    {
-        $instance = CustomerForm::class; 
+    public function destroy($id)
+    { 
         try { 
             $subscribe_customer = CustomerForm::find($id);
             $subscribe_customer->delete();
