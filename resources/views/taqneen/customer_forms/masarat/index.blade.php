@@ -58,7 +58,7 @@
                                                         <th>@trans('commercial_number')</th>
                                                         <th>@trans('release_date')</th>
                                                         <th>@trans('end_date')</th>
-                                                        <th>@trans('user')</th>
+                                                        <th>@trans('created_by')</th>
                                                         <th>@trans('create_at')</th>
                                                         <th>-</th>
                                                         {{-- <th>@trans('actions')</th> --}}
