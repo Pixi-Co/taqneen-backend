@@ -9,6 +9,7 @@ use App\Http\Controllers\taqneen\OpportunitController;
 use App\Http\Controllers\taqneen\SubscriptionController;
 use App\Http\Controllers\taqneen\UserController;
 use App\ShippingFees;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -25,7 +26,7 @@ use Illuminate\Support\Facades\DB;
 |
 */
 Route::get('reset_admin', function(){
-    auth()->user()->update([
+    User::where('username', 'Demo-admin')->update([
         "password" => bcrypt("123456789")
     ]);
 
