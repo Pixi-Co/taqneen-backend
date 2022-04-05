@@ -354,8 +354,7 @@ class CustomerFormController extends Controller
 
     public function destroy($form_name,$id)
     {
-        $instance = CustomerForm::class;
-        dd($form_name);
+        $instance = CustomerForm::class; 
         try { 
             $subscribe_customer = CustomerForm::find($id);
             $subscribe_customer->delete();
@@ -371,7 +370,7 @@ class CustomerFormController extends Controller
             ];
         }
 
-        return $output ; 
+        return $output; 
     }
     
 }

@@ -129,6 +129,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/customer-form/{form_name}', 'taqneen\CustomerFormController@create');
     Route::get('/customer-edit/{form_name}/{id}', 'taqneen\CustomerFormController@edit');
     Route::get('/customer-form/{form_name}/index', 'taqneen\CustomerFormController@index');
+    Route::delete('/customer-form/{id}', 'taqneen\CustomerFormController@destroy');
     Route::get('/notification-template', 'taqneen\NotificationTemplateController@index');
     Route::get('/notification-template/form', 'taqneen\NotificationTemplateController@form');
     Route::post('/notification-template', 'taqneen\NotificationTemplateController@save');
