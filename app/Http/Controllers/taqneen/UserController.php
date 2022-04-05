@@ -182,21 +182,19 @@ class UserController extends Controller
                 "last_name" => $request->last_name,
                 "email" => $request->email,
                 "contact_number" => $request->contact_number,
-                "address" => $request->address,
-                "password" => $request->password,
+                "address" => $request->address 
             ];
-            if(!empty($data["password"])){
+            if($request->password){
                 $data["password"] = bcrypt($request->password);
-            }else{
-                $data = Arr::except($data,array('password'));
-            }
+            } 
             
 
            
             $user->update($data);
-            DB::table('model_has_roles')->where('model_id',session('user.id'))->delete();
+            /*DB::table('model_has_roles')->where('model_id',session('user.id'))->delete();
     
             $user->assignRole($request->input('roles'));
+            */
             $output = [
                 "success" => 1,
                 "msg" => __('done')
