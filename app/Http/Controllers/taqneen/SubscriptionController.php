@@ -232,7 +232,7 @@ class SubscriptionController extends Controller
             "processing" => __('processing'),
             "pay_pending" => __('pay_pending'),
             "active" => __('active'),
-            "cancel" => __('cancel')
+            "cancel" => __('cancel_')
         ];
         $paper_status = [
             "received" => __('received'),
@@ -308,7 +308,7 @@ class SubscriptionController extends Controller
             "processing" => __('processing'),
             "pay_pending" => __('pay_pending'),
             "active" => __('active'),
-            "cancel" => __('cancel')
+            "cancel" => __('cancel_')
         ];
         $paper_status = [
             "received" => __('received'),
