@@ -56,6 +56,7 @@
                                                         <th>@trans('name')</th>
                                                         <th>@trans('commercial_number')</th>
                                                         <th>@trans('end_date')</th>
+                                                        <th>@trans('created_by')</th>
                                                         <th>@trans('create_at')</th>
                                                         <th>-</th>
                                                         {{-- <th>@trans('actions')</th> --}}
@@ -70,8 +71,9 @@
                                                             <td>{{ $item->pc_num }}</td>          
                                                             <td>{{ $item->name_ar }}</td>          
                                                             <td>{{ $item->commercial_number }} </td>          
-                                                            <td>{{ $item->end_date }} </td>          
-                                                            <td>{{ $item->created_at }}</td>   
+                                                            <td>{{ $item->end_date }} </td>            
+                                                            <td>{{ optional($item->user)->user_full_name }}</td> 
+                                                            <td>{{ $item->created_at }}</td>    
                                                             <td>
                                                                 <div style="width: 120px" >
                                                                     <a 

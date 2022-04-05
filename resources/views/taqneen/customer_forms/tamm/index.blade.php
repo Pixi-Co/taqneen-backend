@@ -56,6 +56,7 @@
                                                         <th>@trans('company_number')</th>
                                                         <th>@trans('name')</th>
                                                         <th>@trans('enterprise_activity')</th>
+                                                        <th>@trans('created_by')</th>
                                                         <th>@trans('create_at')</th>
                                                         <th>-</th>
                                                         {{-- <th>@trans('actions')</th> --}}
@@ -67,8 +68,9 @@
                                                             <td>{{$loop->iteration}}</td>
                                                             <td>{{ $item->company_num }}</td>          
                                                             <td>{{ $item->name_ar }}</td>          
-                                                            <td>{{ $item->enterprise_activity }}</td>          
-                                                            <td>{{ $item->created_at }}</td>    
+                                                            <td>{{ $item->enterprise_activity }}</td>           
+                                                            <td>{{ optional($item->user)->user_full_name }}</td> 
+                                                            <td>{{ $item->created_at }}</td> 
                                                             <td>
                                                                 <div style="width: 120px" >
                                                                     <a 

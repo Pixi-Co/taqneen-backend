@@ -56,7 +56,8 @@
                                                         <th>@trans('company_number')</th>
                                                         <th>@trans('name')</th>
                                                         <th>@trans('commercial_number')</th>
-                                                        <th>@trans('release_date')</th>
+                                                        <th>@trans('release_date')</th> 
+                                                        <th>@trans('created_by')</th>
                                                         <th>@trans('create_at')</th>
                                                         <th>-</th>
                                                         {{-- <th>@trans('actions')</th> --}}
@@ -70,7 +71,8 @@
                                                             <td>{{ $item->name_ar }}</td>          
                                                             <td>{{ $item->commercial_number }}</td>          
                                                             <td dir="ltr">{{ $item->release_date }}</td>          
-                                                            <td>{{ $item->created_at }}</td>   
+                                                            <td>{{ optional($item->user)->user_full_name }}</td> 
+                                                            <td>{{ $item->created_at }}</td> 
                                                             <td>
                                                                 <div style="width: 120px" >
                                                                     <a 
