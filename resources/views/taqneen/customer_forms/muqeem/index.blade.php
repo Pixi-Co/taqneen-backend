@@ -92,7 +92,7 @@
                                                                     <a 
                                                                     class="w3-btn w3-card w3-white w3-text-red"
                                                                     style="width: 30px;height: 30px;border-radius: 5em;padding: 5px;"
-                                                                    onclick="destroy('{{ url('customer-delete/subscribe_muqeem_model') }}/{{ $item->id }}')">
+                                                                    onclick="destroy('{{ url('customer-form') }}/{{ $item->id }}')">
                                                                         <i class="fa fa-trash"></i>
                                                                     </a>
                                                                     @endcan
