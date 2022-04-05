@@ -42,11 +42,9 @@
                                     {{-- <div class="card-header">
                                         <h5>@trans('lang.Opportunities')</h5>
                                     </div> --}}
-                                    <div class="card-body">
-                                        @can(find_or_create_p('customer.create'))
+                                    <div class="card-body"> 
                                         <a role="button" href="{{ url('customer-form/subscribe_naba_model') }}" class="btn btn-primary" >@trans('new_customer_naba')</a>
-                                        @endcan
-
+                                       
                                         
                                         
                                         <div class="table-responsive pt-3">

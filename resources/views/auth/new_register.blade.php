@@ -67,7 +67,7 @@
         }
 
         .login-card {
-            background-image: url('/images/taqneen_login.jpg')!important;
+            background-image: url('{{ url('/images/taqneen_login.jpg') }}')!important;
             background-size: cover;
         }
 
@@ -78,6 +78,64 @@
         }
  
     </style>
+   
+    <style>
+
+    h1, h2, h3, h4, h5, h6, 
+    .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links li a span, 
+    html[dir="rtl"] .page-wrapper.compact-wrapper .page-body-wrapper .sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content>li .sidebar-submenu>li a {
+        font-family: 'Tajawal', sans-serif!important;
+    }
+
+    * {
+        font-family: 'Tajawal', sans-serif;
+    }
+    .material-shadow {
+        box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%)!important;
+    }
+
+    .modal-backdrop{ 
+    }
+
+    .customizer-links {
+      /*  display: none!important;*/
+    }
+
+    #sidebar-menu {
+        height: calc(100vh - 146px)!important;
+    }
+
+    button:not(:disabled), [type="button"]:not(:disabled), [type="reset"]:not(:disabled), [type="submit"]:not(:disabled),
+    .btn-primary:hover, .btn-primary,
+    .btn-check:checked+.btn-primary, .btn-check:active+.btn-primary, .btn-primary:active, .btn-primary.active, .show>.btn-primary.dropdown-toggle
+     {
+        background-color: #104470!important;
+        border-color: #104470!important; 
+        color: white;
+    }
+
+    .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content>li:hover .sidebar-link:not(.active):hover span, .page-wrapper .page-body-wrapper .page-title .breadcrumb .breadcrumb-item a {
+        color: #104470!important;
+    }
+
+    .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content>li.sidebar-list:hover>a:hover {
+        background-color: #10437057!important;
+    }
+
+    .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content>li .sidebar-link.active span, 
+    .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content>li .sidebar-link.active svg, 
+    .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content>li .sidebar-link.active .according-menu i {
+        color: #104470!important;
+    }
+
+    .badge-secondary, .w3-deep-orange {
+        background-color: #d35a25!important;
+    }
+
+    .customizer-links {
+        display: none;
+    }
+</style> 
 </head>
 
 <body>
@@ -129,6 +187,7 @@
                                     </div>
                                     <div class="form-group mb-0"> 
                                         <button class="btn btn-primary btn-block" type="submit">{{ __('create account') }}</button>
+                                        <a href="{{ url('/login') }}" class="btn btn-primary btn-block" type="submit">{{ __('sign_in') }}</a>
                                     </div> 
                                     <div class="social mt-4 hidden">
                                         
