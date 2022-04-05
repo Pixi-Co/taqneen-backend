@@ -67,8 +67,8 @@
                                         </div>
     
                                         <div class="form-group mb-3"> 
-                                            <b>@trans('tax') </b>
-                                            {!! Form::select("tax_id", $taxs, $category->tax_id, ["class" => 'form-select mb-3']) !!}
+                                            <b>@trans('tax_rates') </b>
+                                            {!! Form::select("tax_id", $taxs, $category->tax_id, ["class" => 'form-select mb-3', 'placeholder' => __('select_tax_rates')]) !!}
                                         </div>
                                         
                                     </div>
