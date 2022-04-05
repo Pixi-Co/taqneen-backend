@@ -20,7 +20,7 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">@trans('lang.Dashboard')</li>
+    <li class="breadcrumb-item">@trans('dashboard_')</li>
     <li class="breadcrumb-item ">@trans('subscriptions')</li>
     @if ($subscription->id)
         <li class="breadcrumb-item active">@trans('Edit Subscription')</li>

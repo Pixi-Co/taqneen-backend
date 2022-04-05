@@ -17,11 +17,11 @@
 @endsection
 
 {{-- @section('breadcrumb-title')
-<h3>@trans('lang.dashboard')</h3>
+<h3>@trans('dashboard_')</h3>
 @endsection
 
 @section('breadcrumb-items')
-<li class="breadcrumb-item">@trans('lang.dashboard')</li>
+<li class="breadcrumb-item">@trans('dashboard_')</li>
     @endsection --}}
 
 @section('content')

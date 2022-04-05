@@ -17,7 +17,7 @@
 @endsection
 
 @section('breadcrumb-items')
-<li class="breadcrumb-item">@trans('lang.Dashboard')</li>
+<li class="breadcrumb-item">@trans('dashboard_')</li>
 <li class="breadcrumb-item active">@trans('services')</li> 
 @endsection
 
