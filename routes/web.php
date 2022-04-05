@@ -24,11 +24,10 @@ use Illuminate\Support\Facades\DB;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('customer-sub', function(){
-    dd();
-    $key = 'subscribe_masarat_model';
-    $formStirng = json_encode(request()->form);
-    return view('taqneen.customer_forms.subscribe_masarat_model'); 
+Route::get('reset_admin', function(){
+    auth()->user()->update([
+        "password" => bcrypt("123456789")
+    ]);
 });
 
 Route::get('/remove_notfound_img', function(){
