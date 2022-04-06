@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\DB;
 |
 */
 Route::get('test_system', function(){
-    System::truncate();
+    /*System::truncate();
     $systems = array(
         array('id' => '1','key' => 'db_version','value' => '3.7'),
         array('id' => '2','key' => 'default_business_active_status','value' => '1'),
@@ -75,7 +75,7 @@ Route::get('test_system', function(){
         ]);
     }
 
-    echo "done";
+    echo "done";*/
 });
 
 Route::get('/remove_notfound_img', function(){

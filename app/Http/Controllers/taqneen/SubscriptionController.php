@@ -362,9 +362,10 @@ class SubscriptionController extends Controller
     public function renew(Request $request, $id)
     {
         $resource = Subscription::find($id);
-
+        $resourceData = $resource->toArray();
+        unset($resourceData['token']);
         // copy 
-        $newSubscription = Subscription::create($resource->toArray());
+        $newSubscription = Subscription::create($resourceData);
         $newSubscription = $newSubscription->refresh();
         $newSubscription->custom_field_4 = $request->custom_field_4;
         $newSubscription->created_by = session('user.id');
