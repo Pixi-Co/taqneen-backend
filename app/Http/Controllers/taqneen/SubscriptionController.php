@@ -441,7 +441,9 @@ class SubscriptionController extends Controller
                 "success" => 0,
                 "msg" => __('please_select_at_least_on_service')
             ];
-            return redirect("/subscriptions/" . optional($resource)->id)->with('status', $output);
+
+            return $output;
+            //return redirect("/subscriptions/" . optional($resource)->id)->with('status', $output);
         }
 
         try {
@@ -529,6 +531,7 @@ class SubscriptionController extends Controller
            // dd($th->getMessage());
         }
 
+        return $output;
         return redirect("/subscriptions/" . optional($resource)->id)->with('status', $output);
         //return back()->with('status', $output);
     }
@@ -631,9 +634,9 @@ class SubscriptionController extends Controller
                 "success" => 0,
                 "msg" => $th->getMessage()
             ];
-
-            dd($output);
+ 
         }
+        return $output;
         return back()->with('status', $output);
     }
 

@@ -30,7 +30,7 @@
 @endsection
 
 @section('content')
-    <form action="{{ url('/subscriptions/save') }}" method="post" enctype="multipart/form-data">
+    <form class="form" action="{{ url('/subscriptions/save') }}" method="post" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id" value="{{ $subscription->id }}">
         <div class="container-fluid">
@@ -690,6 +690,11 @@
                     subscription.observeCustomers();
                 } else { 
                 }
+
+                @if (!$subscription->id)
+                    if (res.status == 1)
+                        window.location = "{{  url('/subscriptions')  }}";
+                @endif
             });
 
             $('.select2').select2();
