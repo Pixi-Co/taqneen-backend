@@ -142,14 +142,14 @@ class SubscriptionController extends Controller
                 return $row->service_names;
             })
             ->editColumn('is_expire', function ($row) {
-                $html = "";
+                $html2 = "";
 
                 if ($row->is_expire == 1)
-                    $html = "<span class='badge w3-green' >" . __("active") . "</span>";
+                    $html2 = "<span class='badge w3-green' >" . __("active") . "</span>";
                 else  
-                    $html = "<span class='badge w3-red' >" . __("expired") . "</span>"; 
+                    $html2 = "<span class='badge w3-red' >" . __("expired") . "</span>"; 
 
-                return $html;
+                return $html2;
             })
             ->addColumn('status', function ($row) {
                 $html = "";
