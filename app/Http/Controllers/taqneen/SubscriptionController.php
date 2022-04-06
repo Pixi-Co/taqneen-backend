@@ -423,7 +423,7 @@ class SubscriptionController extends Controller
 
         // fire renew triger
         Triger::fire(Triger::$RENEW_SUBSCRIPTION, $resource->id);
-        return responseJson(0, __('done'));
+        return responseJson(1, __('done'));
     }
 
     public function save(Request $request)
