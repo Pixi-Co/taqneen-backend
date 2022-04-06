@@ -18,7 +18,7 @@
 @endsection
 
 @section('breadcrumb-items')
-<li class="breadcrumb-item">@trans('lang.Dashboard')</li>
+<li class="breadcrumb-item">@trans('dashboard_')</li>
 <li class="breadcrumb-item active">@trans('customers')</li> 
 @endsection
 
@@ -42,10 +42,9 @@
                                     {{-- <div class="card-header">
                                         <h5>@trans('lang.Opportunities')</h5>
                                     </div> --}}
-                                    <div class="card-body">
-                                        @can(find_or_create_p('customer.create'))
+                                    <div class="card-body"> 
                                         <a role="button" href="{{ url('customer-form/subscribe_shomoos_model') }}" class="btn btn-primary" >@trans('new_customer_shomoos')</a>
-                                        @endcan
+                                        
 
                                         
                                         
@@ -57,6 +56,7 @@
                                                         <th>@trans('name')</th>
                                                         <th>@trans('activity_type')</th>
                                                         <th>@trans('owner_name')</th>
+                                                        <th>@trans('created_by')</th>
                                                         <th>@trans('create_at')</th>
                                                         <th>-</th>
                                                         {{-- <th>@trans('actions')</th> --}}
@@ -68,8 +68,9 @@
                                                             <td>{{ $loop->iteration }}</td>
                                                             <td>{{ $item->company_name }}</td>          
                                                             <td>{{ $item->activity_type }}</td>          
-                                                            <td>{{ $item->owner_name }}</td>          
-                                                            <td>{{ $item->created_at }}</td>   
+                                                            <td>{{ $item->owner_name }}</td>           
+                                                            <td>{{ optional($item->user)->user_full_name }}</td> 
+                                                            <td>{{ $item->created_at }}</td>  
                                                             <td>
                                                                 <div style="width: 120px" >
                                                                     <a 

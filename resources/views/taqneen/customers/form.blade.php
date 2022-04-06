@@ -21,7 +21,7 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">@trans('lang.Dashboard')</li>
+    <li class="breadcrumb-item">@trans('dashboard_')</li>
     <li class="breadcrumb-item">
         <a href="/customers">@trans('lang.customers')</a>
     </li>
@@ -80,13 +80,13 @@
                                              </div>
 
                                              <div class="form-group col-md-6 pt-3">
-                                                 <label>@trans('State')</label>
-                                                 <input type="text" name="state" class="form-control" placeholder="@trans('state ')" value="{{ $customer->state }}">
+                                                 <label>@trans('state_')</label>
+                                                 <input type="text" name="state" class="form-control" placeholder="@trans('state_')" value="{{ $customer->state }}">
                                              </div>
 
                                              <div class="form-group col-md-4 pt-3">
-                                                 <label>@trans('Streat')</label>
-                                                 <input type="text" name="address_line_1" class="form-control" placeholder="@trans('streat  ')" value="{{ $customer->address_line_1 }}">
+                                                 <label>@trans('streat_')</label>
+                                                 <input type="text" name="address_line_1" class="form-control" placeholder="@trans('streat_')" value="{{ $customer->address_line_1 }}">
                                              </div>
 
                                              <div class="form-group col-md-4 pt-3">

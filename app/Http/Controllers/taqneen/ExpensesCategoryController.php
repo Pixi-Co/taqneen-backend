@@ -18,14 +18,16 @@ class ExpensesCategoryController extends Controller
 
     public function create() {
         $category = new ExpenseCategory();
-        $taxs = TaxRate::forBusinessDropdown(session('business.id'));
+        //$taxs = TaxRate::forBusinessDropdown(session('business.id'));
+        $taxs = TaxRate::pluck('name', 'id');
         return view('taqneen.categories.form',compact('category', 'taxs'));
     }//end create
 
 
     public function edit($id){
         $category = ExpenseCategory::find($id);
-        $taxs = TaxRate::forBusinessDropdown(session('business.id'));
+        //$taxs = TaxRate::forBusinessDropdown(session('business.id'));
+        $taxs = TaxRate::pluck('name', 'id');
         return view('taqneen.categories.form', compact("category", 'taxs'));
     }//end edit
 

@@ -18,7 +18,7 @@
 @endsection
 
 @section('breadcrumb-items')
-<li class="breadcrumb-item">@trans('lang.Dashboard')</li>
+<li class="breadcrumb-item">@trans('dashboard_')</li>
 <li class="breadcrumb-item active">@trans('customers')</li> 
 @endsection
 
@@ -42,10 +42,9 @@
                                     {{-- <div class="card-header">
                                         <h5>@trans('lang.Opportunities')</h5>
                                     </div> --}}
-                                    <div class="card-body">
-                                        @can(find_or_create_p('customer.create'))
+                                    <div class="card-body"> 
                                         <a role="button" href="{{ url('customer-form/subscribe_tamm_model') }}" class="btn btn-primary" >@trans('new_customer_tamm')</a>
-                                        @endcan
+                                       
 
                                         
                                         
@@ -57,6 +56,7 @@
                                                         <th>@trans('company_number')</th>
                                                         <th>@trans('name')</th>
                                                         <th>@trans('enterprise_activity')</th>
+                                                        <th>@trans('created_by')</th>
                                                         <th>@trans('create_at')</th>
                                                         <th>-</th>
                                                         {{-- <th>@trans('actions')</th> --}}
@@ -68,8 +68,9 @@
                                                             <td>{{$loop->iteration}}</td>
                                                             <td>{{ $item->company_num }}</td>          
                                                             <td>{{ $item->name_ar }}</td>          
-                                                            <td>{{ $item->enterprise_activity }}</td>          
-                                                            <td>{{ $item->created_at }}</td>    
+                                                            <td>{{ $item->enterprise_activity }}</td>           
+                                                            <td>{{ optional($item->user)->user_full_name }}</td> 
+                                                            <td>{{ $item->created_at }}</td> 
                                                             <td>
                                                                 <div style="width: 120px" >
                                                                     <a 

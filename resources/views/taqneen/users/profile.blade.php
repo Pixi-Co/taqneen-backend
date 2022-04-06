@@ -18,7 +18,7 @@
 @endsection
 
 @section('breadcrumb-items')
-<li class="breadcrumb-item">@trans('lang.Dashboard')</li>
+<li class="breadcrumb-item">@trans('dashboard_')</li>
 <li class="breadcrumb-item active">@trans('users')</li> 
 @endsection
 
@@ -40,16 +40,34 @@
                                 <div class="col-md-12">
                                     <div class="card card-primary">
                                   
-                                        <div class="container rounded bg-white mt-5 mb-5">
+                                        <div class="container rounded  mt-5 mb-5">
                                             <div class="row">
-                                                <div class="col-md-3 border-right">
+                                                <div class="col-md-5 border-right">
                                                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                                                         <img class="rounded-circle mt-5" width="150px" src="{{ $user->custom_fuild_1?$user->image_path:'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg' }}">
-                                                        <span class="font-weight-bold">{{ $user->first_name . $user->last_name }}</span><span class="text-black-50">{{ $user->email }}</span><span>
+                                                        <span class="font-weight-bold">{{ $user->first_name . " " . $user->last_name }}</span><span class="text-black-50">{{ $user->email }}</span><span>
                                                         {{-- <a class="btn btn-primary"  href="">متابعت العميل</a> --}}
                                                     </span></div>
+                                                    <br>
+                                                    <table class="table">
+                                                        @foreach (auth()->user()->getCustomerForms() as $item)
+                                                        <tr>
+                                                            <th>{{ __($item->key) }}</th>
+                                                            <td>{{ $item->created_at }}</td>
+                                                            <td>
+                                                                <a 
+                                                                    target="_blank"
+                                                                    class="w3-btn w3-card w3-red btn-sm"
+                                                                    style="border-radius: 7px;"
+                                                                    href="{{ url('/customer-pdf') }}/{{ $item->id }}">
+                                                                        <i class="fa fa-file-pdf-o"></i>
+                                                                </a> 
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+                                                    </table>
                                                 </div>
-                                                <div class="col-md-9 border-right">
+                                                <div class="col-md-7 border-right">
                                                    <form action="{{ route('user-profile-update.updateProfile',$user->id)  }}" method="POST">
                                                       @csrf
                                                      @method('put')

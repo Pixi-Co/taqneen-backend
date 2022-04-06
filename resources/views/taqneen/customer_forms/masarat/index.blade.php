@@ -18,7 +18,7 @@
 @endsection
 
 @section('breadcrumb-items')
-<li class="breadcrumb-item">@trans('lang.Dashboard')</li>
+<li class="breadcrumb-item">@trans('dashboard_')</li>
 <li class="breadcrumb-item active">@trans('customers')</li> 
 @endsection
 
@@ -42,10 +42,9 @@
                                     {{-- <div class="card-header">
                                         <h5>@trans('lang.Opportunities')</h5>
                                     </div> --}}
-                                    <div class="card-body">
-                                        @can(find_or_create_p('customer.create'))
+                                    <div class="card-body"> 
                                         <a role="button" href="{{ url('customer-form/subscribe_masarat_model') }}" class="btn btn-primary" >@trans('new_customer_masarat')</a>
-                                        @endcan
+                                        
 
                                         
                                         
@@ -59,7 +58,7 @@
                                                         <th>@trans('commercial_number')</th>
                                                         <th>@trans('release_date')</th>
                                                         <th>@trans('end_date')</th>
-                                                        <th>@trans('user')</th>
+                                                        <th>@trans('created_by')</th>
                                                         <th>@trans('create_at')</th>
                                                         <th>-</th>
                                                         {{-- <th>@trans('actions')</th> --}}

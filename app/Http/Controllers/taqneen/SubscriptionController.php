@@ -232,7 +232,7 @@ class SubscriptionController extends Controller
             "processing" => __('processing'),
             "pay_pending" => __('pay_pending'),
             "active" => __('active'),
-            "cancel" => __('cancel')
+            "cancel" => __('cancel_')
         ];
         $paper_status = [
             "received" => __('received'),
@@ -308,7 +308,7 @@ class SubscriptionController extends Controller
             "processing" => __('processing'),
             "pay_pending" => __('pay_pending'),
             "active" => __('active'),
-            "cancel" => __('cancel')
+            "cancel" => __('cancel_')
         ];
         $paper_status = [
             "received" => __('received'),
@@ -362,12 +362,13 @@ class SubscriptionController extends Controller
     public function renew(Request $request, $id)
     {
         $resource = Subscription::find($id);
-
+        $resourceData = $resource->toArray();
+        unset($resourceData['token']);
         // copy 
-        $newSubscription = Subscription::create($resource->toArray());
+        $newSubscription = Subscription::create($resourceData);
         $newSubscription = $newSubscription->refresh();
         $newSubscription->custom_field_4 = $request->custom_field_4;
-        $newSubscription->created_by = session('user.id');
+        /*$newSubscription->created_by = session('user.id');*/
         if ($resource->is_expire == 1)
             $newSubscription->transaction_date = $request->pay_date;
 
@@ -435,6 +436,17 @@ class SubscriptionController extends Controller
     public function store(Request $request)
     {
         $resource = null;
+
+        if (!$request->subscription_lines) {
+            $output = [
+                "success" => 0,
+                "msg" => __('please_select_at_least_on_service')
+            ];
+
+            return responseJson($output['success'], $output['msg']); 
+            //return redirect("/subscriptions/" . optional($resource)->id)->with('status', $output);
+        }
+
         try {
             $data = [
                 "status" => $request->status,
@@ -514,13 +526,14 @@ class SubscriptionController extends Controller
         } catch (\Exception $th) {
             $output = [
                 "success" => 0,
-                "msg" => $th->getMessage()
+                "msg" => __('fill_all_required_data')
             ];
 
-            dd($th->getMessage());
+           // dd($th->getMessage());
         }
 
-        return redirect("/subscriptions/" . optional($resource)->id)->with('status', $output);
+        return responseJson($output['success'], $output['msg']); 
+        //return redirect("/subscriptions/" . optional($resource)->id)->with('status', $output);
         //return back()->with('status', $output);
     }
 
@@ -622,9 +635,9 @@ class SubscriptionController extends Controller
                 "success" => 0,
                 "msg" => $th->getMessage()
             ];
-
-            dd($output);
+ 
         }
+        return responseJson($output['success'], $output['msg']); 
         return back()->with('status', $output);
     }
 

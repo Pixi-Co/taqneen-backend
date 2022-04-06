@@ -18,7 +18,7 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">@trans('lang.Dashboard')</li>
+    <li class="breadcrumb-item">@trans('dashboard_')</li>
     <li class="breadcrumb-item active">@trans('customers')</li>
 @endsection
 
@@ -129,18 +129,19 @@
                                                             {{-- <div class="row"> --}}
                                                             @foreach ($customer->subscriptions()->get() as $item)
                                                             @foreach ($item->subscription_lines()->get() as $line)
-                                                            <div class="card" style="width: 18rem;">
+                                                            <div class="card" style="width: 18rem;"> 
                                                                 <!--
                                                                 <img src="{{ asset('assets/images/opportunities/muqemm.jpg') }}"
                                                                     class="card-img-top" alt="...">
                                                             -->
                                                                 <div class="card-body">
-                                                                    <h5 class="card-title">{{ optional($line->service)->name }}</h5>
-                                                                    <p>{{ optional($line->package)->name }}</p>
+                                                                    <h5 class="card-title">{{ optional($line->service()->first())->name }}</h5>
+                                                                    <p>{{ optional($line->package()->first())->name }}</p>
                                                                     <p class="card-text">
                                                                     <h6>@trans('subscription date'): {{ $item->transaction_date }}</h6>
                                                                     <h6>@trans('expire date'): {{ $item->expire_date }}</h6>
                                                                     </p>
+                                                                    <a target="_blank" href="{{ url('/subscriptions') }}/{{ $item->id }}/edit" role="button" class="btn btn-primary">@trans('edit')</a>
                                                                 </div>
                                                             </div>
                                                             @endforeach 

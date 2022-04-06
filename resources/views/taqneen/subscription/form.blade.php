@@ -20,7 +20,7 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">@trans('lang.Dashboard')</li>
+    <li class="breadcrumb-item">@trans('dashboard_')</li>
     <li class="breadcrumb-item ">@trans('subscriptions')</li>
     @if ($subscription->id)
         <li class="breadcrumb-item active">@trans('Edit Subscription')</li>
@@ -30,7 +30,7 @@
 @endsection
 
 @section('content')
-    <form action="{{ url('/subscriptions/save') }}" method="post" enctype="multipart/form-data">
+    <form class="form" action="{{ url('/subscriptions/save') }}" method="post" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id" value="{{ $subscription->id }}">
         <div class="container-fluid">
@@ -72,13 +72,14 @@
 
                                                 <div class=" form-group d-flex mb-3">
                                                     <div class="col-md-6 ">
+                                                        <label class="my-2" for="user_id">@trans("customer")</label> *
                                                         @php
                                                             $customerList = [];
                                                             foreach ($customers as $customer) {
                                                                 $customerList[$customer->id] = $customer->name . '-' . $customer->custom_field1;
                                                             }
                                                         @endphp
-                                                        {!! Form::select('contact_id', $customerList, $subscription->contact_id, ['class' => 'form-control select2', 'placeholder' => __('customer'), 'list' => 'customers', 'id' => 'contact_id', 'onchange' => 'subscription.changeContact()']) !!}
+                                                        {!! Form::select('contact_id', $customerList, $subscription->contact_id, ['class' => 'form-control select2', 'placeholder' => __('customer'), 'list' => 'customers', 'id' => 'contact_id', 'onchange' => 'subscription.changeContact()', "required"]) !!}
                                                         <!--
                                                                                 {!! Form::text('contact_id', $subscription->contact_id, ['class' => 'form-control', 'placeholder' => __('customer'), 'list' => 'customers', 'id' => 'contact_id', 'onchange' => 'subscription.changeContact()']) !!}
                                                                                 -->
@@ -97,19 +98,19 @@
 
 
                                                 <div class="form-group mb-3">
-                                                    <label class="my-2" for="user_id">@trans("courier")</label>
-                                                    {!! Form::select('created_by', $users, $subscription->created_by, ['class' => 'form-select', $disabled]) !!}
+                                                    <label class="my-2" for="user_id">@trans("courier")</label> *
+                                                    {!! Form::select('created_by', $users, $subscription->created_by, ['class' => 'form-select', $disabled, "required"]) !!}
                                                 </div>
 
 
                                                 <div class="row mt-3">
                                                     <div class="col-md-6">
-                                                        <label class="labels">@trans('service')</label>
+                                                        <label class="labels">@trans('service')</label> *
                                                         {!! Form::select('service_id', $services, null, ['class' => 'form-select mb-3', 'v-model' => 'resource.service_id', 'id' => 'service_id']) !!}
                                                     </div>
 
                                                     <div class="col-md-6">
-                                                        <label class="labels">@trans('package')</label>
+                                                        <label class="labels">@trans('package')</label> *
                                                         <select name="package_id" class=" form-select mb-3" id="package_id"
                                                             v-model="resource.package_id">
                                                             @foreach ($packages as $item)
@@ -208,13 +209,13 @@
 
                                                 <div class="form-group mb-3">
                                                     <label class="my-2" for="inputName">@trans('subscription
-                                                        date')</label>
-                                                    {!! Form::datetimeLocal('transaction_date', $subscription->transaction_date, ['class' => 'form-control']) !!}
+                                                        date')</label> *
+                                                    {!! Form::datetimeLocal('transaction_date', $subscription->transaction_date, ['class' => 'form-control', "required"]) !!}
                                                 </div>
 
                                                 <div class="form-group mb-3">
-                                                    <label class="my-2" for="inputName">@trans('register date')</label>
-                                                    {!! Form::datetimeLocal('shipping_custom_field_1', $subscription->shipping_custom_field_1, ['class' => 'form-control']) !!}
+                                                    <label class="my-2" for="inputName">@trans('register date')</label> *
+                                                    {!! Form::datetimeLocal('shipping_custom_field_1', $subscription->shipping_custom_field_1, ['class' => 'form-control', "required"]) !!}
                                                 </div>
 
                                                 <div class="mt-3 my-3">
@@ -571,6 +572,12 @@
             add: function() {
                 var service_id = $('#service_id').val();
                 var package_id = $('#package_id').val();
+
+
+                if (!service_id || package_id) {
+                    return toastr.error('{{  __('please_select_at_least_on_service')  }}');
+                }
+
                 var package = {};
                 for (var index = 0; index < this.packages.length; index++) {
                     var p = this.packages[index];
@@ -684,12 +691,15 @@
 
 
         $(document).ready(function() {
-            formAjax(false, function(res){
+            formAjax({{  $subscription->id? 'true' : 'false'  }}, function(res){
                 if (res.status == 1) {
                     subscription.customerObject[res.data.id] = res.data; 
                     subscription.observeCustomers();
                 } else { 
                 }
+ 
+                if (res.status == 1)
+                    window.location = "{{  url('/subscriptions')  }}"; 
             });
 
             $('.select2').select2();

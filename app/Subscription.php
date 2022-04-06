@@ -96,7 +96,7 @@ class Subscription extends Transaction
 
  
         //$resource->invoice_url = url('/subscriptions/print') . "/" . $this->getTokenAttribute();
-        return $resource->$tag;
+        return optional($resource)->$tag;
     }
 
     public static function getExpireSubscriptionAfterOneDay() {

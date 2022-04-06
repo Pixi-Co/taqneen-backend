@@ -415,4 +415,16 @@ class User extends Authenticatable
 
         return clone $query;
     }
+
+    public function getCustomerForms() {
+        $contact = Contact::where('converted_by', $this->id)->first();
+        $resources = CustomerForm::query()
+            ->where('created_by', $this->id)
+            ->orWhere(function($q) use($contact) {
+                if ($contact)
+                    $q->orWhere('customer_id', $contact->id);
+            })->get();
+
+        return $resources;
+    }
 }

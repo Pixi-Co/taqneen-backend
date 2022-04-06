@@ -235,7 +235,7 @@ class CustomerFormController extends Controller
  
         $data = json_decode($resource->value, true); 
         $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data', 'options'))->render();
-        
+         
  
         return $this->getPdf1($html); 
         //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
