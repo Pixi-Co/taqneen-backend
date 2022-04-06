@@ -28,6 +28,7 @@ class SubscriptionController extends Controller
 
     public function index()
     {
+        return $this->data();
         if (request()->ajax()) {
             return $this->data();
         }
