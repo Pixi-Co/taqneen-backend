@@ -210,7 +210,7 @@ var session_layout = '{{ session()->get('layout') }}';
             register_date_end: $('.register_date').attr('data-end'),
             register_date_start: $('.register_date').attr('data-start'),
         };
-        subscriptionTable.ajax.url('/subscriptions/data?' + $.param(data));
+        subscriptionTable.ajax.url('/subscriptions-data?' + $.param(data));
         subscriptionTable.ajax.reload();
     }
 
@@ -234,14 +234,14 @@ var session_layout = '{{ session()->get('layout') }}';
         $('.register_date').attr('data-start', '');
         $('.register_date').attr('data-end', '');
 
-        subscriptionTable.ajax.url('/subscriptions/data');
+        subscriptionTable.ajax.url('/subscriptions-data');
         subscriptionTable.ajax.reload();
     }
  
     var subscriptionTable = $('#subscriptionTable').DataTable({
         processing: true,
         serverSide: true,
-        ajax: '/subscriptions/data',
+        ajax: '/subscriptions-data',
         "autoWidth": true,
         "lengthMenu": [
             [10, 25, 50, 100, 500, 1000, -1],
