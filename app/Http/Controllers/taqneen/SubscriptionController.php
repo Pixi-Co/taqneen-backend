@@ -140,6 +140,16 @@ class SubscriptionController extends Controller
             ->addColumn('services', function ($row) {
                 return $row->service_names;
             })
+            ->editColumn('is_expire', function ($row) {
+                $html = "";
+
+                if ($row->is_expire == 1)
+                    $html = "<span class='badge w3-green' >" . __("active") . "</span>";
+                else  
+                    $html = "<span class='badge w3-red' >" . __("expired") . "</span>"; 
+
+                return $html;
+            })
             ->addColumn('status', function ($row) {
                 $html = "";
 
@@ -171,7 +181,7 @@ class SubscriptionController extends Controller
             ->addColumn('share', function ($row) {
                 return view('layouts.partials.share', ["phone" => optional($row->contact)->mobile, "email" => optional($row->contact)->email]);
             })
-            ->rawColumns(['action', 'share', 'status', 'shipping_custom_field_2'])
+            ->rawColumns(['action', 'share', 'status', 'shipping_custom_field_2', 'is_expire'])
             ->make(true);
     }
 

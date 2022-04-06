@@ -84,6 +84,7 @@
                                                         <th>@trans('sales commission agent')</th>
                                                         <th>@trans('status')</th> 
                                                         <th>@trans('payment_status')</th> 
+                                                        <th>@trans('is_expire')</th> 
                                                         <th>@trans('actions')</th>
                                                         <th>@trans('share')</th>
                                                     </tr>
@@ -254,11 +255,11 @@ var session_layout = '{{ session()->get('layout') }}';
             'colvis'
         ],
         columnDefs: [{
-            targets: 9,
+            targets: 10,
             orderable: false,
             searchable: false,
         },{
-            targets: 10,
+            targets: 11,
             orderable: false,
             searchable: false,
         },  ],
@@ -272,6 +273,7 @@ var session_layout = '{{ session()->get('layout') }}';
             { data: 'created_by', name: 'transactions.created_by' },
             { data: 'status', name: 'transactions.status' },
             { data: 'shipping_custom_field_2', name: 'transactions.shipping_custom_field_2' },
+            { data: 'is_expire', name: 'transactions.is_expire' },
             { data: 'action', name: 'action' },
             { data: 'share', name: 'share' },
         ],
