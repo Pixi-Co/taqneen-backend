@@ -437,10 +437,11 @@ class SubscriptionController extends Controller
         $resource = null;
 
         if (!$request->subscription_lines) {
-            return [
+            $output = [
                 "success" => 0,
                 "msg" => __('please_select_at_least_on_service')
             ];
+            return redirect("/subscriptions/" . optional($resource)->id)->with('status', $output);
         }
 
         try {
