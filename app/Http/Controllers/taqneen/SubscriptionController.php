@@ -525,14 +525,14 @@ class SubscriptionController extends Controller
         } catch (\Exception $th) {
             $output = [
                 "success" => 0,
-                "msg" => $th->getMessage()
+                "msg" => __('fill_all_required_data')
             ];
 
            // dd($th->getMessage());
         }
 
         return $output;
-        return redirect("/subscriptions/" . optional($resource)->id)->with('status', $output);
+        //return redirect("/subscriptions/" . optional($resource)->id)->with('status', $output);
         //return back()->with('status', $output);
     }
 
