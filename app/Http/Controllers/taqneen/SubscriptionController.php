@@ -517,7 +517,7 @@ class SubscriptionController extends Controller
                 "msg" => $th->getMessage()
             ];
 
-            dd($th->getMessage());
+           // dd($th->getMessage());
         }
 
         return redirect("/subscriptions/" . optional($resource)->id)->with('status', $output);
