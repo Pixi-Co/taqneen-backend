@@ -684,7 +684,7 @@
 
 
         $(document).ready(function() {
-            formAjax(false, function(res){
+            formAjax({{  $subscription->id? 'true' : 'false'  }}, function(res){
                 if (res.status == 1) {
                     subscription.customerObject[res.data.id] = res.data; 
                     subscription.observeCustomers();
