@@ -72,6 +72,7 @@
 
                                                 <div class=" form-group d-flex mb-3">
                                                     <div class="col-md-6 ">
+                                                        <label class="my-2" for="user_id">@trans("customer")</label> *
                                                         @php
                                                             $customerList = [];
                                                             foreach ($customers as $customer) {
