@@ -234,7 +234,7 @@ var session_layout = '{{ session()->get('layout') }}';
         $('.register_date').attr('data-start', '');
         $('.register_date').attr('data-end', '');
 
-        subscriptionTable.ajax.url('/subscriptions');
+        subscriptionTable.ajax.url('/subscriptions/data');
         subscriptionTable.ajax.reload();
     }
  
