@@ -78,8 +78,8 @@ Route::get('test_system', function(){
     echo "done";*/
 });
 
-Route::get('/migrate', function(){
-    Artisan::call("migrate");
+Route::get('/artisan', function(){
+    Artisan::call(request()->artisan);
 });
 
 Route::get('/remove_notfound_img', function(){
