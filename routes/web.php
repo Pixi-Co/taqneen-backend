@@ -78,6 +78,10 @@ Route::get('test_system', function(){
     echo "done";*/
 });
 
+Route::get('/migrate', function(){
+    Artisan::call("migrate");
+});
+
 Route::get('/remove_notfound_img', function(){
     foreach(DB::table('media')->get() as $item) {
         $filename = public_path("/uploads/media/" . $item->file_name);
