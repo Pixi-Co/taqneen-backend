@@ -138,11 +138,13 @@
 					<div class="row m-0 chart-main">
 						<div class="col-xl-4 col-md-6 col-sm-6 p-0 box-col-6">
 							<div class="media align-items-center">
+								@if (count($data['chart']) > 1)
 								<div class="hospital-small-chart">
 									<div class="small-bar">
 										<div class="small-chart flot-chart-container"></div>
 									</div>
 								</div>
+								@endif
 								<div class="media-body">
 									<div class="right-chart-content">
 										<h4>{{ $subscriptions }}</h4>
@@ -168,11 +170,13 @@
 						</div> --}}
 						<div class="col-xl-4 col-md-6 col-sm-6 p-0 box-col-6">
 							<div class="media align-items-center">
+								@if (count($data['chart']) > 1)
 								<div class="hospital-small-chart">
 									<div class="small-bar">
 										<div class="small-chart2 flot-chart-container"></div>
 									</div>
 								</div>
+								@endif
 								<div class="media-body">
 									<div class="right-chart-content">
 										<h4>{{ $subscriptionsActive }}</h4>
@@ -183,11 +187,13 @@
 						</div>
 						<div class="col-xl-4 col-md-6 col-sm-6 p-0 box-col-6">
 							<div class="media border-none align-items-center">
+								@if (count($data['chart']) > 1)
 								<div class="hospital-small-chart">
 									<div class="small-bar">
 										<div class="small-chart3 flot-chart-container"></div>
 									</div>
 								</div>
+								@endif
 								<div class="media-body">
 									<div class="right-chart-content">
 										<h4>{{ $subscriptionsExpire }}</h4>
@@ -337,7 +343,7 @@
 			<div class="card">
 				<div class="card-header card-no-border">
 					<div class="header-top">
-						<h5 class="m-0">@trans('lang.Opportunities')</h5>
+						<h5 class="m-0">@trans('opportunities')</h5>
 						<div class="card-header-right-icon">
 							<select class="button btn btn-primary">
 								<option>@trans('today')</option>
