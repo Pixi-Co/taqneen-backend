@@ -210,7 +210,7 @@ var session_layout = '{{ session()->get('layout') }}';
             register_date_end: $('.register_date').attr('data-end'),
             register_date_start: $('.register_date').attr('data-start'),
         };
-        subscriptionTable.ajax.url('/subscriptions?' + $.param(data));
+        subscriptionTable.ajax.url('/subscriptions/data?' + $.param(data));
         subscriptionTable.ajax.reload();
     }
 
