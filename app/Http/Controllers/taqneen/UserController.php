@@ -70,6 +70,7 @@ class UserController extends Controller
             $data=[
                 "first_name" => $request->first_name,
                 "last_name" => $request->last_name,
+                "username" => $request->username,
                 "email" => $request->email,
                 "contact_number" => $request->contact_number,
                 "address" => $request->address, 
@@ -116,16 +117,16 @@ class UserController extends Controller
             $data=[
                 "first_name" => $request->first_name,
                 "last_name" => $request->last_name,
+                "username" => $request->username,
                 "email" => $request->email,
                 "contact_number" => $request->contact_number,
-                "address" => $request->address, 
-                "password" => $request->password,
-            ];
-            if(!empty($data["password"])){
+                "address" => $request->address,  
+            ]; 
+            
+            if($request->password){
                 $data["password"] = bcrypt($request->password);
-            }else{
-                $data = Arr::except($data,array('password'));
-            }
+            } 
+
             if($request->hasFile('custom_field_1')){ 
                 Storage::delete('/users_images/'.$user->custom_field_1); 
                 $path = Storage::put('/users_images/',$request->file('custom_field_1'));
@@ -180,6 +181,7 @@ class UserController extends Controller
             $data=[
                 "first_name" => $request->first_name,
                 "last_name" => $request->last_name,
+                "username" => $request->username,
                 "email" => $request->email,
                 "contact_number" => $request->contact_number,
                 "address" => $request->address 

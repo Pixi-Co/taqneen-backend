@@ -7,6 +7,7 @@ use App\Utils\BusinessUtil;
 use App\Utils\ModuleUtil;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -34,6 +35,9 @@ class LoginController extends Controller
      *
      * @var string
      */
+ 
+    protected $username; 
+
     // protected $redirectTo = '/home';
 
     /**
@@ -45,25 +49,33 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->businessUtil = $businessUtil;
-        $this->moduleUtil = $moduleUtil;
+        $this->moduleUtil = $moduleUtil; 
+        $this->username = $this->findUsername();
     }
-
-    /**
-     * Change authentication from email to username
-     *
-     * @return void
-     */
+ 
+    public function findUsername()
+    {
+        $login = request()->input('username'); 
+ 
+        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+ 
+        request()->merge([$fieldType => $login]);
+ 
+        return $fieldType;
+    }
+ 
     public function username()
     {
-        return 'username';
+        return $this->username;
     }
+     
 
     public function logout()
     {
         $this->businessUtil->activityLog(auth()->user(), 'logout');
 
         request()->session()->flush();
-        \Auth::logout();
+        Auth::logout();
         return redirect('/login');
     }
 
