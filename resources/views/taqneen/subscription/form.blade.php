@@ -697,11 +697,9 @@
                     subscription.observeCustomers();
                 } else { 
                 }
-
-                @if (!$subscription->id)
-                    if (res.status == 1)
-                        window.location = "{{  url('/subscriptions')  }}";
-                @endif
+ 
+                if (res.status == 1)
+                    window.location = "{{  url('/subscriptions')  }}"; 
             });
 
             $('.select2').select2();
