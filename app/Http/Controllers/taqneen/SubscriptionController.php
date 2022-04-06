@@ -368,7 +368,7 @@ class SubscriptionController extends Controller
         $newSubscription = Subscription::create($resourceData);
         $newSubscription = $newSubscription->refresh();
         $newSubscription->custom_field_4 = $request->custom_field_4;
-        $newSubscription->created_by = session('user.id');
+        /*$newSubscription->created_by = session('user.id');*/
         if ($resource->is_expire == 1)
             $newSubscription->transaction_date = $request->pay_date;
 
