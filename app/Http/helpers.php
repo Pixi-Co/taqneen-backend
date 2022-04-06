@@ -633,7 +633,7 @@ if (!function_exists('__')) {
             // store key in database first
             TransKey::insertKey($key, $trans);
 
-            $language = session('languages_keys_trans')[$userLang] ?? 1;
+            $language = session('languages_keys_trans')[$userLang] ?? 2;
 
             return $language ?
                 App\Translation::trans($key, $language, $business) :
