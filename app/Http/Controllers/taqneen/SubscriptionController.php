@@ -48,7 +48,9 @@ class SubscriptionController extends Controller
 
         $query = Subscription::join(
             "contacts", "contacts.id", "=", "transactions.contact_id"
-        )->where('transactions.business_id', $business_id);
+        )
+        ->where('transactions.business_id', $business_id)
+        ->where('is_renew', '0');
 
 
         if (!auth()->user()->isAdmin()) {
