@@ -231,14 +231,15 @@ class CustomerFormController extends Controller
             $resource = new CustomerForm();
 
         $setting = System::where('key', $resource->key)->first();
-        $options = json_decode($setting->value, true); 
+
+        $jsonData = stripslashes(html_entity_decode($setting->value));
+        $options = json_decode(json_decode($jsonData), true); 
  
         $data = json_decode($resource->value, true); 
         $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data', 'options'))->render();
         
 
-        dump($setting->value);
-        dd($options);
+        dd($setting->value);
  
         return $this->getPdf1($html); 
         //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
