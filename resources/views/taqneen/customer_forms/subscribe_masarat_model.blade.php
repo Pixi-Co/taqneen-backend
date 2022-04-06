@@ -19,7 +19,17 @@
     grid-column-gap: 32px;
 }
 
-input[type='text'],input[type='date'],input[type='date']:focus,input[type="text"]:focus{
+input[type='text'],
+input[type='date'],
+input[type='date']:focus,
+input[type="text"]:focus,
+input[type='number'],
+input[type='number']:focus,
+input[type='email'],
+input[type='email']:focus,
+input[type='url'],
+input[type='url']:focus
+{
     border-color: #ebebeb;
     background-color: #f8f8f8;
     color: #969696;
@@ -111,7 +121,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        {!! Form::text('form[company_num]', $subscribe_customer->id?$data->company_num:"", ["class" => "form-control" , "placeholder" => "70xxxxxxxxxxx", "required"]) !!}                      
+                        {!! Form::number('form[company_num]', $subscribe_customer->id?$data->company_num:"", ["class" => "form-control" , "placeholder" => "70xxxxxxxxxxx", "required"]) !!}                      
                         <div class="charleft ginput_counter warningTextareaInfo" aria-live="polite">0 من  10 حرف كحد أقصى</div>
                     </div>
                     <div class="col-md-3 " >
@@ -120,7 +130,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        {!! Form::text('form[commercial_number]',$subscribe_customer->id?$data->commercial_number:"", ["class" => "form-control" , "placeholder" => "123xxxxxxxxxxx", "required"]) !!}
+                        {!! Form::number('form[commercial_number]',$subscribe_customer->id?$data->commercial_number:"", ["class" => "form-control" , "placeholder" => "123xxxxxxxxxxx", "required"]) !!}
                         
                     </div> 
                     <div class="col-md-3 " >
@@ -213,7 +223,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        {!! Form::text('form[mailbox]',$subscribe_customer->id?$data->mailbox:"", ["class" => "form-control" , "required"]) !!}
+                        {!! Form::number('form[mailbox]',$subscribe_customer->id?$data->mailbox:"", ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-4 " >
                         <label class="gfield_label pb-1" for="">الرمز البريدي
@@ -221,7 +231,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        {!! Form::text('form[postcode]',$subscribe_customer->id?$data->postcode:"", ["class" => "form-control" , "required"]) !!}
+                        {!! Form::number('form[postcode]',$subscribe_customer->id?$data->postcode:"", ["class" => "form-control" , "required"]) !!}
                     </div>
                 </div>
                 <div class="row pt-3">
@@ -231,7 +241,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        {!! Form::text('form[compony_phone]',$subscribe_customer->id?$data->compony_phone:"", ["class" => "form-control" , "required"]) !!}
+                        {!! Form::number('form[compony_phone]',$subscribe_customer->id?$data->compony_phone:"", ["class" => "form-control" , "required"]) !!}
                     </div>
                     <div class="col-md-4 " >
                         <label class="gfield_label pb-1" for="">رقم الفاكس
@@ -239,7 +249,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        {!! Form::text('form[fax_num]',$subscribe_customer->id?$data->fax_num:"", ["class" => "form-control" , "required"]) !!}
+                        {!! Form::number('form[fax_num]',$subscribe_customer->id?$data->fax_num:"", ["class" => "form-control" , "required"]) !!}
 
                     </div>
                     <div class="col-md-4 " >
@@ -248,7 +258,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        {!! Form::text('form[company_website]',$subscribe_customer->id?$data->company_website:"", ["class" => "form-control" , "required"]) !!}
+                        {!! Form::url('form[company_website]',$subscribe_customer->id?$data->company_website:"", ["class" => "form-control" , "required","placeholder"=>"https://example.com"]) !!}
 
                     </div>
                 </div>
@@ -270,7 +280,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        {!! Form::text('form[owner_number]',$subscribe_customer->id?$data->owner_number:"", ["class" => "form-control" , "required"]) !!}
+                        {!! Form::number('form[owner_number]',$subscribe_customer->id?$data->owner_number:"", ["class" => "form-control" , "required"]) !!}
 
                     </div>
                     <div class="col-md-4" >
@@ -279,7 +289,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        {!! Form::text('form[owner_phone]',$subscribe_customer->id?$data->owner_phone:"", ["class" => "form-control" , "required"]) !!}
+                        {!! Form::number('form[owner_phone]',$subscribe_customer->id?$data->owner_phone:"", ["class" => "form-control" , "required"]) !!}
 
                     </div>
                     
@@ -291,7 +301,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        {!! Form::text('form[company_email]',$subscribe_customer->id?$data->company_email:"", ["class" => "form-control" , "required"]) !!}
+                        {!! Form::email('form[company_email]',$subscribe_customer->id?$data->company_email:"", ["class" => "form-control" , "required"]) !!}
 
                     </div>
                     <div class="col-md-6 pb-5" >
@@ -300,7 +310,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        {!! Form::text('form[identity]',$subscribe_customer->id?$data->identity:"", ["class" => "form-control" , "required"]) !!}
+                        {!! Form::number('form[identity]',$subscribe_customer->id?$data->identity:"", ["class" => "form-control" , "required"]) !!}
 
                     </div>
                     
