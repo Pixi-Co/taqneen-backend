@@ -241,7 +241,7 @@ var session_layout = '{{ session()->get('layout') }}';
     var subscriptionTable = $('#subscriptionTable').DataTable({
         processing: true,
         serverSide: true,
-        ajax: '/subscriptions',
+        ajax: '/subscriptions/data',
         "autoWidth": true,
         "lengthMenu": [
             [10, 25, 50, 100, 500, 1000, -1],
