@@ -9,6 +9,7 @@ use App\Http\Controllers\taqneen\OpportunitController;
 use App\Http\Controllers\taqneen\SubscriptionController;
 use App\Http\Controllers\taqneen\UserController;
 use App\ShippingFees;
+use App\System;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -25,12 +26,8 @@ use Illuminate\Support\Facades\DB;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('reset_admin', function(){
-    User::where('username', 'Demo-admin')->update([
-        "password" => bcrypt("123456789")
-    ]);
-
-    return 'done';
+Route::get('test_system', function(){
+    dd(System::all());
 });
 
 Route::get('/remove_notfound_img', function(){
