@@ -66,6 +66,7 @@
                                                         <th>@trans('sales commission agent')</th>
                                                         <th>@trans('status')</th> 
                                                         <th>@trans('payment_status')</th> 
+                                                        <th>@trans('is_expire')</th> 
                                                         <th>@trans('actions')</th>
                                                         <th>@trans('share')</th>
                                                     </tr>
