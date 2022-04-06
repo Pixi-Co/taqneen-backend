@@ -237,7 +237,7 @@ class CustomerFormController extends Controller
         $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data', 'options'))->render();
         
 
-        dump($resource->value);
+        dump($setting->value);
         dd($options);
  
         return $this->getPdf1($html); 
