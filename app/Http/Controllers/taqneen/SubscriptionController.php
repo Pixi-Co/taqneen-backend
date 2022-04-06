@@ -125,6 +125,8 @@ class SubscriptionController extends Controller
             "transactions.created_by as created_by",
             "transactions.business_id as business_id",
         );
+
+        return $query->get();
         return DataTables::of($query)
             ->addColumn('action', function ($row) { 
                 $payment_methods = [
