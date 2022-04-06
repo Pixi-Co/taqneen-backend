@@ -46,10 +46,13 @@ class SubscriptionController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
 
-        $query = Subscription::where('business_id', $business_id);
+        $query = Subscription::join(
+            "contacts", "contacts.id", "=", "transactions.contact_id"
+        )->where('transactions.business_id', $business_id);
+
 
         if (!auth()->user()->isAdmin()) {
-            $query->where('created_by', auth()->user()->id);
+            $query->where('transactions.created_by', auth()->user()->id);
         }
 
 
@@ -111,32 +114,28 @@ class SubscriptionController extends Controller
                 ->pluck('transaction_id')->toArray();
             $query->whereIn("id", $ids);
         }
+  
 
+        $query->select(
+            "*",
+            "transactions.id as id",
+            "transactions.created_by as created_by",
+            "transactions.business_id as business_id",
+        );
         return DataTables::of($query)
-            ->addColumn('action', function ($row) {
-
+            ->addColumn('action', function ($row) { 
                 $payment_methods = [
                     "transform_from_taqneen" => __('transform_from_taqneen'),
                     "for_elm" => __('for_elm'),
                     "direct_pay" => __('direct_pay')
                 ];
                 return view('taqneen.subscription.actions', compact('row', 'payment_methods'));
-            })
-            ->addColumn('supplier_business_name', function ($row) {
-                return optional($row->contact)->supplier_business_name;
-            })
-            ->addColumn('first_name', function ($row) {
-                return optional($row->contact)->first_name;
-            })
-            ->addColumn('mobile', function ($row) {
-                return optional($row->contact)->custom_field1;
-            })
+            })  
             ->editColumn('created_by', function ($row) {
                 return optional($row->user)->first_name;
             })
             ->addColumn('services', function ($row) {
                 return $row->service_names;
-                //return implode(", ", $row->subscription_lines()->select('*', DB::raw('(select name from categories where categories.id = service_id) as service'))->pluck('service')->toArray());
             })
             ->addColumn('status', function ($row) {
                 $html = "";
@@ -156,7 +155,7 @@ class SubscriptionController extends Controller
 
                 return $html;
             })
-            ->addColumn('shipping_custom_field_2', function ($row) {
+            ->editColumn('shipping_custom_field_2', function ($row) {
                 $html = "";
 
                 if ($row->status == "paid")
