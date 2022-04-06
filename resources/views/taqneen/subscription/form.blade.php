@@ -572,6 +572,12 @@
             add: function() {
                 var service_id = $('#service_id').val();
                 var package_id = $('#package_id').val();
+
+
+                if (!service_id || package_id) {
+                    return toastr.error('{{  __('please_select_at_least_on_service')  }}');
+                }
+
                 var package = {};
                 for (var index = 0; index < this.packages.length; index++) {
                     var p = this.packages[index];
