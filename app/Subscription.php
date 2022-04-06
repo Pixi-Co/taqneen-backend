@@ -4,10 +4,13 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
 class Subscription extends Transaction
 { 
+    
+    use SoftDeletes;
     
     public static $WAITING = "waiting";
     public static $PROCESSING = "processing";
@@ -26,6 +29,8 @@ class Subscription extends Transaction
     }
 
     public function getExpireDate() {
+        if ($this->expire_date)
+            return $this->expire_date;
         $Transdate = $this->transaction_date;
         $date = Carbon::createFromFormat("Y-m-d H:i:s", $Transdate);
         return $date->addYear()->format('Y-m-d');

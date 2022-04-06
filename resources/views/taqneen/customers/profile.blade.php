@@ -127,7 +127,7 @@
                                                         <div class="col-md-12"><input type="text" class="form-control" placeholder="additional details" value=""></div> --}}
                                                         <div class=" col-md-12">
                                                             {{-- <div class="row"> --}}
-                                                            @foreach ($customer->subscriptions()->get() as $item)
+                                                            @foreach ($customer->subscriptions()->withTrashed()->get() as $item)
                                                             @foreach ($item->subscription_lines()->get() as $line)
                                                             <div class="card" style="width: 18rem;"> 
                                                                 <!--

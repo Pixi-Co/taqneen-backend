@@ -55,6 +55,7 @@ return array(
     'AddDefaultNotificationTemplatesToDatabase' => $baseDir . '/database/migrations/2018_10_03_185947_add_default_notification_templates_to_database.php',
     'AddDefaultSalesTaxToBusinessTable' => $baseDir . '/database/migrations/2017_10_31_065621_add_default_sales_tax_to_business_table.php',
     'AddDefaultSellingPriceGroupIdColumnToBusinessLocationsTable' => $baseDir . '/database/migrations/2019_09_09_134810_add_default_selling_price_group_id_column_to_business_locations_table.php',
+    'AddDeletedAtToTransactions' => $baseDir . '/database/migrations/2022_04_07_014635_add_deleted_at_to_transactions.php',
     'AddDesignToInvoiceLayouts' => $baseDir . '/database/migrations/2018_05_15_134729_add_design_to_invoice_layouts.php',
     'AddDiscountColumnsToTransactionSellLinesTable' => $baseDir . '/database/migrations/2018_07_25_172004_add_discount_columns_to_transaction_sell_lines_table.php',
     'AddDiscountIdColumnToTransactionSellLinesTable' => $baseDir . '/database/migrations/2019_02_21_120324_add_discount_id_column_to_transaction_sell_lines_table.php',

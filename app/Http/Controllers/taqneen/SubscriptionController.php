@@ -16,6 +16,7 @@ use App\Triger;
 use App\TransactionPayment;
 use App\User;
 use App\Utils\ContactUtil;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -371,7 +372,13 @@ class SubscriptionController extends Controller
         $newSubscription->custom_field_4 = $request->custom_field_4;
         /*$newSubscription->created_by = session('user.id');*/
         if ($resource->is_expire == 1)
-            $newSubscription->transaction_date = $request->pay_date;
+            $newSubscription->transaction_date = $request->pay_date; 
+
+        if ($resource->is_expire != 1) {
+            $Transdate = $resource->expire_date;
+            $date = Carbon::createFromFormat("Y-m-d", $Transdate); 
+            $newSubscription->expire_date = $date->addYear()->format('Y-m-d');
+        }
 
         $newSubscription->update();
 
@@ -420,6 +427,9 @@ class SubscriptionController extends Controller
         $resource->is_renew = '1';
         $resource->renew_date = date('Y-m-d');
         $resource->update();
+
+        // delete old subscription
+        $resource->delete();
 
         // fire renew triger
         Triger::fire(Triger::$RENEW_SUBSCRIPTION, $resource->id);
