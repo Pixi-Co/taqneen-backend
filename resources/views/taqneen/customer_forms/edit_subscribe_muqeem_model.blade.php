@@ -103,7 +103,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label>                       
-                        <input class="form-control" name="form[company_num]" type="text" value="70" required placeholder="70xxxxxxxxxxx" id="company_num" >
+                        <input class="form-control" name="form[company_num]" type="number" value="70" required placeholder="70xxxxxxxxxxx" id="company_num" >
                         <div class="charleft ginput_counter warningTextareaInfo" aria-live="polite">0 من  10 حرف كحد أقصى</div>
                     </div>
                     <div class="col-md-6 " >
@@ -132,7 +132,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[user_identifi]" type="text" value="" id="user_identifi" placeholder="05xxxxxxxx" required>
+                        <input class="form-control" name="form[user_identifi]" type="number" value="" id="user_identifi" placeholder="05xxxxxxxx" required>
                     </div>
                     <div class="col-md-3 " >
                         <label class="gfield_label pb-1" for="">الجوال
@@ -148,7 +148,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[user_email]" type="text" value="" id="user_email" required>
+                        <input class="form-control" name="form[user_email]" type="email" value="" id="user_email" required>
                     </div>
                 </div>
                 
@@ -168,7 +168,7 @@ input[type=submit]:hover{
                                 <span class="gfield_required gfield_required_custom">*</span>
                             </span>
                         </label> 
-                        <input class="form-control" name="form[user_identifi_delete]" type="text" value="" id="user_identifi" placeholder="05xxxxxxxx" required>
+                        <input class="form-control" name="form[user_identifi_delete]" type="number" value="" id="user_identifi" placeholder="05xxxxxxxx" required>
                     </div>
                 </div>
                 <div class="row pt-3 pb-3">
