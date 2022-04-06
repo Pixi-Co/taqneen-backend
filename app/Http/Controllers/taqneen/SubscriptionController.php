@@ -436,7 +436,7 @@ class SubscriptionController extends Controller
     {
         $resource = null;
 
-        if (count($request->subscription_lines) <= 0) {
+        if (sizeof($request->subscription_lines) <= 0) {
             return [
                 "success" => 0,
                 "msg" => __('please_select_at_least_on_service')
