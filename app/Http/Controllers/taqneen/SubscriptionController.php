@@ -225,7 +225,7 @@ class SubscriptionController extends Controller
         $customerObject = Contact::getObject();
         $services = Category::forDropdown(session('user.business_id'), "service");
         $packages = ServicePackage::where('business_id', $business_id)->get();
-        $users = User::where('user_type')->pluck('first_name', 'id')->toArray();
+        $users = User::where('user_type', 'user')->pluck('user_full_name', 'id')->toArray();
         $taxs = TaxRate::getObject();
         $expenses = ExpenseCategory::getObject();
         $expensesList = ExpenseCategory::where('business_id', $business_id)->pluck("name", "id")->toArray();
@@ -299,7 +299,7 @@ class SubscriptionController extends Controller
         $customerObject = Contact::getObject();
         $services = Category::forDropdown(session('user.business_id'), "service");
         $packages = ServicePackage::where('business_id', $business_id)->get();
-        $users = User::where('user_type')->pluck('first_name', 'id')->toArray();
+        $users = User::where('user_type', 'user')->pluck('user_full_name', 'id')->toArray();
         $taxs = TaxRate::getObject();
         $expenses = ExpenseCategory::getObject();
         $expensesList = ExpenseCategory::where('business_id', $business_id)->pluck("name", "id")->toArray();
