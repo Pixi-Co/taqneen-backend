@@ -78,12 +78,12 @@
                                                                         type="text" class="form-control" name="mobile"
                                                                         value="{{ $customer->mobile }}" required></div>
                                                                 <div class="col-md-12 mt-3"><label
-                                                                        class="labels">@trans('email')</label><input
+                                                                        class="labels">{{ __('email_') }}</label><input
                                                                         type="text" class="form-control" name="email"
                                                                         value="{{ $customer->email }}" required></div>
                                                                 <div class="row mt-3">
                                                                     <div class="col-md-6"><label
-                                                                            class="labels">@trans('state')</label><input
+                                                                            class="labels">{{__('state_')}}</label><input
                                                                             type="text" class="form-control"
                                                                             name="country"
                                                                             value="{{ $customer->country }}"></div>
@@ -93,12 +93,12 @@
                                                                             value="{{ $customer->city }}"></div>
                                                                 </div>
                                                                 <div class="col-md-12 mt-3"><label
-                                                                        class="labels">@trans('address')</label><input
+                                                                        class="labels">{{ __('address_') }}</label><input
                                                                         type="text" class="form-control"
                                                                         name="address_line_1"
                                                                         value="{{ $customer->address_line_1 }}"></div>
                                                                 <div class="col-md-12 mt-3"><label
-                                                                        class="labels">@trans('appartment')</label><input
+                                                                        class="labels">{{ __('appartment_') }}</label><input
                                                                         type="text" class="form-control"
                                                                         name="address_line_2"
                                                                         value="{{ $customer->address_line_2 }}"></div>
