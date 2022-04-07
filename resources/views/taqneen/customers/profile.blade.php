@@ -22,6 +22,19 @@
     <li class="breadcrumb-item active">@trans('customers')</li>
 @endsection
 
+@section("css")
+
+<style>
+    .sub-card {
+        display: hidden;
+    }
+
+    .active-card {
+        display: block;
+    }
+</style>
+@endsection
+
 @section('content')
     <div class="container-fluid">
         <div class="row">
@@ -131,7 +144,7 @@
                                                             <div class="">
                                                                 <ul class="nav nav-tabs" id="icon-tab" role="tablist">
                                                                     <li class="nav-item">
-                                                                        <a class="nav-link active" id="icon-home-tab" 
+                                                                        <a class="nav-link" id="icon-home-tab" 
                                                                             onclick="$('.sub-card').hide();$('.active-card').show()" > 
                                                                             {{ __('active_subscriptions') }}
                                                                         </a>
