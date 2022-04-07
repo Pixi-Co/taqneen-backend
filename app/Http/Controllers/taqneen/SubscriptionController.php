@@ -65,18 +65,18 @@ class SubscriptionController extends Controller
                 ->select('transaction_id')
                 ->distinct()
                 ->pluck('transaction_id')->toArray();
-            $query->whereIn("id", $ids);
+            $query->whereIn("ransactions.id", $ids);
         }
 
         if (request()->subscription_type) {
             if (request()->subscription_type == 'new')
-                $query->where('is_renew', '0');
+                $query->where('ransactions.is_renew', '0');
             else
-                $query->where('is_renew', '1');
+                $query->where('ransactions.is_renew', '1');
         }
 
         if (request()->payment_status) {
-            $query->where('shipping_custom_field_2', request()->payment_status);
+            $query->where('ransactions.shipping_custom_field_2', request()->payment_status);
         }
 
         if (request()->register_date_start && request()->register_date_end) {
@@ -84,7 +84,7 @@ class SubscriptionController extends Controller
                 request()->register_date_start . " 01:00:00",
                 request()->register_date_end . " 00:00:00"
             ];
-            $query->whereBetween('shipping_custom_field_1', $dates);
+            $query->whereBetween('ransactions.shipping_custom_field_1', $dates);
         }
 
         if (request()->transaction_date_start && request()->transaction_date_end) {
@@ -92,7 +92,7 @@ class SubscriptionController extends Controller
                 request()->transaction_date_start . " 01:00:00",
                 request()->transaction_date_end . " 00:00:00"
             ];
-            $query->whereBetween('transaction_date', $dates);
+            $query->whereBetween('ransactions.transaction_date', $dates);
         }
 
         if (request()->expire_date_start && request()->expire_date_end) {
@@ -100,7 +100,7 @@ class SubscriptionController extends Controller
                 request()->expire_date_start,
                 request()->expire_date_end
             ];
-            $query->whereBetween('expire_date', $dates);
+            $query->whereBetween('ransactions.expire_date', $dates);
         }
 
         if (request()->payment_date_start && request()->payment_date_end) {
@@ -115,7 +115,7 @@ class SubscriptionController extends Controller
                 ->select('transaction_id')
                 ->distinct()
                 ->pluck('transaction_id')->toArray();
-            $query->whereIn("id", $ids);
+            $query->whereIn("ransactions.id", $ids);
         }
   
 
