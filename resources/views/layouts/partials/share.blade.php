@@ -6,7 +6,7 @@
         </button>
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" style="">
             @if (isset($phone))
-            <a class="dropdown-item" target="_blank" href="https://api.whatsapp.com/send/?phone=966{{ substr($phone, 1) }}&app_absent=0">
+            <a class="dropdown-item" target="_blank" href="https://api.whatsapp.com/send/?phone=966{{ $phone }}&app_absent=0">
                 @trans('whatsapp') <i class="fa fa-brands fa-whatsapp"></i>
             </a>
             @endif

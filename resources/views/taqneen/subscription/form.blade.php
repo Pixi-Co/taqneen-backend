@@ -85,7 +85,7 @@
                                                         <datalist id="customers">
                                                             @foreach ($customers as $customer)
                                                                 <option value="{{ $customer->id }}">
-                                                                    {{ $customer->name }}-{{ $customer->mobile }}
+                                                                    {{ $customer->supplier_business_name }}-{{ $customer->mobile }}
                                                                 </option>
                                                             @endforeach
                                                         </datalist>

@@ -179,6 +179,9 @@ class SubscriptionController extends Controller
 
                 return $html;
             })
+            ->editColumn('final_total', function ($row) { 
+                return number_format($row->final_total, 2);
+            })
             ->addColumn('share', function ($row) {
                 return view('layouts.partials.share', ["phone" => optional($row->contact)->mobile, "email" => optional($row->contact)->email]);
             })
@@ -308,7 +311,7 @@ class SubscriptionController extends Controller
 
         if ($payment->paid_on)
             $payment->paid_on = date('Y-m-d\TH:i', strtotime($payment->paid_on));
-            
+
         $roles = Role::where('business_id', session('business.id'))
             ->where(function ($query) {
                 if (!auth()->user()->isAdmin()) {

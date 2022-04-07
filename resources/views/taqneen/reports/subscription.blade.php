@@ -144,9 +144,7 @@
                                                             <th>@trans('services')</th>
                                                             <th>@trans('final total')</th>
                                                             <th>@trans('sales commission agent')</th>
-                                                            <th>@trans('status')</th>
-                                                            <th>@trans('actions')</th>
-                                                            <th>@trans('share')</th>
+                                                            <th>@trans('status')</th> 
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -161,9 +159,7 @@
                                                             <th>@trans('services')</th>
                                                             <th>@trans('final total')</th>
                                                             <th>@trans('sales commission agent')</th>
-                                                            <th>@trans('status')</th>
-                                                            <th>@trans('actions')</th>
-                                                            <th>@trans('share')</th>
+                                                            <th>@trans('status')</th> 
                                                         </tr>
                                                     </tfoot>
                                                 </table>
@@ -303,15 +299,7 @@
                 {
                     data: 'status',
                     name: 'status'
-                },
-                {
-                    data: 'action',
-                    name: 'action'
-                },
-                {
-                    data: 'share',
-                    name: 'share'
-                },
+                }, 
             ],
         });
 
