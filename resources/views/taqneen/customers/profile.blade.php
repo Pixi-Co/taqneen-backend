@@ -62,14 +62,12 @@
                                                         </div> --}}
                                                             <div class="row mt-2">
                                                                 <div class="col-md-6"><label
-                                                                        class="labels">@trans('first
-                                                                        name')</label><input type="text" name="first_name"
+                                                                        class="labels">@trans('first name')</label><input type="text" name="first_name"
                                                                         class="form-control"
                                                                         value="{{ $customer->first_name }}" required>
                                                                 </div>
                                                                 <div class="col-md-6"><label
-                                                                        class="labels">@trans('last
-                                                                        name')</label><input type="text"
+                                                                        class="labels">@trans('last name')</label><input type="text"
                                                                         class="form-control" name="last_name"
                                                                         value=" {{ $customer->last_name }}" required>
                                                                 </div>
@@ -109,8 +107,7 @@
                                                                         type="text" class="form-control" name="zip_code"
                                                                         value="{{ $customer->zip_code }}"></div>
                                                                 <div class="col-md-12 mt-3"><label
-                                                                        class="labels">@trans('accountant
-                                                                        no')</label><input type="text"
+                                                                        class="labels">@trans('accountant no')</label><input type="text"
                                                                         class="form-control"
                                                                         value="{{ $customer->custom_field1 }}"></div>
 
