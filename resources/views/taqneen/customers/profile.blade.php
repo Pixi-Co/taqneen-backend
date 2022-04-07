@@ -108,7 +108,7 @@
                                                                         value="{{ $customer->zip_code }}"></div>
                                                                 <div class="col-md-12 mt-3"><label
                                                                         class="labels">@trans('accountant no')</label><input
-                                                                        type="text" class="form-control" value=""></div>
+                                                                        type="text" class="form-control" value="{{ $customer->custom_field1 }}"></div>
 
                                                             </div>
 
