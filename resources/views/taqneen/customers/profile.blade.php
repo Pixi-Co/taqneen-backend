@@ -150,6 +150,7 @@
                                                                     </li>
                                                                 </ul>
 
+                                                                <br>
                                                                 <div class="tab-content" id="icon-tabContent">
 
                                                                     <div class="tab-pane fade active show" id="active-subscriptions"
