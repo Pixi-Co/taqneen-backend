@@ -47,7 +47,7 @@
                                                         <img class="rounded-circle mt-5" width="150px"
                                                             src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
                                                             class="font-weight-bold">{{ $customer->name }}</span><span
-                                                            class="text-black-50">{{ $customer->email }}</span><span> 
+                                                            class="text-black-50">{{ $customer->email }}</span><span>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -62,13 +62,15 @@
                                                         </div> --}}
                                                             <div class="row mt-2">
                                                                 <div class="col-md-6"><label
-                                                                        class="labels">@trans('first name')</label><input
-                                                                        type="text" name="first_name" class="form-control"
+                                                                        class="labels">@trans('first
+                                                                        name')</label><input type="text" name="first_name"
+                                                                        class="form-control"
                                                                         value="{{ $customer->first_name }}" required>
                                                                 </div>
                                                                 <div class="col-md-6"><label
-                                                                        class="labels">@trans('last name')</label><input
-                                                                        type="text" class="form-control" name="last_name"
+                                                                        class="labels">@trans('last
+                                                                        name')</label><input type="text"
+                                                                        class="form-control" name="last_name"
                                                                         value=" {{ $customer->last_name }}" required>
                                                                 </div>
                                                             </div>
@@ -107,8 +109,10 @@
                                                                         type="text" class="form-control" name="zip_code"
                                                                         value="{{ $customer->zip_code }}"></div>
                                                                 <div class="col-md-12 mt-3"><label
-                                                                        class="labels">@trans('accountant no')</label><input
-                                                                        type="text" class="form-control" value="{{ $customer->custom_field1 }}"></div>
+                                                                        class="labels">@trans('accountant
+                                                                        no')</label><input type="text"
+                                                                        class="form-control"
+                                                                        value="{{ $customer->custom_field1 }}"></div>
 
                                                             </div>
 
@@ -122,30 +126,125 @@
                                                     <div class="p-3 py-5">
                                                         <div
                                                             class="d-flex justify-content-between align-items-center experience">
-                                                            <span>@trans('subscriptions')</span></div><br>
+                                                            <span>@trans('subscriptions')</span>
+                                                        </div><br>
                                                         {{-- <div class="col-md-12"><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
                                                         <div class="col-md-12"><input type="text" class="form-control" placeholder="additional details" value=""></div> --}}
                                                         <div class=" col-md-12">
-                                                            {{-- <div class="row"> --}}
-                                                            @foreach ($customer->subscriptions()->withTrashed()->get() as $item)
-                                                            @foreach ($item->subscription_lines()->get() as $line)
-                                                            <div class="card" style="width: 18rem;"> 
-                                                                <!--
-                                                                <img src="{{ asset('assets/images/opportunities/muqemm.jpg') }}"
-                                                                    class="card-img-top" alt="...">
-                                                            -->
-                                                                <div class="card-body">
-                                                                    <h5 class="card-title">{{ optional($line->service()->first())->name }}</h5>
-                                                                    <p>{{ optional($line->package()->first())->name }}</p>
-                                                                    <p class="card-text">
-                                                                    <h6>@trans('subscription date'): {{ $item->transaction_date }}</h6>
-                                                                    <h6>@trans('expire date'): {{ $item->expire_date }}</h6>
-                                                                    </p>
-                                                                    <a target="_blank" href="{{ url('/subscriptions') }}/{{ $item->id }}/edit" role="button" class="btn btn-primary">@trans('edit')</a>
+                                                            <div class="">
+                                                                <ul class="nav nav-tabs" id="icon-tab" role="tablist">
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link" id="icon-home-tab"
+                                                                            data-bs-toggle="tab" href="#icon-home"
+                                                                            role="tab" aria-controls="icon-home"
+                                                                            aria-selected="false" data-bs-original-title=""
+                                                                            title="">
+                                                                            <i class="icofont icofont-ui-home"></i>
+                                                                            {{ __('active_subscriptions') }}
+                                                                        </a>
+                                                                    </li>
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link active" id="profile-icon-tab"
+                                                                            data-bs-toggle="tab" href="#profile-icon"
+                                                                            role="tab" aria-controls="profile-icon"
+                                                                            aria-selected="true" data-bs-original-title=""
+                                                                            title="">
+                                                                            <i class="icofont icofont-man-in-glasses"></i>
+                                                                            {{ __('renewed_subscriptions') }}
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+
+                                                                <div class="tab-content" id="icon-tabContent">
+
+                                                                    <div class="tab-pane fade" id="icon-home"
+                                                                        role="tabpanel" aria-labelledby="icon-home-tab">
+                                                                        @foreach ($customer->subscriptions()->onlyTrashed()->get() as $item)
+                                                                        @foreach ($item->subscription_lines()->get() as $line)
+                                                                            <div class="card" style="width: 18rem;"> 
+                                                                                <div class="card-body">
+                                                                                    <h5 class="card-title">
+                                                                                        {{ optional($line->service()->first())->name }}
+                                                                                    </h5>
+                                                                                    <p>{{ optional($line->package()->first())->name }}
+                                                                                    </p>
+                                                                                    <span class="badge w3-green">{{ __('active') }}</span>
+                                                                                    <p class="card-text">
+                                                                                    <h6>@trans('subscription date'):
+                                                                                        {{ $item->transaction_date }}</h6>
+                                                                                    <h6>@trans('expire date'):
+                                                                                        {{ $item->expire_date }}</h6>
+                                                                                    </p>
+                                                                                    <a target="_blank"
+                                                                                        href="{{ url('/subscriptions') }}/{{ $item->id }}/edit"
+                                                                                        role="button"
+                                                                                        class="btn btn-primary">@trans('edit')</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @endforeach
+                                                                    </div>
+
+                                                                    <div class="tab-pane fade active show" id="profile-icon"
+                                                                        role="tabpanel" aria-labelledby="profile-icon-tab">
+                                                                        @foreach ($customer->subscriptions()->get() as $item)
+                                                                        @foreach ($item->subscription_lines()->get() as $line)
+                                                                            <div class="card" style="width: 18rem;"> 
+                                                                                <div class="card-body">
+                                                                                    <h5 class="card-title">
+                                                                                        {{ optional($line->service()->first())->name }}
+                                                                                    </h5>
+                                                                                    <p>{{ optional($line->package()->first())->name }}
+                                                                                    </p>
+                                                                                    <span class="badge w3-red">{{ __('renewed_') }}</span>
+                                                                                    <p class="card-text">
+                                                                                    <h6>@trans('subscription date'):
+                                                                                        {{ $item->transaction_date }}</h6>
+                                                                                    <h6>@trans('expire date'):
+                                                                                        {{ $item->expire_date }}</h6>
+                                                                                    </p>
+                                                                                    <a target="_blank"
+                                                                                        href="{{ url('/subscriptions') }}/{{ $item->id }}/edit"
+                                                                                        role="button"
+                                                                                        class="btn btn-primary">@trans('edit')</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @endforeach
+                                                                    </div>
+                                                                     
                                                                 </div>
                                                             </div>
-                                                            @endforeach 
-                                                            @endforeach 
+
+                                                            {{-- <div class="row"> --}}
+                                                            @foreach ($customer->subscriptions()->withTrashed()->get() as $item)
+                                                                @foreach ($item->subscription_lines()->get() as $line)
+                                                                    <div class="card" style="width: 18rem;">
+                                                                        <!--
+                                                                    <img src="{{ asset('assets/images/opportunities/muqemm.jpg') }}"
+                                                                        class="card-img-top" alt="...">
+                                                                -->
+                                                                        <div class="card-body">
+                                                                            <h5 class="card-title">
+                                                                                {{ optional($line->service()->first())->name }}
+                                                                            </h5>
+                                                                            <p>{{ optional($line->package()->first())->name }}
+                                                                            </p>
+                                                                            <span class="badge"></span>
+                                                                            <p class="card-text">
+                                                                            <h6>@trans('subscription date'):
+                                                                                {{ $item->transaction_date }}</h6>
+                                                                            <h6>@trans('expire date'):
+                                                                                {{ $item->expire_date }}</h6>
+                                                                            </p>
+                                                                            <a target="_blank"
+                                                                                href="{{ url('/subscriptions') }}/{{ $item->id }}/edit"
+                                                                                role="button"
+                                                                                class="btn btn-primary">@trans('edit')</a>
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
+                                                            @endforeach
                                                         </div>
                                                     </div>
                                                 </div>
