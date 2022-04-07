@@ -86,7 +86,7 @@
                             <li><a  href="{{url('customer-form/subscribe_naba_model/index')}}" >@trans('new customer naba') </a></li>
                             <li><a  href="{{url('customer-form/subscribe_shomoos_model/index')}}" >@trans('new customer shomoos') </a></li>
                             <li><a  href="{{url('customer-form/subscribe_tamm_model/index')}}" >@trans('new customer tamm') </a></li>
-                            <li><a  href="{{url('customer-form/edit_subscribe_muqeem_model')}}" >@trans('form of edit and remove tamm user') </a></li>
+                            <li><a  href="{{url('customer-form/edit_subscribe_muqeem_model')}}" >@trans('form of edit and remove muqeem user') </a></li>
                         </ul>
                     </li>
 
