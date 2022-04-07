@@ -65,14 +65,13 @@
                                                     @endif
 
                                                     @if(!auth()->user()->can(find_or_create_p('subscription.edit_status')) || !auth()->user()->isAdmin())
-                                                    {!! Form::text("status", $subscription->status? $subscription->status : $status[0], ['class' => 'form-control']) !!}
+                                                    {!! Form::text("status", $subscription->status? $subscription->status : $status['waiting'], ['class' => 'form-control']) !!}
                                                     @endif
                                                 </div>
 
 
                                                 <div class=" form-group d-flex mb-3">
-                                                    <div class="col-md-6 ">
-                                                        <label class="my-2" for="user_id">@trans("customer")</label> *
+                                                    <div class="col-md-6 "> 
                                                         @php
                                                             $customerList = [];
                                                             foreach ($customers as $customer) {
