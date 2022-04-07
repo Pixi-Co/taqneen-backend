@@ -70,12 +70,33 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach($customers as $item)
+                                                    @php
+                                                        $html = "";
+
+                                                        if (optional(optional($item->subscriptions()->first())->isExpire())
+                                                            $html = "<span class='badge w3-red' >" . __("expired") . "</span>"; 
+                                                        else {
+                                                            if (optional(optional($item->subscriptions()->first())->status == App\Subscription::$ACTIVE)
+                                                                $html = "<span class='badge w3-green' >" . __(Subscription::$ACTIVE) . "</span>";
+                                                            else if (optional(optional($item->subscriptions()->first())->status == App\Subscription::$CANCEL)
+                                                                $html = "<span class='badge w3-red' >" . __(Subscription::$CANCEL . "_") . "</span>";
+                                                            else if (optional(optional($item->subscriptions()->first())->status == App\Subscription::$PAY_PENDING)
+                                                                $html = "<span class='badge w3-orange' >" . __(Subscription::$PAY_PENDING) . "</span>";
+                                                            else if (optional(optional($item->subscriptions()->first())->status == App\Subscription::$PROCESSING)
+                                                                $html = "<span class='badge w3-indigo' >" . __(Subscription::$PROCESSING) . "</span>";
+                                                            else if (optional(optional($item->subscriptions()->first())->status == App\Subscription::$WAITING)
+                                                                $html = "<span class='badge w3-yellow' >" . __(Subscription::$WAITING) . "</span>";
+                                                            else
+                                                                $html = "<span class='badge w3-gray' >-</span>";
+                                                        }
+                                        
+                                                    @endphp
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{  $item->supplier_business_name  }}</td>          
                                                         <td><a href="{{ route('profile.show',$item->id)}}">{{  $item->name  }}</a></td>          
                                                         <td>{{ optional(optional($item->subscriptions()->first())->user)->user_full_name }}</td>          
-                                                        <td>{{ $item->subscription_status }}</td>          
+                                                        <td>{!! $html !!}</td>          
                                                         <td>{{  $item->email  }}</td>          
                                                         <td>{{  $item->custom_field1  }}</td>          
                                                          

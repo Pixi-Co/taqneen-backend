@@ -160,7 +160,7 @@ class SubscriptionController extends Controller
                 if ($row->status == Subscription::$ACTIVE)
                     $html = "<span class='badge w3-green' >" . __(Subscription::$ACTIVE) . "</span>";
                 else if ($row->status == Subscription::$CANCEL)
-                    $html = "<span class='badge w3-red' >" . __(Subscription::$CANCEL) . "</span>";
+                    $html = "<span class='badge w3-red' >" . __(Subscription::$CANCEL . "_") . "</span>";
                 else if ($row->status == Subscription::$PAY_PENDING)
                     $html = "<span class='badge w3-orange' >" . __(Subscription::$PAY_PENDING) . "</span>";
                 else if ($row->status == Subscription::$PROCESSING)

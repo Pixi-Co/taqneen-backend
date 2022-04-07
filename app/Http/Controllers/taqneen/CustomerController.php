@@ -60,7 +60,7 @@ class CustomerController extends Controller
     public function edit($id){
        
         $customer = Contact::find($id);
-        $user = $customer->loginUser;
+        $user = $customer->loginUser? $customer->loginUser : new User();
         $roles = Role::where('business_id', session('business.id'))
         ->where(function($query){
             if (!auth()->user()->isAdmin()) { 
@@ -69,7 +69,8 @@ class CustomerController extends Controller
         })
         ->pluck('name','name')
         ->all();
-        $userRole = $user? $user->roles()->first() : new Role();
+
+        $userRole = $user->roles()->first()? $user->roles()->first() : new Role();
         $customer->role = $userRole->name;
 
         //dd($customer->toArray());
