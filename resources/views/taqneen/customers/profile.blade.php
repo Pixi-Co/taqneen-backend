@@ -132,15 +132,13 @@
                                                                 <ul class="nav nav-tabs" id="icon-tab" role="tablist">
                                                                     <li class="nav-item">
                                                                         <a class="nav-link active" id="icon-home-tab" 
-                                                                            onclick="$('.sub-card').hide();$('.active-card').show()" >
-                                                                            <i class="icofont icofont-ui-home"></i>
+                                                                            onclick="$('.sub-card').hide();$('.active-card').show()" > 
                                                                             {{ __('active_subscriptions') }}
                                                                         </a>
                                                                     </li>
                                                                     <li class="nav-item">
                                                                         <a class="nav-link" 
-                                                                            onclick="$('.sub-card').hide();$('.renew-card').show()" >
-                                                                            <i class="icofont icofont-man-in-glasses"></i>
+                                                                            onclick="$('.sub-card').hide();$('.renew-card').show()" > 
                                                                             {{ __('renewed_subscriptions') }}
                                                                         </a>
                                                                     </li>
