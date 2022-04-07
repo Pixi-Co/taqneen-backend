@@ -74,7 +74,7 @@
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{  $item->supplier_business_name  }}</td>          
                                                         <td><a href="{{ route('profile.show',$item->id)}}">{{  $item->name  }}</a></td>          
-                                                        <td>0</td>          
+                                                        <td>{{ optional(optional($item->subscriptions()->first())->user)->user_full_name }}</td>          
                                                         <td>{{ $item->subscription_status }}</td>          
                                                         <td>{{  $item->email  }}</td>          
                                                         <td>{{  $item->custom_field1  }}</td>          
