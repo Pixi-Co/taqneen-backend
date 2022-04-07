@@ -305,7 +305,10 @@ class SubscriptionController extends Controller
         $expensesList = ExpenseCategory::where('business_id', $business_id)->pluck("name", "id")->toArray();
         $disabled = auth()->user()->can(find_or_create_p('subscription.edit_courier')) ? "" : "disabled";
         $subscription->transaction_date = date('Y-m-d\TH:i', strtotime($subscription->transaction_date));
-        $payment->paid_on = date('Y-m-d\TH:i', strtotime($payment->paid_on));
+
+        if ($payment->paid_on)
+            $payment->paid_on = date('Y-m-d\TH:i', strtotime($payment->paid_on));
+            
         $roles = Role::where('business_id', session('business.id'))
             ->where(function ($query) {
                 if (!auth()->user()->isAdmin()) {
