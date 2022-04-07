@@ -578,7 +578,7 @@
                 var package_id = $('#package_id').val();
 
 
-                if (!service_id || package_id) {
+                if (!service_id || !package_id) {
                     return toastr.error('{{  __('please_select_at_least_on_service')  }}');
                 }
 
