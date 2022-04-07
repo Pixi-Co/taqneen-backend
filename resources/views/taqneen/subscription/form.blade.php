@@ -48,7 +48,7 @@
                             <div class="col-md-12">
                                 <div class="card card-primary">
 
-                                    <div class="container rounded bg-white mt-5 ">
+                                    <div class="container rounded mt-5 ">
                                         <div class="row">
                                             <div class="col-md-6 border-right ">
                                                 @if ($subscription->id)
