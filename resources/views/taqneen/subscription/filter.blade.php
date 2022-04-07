@@ -10,7 +10,8 @@
             </select>
         </div>
     </div>
-    <div class="col-md-4">
+    <!--
+    <div class="hidden">
         <div class="form-group">
             <label for="">@trans('subscription type')</label>
             <select class="form-select  mb-3 subscription_type"  >
@@ -20,6 +21,7 @@
             </select>
         </div>
     </div>
+-->
     <div class="col-md-4">
         <div class="form-group">
             <label for="">@trans('payment status')</label>
