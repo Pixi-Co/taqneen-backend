@@ -307,6 +307,11 @@
                                                                 v-model="resource.contact.first_name">
                                                         </div>
                                                         <div class="col-md-6">
+                                                            <label class="labels">@trans('company_name')</label>
+                                                            <input type="text" class="form-control" readonly
+                                                                v-model="resource.contact.supplier_business_name">
+                                                        </div>
+                                                        <div class="col-md-6">
                                                             <label class="labels">@trans('last_name')</label>
                                                             <input type="text" class="form-control" readonly
                                                                 v-model="resource.contact.last_name">
