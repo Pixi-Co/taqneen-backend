@@ -131,8 +131,8 @@
                                                             <div class="">
                                                                 <ul class="nav nav-tabs" id="icon-tab" role="tablist">
                                                                     <li class="nav-item">
-                                                                        <a class="nav-link" id="icon-home-tab"
-                                                                            data-bs-toggle="tab" href="#icon-home"
+                                                                        <a class="nav-link active" id="icon-home-tab"
+                                                                            data-bs-toggle="tab" href="#active-subscriptions"
                                                                             role="tab" aria-controls="icon-home"
                                                                             aria-selected="false" data-bs-original-title=""
                                                                             title="">
@@ -141,8 +141,8 @@
                                                                         </a>
                                                                     </li>
                                                                     <li class="nav-item">
-                                                                        <a class="nav-link active" id="profile-icon-tab"
-                                                                            data-bs-toggle="tab" href="#profile-icon"
+                                                                        <a class="nav-link" id="profile-icon-tab"
+                                                                            data-bs-toggle="tab" href="#renew-subscriptions"
                                                                             role="tab" aria-controls="profile-icon"
                                                                             aria-selected="true" data-bs-original-title=""
                                                                             title="">
@@ -154,7 +154,7 @@
 
                                                                 <div class="tab-content" id="icon-tabContent">
 
-                                                                    <div class="tab-pane fade" id="icon-home"
+                                                                    <div class="tab-pane fade active show" id="active-subscriptions"
                                                                         role="tabpanel" aria-labelledby="icon-home-tab">
                                                                         @foreach ($customer->subscriptions()->onlyTrashed()->get() as $item)
                                                                         @foreach ($item->subscription_lines()->get() as $line)
@@ -182,7 +182,7 @@
                                                                     @endforeach
                                                                     </div>
 
-                                                                    <div class="tab-pane fade active show" id="profile-icon"
+                                                                    <div class="tab-pane" id="renew-subscriptions"
                                                                         role="tabpanel" aria-labelledby="profile-icon-tab">
                                                                         @foreach ($customer->subscriptions()->get() as $item)
                                                                         @foreach ($item->subscription_lines()->get() as $line)
