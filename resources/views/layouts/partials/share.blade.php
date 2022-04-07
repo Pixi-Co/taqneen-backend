@@ -50,3 +50,7 @@
     ->
 
 </div>
+
+<script>
+    $('.dropdown-toggle').dropdown()
+</script>
