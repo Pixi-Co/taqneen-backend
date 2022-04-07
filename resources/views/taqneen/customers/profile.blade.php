@@ -199,10 +199,7 @@
                                                                                     <h6>@trans('expire date'):
                                                                                         {{ $item->expire_date }}</h6>
                                                                                     </p>
-                                                                                    <a target="_blank"
-                                                                                        href="{{ url('/subscriptions') }}/{{ $item->id }}/edit"
-                                                                                        role="button"
-                                                                                        class="btn btn-primary">@trans('edit')</a>
+                                                                                    
                                                                                 </div>
                                                                             </div>
                                                                         @endforeach
