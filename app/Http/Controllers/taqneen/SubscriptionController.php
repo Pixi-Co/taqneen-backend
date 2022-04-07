@@ -183,7 +183,7 @@ class SubscriptionController extends Controller
                 return number_format($row->final_total, 2);
             })
             ->addColumn('share', function ($row) {
-                return view('layouts.partials.share', ["phone" => optional($row->contact)->mobile, "email" => optional($row->contact)->email]);
+                return view('layouts.partials.share', ["phone" => $row->mobile, "email" => $row->email]);
             })
             ->rawColumns(['action', 'share', 'status', 'shipping_custom_field_2', 'is_expire'])
             ->make(true);

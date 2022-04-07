@@ -5,21 +5,17 @@
             @trans('share') <i class="fa fa-bell"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" style="">
-            @if (isset($phone))
-            <a class="dropdown-item" target="_blank" href="https://api.whatsapp.com/send/?phone=966{{ $phone }}&app_absent=0">
+          
+            <a class="dropdown-item" target="_blank" href="https://api.whatsapp.com/send/?phone=966{{ $phone?? '' }}&app_absent=0">
                 @trans('whatsapp') <i class="fa fa-brands fa-whatsapp"></i>
             </a>
-            @endif
-            @if (isset($phone))
-            <a class="dropdown-item"target="_blank" href="tel:{{ $phone }}">
+             
+            <a class="dropdown-item"target="_blank" href="tel:{{ $phone?? '' }}">
                 @trans('call') <i class="fas fa fa-phone"></i>
-            </a>
-            @endif
-            @if (isset($email))
-            <a class="dropdown-item" target="_blank" href="mailto:{{ $email }}">
+            </a>  
+            <a class="dropdown-item" target="_blank" href="mailto:{{ $email?? '' }}">
                 @trans('email') <i class="fas fa fa-envelope"></i>
-            </a>
-            @endif
+            </a> 
         </div>
     </div>
 
