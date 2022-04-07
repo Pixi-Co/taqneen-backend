@@ -196,7 +196,7 @@
                                                                                     </h5>
                                                                                     <p>{{ optional($line->package()->first())->name }}
                                                                                     </p>
-                                                                                    <span class="badge w3-red">{{ __('renewed_') }}</span>
+                                                                                    <span class="badge w3-green">{{ __('active') }}</span>
                                                                                     <p class="card-text">
                                                                                     <h6>@trans('subscription date'):
                                                                                         {{ $item->transaction_date }}</h6>
@@ -217,20 +217,16 @@
                                                             </div>
 
                                                             {{-- <div class="row"> --}}
-                                                            @foreach ($customer->subscriptions()->withTrashed()->get() as $item)
+                                                            @foreach ($customer->subscriptions()->onlyTrashed()->get() as $item)
                                                                 @foreach ($item->subscription_lines()->get() as $line)
-                                                                    <div class="card" style="width: 18rem;">
-                                                                        <!--
-                                                                    <img src="{{ asset('assets/images/opportunities/muqemm.jpg') }}"
-                                                                        class="card-img-top" alt="...">
-                                                                -->
+                                                                    <div class="card" style="width: 18rem;"> 
                                                                         <div class="card-body">
                                                                             <h5 class="card-title">
                                                                                 {{ optional($line->service()->first())->name }}
                                                                             </h5>
                                                                             <p>{{ optional($line->package()->first())->name }}
                                                                             </p>
-                                                                            <span class="badge"></span>
+                                                                            <span class="badge w3-red">{{ __('renewed_') }}</span>
                                                                             <p class="card-text">
                                                                             <h6>@trans('subscription date'):
                                                                                 {{ $item->transaction_date }}</h6>
