@@ -105,7 +105,7 @@ class SubscriptionController extends Controller
 
         if (request()->payment_date_start && request()->payment_date_end) {
             $dates = [
-                request()->payment_start . " 01:00:00",
+                request()->payment_date_start . " 01:00:00",
                 request()->payment_date_end . " 00:00:00"
             ];
             $ids = DB::table('transaction_payments')
