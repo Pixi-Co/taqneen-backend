@@ -11,7 +11,7 @@ class Subscription extends Transaction
 { 
     
     use SoftDeletes;
-    
+
     public static $WAITING = "waiting";
     public static $PROCESSING = "processing";
     public static $PAY_PENDING = "pay_pending";
@@ -34,6 +34,15 @@ class Subscription extends Transaction
         $Transdate = $this->transaction_date;
         $date = Carbon::createFromFormat("Y-m-d H:i:s", $Transdate);
         return $date->addYear()->format('Y-m-d');
+    }
+
+    public function isExpire() {
+        $today = time();
+        $expire = $today > strtotime($this->expire_date)? 1 : '0';
+        $this->is_expire = $expire;
+        $this->update();
+
+        return $expire == 1? true : false;
     }
 
     public function getTransformPhotoUrlAttribute() {

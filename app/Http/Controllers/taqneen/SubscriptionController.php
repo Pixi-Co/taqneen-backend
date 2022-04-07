@@ -144,7 +144,7 @@ class SubscriptionController extends Controller
             ->editColumn('is_expire', function ($row) {
                 $html2 = "";
 
-                if ($row->is_expire == 1)
+                if (!$row->isExpire())
                     $html2 = "<span class='badge w3-green' >" . __("active") . "</span>";
                 else  
                     $html2 = "<span class='badge w3-red' >" . __("expired") . "</span>"; 
