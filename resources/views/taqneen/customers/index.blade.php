@@ -72,20 +72,22 @@
                                                     @foreach($customers as $item)
                                                     @php
                                                         $html = "";
+                                                        $status = optional($item->subscriptions()->first())->status;
 
-                                                        if (optional(optional($item->subscriptions()->first())->isExpire())
+                                                        if (optional($item->subscriptions()->first())->isExpire()) { 
                                                             $html = "<span class='badge w3-red' >" . __("expired") . "</span>"; 
+                                                        }
                                                         else {
-                                                            if (optional(optional($item->subscriptions()->first())->status == App\Subscription::$ACTIVE)
-                                                                $html = "<span class='badge w3-green' >" . __(Subscription::$ACTIVE) . "</span>";
-                                                            else if (optional(optional($item->subscriptions()->first())->status == App\Subscription::$CANCEL)
-                                                                $html = "<span class='badge w3-red' >" . __(Subscription::$CANCEL . "_") . "</span>";
-                                                            else if (optional(optional($item->subscriptions()->first())->status == App\Subscription::$PAY_PENDING)
-                                                                $html = "<span class='badge w3-orange' >" . __(Subscription::$PAY_PENDING) . "</span>";
-                                                            else if (optional(optional($item->subscriptions()->first())->status == App\Subscription::$PROCESSING)
-                                                                $html = "<span class='badge w3-indigo' >" . __(Subscription::$PROCESSING) . "</span>";
-                                                            else if (optional(optional($item->subscriptions()->first())->status == App\Subscription::$WAITING)
-                                                                $html = "<span class='badge w3-yellow' >" . __(Subscription::$WAITING) . "</span>";
+                                                            if ($status == App\Subscription::$ACTIVE)
+                                                                $html = "<span class='badge w3-green' >" . __(App\Subscription::$ACTIVE) . "</span>";
+                                                            else if ($status == App\Subscription::$CANCEL)
+                                                                $html = "<span class='badge w3-red' >" . __(App\Subscription::$CANCEL . "_") . "</span>";
+                                                            else if ($status == App\Subscription::$PAY_PENDING)
+                                                                $html = "<span class='badge w3-orange' >" . __(App\Subscription::$PAY_PENDING) . "</span>";
+                                                            else if ($status == App\Subscription::$PROCESSING)
+                                                                $html = "<span class='badge w3-indigo' >" . __(App\Subscription::$PROCESSING) . "</span>";
+                                                            else if ($status == App\Subscription::$WAITING)
+                                                                $html = "<span class='badge w3-yellow' >" . __(App\Subscription::$WAITING) . "</span>";
                                                             else
                                                                 $html = "<span class='badge w3-gray' >-</span>";
                                                         }
