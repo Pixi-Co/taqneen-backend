@@ -175,7 +175,7 @@ class SubscriptionController extends Controller
             ->editColumn('shipping_custom_field_2', function ($row) {
                 $html = "";
 
-                if ($row->status == "paid")
+                if ($row->shipping_custom_field_2 == "paid")
                     $html = "<span class='badge w3-green' >" . __("paid") . "</span>";
                 else
                     $html = "<span class='badge w3-red' >" . __("not_paid") . "</span>";
