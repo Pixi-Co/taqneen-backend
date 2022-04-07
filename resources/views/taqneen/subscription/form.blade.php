@@ -75,7 +75,7 @@
                                                         @php
                                                             $customerList = [];
                                                             foreach ($customers as $customer) {
-                                                                $customerList[$customer->id] = $customer->name . '-' . $customer->custom_field1;
+                                                                $customerList[$customer->id] = $customer->supplier_business_name . '-' . $customer->custom_field1;
                                                             }
                                                         @endphp
                                                         {!! Form::select('contact_id', $customerList, $subscription->contact_id, ['class' => 'form-control select2', 'placeholder' => __('customer'), 'list' => 'customers', 'id' => 'contact_id', 'onchange' => 'subscription.changeContact()', "required"]) !!}
@@ -307,14 +307,14 @@
                                                                 v-model="resource.contact.first_name">
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="labels">@trans('company_name')</label>
-                                                            <input type="text" class="form-control" readonly
-                                                                v-model="resource.contact.supplier_business_name">
-                                                        </div>
-                                                        <div class="col-md-6">
                                                             <label class="labels">@trans('last_name')</label>
                                                             <input type="text" class="form-control" readonly
                                                                 v-model="resource.contact.last_name">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <label class="labels">@trans('company_name')</label>
+                                                            <input type="text" class="form-control" readonly
+                                                                v-model="resource.contact.supplier_business_name">
                                                         </div>
                                                         <div class="col-md-12">
                                                             <label class="labels">@trans('mobile')</label>
