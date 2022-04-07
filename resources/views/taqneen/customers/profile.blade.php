@@ -131,23 +131,15 @@
                                                             <div class="">
                                                                 <ul class="nav nav-tabs" id="icon-tab" role="tablist">
                                                                     <li class="nav-item">
-                                                                        <a class="nav-link active" id="icon-home-tab"
-                                                                            data-bs-toggle="tab" href="#active-subscriptions"
-                                                                            role="tab" aria-controls="icon-home"
-                                                                            aria-selected="false" data-bs-original-title=""
-                                                                            onclick="$('.sub-card').hide();$('.active-card').show()"
-                                                                            title="">
+                                                                        <a class="nav-link active" id="icon-home-tab" 
+                                                                            onclick="$('.sub-card').hide();$('.active-card').show()" >
                                                                             <i class="icofont icofont-ui-home"></i>
                                                                             {{ __('active_subscriptions') }}
                                                                         </a>
                                                                     </li>
                                                                     <li class="nav-item">
-                                                                        <a class="nav-link" id="profile-icon-tab"
-                                                                            data-bs-toggle="tab" href="#renew-subscriptions"
-                                                                            role="tab" aria-controls="profile-icon"
-                                                                            aria-selected="true" data-bs-original-title=""
-                                                                            onclick="$('.sub-card').hide();$('.renew-card').show()"
-                                                                            title="">
+                                                                        <a class="nav-link" 
+                                                                            onclick="$('.sub-card').hide();$('.renew-card').show()" >
                                                                             <i class="icofont icofont-man-in-glasses"></i>
                                                                             {{ __('renewed_subscriptions') }}
                                                                         </a>
