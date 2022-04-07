@@ -51,7 +51,7 @@
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-5 border-right">
+                                                <div class="col-md-4 border-right">
                                                     <form action="{{ '/customers/' . $customer->id }}" method="POST">
                                                         @csrf
                                                         @method('put')
@@ -119,7 +119,7 @@
                                                         </div>
                                                     </form>
                                                 </div>
-                                                <div class="col-md-4 ">
+                                                <div class="col-md-5">
                                                     <div class="p-3 py-5">
                                                         <div
                                                             class="d-flex justify-content-between align-items-center experience">
