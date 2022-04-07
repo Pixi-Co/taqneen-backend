@@ -154,6 +154,9 @@ class SubscriptionController extends Controller
             ->addColumn('status', function ($row) {
                 $html = "";
 
+                if ($row->isExpire())
+                    return "<span class='badge w3-red' >" . __("expired") . "</span>"; 
+
                 if ($row->status == Subscription::$ACTIVE)
                     $html = "<span class='badge w3-green' >" . __(Subscription::$ACTIVE) . "</span>";
                 else if ($row->status == Subscription::$CANCEL)

@@ -65,8 +65,7 @@
                                                         <th>@trans('final total')</th>
                                                         <th>@trans('sales commission agent')</th>
                                                         <th>@trans('status')</th> 
-                                                        <th>@trans('payment_status')</th> 
-                                                        <th>@trans('is_expire')</th> 
+                                                        <th>@trans('payment_status')</th>  
                                                         <th>@trans('actions')</th>
                                                         <th>@trans('share')</th>
                                                     </tr>
@@ -84,8 +83,7 @@
                                                         <th>@trans('final total')</th>
                                                         <th>@trans('sales commission agent')</th>
                                                         <th>@trans('status')</th> 
-                                                        <th>@trans('payment_status')</th> 
-                                                        <th>@trans('is_expire')</th> 
+                                                        <th>@trans('payment_status')</th>  
                                                         <th>@trans('actions')</th>
                                                         <th>@trans('share')</th>
                                                     </tr>
@@ -273,8 +271,7 @@ var session_layout = '{{ session()->get('layout') }}';
             { data: 'final_total', name: 'transactions.final_total' },
             { data: 'created_by', name: 'transactions.created_by' },
             { data: 'status', name: 'transactions.status' },
-            { data: 'shipping_custom_field_2', name: 'transactions.shipping_custom_field_2' },
-            { data: 'is_expire', name: 'transactions.is_expire' },
+            { data: 'shipping_custom_field_2', name: 'transactions.shipping_custom_field_2' }, 
             { data: 'action', name: 'action' },
             { data: 'share', name: 'share' },
         ],
