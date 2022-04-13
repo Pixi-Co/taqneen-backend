@@ -32,7 +32,7 @@ class CalendarController extends Controller
         )
             ->where('business_id', $business_id);
 
-        if (!auth()->user()->isAdmin()) {
+        if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions'))) {
             $query->onlyMe();
         }
 
@@ -67,8 +67,8 @@ class CalendarController extends Controller
             $events[] = [
                 'title' => $view,
                 'title_html' => $view,
-                'start' => $resource['transaction_date'],
-                'end' => $resource['transaction_date'],
+                'start' => $resource->expire_date,
+                'end' => $resource->expire_date,
                 'customer_name' =>  $view,
                 'table' => "table",
                 'url' => "/subscriptions/" . $resource->id . "/edit",

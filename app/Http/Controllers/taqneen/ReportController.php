@@ -16,74 +16,151 @@ class ReportController extends Controller
 {
     public function services()
     {
-        $query = Category::join(
-            'taqneen_package',
-            'taqneen_package.service_id',
-            '=',
-            'categories.id'
-        )->select(
-            '*',
-            'taqneen_package.name as package_name',
-            'categories.name as service_name',
-            'taqneen_package.type as service_type',
-            DB::raw('(select sum(final_total) from transactions where transactions.id in (select transaction_id from subscription_lines where subscription_lines.package_id = taqneen_package.id)) as subscription_total'),
-            DB::raw('(select sum(final_total) from transactions where is_renew != 1 and transactions.id in (select transaction_id from subscription_lines where subscription_lines.package_id = taqneen_package.id)) as subscription_new_total'),
-            DB::raw('(select sum(final_total) from transactions where is_renew = 1 and  transactions.id in (select transaction_id from subscription_lines where subscription_lines.package_id = taqneen_package.id)) as subscription_renew_total'),
-        )
-            ->where('category_type', 'service')
-            ->where('categories.business_id', session('business.id'))
-            ->where('categories.parent_id', '0')
-            ->latest('categories.created_at');
+        $business_id = request()->session()->get('user.business_id');
 
-        if (request()->service_id > 0) {
-            $query->where('categories.id', request()->service_id);
+        $query = Subscription::query()
+        ->where('transactions.business_id', $business_id)
+        ->where('is_renew', '0');
+ 
+
+        if (find_or_create_p('subscriptions.own_data', 'subscriptions')) {
+            $query->where('transactions.created_by', auth()->user()->id);
+        }  
+
+        if (request()->payment_status) {
+            $query->where('transactions.shipping_custom_field_2', request()->payment_status);
         }
 
-        if (request()->type) {
-            $query->where('taqneen_package.type', request()->type);
+        if (request()->register_date_start && request()->register_date_end) {
+            $dates = [
+                request()->register_date_start . " 01:00:00",
+                request()->register_date_end . " 00:00:00"
+            ];
+            $query->whereBetween('transactions.shipping_custom_field_1', $dates);
         }
 
-        $resources = $query->get();
-        $services = Category::where('business_id', session('business.id'))->where('category_type', 'service')->get();
+        if (request()->transaction_date_start && request()->transaction_date_end) {
+            $dates = [
+                request()->transaction_date_start . " 01:00:00",
+                request()->transaction_date_end . " 00:00:00"
+            ];
+            $query->whereBetween('transactions.transaction_date', $dates);
+        }
 
-        return view('taqneen.reports.services_report', compact('resources', 'services'));
+        if (request()->expire_date_start && request()->expire_date_end) {
+            $dates = [
+                request()->expire_date_start,
+                request()->expire_date_end
+            ];
+            $query->whereBetween('transactions.expire_date', $dates);
+        }
+
+        if (request()->payment_date_start && request()->payment_date_end) {
+            $dates = [
+                request()->payment_date_start . " 01:00:00",
+                request()->payment_date_end . " 00:00:00"
+            ];
+            $ids = DB::table('transaction_payments')
+                ->where('business_id', session('business.id'))
+                ->whereBetween('paid_on', $dates)
+                ->whereNotNull('transaction_id')
+                ->select('transaction_id')
+                ->distinct()
+                ->pluck('transaction_id')->toArray();
+            $query->whereIn("transactions.id", $ids);
+        }
+
+        $resources = Category::where('business_id', session('user.business_id'))->where('category_type', 'service')->get(); 
+ 
+        foreach($resources as $resource) {
+            $queryClone = clone $query;
+            $ids = DB::table('subscription_lines')
+                ->where('service_id', $resource->id)
+                ->select('transaction_id')
+                ->distinct()
+                ->pluck('transaction_id')->toArray(); 
+
+            $resource->number = $queryClone->whereIn("transactions.id", $ids)->count();
+            $resource->sum = $queryClone->whereIn("transactions.id", $ids)->sum('final_total');
+        }
+
+        if (request()->ajax()) {
+            return responseJson(1, count($resources) . " " . __('data_found'), view('taqneen.reports.services_report', compact('resources'))->render());
+        }
+ 
+        return view('taqneen.reports.services_report', compact('resources'));
     }
 
     public function salesComissions()
     {
-        $where = "";
-
         
+        $business_id = request()->session()->get('user.business_id');
 
+        $query = Subscription::query()
+        ->where('transactions.business_id', $business_id)
+        ->where('is_renew', '0');
+ 
 
-        $query = User::select(
-            '*',
-            //DB::raw('(select sum(final_total) from transactions where is_renew=0 and transactions.business_id = users.business_id) as subscription_new_total'),
-            //DB::raw('(select sum(final_total) from transactions where is_renew=1 and renew_date > expire_date and transactions.business_id = users.business_id) as subscription_renew_after_expire_total'),
-            //DB::raw('(select sum(final_total) from transactions where is_renew=1 and renew_date < expire_date and transactions.business_id = users.business_id) as subscription_renew_before_expire_total'),
-            //DB::raw('(select sum(final_total - tax_amount) from transactions where transactions.business_id = users.business_id) as subscription_before_tax_total'),
-            //DB::raw('(select sum(final_total) from transactions where transactions.business_id = users.business_id) as subscription_after_tax_total'),
-            DB::raw('(select count(id) from contacts as opport where opport.converted_by = users.id) as opportunity_count'),
-        )
+        if (find_or_create_p('subscriptions.own_data', 'subscriptions')) {
+            $query->where('transactions.created_by', auth()->user()->id);
+        }  
 
-        /*$query = User::query()->join(
-            "transactions", "transactions.created_by", "=", "users.id"
-        )*/
-        ->where('business_id', session('business.id'));
+        if (request()->payment_status) {
+            $query->where('transactions.shipping_custom_field_2', request()->payment_status);
+        }
 
-        if (request()->user_id > 0) {
-            $query->where('users.id', request()->user_id);
-        } 
+        if (request()->register_date_start && request()->register_date_end) {
+            $dates = [
+                request()->register_date_start . " 01:00:00",
+                request()->register_date_end . " 00:00:00"
+            ];
+            $query->whereBetween('transactions.shipping_custom_field_1', $dates);
+        }
 
+        if (request()->transaction_date_start && request()->transaction_date_end) {
+            $dates = [
+                request()->transaction_date_start . " 01:00:00",
+                request()->transaction_date_end . " 00:00:00"
+            ];
+            $query->whereBetween('transactions.transaction_date', $dates);
+        }
 
-        $resources = $query->get();
+        if (request()->expire_date_start && request()->expire_date_end) {
+            $dates = [
+                request()->expire_date_start,
+                request()->expire_date_end
+            ];
+            $query->whereBetween('transactions.expire_date', $dates);
+        }
 
-        //dd($opportunities->toArray());
-        $ops = Contact::where('business_id', session('business.id'))->where('type', 'opportunity')->get();
-        $services = Category::where('business_id', session('business.id'))->where('category_type', 'service')->get();
-        $users = User::forDropdown(session('business_id'));
+        if (request()->payment_date_start && request()->payment_date_end) {
+            $dates = [
+                request()->payment_date_start . " 01:00:00",
+                request()->payment_date_end . " 00:00:00"
+            ];
+            $ids = DB::table('transaction_payments')
+                ->where('business_id', session('business.id'))
+                ->whereBetween('paid_on', $dates)
+                ->whereNotNull('transaction_id')
+                ->select('transaction_id')
+                ->distinct()
+                ->pluck('transaction_id')->toArray();
+            $query->whereIn("transactions.id", $ids);
+        }
 
-        return view('taqneen.reports.sales_commision_reportes', compact('resources', 'services', 'users'));
+        $resources = User::where('user_type','user')->where('business_id', session('business.id'))->latest()->get();
+ 
+        foreach($resources as $resource) {
+            $queryClone = clone $query;  
+            $resource->number = $queryClone->where("created_by", $resource->id)->count();
+            $resource->sum = $queryClone->where("created_by", $resource->id)->sum('final_total');
+        }
+
+        if (request()->ajax()) {
+            return responseJson(1, count($resources) . " " . __('data_found'), view('taqneen.reports.sales_commision_reportes', compact('resources'))->render());
+        }
+ 
+        return view('taqneen.reports.sales_commision_reportes', compact('resources'));
     }
 
 

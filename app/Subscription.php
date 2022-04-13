@@ -108,7 +108,8 @@ class Subscription extends Transaction
                 DB::raw("(select paid_on from transaction_payments where transaction_payments.transaction_id = transactions.id) as paid_on"),
             )->first(); 
 
- 
+
+        $resource->note = optional($resource->subscription_notes()->latest()->first())->note;
         //$resource->invoice_url = url('/subscriptions/print') . "/" . $this->getTokenAttribute();
         return optional($resource)->$tag;
     }
@@ -122,14 +123,16 @@ class Subscription extends Transaction
 
     public function getExpireStatusForCalendar() {
         $now = Carbon::now()->addDays(30)->format('Y-m-d');
+        $expDate = Carbon::createFromFormat("Y-m-d", $this->expire_date);
+        $days = $expDate->diffInDays($now);
         
-        if (str_contains($this->transaction_date, $now)) {
+        if ($days <= 30) {
             return [
-                "will_expire_in_month", "#ffeb3b"
+                "will_expire_in_month", "#d2be0e"
             ];
         }
 
-        if (str_contains($this->expire_date, $now)) {
+        if ($now > $expDate) {
             return [
                 "expired", "#f44336"
             ];

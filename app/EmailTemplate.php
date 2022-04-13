@@ -23,6 +23,7 @@ class EmailTemplate extends Model
         "EXPIRE_SUBSCRIPTION_AFTER_1_WEEKS" => "expire subscription after 1 week",
         "ADD_OPPORTUNITY" => "add opportunities",
         "ADD_CUSTOMER_FORM" => "add customer form",
+        "ADD_SUBSCRIPTION_NOTE" => "add subscription note",
     ];
 
     public static $TAGS = [
@@ -39,7 +40,8 @@ class EmailTemplate extends Model
         '{customer_form_name}' => "customer_form_name",
         '{customer_form_user}' => "customer_form_user",
         '{customer_form_pdf_url}' => "customer_form_pdf_url",
-        '{customer_form_pdf}' => "customer_form_pdf"
+        '{customer_form_pdf}' => "customer_form_pdf",
+        '{subscription_note}' => "note"
     ];
     
     public static function getTemplate($triger) {

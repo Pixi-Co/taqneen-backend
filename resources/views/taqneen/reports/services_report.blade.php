@@ -14,12 +14,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@trans('services report')</h3>
+    <h3>@trans('customers')</h3>
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">@trans('dashboard')</li>
-    <li class="breadcrumb-item active">@trans('services report')</li>
+    <li class="breadcrumb-item">@trans('dashboard_')</li>
+    <li class="breadcrumb-item active">@trans('customers')</li>
 @endsection
 
 @section('content')
@@ -39,66 +39,79 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="card">
-                                        <form action="" method="GET">
+                                        <form action="" class="form" method="GET" id="filterForm" >
                                             <div class="card-header">
-                                                <div class="row">
-                                                    <div class="form-group mx-2 p-0 mb-3"
-                                                        style="width: 400px; height: 40px">
-                                                        <label for="">@trans('service')</label>
-                                                        <select name="service_id" class="form-select  mb-3 ">
-                                                            <option value="">@trans('all')</option>
-                                                            @foreach ($services as $item)
-                                                                <option value="{{ $item->id }}">{{ $item->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                                <div class="row"> 
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="">@trans('register_date')</label>
+                                                            <input type="text"  class="form-control dateranger register_date"  >
+                                                            <input type="hidden" name="register_date_start" class="register_date_start" >
+                                                            <input type="hidden" name="register_date_end" class="register_date_end" >
+                                                        </div>
+                                                    </div>  
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="">@trans('transaction_date')</label>
+                                                            <input type="text"  class="form-control dateranger transaction_date"  >
+                                                            <input type="hidden" name="transaction_date_start" class="transaction_date_start" >
+                                                            <input type="hidden" name="transaction_date_end" class="transaction_date_end" >
+                                                        </div>
+                                                    </div>  
+
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="">@trans('expire date')</label>
+                                                            <input type="text"  class="form-control dateranger expire_date"  >
+                                                            <input type="hidden" name="expire_date_start" class="expire_date_start" >
+                                                            <input type="hidden" name="expire_date_end" class="expire_date_end" >
+                                                        </div>
+                                                    </div>  
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="">@trans('payment date')</label>
+                                                            <input type="text"  class="form-control dateranger payment_date"  >
+                                                            <input type="hidden" name="payment_date_start" class="payment_date_start" >
+                                                            <input type="hidden" name="payment_date_end" class="payment_date_end" >
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="">@trans('payment status')</label>
+                                                            <select name="payment_status" class="form-select  mb-3 subscription_type">
+                                                                <option value="">@trans('all')</option>
+                                                                <option value="paid">@trans('paid')</option>
+                                                                <option value="not_paid">@trans('not_paid')</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
 
-                                                    <div class="form-group mx-2 p-0 mb-3"
-                                                        style="width: 400px; height: 40px">
-                                                        <label for="">@trans('service type')</label>
-                                                        <select name="type" class="form-select  mb-3 ">
-                                                            <option value="">@trans('all')</option>
-                                                            <option value="include">@trans('include')</option>
-                                                            <option value="process">@trans('process')</option>
-                                                        </select>
-                                                    </div>
                                                 </div>
                                                 <div class="form-group mt-4" style="width: 400px; height: 40px">
-                                                    <input type="submit" class="btn btn-primary" value="@trans('submit')">
-                                                    <button type="reset" class="btn btn-primary"> @trans('reset')</button>
+                                                    <button type="submit" class="btn btn-primary" >@trans('submit')</button>
+                                                    <button type="button" onclick="$('.form').find('input, select').val('')" class="btn btn-primary"> @trans('reset')</button>
                                                 </div>
                                             </div>
                                         </form>
                                         <div class="card-body">
-                                            <br>
-                                            <div id="chart"></div>
-                                            <br>
-                                            <br>
 
-                                            <div class="table-responsive pt-3">
-                                                <table class="display" id="advance-4">
+                                            <div class="table-responsive pt-3" id="reportTableContainer" >
+                                                <table class="display" id="reportTable">
                                                     <thead>
                                                         <tr>
                                                             <th>#</th>
-                                                            <th>@trans('service')</th>
-                                                            <th>@trans('package')</th>
-                                                            <th>@trans('service type')</th>
-                                                            <th>@trans('total')</th>
-                                                            <th>@trans('new subscription')</th>
-                                                            <th>@trans('renew subscription')</th>
+                                                            <th>@trans('service')</th> 
+                                                            <th>@trans('number')</th> 
+                                                            <th>@trans('total')</th> 
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach ($resources as $item)
+                                                        @foreach ($resources as $resource)
                                                             <tr>
-                                                                <td>{{ $loop->iteration }}</td>
-                                                                <td>{{ $item->service_name }}</td>
-                                                                <td>{{ $item->package_name }}</td>
-                                                                <td>{{ $item->service_type }}</td>
-                                                                <td>{{ $item->subscription_total }}</td>
-                                                                <td>{{ $item->subscription_new_total }}</td>
-                                                                <td>{{ $item->subscription_renew_total }}</td>
+                                                                <td>{{ $loop->iteration }}</td> 
+                                                                <td>{{ $resource->name }}</td> 
+                                                                <td>{{ $resource->number }}</td> 
+                                                                <td>{{ number_format($resource->sum, 2) }} SAR</td> 
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -147,36 +160,50 @@
     <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
 
     <script>
-        var options = {
-            series: [
+        function initDatatable() {
+            $('#reportTable').DataTable({
+                "lengthMenu": [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ]
+            });
+        }
+        
+    $(document).ready(function(){
+        initDatatable();
+        initDateRanger();
 
-                @foreach ($resources as $item)
-                    {{ round($item->subscription_total, 2) }},
-                @endforeach
-            ],
-            chart: {
-                width: 380,
-                type: 'pie',
-            },
-            labels: [ 
-                @foreach ($resources as $item)
-                    '{{ $item->service_name }}',
-                @endforeach
-            ],
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200
-                    },
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }]
-        };
+        $('.transaction_date').change(function(){
+            $('.transaction_date_start').val($('.transaction_date').attr('data-start'));
+            $('.transaction_date_end').val($('.transaction_date').attr('data-end'));
+        });
 
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
+        $('.register_date').change(function(){
+            $('.register_date_start').val($('.register_date').attr('data-start'));
+            $('.register_date_end').val($('.register_date').attr('data-end'));
+        });
+
+        $('.expire_date').change(function(){
+            $('.expire_date_start').val($('.expire_date').attr('data-start'));
+            $('.expire_date_end').val($('.expire_date').attr('data-end'));
+        });
+
+        $('.payment_date').change(function(){
+            $('.payment_date_start').val($('.payment_date').attr('data-start'));
+            $('.payment_date_end').val($('.payment_date').attr('data-end'));
+        });
+
+        // 
+        document.getElementById('filterForm').reset();
+
+        formAjax(true, function(res){
+
+            var container = document.createElement('div');
+            container.innerHTML = res.data;
+ 
+            $('#reportTableContainer').html($(container).find('#reportTableContainer').html()); 
+            initDatatable();
+        });
+    });
     </script>
 @endsection

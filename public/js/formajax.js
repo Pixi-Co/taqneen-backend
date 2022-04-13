@@ -56,11 +56,24 @@ function formAjax(edit, action, selector, load, show_message) {
 
             console.log("formdata", formdata);
 
+            // object of form data 
+            var object = {};
+            formdata.forEach(function(value, key) {
+                object[key] = value;
+            });
+
             //sendPost(this.action, formdata, function(r){console.log(r);});
+            var method = self.method;
+            var url = this.action;
+
+            if (method.toLocaleLowerCase() == 'get') {
+                console.log(object);
+                url += "?" + $.param(object);
+            }
 
             $.ajax({
-                url: this.action,
-                type: 'POST',
+                url: url,
+                type: method,
                 data: formdata,
                 processData: false, // tell jQuery not to process the data
                 contentType: false, // tell jQuery not to set contentType

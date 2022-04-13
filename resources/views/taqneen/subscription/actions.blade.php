@@ -7,6 +7,12 @@
         <i style="margin-top: 4px;" class="fa fa-edit"></i>
     </a>
     @endcan
+     
+    <a target="_blank" href="{{ url('/subscriptions/') }}/{{ $row->id }}/edit"
+        style="width: 25px!important;height: 25px!important;border-radius: 5em!important;padding: 4px!important"
+        class="btn w3-white w3-text-indigo material-shadow">
+        <i style="margin-top: 4px;" class="fa fa-eye"></i>
+    </a> 
 
     @can(find_or_create_p('subscription.view'))
     <a target="_blank" href="{{ url('/subscriptions/') }}/{{ $row->id }}"

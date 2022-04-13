@@ -73,6 +73,9 @@
                         </tr>
                     </thead>
                     <tbody>
+                    @php
+                        $total = 0;
+                    @endphp
                         
                    @foreach ($resource->subscription_lines()->get() as $item    )
                    <tr class="text-center">
@@ -89,79 +92,13 @@
                         {{ optional($item->package()->first())->name }}
                     </td>
                     <td >
-                        {{ $item->total }}
+                        {{ number_format($item->total, 2) }}
                     </td>
                 </tr>
-                   @endforeach
-                    {{-- <tr class="text-center">
-                        <td>
-                            <input type="text" class="form-control border border-white" style="height: 25px">
-                        </td >
-                        <td>
-                            <input type="text" class="form-control border border-white"style="height: 25px" />
-                        </td>
-                        <td>
-                            <input type="text" class="form-control border border-white" style="height: 25px"/>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control border border-white" style="height: 25px"/>
-                        </td>
-                        <td >
-                            <input type="text" class="form-control border border-white" style="height: 25px"/>
-                        </td>
-                    </tr>
-                    <tr class="text-center">
-                        <td>
-                            <input type="text" class="form-control border border-white" style="height: 25px">
-                        </td >
-                        <td>
-                            <input type="text" class="form-control border border-white"style="height: 25px" />
-                        </td>
-                        <td>
-                            <input type="text" class="form-control border border-white" style="height: 25px"/>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control border border-white" style="height: 25px"/>
-                        </td>
-                        <td >
-                            <input type="text" class="form-control border border-white" style="height: 25px"/>
-                        </td>
-                    </tr>
-                    <tr class="text-center">
-                        <td>
-                            <input type="text" class="form-control border border-white" style="height: 25px">
-                        </td >
-                        <td>
-                            <input type="text" class="form-control border border-white"style="height: 25px" />
-                        </td>
-                        <td>
-                            <input type="text" class="form-control border border-white" style="height: 25px"/>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control border border-white" style="height: 25px"/>
-                        </td>
-                        <td >
-                            <input type="text" class="form-control border border-white" style="height: 25px"/>
-                        </td>
-                    </tr>
-                    <tr class="text-center">
-                        <td>
-                            <input type="text" class="form-control border border-white" style="height: 25px">
-                        </td >
-                        <td>
-                            <input type="text" class="form-control border border-white"style="height: 25px" />
-                        </td>
-                        <td>
-                            <input type="text" class="form-control border border-white" style="height: 25px"/>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control border border-white" style="height: 25px"/>
-                        </td>
-                        <td >
-                            <input type="text" class="form-control border border-white" style="height: 25px"/>
-                        </td>
-                    </tr> --}}
-                   
+                @php
+                    $total += $item->total;
+                @endphp
+                   @endforeach 
                     <tr class="text-center" >
                         <td class="border-0" style="height:25px;"></td>
                         <td class="border-0" style="height:25px;"></td>
@@ -169,7 +106,7 @@
                         <th style="background: #D9D9D9; height: 25px;" class=" p-2
                         ">القيمة بدون الضريبة</th>
                         <td>
-                            {{ $resource->final_total - $resource->tax_amount }}
+                            {{ number_format($total, 2) }}
                         </td>
                     </tr>
 
@@ -179,7 +116,7 @@
                         <td class="border border-white"></td> 
                         <th style="background: #D9D9D9; height: 25px;" class=" p-2">الضريبة المضافة</th>
                         <td>
-                            {{ $resource->tax_amount }}
+                            {{ number_format(($resource->tax_amount / 100) * $total, 2) }}
                         </td>
                     </tr>
 
@@ -189,7 +126,7 @@
                         <td class="border-white"></td> 
                         <th style="background: #D9D9D9;" class=" p-2"> رسوم منصة </th>
                         <td>
-                            {{ $resource->custom_field_2 }}
+                            {{ number_format($resource->custom_field_2? $resource->custom_field_2 : 0, 2) }}
                         </td>
                     </tr>
 
@@ -199,7 +136,7 @@
                         <td class="border border-white" style="border-top: white; border-bottom: white;"></td> 
                         <th style="background: #D9D9D9; " class=" p-2">اجمالي القيمة المستحقة</th>
                         <td>
-                            {{ $resource->final_total }} 
+                            {{ number_format($resource->final_total, 2) }} 
                         </td>
                     </tr>
 

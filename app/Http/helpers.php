@@ -581,13 +581,14 @@ if (!function_exists('format_currency')) {
 }
 
 if (!function_exists('find_or_create_p')) {
-    function find_or_create_p($name)
+    function find_or_create_p($name, $group='')
     {
         $p = Permission::where('name', $name)->first();
 
         if (!$p) {
             $p = Permission::create([
-                "name" => $name
+                "name" => $name,
+                "group" => $group,
             ]);
         }
 

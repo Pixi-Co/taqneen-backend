@@ -52,9 +52,9 @@ class SubscriptionController extends Controller
         )
         ->where('transactions.business_id', $business_id)
         ->where('is_renew', '0');
+ 
 
-
-        if (!auth()->user()->isAdmin()) {
+        if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions'))) {
             $query->where('transactions.created_by', auth()->user()->id);
         }
 
@@ -223,9 +223,9 @@ class SubscriptionController extends Controller
         $customers = Contact::where('business_id', $business_id)
             ->onlyCustomers()
             ->where(function ($query) {
-                if (!auth()->user()->isAdmin()) {
+                if (auth()->user()->can(find_or_create_p('customers.own_data', 'customers'))) {
                     $query->onlyMe();
-                }
+                } 
             })
             ->get();
         $customerObject = Contact::getObject();
@@ -235,7 +235,8 @@ class SubscriptionController extends Controller
         $taxs = TaxRate::getObject();
         $expenses = ExpenseCategory::getObject();
         $expensesList = ExpenseCategory::where('business_id', $business_id)->pluck("name", "id")->toArray();
-        $disabled = auth()->user()->can(find_or_create_p('subscription.edit_courier')) ? "" : "disabled";
+        $disabled = '';//auth()->user()->can(find_or_create_p('subscription.edit_courier')) ? "" : "disabled";
+        $editCourier = auth()->user()->can(find_or_create_p('subscription.edit_courier')) ? "" : "disabled";
         $subscription->created_by = auth()->user()->id;
         $subscription->contact = new Subscription();
         $roles = Role::where('business_id', session('business.id'))
@@ -267,6 +268,9 @@ class SubscriptionController extends Controller
             "not_paid" => __('not_paid')
         ];
         $walk_in_customer = (new ContactUtil())->getWalkInCustomer($business_id);
+        $subscription->transaction_date = date('Y-m-d\TH:i');
+        $subscription->shipping_custom_field_1 = date('Y-m-d\TH:i');
+        $payment->paid_on = date('Y-m-d\TH:i');
 
         return view('taqneen.subscription.form', compact(
             "subscription",
@@ -286,6 +290,7 @@ class SubscriptionController extends Controller
             "customerObject",
             "payment_status",
             "roles",
+            "editCourier",
         ));
     }
 
@@ -298,9 +303,9 @@ class SubscriptionController extends Controller
         $customers = Contact::where('business_id', $business_id)
             ->onlyCustomers()
             ->where(function ($query) {
-                if (!auth()->user()->isAdmin()) {
+                if (auth()->user()->can(find_or_create_p('customers.own_data', 'customers'))) {
                     $query->onlyMe();
-                }
+                } 
             })
             ->get();
         $customerObject = Contact::getObject();
@@ -377,6 +382,8 @@ class SubscriptionController extends Controller
                 "notes" => $request->notes,
             ]);
 
+        // fire renew triger
+        Triger::fire(Triger::$ADD_SUBSCRIPTION_NOTE, $id);
         return responseJson(1, __('done'));
     }
 
@@ -705,6 +712,7 @@ class SubscriptionController extends Controller
                 "custom_field1" => $request->custom_field1,
                 "mobile" => $request->mobile,
                 "email" => $request->email,
+                "city" => $request->city,
                 "state" => $request->state,
                 "address_line_1" => $request->address_line_1,
                 "address_line_2" => $request->address_line_2,

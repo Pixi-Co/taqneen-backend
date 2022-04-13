@@ -25,9 +25,9 @@ class CustomerController extends Controller
         ->where('business_id', session('business.id'))
         ->latest();
         
-        if (!auth()->user()->isAdmin()) { 
+        if (auth()->user()->can(find_or_create_p('customers.own_data', 'customers'))) {
             $query->onlyMe();
-        }
+        } 
 
         $customers = $query->get();
         return view('taqneen.customers.index',compact('customers'));
@@ -97,6 +97,7 @@ class CustomerController extends Controller
                 "zip_code" => $request->zip_code,
                 "first_name" => $request->first_name,
                 "last_name" => $request->last_name,
+                "city" => $request->city,
                 "name" => $request->first_name .' '. $request->last_name,
                 "business_id" =>session('business.id'),
                 "created_by" => session('user.id'),

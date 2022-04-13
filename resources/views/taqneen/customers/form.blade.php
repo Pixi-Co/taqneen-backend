@@ -73,11 +73,6 @@
                                                  <label>@trans('accountant no')</label>
                                                  <input type="text" name="custom_field1" class="form-control" placeholder="@trans('acountant no')" value="{{ $customer->custom_field1 }}" >
                                              </div>
-                                             
-                                             <div class="form-group col-md-4">
-                                                 <label>@trans('Phone')</label>
-                                                 <input type="text" name="mobile" class="form-control" placeholder="@trans('phone ')" value="{{ $customer->mobile }}" required>
-                                             </div>
 
                                              <div class="form-group col-md-6 pt-3">
                                                  <label>@trans('state_')</label>
@@ -98,6 +93,11 @@
                                                  <label>@trans('zip_code')</label>
                                                  <input type="text" name="zip_code" class="form-control" placeholder="@trans(' Zip Code  ')" value="{{ $customer->zip_code }}">
                                              </div>
+                                             
+                                             <div class="form-group col-md-4 pt-3">
+                                                 <label>@trans('city')</label>
+                                                 <input type="text" name="city" class="form-control" placeholder="@trans('city')" value="{{ $customer->city }}">
+                                             </div>
                      
                                              
                                          </div>
@@ -107,14 +107,19 @@
                                         <fieldset >
                                             <legend>@trans('Customer Info')</legend>
                                             <div class="row">
-                                             <div class="form-group col-md-4">
-                                                 <label>@trans('First Name')</label>
-                                                 <input type="text" name="first_name" class="form-control" placeholder="@trans('first name')" value="{{ $customer->first_name}}" required>
-                                             </div>
-                                             <div class="form-group col-md-4">
-                                                 <label>@trans('Last Name')</label>
-                                                 <input type="text" name="last_name" class="form-control" placeholder="@trans('last name')" value="{{ $customer->last_name }}" required>
-                                             </div>
+                                             
+                                                <div class="form-group col-md-4">
+                                                    <label>@trans('Phone')</label>
+                                                    <input type="text" name="mobile" class="form-control" placeholder="@trans('phone ')" value="{{ $customer->mobile }}" required>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label>@trans('First Name')</label>
+                                                    <input type="text" name="first_name" class="form-control" placeholder="@trans('first name')" value="{{ $customer->first_name}}" required>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label>@trans('Last Name')</label>
+                                                    <input type="text" name="last_name" class="form-control" placeholder="@trans('last name')" value="{{ $customer->last_name }}" required>
+                                                </div>
                                          </div>
                                          
                                         </fieldset> <br><br>

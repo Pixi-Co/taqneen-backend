@@ -59,14 +59,7 @@
 
                                                 <div class="mt-3 my-3">
                                                     <label for="">@trans('status')</label>
-
-                                                    @if(auth()->user()->can(find_or_create_p('subscription.edit_status')) || auth()->user()->isAdmin())
                                                     {!! Form::select('status', $status, $subscription->status, ['class' => 'form-select']) !!}
-                                                    @endif
-
-                                                    @if(!auth()->user()->can(find_or_create_p('subscription.edit_status')) || !auth()->user()->isAdmin())
-                                                    {!! Form::text("status", $subscription->status? $subscription->status : $status['waiting'], ['class' => 'form-control']) !!}
-                                                    @endif
                                                 </div>
 
 
@@ -98,7 +91,7 @@
 
                                                 <div class="form-group mb-3">
                                                     <label class="my-2" for="user_id">@trans("courier")</label> *
-                                                    {!! Form::select('created_by', $users, $subscription->created_by, ['class' => 'form-select', $disabled, "required"]) !!}
+                                                    {!! Form::select('created_by', $users, $subscription->created_by, ['class' => 'form-select', $disabled, "required", isset($editCourier)? $editCourier : '']) !!}
                                                 </div>
 
 
@@ -168,8 +161,8 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <label class="my-2" for="user_id">@trans("taxs section")</label>
-                                                        <select class="form-select" name="tax_id" id="tax_id"
-                                                            v-model="resource.tax_id" onchange="subscription.changeTax()">
+                                                        <select class="form-select" {{ $disabled }} name="tax_id" id="tax_id"
+                                                            __v-model="resource.tax_id" onchange="subscription.changeTax()">
                                                             <option value="">@trans('select tax')</option>
                                                             @foreach ($taxs as $item)
                                                                 <option value="{{ $item->id }}">{{ $item->name }}
@@ -180,7 +173,7 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label class="my-2" for="user_id">@trans("taxs amount")</label>
-                                                        <input type="text" name="tax_amount" class="form-control" readonly
+                                                        <input type="text" name="tax_amount" {{ $disabled }} class="form-control" readonly
                                                             v-model="resource.tax_amount">
                                                     </div>
                                                 </div>
@@ -188,7 +181,7 @@
                                                 <div class="row mt-2">
                                                     <div class="col-md-6">
                                                         <label class="labels">@trans('additional expenses')</label>
-                                                        {!! Form::select('expenses', $expensesList, $subscription->expenses, ['multiple', 'class' => 'form-control select2 expenses', 'onchange' => 'subscription.changeExpenses()']) !!}
+                                                        {!! Form::select('expenses', $expensesList, $subscription->expenses, ['multiple', 'class' => 'form-control select2 expenses', 'onchange' => 'subscription.changeExpenses()', $disabled]) !!}
                                                         {!! Form::hidden('custom_field_1', $subscription->custom_field_1, ['class' => 'expenses_hidden']) !!}
                                                     </div>
                                                     <div class="col-md-6">
@@ -209,27 +202,27 @@
                                                 <div class="form-group mb-3">
                                                     <label class="my-2" for="inputName">@trans('subscription
                                                         date')</label> *
-                                                    {!! Form::datetimeLocal('transaction_date', $subscription->transaction_date, ['class' => 'form-control', "required"]) !!}
+                                                    {!! Form::datetimeLocal('transaction_date', $subscription->transaction_date, ['class' => 'form-control', "required", $disabled]) !!}
                                                 </div>
 
                                                 <div class="form-group mb-3">
                                                     <label class="my-2" for="inputName">@trans('register date')</label> *
-                                                    {!! Form::datetimeLocal('shipping_custom_field_1', $subscription->shipping_custom_field_1, ['class' => 'form-control', "required"]) !!}
+                                                    {!! Form::datetimeLocal('shipping_custom_field_1', $subscription->shipping_custom_field_1, ['class' => 'form-control', "required", $disabled]) !!}
                                                 </div>
 
                                                 <div class="mt-3 my-3">
                                                     <label for="">@trans('payment status')</label>
-                                                    {!! Form::select('shipping_custom_field_2', $payment_status, $subscription->shipping_custom_field_2, ['class' => 'form-select mb-3', 'onchange' => 'subscription.checkOnPaymentStatus(this.value)']) !!}
+                                                    {!! Form::select('shipping_custom_field_2', $payment_status, $subscription->shipping_custom_field_2, ['class' => 'form-select mb-3', 'onchange' => 'subscription.checkOnPaymentStatus(this.value)', $disabled]) !!}
                                                 </div>
 
                                                 <div class="mt-3 my-3 payment_field">
                                                     <label for="">@trans('payment method')</label>
-                                                    {!! Form::select('payment[method]', $payment_methods, $payment->method, ['class' => 'form-select']) !!}
+                                                    {!! Form::select('payment[method]', $payment_methods, $payment->method, ['class' => 'form-select', $disabled]) !!}
                                                 </div>
 
                                                 <div class="form-group mb-3 payment_field">
                                                     <label class="my-2" for="inputName">@trans('photo of transform')</label>
-                                                    {!! Form::file('custom_field_3', ['class' => 'form-control']) !!}
+                                                    {!! Form::file('custom_field_3', ['class' => 'form-control', $disabled]) !!}
                                                     @if ($subscription->transform_photo_url)
                                                     <img src="{{ $subscription->transform_photo_url }}" width="100px" alt="">
                                                     @endif
@@ -237,17 +230,17 @@
 
                                                 <div class="form-group mb-3 payment_field">
                                                     <label class="my-2" for="inputName">@trans('number of transform')</label>
-                                                    {!! Form::text('custom_field_4', $subscription->custom_field_4, ['class' => 'form-control']) !!}
+                                                    {!! Form::text('custom_field_4', $subscription->custom_field_4, ['class' => 'form-control', $disabled]) !!}
                                                 </div>
 
                                                 <div class="form-group mb-3 payment_field">
                                                     <label class="my-2" for="inputName">@trans('pay date')</label>
-                                                    {!! Form::datetimeLocal('payment[paid_on]', $payment->paid_on, ['class' => 'form-control']) !!}
+                                                    {!! Form::datetimeLocal('payment[paid_on]', $payment->paid_on, ['class' => 'form-control', $disabled]) !!}
                                                 </div>
 
                                                 <div class="mt-3 my-3">
                                                     <label for="">@trans('paper status')</label>
-                                                    {!! Form::select('sub_type', $paper_status, $subscription->sub_type, ['class' => 'form-select mb-3']) !!}
+                                                    {!! Form::select('sub_type', $paper_status, $subscription->sub_type, ['class' => 'form-select mb-3', $disabled]) !!}
                                                 </div>
 
 
@@ -399,9 +392,11 @@
 
             </div>
 
+            @can(find_or_create_p('subscription.edit'))
             <div class="mt-5 text-center">
                 <button class="btn btn-primary profile-button" type="submit">@trans('submit')</button>
             </div>
+            @endcan
             <br>
             </section>
         </div>
@@ -460,11 +455,6 @@
                                                  <label>@trans('accountant no')</label>
                                                  <input type="text" name="custom_field1" class="form-control" placeholder="@trans('acountant no')"  >
                                              </div>
-                                             
-                                             <div class="form-group col-md-4">
-                                                 <label>@trans('Phone')</label>
-                                                 <input type="text" name="mobile" class="form-control" placeholder="@trans('phone ')" required>
-                                             </div>
 
                                              <div class="form-group col-md-6 pt-3">
                                                  <label>@trans('State')</label>
@@ -485,6 +475,11 @@
                                                  <label>@trans('zip_code')</label>
                                                  <input type="text" name="zip_code" class="form-control" placeholder="@trans(' Zip Code  ')" >
                                              </div>
+                                             
+                                             <div class="form-group col-md-4 pt-3">
+                                                 <label>@trans('city')</label>
+                                                 <input type="text" name="city" class="form-control" placeholder="@trans('city')" >
+                                             </div>
                      
                                              
                                          </div>
@@ -501,6 +496,11 @@
                                              <div class="form-group col-md-4">
                                                  <label>@trans('Last Name')</label>
                                                  <input type="text" name="last_name" class="form-control" placeholder="@trans('last name')" required>
+                                             </div>
+                                             
+                                             <div class="form-group col-md-4">
+                                                 <label>@trans('Phone')</label>
+                                                 <input type="text" name="mobile" class="form-control" placeholder="@trans('phone ')" required>
                                              </div>
                                          </div>
                                          
@@ -546,7 +546,7 @@
                                 <input type="submit" value="@trans('submit')" class="btn btn-primary"
                                     data-bs-original-title="" title="">
                             </div>
-                        </div>
+                        </div> 
                     </form>
                 </div>
             </div>
@@ -690,6 +690,12 @@
                 } else {
                     $('.payment_field').show();
                 }
+            },
+            selectDefaultTax: function() {
+                var firstKey = Object.keys(this.taxs)[0];
+                $('#tax_id').val(firstKey);
+                resource.tax_id = firstKey;
+                this.changeTax();
             }
         };
 
@@ -717,6 +723,7 @@
             });
 
             subscription.checkOnPaymentStatus('{{ $subscription->shipping_custom_field_2 }}');
+            
 
             // set expenses
             @if ($subscription->custom_field_1)
@@ -724,6 +731,14 @@
                 subscription.changeExpenses();
                 subscription.changeTax();
                 subscription.changeContact();
+            @endif
+
+            @if (!$subscription->id)
+                $('select[name=shipping_custom_field_2]').val('not_paid');
+                $('select[name=shipping_custom_field_2]').change();
+                $('select[name=sub_type]').val('not_received');
+                $('select[name=sub_type]').change();
+                subscription.selectDefaultTax();
             @endif
         });
     </script>

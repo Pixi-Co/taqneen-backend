@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/chartist.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/date-picker.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatables.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/datatable-extension.css') }}">
 @endsection
 
 @section('style')
@@ -54,6 +55,7 @@
                                          </button>
                                         @endcan
                                          <div class="table-responsive">
+                                             <br>
                                             <table class="display" id="subscriptionTable">
                                                 <thead>
                                                     <tr> 
@@ -186,6 +188,24 @@ var session_layout = '{{ session()->get('layout') }}';
 <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatables/datatable.custom.js')}}"></script>
 
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.buttons.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/jszip.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/buttons.colVis.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/pdfmake.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/vfs_fonts.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.autoFill.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.select.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/buttons.bootstrap4.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/buttons.html5.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/buttons.print.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.bootstrap4.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.responsive.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/responsive.bootstrap4.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.keyTable.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.colReorder.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.fixedHeader.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.rowReorder.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.scroller.min.js"></script>
 <script>
 
     function addNote(id) {
@@ -249,8 +269,8 @@ var session_layout = '{{ session()->get('layout') }}';
         buttons: [
             'copyHtml5',
             'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5',
+            //'csvHtml5',
+            //'pdfHtml5',
             'colvis'
         ],
         columnDefs: [{
@@ -292,6 +312,8 @@ var session_layout = '{{ session()->get('layout') }}';
             $('#staticBackdrop2').hide();
             $('#staticBackdrop').show();
         });
+
+        clearSearch();
     })
 </script>
 @endsection

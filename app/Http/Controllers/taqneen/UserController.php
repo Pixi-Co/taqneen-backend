@@ -181,7 +181,7 @@ class UserController extends Controller
             $data=[
                 "first_name" => $request->first_name,
                 "last_name" => $request->last_name,
-                "username" => $request->username,
+                //"username" => $request->username,
                 "email" => $request->email,
                 "contact_number" => $request->contact_number,
                 "address" => $request->address 
