@@ -79,7 +79,7 @@
                                             </div>
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('select packages  ') *</b>
-                                                {!! Form::select("custom_field3", $packages, $opportunity->custom_field3, ["class" => "form-select"]) !!} 
+                                                {!! Form::select("custom_field3", $packages, $opportunity->custom_field3, ["class" => "form-select", $disabled]) !!} 
                                             </div>
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('publish date ') *</b>
