@@ -60,22 +60,22 @@
                                             
                                             <div class="form-group col-md-6">
                                                 <b>@trans('name') *</b>
-                                                <input type="text" name="name" class="form-control" placeholder="@trans('Name')" value="{{ $opportunity->name }}" required >
+                                                <input type="text" name="name" class="form-control" placeholder="@trans('Name')" value="{{ $opportunity->name }}" {{ $disabled }} required >
                                             </div>
                                             
                                             <div class="form-group col-md-6">
                                                 <b>@trans('phone ') *</b>
-                                                <input type="text" name="mobile" class="form-control" placeholder="@trans('phone ')" value="{{ $opportunity->mobile }}" required>
+                                                <input type="text" name="mobile" class="form-control" placeholder="@trans('phone ')" value="{{ $opportunity->mobile }}" {{ $disabled }} required>
                                             </div>
 
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('Email ') *</b>
-                                                <input type="email" name="email" class="form-control" placeholder="@trans('Email ')" value="{{ $opportunity->email }}" required>
+                                                <input type="email" name="email" class="form-control" placeholder="@trans('Email ')" value="{{ $opportunity->email }}" {{ $disabled }} required>
                                             </div>
 
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('select services  ') *</b>
-                                                {!! Form::select("custom_field2", $services, $opportunity->custom_field2, ["class" => "form-select", 'placeholder'=> __('select service')]) !!} 
+                                                {!! Form::select("custom_field2", $services, $opportunity->custom_field2, ["class" => "form-select", 'placeholder'=> __('select service'), $disabled]) !!} 
                                             </div>
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('select packages  ') *</b>
@@ -83,12 +83,12 @@
                                             </div>
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('publish date ') *</b>
-                                                <input type="date" name="dob" class="form-control" placeholder="@trans('publish data ')" value="{{ $opportunity->dob }}" required>
+                                                <input type="date" name="dob" class="form-control" placeholder="@trans('publish data ')" value="{{ $opportunity->dob }}"  {{ $disabled }} required>
                                             </div>
                                             
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('user')</b>
-                                                {!! Form::select("created_by", $users, $opportunity->created_by, ["class" => "form-select"]) !!} 
+                                                {!! Form::select("created_by", $users, $opportunity->created_by, ["class" => "form-select", $disabled]) !!} 
                                             </div>
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('select status  ') *</b>
