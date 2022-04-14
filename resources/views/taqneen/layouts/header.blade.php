@@ -161,12 +161,22 @@
                     $msg = __('subscription of {customer} will expire in {expire_date}');
                     $msg = str_replace('{customer}', optional($item->contact)->name, $msg);
                     $msg = str_replace('{expire_date}', $item->expire_date, $msg);
-                    $notifications[] = $msg;
+ 
+                    $item = [
+                      "link" => url('/subscriptions') . "/" . $item->id . "/edit",
+                      "msg" => $msg,
+                    ];
+
+                    $notifications[] = $item;
                 }
                 foreach ($opts as $item) {
                     $msg = __('new opportunities {name}');
                     $msg = str_replace('{name}', $item->name, $msg);
-                    $notifications[] = $msg;
+                    $item = [
+                      "link" => url('take-opportunity') . "/" . $item->id,
+                      "msg" => $msg,
+                    ];
+                    $notifications[] = $item;
                 }
 
                 //dd($opts);
@@ -186,12 +196,14 @@
 
                     @foreach ($notifications as $item)
                         <li>
-                            <p><i class="fa fa-circle-o me-3 font-primary"> </i>
+                            <a href="{{ $item['link'] }}">
+                              <p><i class="fa fa-circle-o me-3 font-primary"> </i>
                                 <b class="w3-text-indigo">
-                                  {{ $item }}
-                                </b>
-                                <span class="pull-right">{{ date('H:i:s') }}.</span>
-                            </p>
+                                      {{ $item['msg'] }}
+                                    </b>
+                                    <span class="pull-right">{{ date('H:i:s') }}.</span>
+                                </p>
+                            </a>
                         </li>
                     @endforeach
                     <li><a class="btn btn-primary" href="#">@trans('Check all notification')</a></li>
