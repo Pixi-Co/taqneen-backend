@@ -148,7 +148,7 @@ class ReportController extends Controller
             $query->whereIn("transactions.id", $ids);
         }
 
-        $resources = User::where('user_type','user')->where('business_id', session('business.id'))->latest()->get();
+        $resources = User::couriers()->where('user_type','user')->where('business_id', session('business.id'))->latest()->get();
  
         foreach($resources as $resource) {
             $queryClone = clone $query;  

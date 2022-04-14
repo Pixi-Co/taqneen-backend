@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Passport\HasApiTokens;
 use \Modules\Superadmin\Entities\Package;
+use Spatie\Permission\Models\Role;
 
 class User extends Authenticatable
 {
@@ -426,5 +427,10 @@ class User extends Authenticatable
             })->get();
 
         return $resources;
+    }
+
+    public static function couriers() {
+        $role = Role::find(41);  
+        return $role->users();
     }
 }
