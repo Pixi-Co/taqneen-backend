@@ -14,7 +14,7 @@
 @endsection
 
 @section('breadcrumb-title')
-<h3>@trans('customers')</h3>
+<h3>@trans($key)</h3>
 @endsection
 
 @section('breadcrumb-items')
@@ -40,7 +40,7 @@
                             <div class="col-sm-12">
                                 <div class="card"> 
                                     <div class="card-body"> 
-                                        <a role="button" href="{{ url('customer-form') }}/{{ $key }}" class="btn btn-primary" >@trans('new_customer_masarat')</a>
+                                        <a role="button" href="{{ url('customer-form') }}/{{ $key }}" class="btn btn-primary" >@trans('add_' . $key)</a>
                                         
 
                                         
