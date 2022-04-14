@@ -81,12 +81,13 @@
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == 'customer-form/createCustomerMasarat' ? 'down' : 'right' }}"></i></div>
                         </a>
                         <ul class="sidebar-submenu" >
-                            <li><a  href="{{url('customer-form/subscribe_masarat_model/index')}}" >@trans('new customer masarat') </a></li>
-                            <li><a  href="{{url('customer-form/subscribe_muqeem_model/index')}}" >@trans('new customer muqeem') </a></li>
-                            <li><a  href="{{url('customer-form/subscribe_naba_model/index')}}" >@trans('new customer naba') </a></li>
-                            <li><a  href="{{url('customer-form/subscribe_shomoos_model/index')}}" >@trans('new customer shomoos') </a></li>
-                            <li><a  href="{{url('customer-form/subscribe_tamm_model/index')}}" >@trans('new customer tamm') </a></li>
-                            <li><a  href="{{url('customer-form/edit_subscribe_muqeem_model')}}" >@trans('form of edit and remove muqeem user') </a></li>
+                            <li><a  href="{{url('customer-form-index/MASARAT')}}" >@trans('new customer masarat') </a></li>
+                            <li><a  href="{{url('customer-form-index/MUQEEM')}}" >@trans('new customer muqeem') </a></li>
+                            <li><a  href="{{url('customer-form-index/NABA')}}" >@trans('new customer naba') </a></li>
+                            <li><a  href="{{url('customer-form-index/SHUMOUS')}}" >@trans('new customer shomoos') </a></li>
+                            <li><a  href="{{url('customer-form-index/TAMM')}}" >@trans('new customer tamm') </a></li>
+                            <li><a  href="{{url('customer-form-index/TAMM_EDIT')}}" >@trans('new customer tamm edit') </a></li>
+                            <li><a  href="{{url('customer-form-index/MUQEEM_EDIT')}}" >@trans('form of edit and remove muqeem user') </a></li>
                         </ul>
                     </li>
 

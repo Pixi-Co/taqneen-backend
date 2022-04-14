@@ -16,17 +16,36 @@ use Spipu\Html2Pdf\Html2Pdf;
 class CustomerFormController extends Controller
 {
     public function pdfViewer() { 
-        $defaultKey = request()->key? request()->key : "subscribe_masarat_model";
-        $keys = [
-            "subscribe_masarat_model" => url('/assets/images/masarat-pdf/page.jpg'),
-            "subscribe_muqeem_model" => url('/assets/images/muqeem-pdf/page.png'),
-            "subscribe_naba_model" => url('/assets/images/naba-pdf/page1.png'),
-            "subscribe_shomoos_model" => url('/assets/images/shomoos-pdf/page.png'),
-            "subscribe_tamm_model" => url('/assets/images/tamm-pdf/page1.png'),
-            "edit_subscribe_muqeem_model" => url('/assets/images/muqeem-pdf/page.png'),
-        ];
-        $resource = CustomerForm::where('key', $defaultKey)->first(); 
+        $defaultKey = request()->key? request()->key : CustomerForm::$KEYS[0];
+        $keys = CustomerForm::$KEYS;
+        $image = CustomerForm::$KEYS_IMAGES[$defaultKey];
+
+        $resource = CustomerForm::where('key', $defaultKey)->latest()->first(); 
         
+
+        if (request()->reset) {
+            $setting = System::where('key', $defaultKey)->first();
+            $resourceData = json_decode($resource->value, true);
+            $newDate = [];
+            foreach($resourceData as $k => $v) { 
+                $newDate[$k] = $k; 
+            }
+ 
+            $json = json_encode(json_encode($newDate));
+
+            if (!$setting) {
+                $setting = System::create([
+                    "key" => $defaultKey,
+                    "value" => $json,
+                ]);
+            } else {
+                $setting->update([
+                    "value" => $json
+                ]);
+            }
+
+            return redirect("customer-pdf-viewer?key=" . $defaultKey);
+        } 
 
         if (request()->ajax()) {
             $key = request()->key;
@@ -46,21 +65,14 @@ class CustomerFormController extends Controller
 
             return 1;
         }
-
-        /*System::create([
-            "key" => $resource->key,
-            "value" => json_encode($resource->value),
-        ]);
-        return 1;*/
+ 
         $setting = System::where('key', $defaultKey)->first(); 
         if (!$setting)
             $setting = new System(); 
 
         $data = json_decode(json_decode($setting->value));  
         if (!$data)
-            $data = new System(); 
-
-        $data->image = $keys[$defaultKey];
+            $data = new System();  
 
         if (request()->is_sync == '1') {
             $resourceData = json_decode($resource->value, true);
@@ -70,86 +82,69 @@ class CustomerFormController extends Controller
                 }
             }
         } 
- 
-        return view("taqneen.customer_forms.pdf.viewer", compact("resource", "setting", "data", "keys"));
+  
+        return view("taqneen.customer_forms.pdf-viewer", compact("resource", "setting", "data", "keys", "image"));
     }
+ 
 
-    public function index($form){
+    public function index($key){
         $instance = CustomerForm::class;
         $customer_id = CustomerForm::getCustomerId();
-        $resources = CustomerForm::where('key', $form)->where('customer_id', $customer_id)->get(); 
+        $resources = CustomerForm::where('key', $key)->where(function($query) use ($customer_id) {
+            if (!auth()->user()->isAdmin()) {
+                $query->where('customer_id', $customer_id);
+            }
+        })->get(); 
         //dd($resource);
         foreach($resources as $item){
             $item->assignData();
         }
-        $data = $resources;
-        if($form == 'subscribe_tamm_model')
-        {
-            return view('taqneen.customer_forms.tamm.index' , compact('instance','data'));
-        }
-        elseif($form == 'subscribe_masarat_model')
-        {
-            return view('taqneen.customer_forms.masarat.index' , compact('instance','data'));
-        }
-        elseif($form == 'subscribe_muqeem_model')
-        {
-            return view('taqneen.customer_forms.muqeem.index' , compact('instance','data'));
-        }
-        elseif($form == 'subscribe_naba_model')
-        {
-            return view('taqneen.customer_forms.naba.index' , compact('instance','data'));
-        }
-        else
-        {
-            return view('taqneen.customer_forms.shomoos.index' , compact('instance','data'));
-        }
+         
+        return view('taqneen.customer_forms.index' , compact('resources', 'key')); 
     }
 
 
-    public function create($form_name)
-    {
-        
-        //variable to  shomoos form 'activity_type'
-        $activity_type=[
-            'وحدات ايواء' => 'وحدات ايواء',
-            'محلات ذهب' => 'محلات ذهب',
-            'تًٌَُُأجير السيارات' => 'تأجير السيارات',
-            'المجمعات الخاصة' => 'المجمعات الخاصة',
-            'المكاتب العقارية' => 'المكاتب العقارية',
-            'مقاهي الانترنت' => 'مقاهي الانترنت',
-            'شركة الحراسات الامنية الخاصة' => 'شركة الحراسات الامنية الخاصة',
-            'السكك الحديدية' => 'السكك الحديدية',
-        ];
-        $subscribe_customer = new CustomerForm();
-        $data = json_decode($subscribe_customer->value); 
-        $instance = CustomerForm::class;
-        return view('taqneen.customer_forms.' . $form_name, compact('instance','subscribe_customer','data','activity_type'));
+    public function create($key)
+    { 
+        $resource = new CustomerForm();
+        return view("taqneen.customer_forms.form", compact('key', 'resource'));
     }
     
-    public function edit($form_name,$id)
-    {
-        $subscribe_customer = CustomerForm::find($id);
-        $data = json_decode($subscribe_customer->value);
-        
-        $instance = CustomerForm::class;
-         //variable to  shomoos form 'activity_type'
-         $activity_type=[
-            'وحدات ايواء' => 'وحدات ايواء',
-            'محلات ذهب' => 'محلات ذهب',
-            'تًٌَُُأجير السيارات' => 'تأجير السيارات',
-            'المجمعات الخاصة' => 'المجمعات الخاصة',
-            'المكاتب العقارية' => 'المكاتب العقارية',
-            'مقاهي الانترنت' => 'مقاهي الانترنت',
-            'شركة الحراسات الامنية الخاصة' => 'شركة الحراسات الامنية الخاصة',
-            'السكك الحديدية' => 'السكك الحديدية',
-        ];
 
-        if (!$data)
-            $data = new CustomerForm();
-            
-        return view('taqneen.customer_forms.' . $form_name,compact('instance','data','subscribe_customer','activity_type'));
+    public function edit($id)
+    {
+        $resource = CustomerForm::find($id);
+        $key = $resource->key;
+        $resource->assignData();
+        return view("taqneen.customer_forms.form", compact('key', 'resource'));
     } 
 
+
+    public function save(Request $request) {
+        $key = $request->key;
+        $id = $request->id;
+        $form = $request->form;
+        $customerId = CustomerForm::getCustomerId();
+        $userId = auth()->user()->id;
+        $json = json_encode($form); 
+
+        if ($id) {
+            $resource = CustomerForm::find($id);
+            $resource->update([
+                "value" => $json
+            ]);
+        } else {
+            $resource = CustomerForm::create([
+                "key" => $key,
+                "customer_id" => $customerId,
+                "created_by" => $userId,
+                "number" => $form['token']?? time(),
+                "value" => $json,
+            ]);
+        }
+
+        return redirect("/customer-pdf/" . $resource->id);
+    }
 
     public function viewPdfApi($id)
     { 
@@ -164,10 +159,10 @@ class CustomerFormController extends Controller
         $resource = CustomerForm::find($id);
         $file = $resource->key;   
         $setting = System::where('key', $resource->key)->first();
-        $options = json_decode(json_decode($setting->value), true); 
+        $options = json_decode(json_decode(optional($setting)->value), true); 
  
         $data = json_decode($resource->value, true); 
-        $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data', 'options'))->render();
+        $html = view('taqneen.customer_forms.pdf', compact('resource', 'data', 'options'))->render();
          
          
         //return $html;
@@ -179,62 +174,21 @@ class CustomerFormController extends Controller
         $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
         
         return $pdf->Output('form.pdf', 'D');
-    }
-
-    public function save(Request $request)
-    {
-        if ($request->id)
-            return $this->update($request);
-
-        try {
-            $key = $request->customer_type;
-            $value = json_encode($request->form);
-            $resource = CustomerForm::createOrUpdate($key, $value);
-
-            // fire triger after register customer form
-            Triger::fire2(Triger::$ADD_CUSTOMER_FORM, $resource);
-
-            return redirect("/customer-pdf/" . $resource->id);
-            //return $this->viewPdf($resource, $key);
-        } catch (Exception $th) {
-            $output = [
-                "success" => 0,
-                "msg" => $th->getMessage()
-            ];
- 
-            return back()->with('status', $output);
-        } 
-    }
-    public function update(Request $request){ 
-            $key = $request->key;
-            $value = json_encode($request->form); 
-            $resource = CustomerForm::find($request->id);
-            $resource->update([ 
-                "value" => $value, 
-            ]); 
-            $output = [
-                "success" => 1,
-                "msg" =>__('done')
-            ];
-
-            $redir = "/customer-form/" . $resource->key . "/index";
-            return redirect($redir)->with('status', $output);
-    }
+    }  
 
     public function viewPdf(CustomerForm $resource, $key)
     {
-        $file = $key; 
-        //$resource = CustomerForm::where('key', $key)->where('customer_id', $customer_id)->first();
+        $file = $key;  
         
 
         if (!$resource) 
             $resource = new CustomerForm();
 
         $setting = System::where('key', $resource->key)->first();
-        $options = json_decode(json_decode($setting->value), true); 
+        $options = json_decode(json_decode(optional($setting)->value), true); 
  
         $data = json_decode($resource->value, true); 
-        $html = view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data', 'options'))->render();
+        $html = view('taqneen.customer_forms.pdf', compact('resource', 'data', 'options'))->render();
          
  
         return $this->getPdf1($html); 

@@ -6,21 +6,44 @@ use Illuminate\Database\Eloquent\Model;
 
 class CustomerForm extends Model
 {
-    public static $SUBSCRIBE_TAMMM_MODEL_KEY = "subscribe_tamm_model";
-    public static $EDIT_SUBSCRIBE_TAMMM_MODEL_KEY = "subscribe_tamm_model";
+    public static $KEYS = [
+        "MASARAT",
+        "MUQEEM",
+        "TAMM",
+        "SHUMOUS",
+        "NABA",
+        "TAMM_EDIT",
+        "MUQEEM_EDIT",
+    ];
 
-    public static $SUBSCRIBE_SHOMOOS_MODEL_KEY = "subscribe_shomoos_model";
-    public static $EDIT_SUBSCRIBE_SHOMOOS_MODEL_KEY = "subscribe_shomoos_model";
-
-    public static $SUBSCRIBE_NABA_MODEL_KEY = "subscribe_naba_model";
-    public static $EDIT_SUBSCRIBE_NABA_MODEL_KEY = "subscribe_naba_model";
-
-    public static $SUBSCRIBE_MUQEEM_MODEL_KEY = "subscribe_muqeem_model";
-    public static $INFO_SUBSCRIBE_MUQEEM_MODEL_KEY = "subscribe_muqeem_model";
-    public static $EDIT_SUBSCRIPE_MUQEEM_MODEL_KEY = "edit_subscribe_muqeem_model";
-
-    public static $SUBSCRIBE_MASARAT_MODEL_KEY = "subscribe_masarat_model";
-    public static $EDIT_SUBSCRIPE_MASARAT_MODEL_KEY = "subscribe_masarat_model";
+    public static $KEYS_IMAGES = [
+        "MUQEEM" => [
+            "/assets/images/muqeem-pdf/page.png",
+        ],
+        "TAMM" => [
+            "/assets/images/tamm-pdf/page1.png",
+            "/assets/images/tamm-pdf/page2.png",
+        ],
+        "SHUMOUS" => [
+            "/assets/images/shomoos-pdf/page.png"
+        ],
+        "MASARAT" => [
+            "/assets/images/masarat-pdf/page.jpg"
+        ],
+        "NABA" => [
+            "/assets/images/naba-pdf/page1.png",
+            "/assets/images/naba-pdf/page2.png",
+            "/assets/images/naba-pdf/page3.png",
+            "/assets/images/naba-pdf/page4.png",
+            "/assets/images/naba-pdf/page5.png"
+        ],
+        "TAMM_EDIT" => [
+            "/assets/images/tamm-pdf/edit_form_tam.png"
+        ],
+        "MUQEEM_EDIT" => [
+            "/assets/images/muqeem-pdf/page.png",
+        ],
+    ];
 
 
 

@@ -1,20 +1,34 @@
 <?php
-
-use App\Account;
+ 
 use App\BusinessType;
-use App\ExpenseCategory;
+use App\Forms\FormRouter;
 use App\Http\Controllers\taqneen\CustomerController;
 use App\Http\Controllers\taqneen\CustomerFormController;
 use App\Http\Controllers\taqneen\OpportunitController;
 use App\Http\Controllers\taqneen\SubscriptionController;
-use App\Http\Controllers\taqneen\UserController;
-use App\ShippingFees;
-use App\System;
-use App\User;
+use App\Http\Controllers\taqneen\UserController; 
+use App\User;  
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes For Forms Package
+|--------------------------------------------------------------------------
+| 
+|
+*/
+Route::any('/forms', function(){
+    return FormRouter::getInstance()->load();
+}); 
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +40,10 @@ use Illuminate\Support\Facades\DB;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+
+
 Route::get('reset_password', function(){
     $user = User::where('username', 'Demo-admin')->update([
         "password" => bcrypt("123456789")
@@ -70,7 +88,6 @@ Route::get('/migrate', function(){
     Artisan::call('migrate');
 });
 
-
 Route::middleware(['setData'])->group(function () {
     Route::get('subscriptions/print/{id}', 'taqneen\SubscriptionController@print'); 
     Route::get('/customer-pdf/{id}', 'taqneen\CustomerFormController@viewPdfApi');
@@ -101,6 +118,17 @@ Route::middleware(['setData'])->group(function () {
 //Routes for authenticated users only
 Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'CheckUserLogin'])->group(function () {
      
+
+    // customer forms
+    
+    Route::get('/customer-form/{key}', 'taqneen\CustomerFormController@create');
+    Route::get('/customer-form-index/{key}', 'taqneen\CustomerFormController@index');
+    Route::post('/customer-form', 'taqneen\CustomerFormController@save');
+    Route::get('/customer-form/edit/{id}', 'taqneen\CustomerFormController@edit');
+    Route::delete('/customer-form/{id}', 'taqneen\CustomerFormController@destroy');
+
+
+
     Route::get('/', 'taqneen\MainDashboardController@index');
     Route::get('/home', 'taqneen\MainDashboardController@index');
     Route::get('/courier', 'taqneen\CourierDashboardController@index');
@@ -133,10 +161,6 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::resource('subscriptions', 'taqneen\SubscriptionController'); 
     Route::get('subscriptions-download',[SubscriptionController::class,'subscriptionDownload']);
     Route::post('subscriptions-upload_file',[SubscriptionController::class,'subscriptionImportFile']);
-    Route::get('/customer-form/{form_name}', 'taqneen\CustomerFormController@create');
-    Route::get('/customer-edit/{form_name}/{id}', 'taqneen\CustomerFormController@edit');
-    Route::get('/customer-form/{form_name}/index', 'taqneen\CustomerFormController@index');
-    Route::delete('/customer-form/{id}', 'taqneen\CustomerFormController@destroy');
     Route::get('/notification-template', 'taqneen\NotificationTemplateController@index');
     Route::get('/notification-template/form', 'taqneen\NotificationTemplateController@form');
     Route::post('/notification-template', 'taqneen\NotificationTemplateController@save');

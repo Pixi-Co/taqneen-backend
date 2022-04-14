@@ -14,7 +14,7 @@ $connection_success = false;
 $connection_check = false;
 $minify = false;
 $is_cloud = false;
-$sb_url = '';
+$sb_url = ''; 
 define('SB_PATH', getcwd());
 if (file_exists('config.php')) {
     require('include/functions.php');

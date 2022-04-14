@@ -104,7 +104,7 @@
                         <td class="border-0" style="height:25px;"></td>
                         <td class="border-0" style="height:25px;"></td> 
                         <th style="background: #D9D9D9; height: 25px;" class=" p-2
-                        ">القيمة بدون الضريبة</th>
+                        ">الإجمالي  بدون الضريبة</th>
                         <td>
                             {{ number_format($total, 2) }}
                         </td>

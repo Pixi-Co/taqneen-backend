@@ -34,4 +34,5 @@ define('SB_DB_HOST', env('DB_HOST'));
 define('SB_DB_PORT', '');
 /* [extra] */
 
+define('SB_ADMIN_LANG', 'ar');
 ?>
