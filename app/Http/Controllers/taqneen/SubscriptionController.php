@@ -223,7 +223,7 @@ class SubscriptionController extends Controller
         $customers = Contact::where('business_id', $business_id)
             ->onlyCustomers()
             ->where(function ($query) {
-                if (auth()->user()->can(find_or_create_p('customers.own_data', 'customers'))) {
+                if (auth()->user()->can(find_or_create_p('customers.own_data', 'customers')) && !auth()->user()->isAdmin()) {
                     $query->onlyMe();
                 } 
             })
@@ -303,7 +303,7 @@ class SubscriptionController extends Controller
         $customers = Contact::where('business_id', $business_id)
             ->onlyCustomers()
             ->where(function ($query) {
-                if (auth()->user()->can(find_or_create_p('customers.own_data', 'customers'))) {
+                if (auth()->user()->can(find_or_create_p('customers.own_data', 'customers')) && !auth()->user()->isAdmin()) {
                     $query->onlyMe();
                 } 
             })
