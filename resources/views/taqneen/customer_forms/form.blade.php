@@ -77,8 +77,7 @@
             ->get()
             ->pluck('user_full_name', 'user_full_name')
             ->toArray();
-
-            dd($users);
+ 
  
         @endphp
         <form action="{{ url('/customer-form') }}" method="post">
