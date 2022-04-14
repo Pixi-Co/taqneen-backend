@@ -74,7 +74,9 @@
     <div class="container" id="form" >
         @php
             $users = App\User::where('user_type','user')->where('business_id', session('business.id'))
-            ->get();
+            ->get()
+            ->pluck('user_full_name', 'user_full_name')
+            ->toArray();
 
             dd($users);
  

@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $guarded = ['id'];
-    protected $appends = ['image_path']; 
+    protected $appends = ['image_path', 'user_full_name']; 
 
     /**
      * The attributes that should be hidden for arrays.
