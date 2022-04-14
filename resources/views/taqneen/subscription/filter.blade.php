@@ -24,6 +24,12 @@
 -->
     <div class="col-md-4">
         <div class="form-group">
+            <label for="">@trans('sales_commission')</label>
+            {!! Form::select("user_id", $users, null, ["class" => "form-select user_id"]) !!}
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
             <label for="">@trans('payment status')</label>
             <select class="form-select  mb-3 payment_status"  >
                 <option value="">@trans('all')</option>

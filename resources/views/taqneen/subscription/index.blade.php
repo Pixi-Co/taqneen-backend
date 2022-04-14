@@ -215,6 +215,7 @@ var session_layout = '{{ session()->get('layout') }}';
     function filter() {
         var data = {
             service_id: $('.service_id').val(),
+            user_id: $('.user_id').val(),
             subscription_type: $('.subscription_type').val(),
             payment_status: $('.payment_status').val(),
             transaction_date_start: $('.transaction_date').attr('data-start'),
@@ -252,6 +253,7 @@ var session_layout = '{{ session()->get('layout') }}';
         $('.register_date').attr('data-start', '');
         $('.register_date').attr('data-end', '');
 
+        $('.user_id').val('');
         subscriptionTable.ajax.url('/subscriptions-data');
         subscriptionTable.ajax.reload();
     }

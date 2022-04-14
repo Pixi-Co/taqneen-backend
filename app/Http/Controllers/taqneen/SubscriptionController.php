@@ -33,14 +33,14 @@ class SubscriptionController extends Controller
         }
 
         $business_id = session('business.id');
-        $services = Category::where("business_id", $business_id)->where('category_type', 'service')->get();
-
+        $services = Category::where("business_id", $business_id)->where('category_type', 'service')->get(); 
+        $users = User::where('user_type','user')->where('business_id', session('business.id'))->latest()->get()->pluck('name', 'id')->toArray();
         $payment_status = [
             "paid" => __('paid'),
             "not_paid" => __('not_paid')
         ];
 
-        return view('taqneen.subscription.index', compact("services", "payment_status"));
+        return view('taqneen.subscription.index', compact("services", "payment_status", "users"));
     }
 
     public function data()
@@ -77,6 +77,10 @@ class SubscriptionController extends Controller
 
         if (request()->payment_status) {
             $query->where('transactions.shipping_custom_field_2', request()->payment_status);
+        }
+
+        if (request()->user_id > 0) {
+            $query->where('transactions.created_by', request()->user_id);
         }
 
         if (request()->register_date_start && request()->register_date_end) {
