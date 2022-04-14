@@ -34,6 +34,13 @@ class SubscriptionController extends Controller
 
         $business_id = session('business.id');
         $services = Category::where("business_id", $business_id)->where('category_type', 'service')->get(); 
+        
+        $id = 41;
+        $role = Role::find(41);
+
+        $users = $role->users()->get();
+
+        dd($users);
         $users = User::where('user_type','user')->where('business_id', session('business.id'))->latest()->get()->pluck('user_full_name', 'id')->toArray();
         $payment_status = [
             "paid" => __('paid'),
