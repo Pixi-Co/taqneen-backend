@@ -235,7 +235,7 @@
                         <span class="gfield_required gfield_required_custom">*</span>
                     </span>
                 </label>
-                {!! Form::select('form[courier_name]', App\User::where('user_type', 'user')->selectRaw('CONCAT(first_name, last_name) as name')->pluck('name', 'name')->toArray(), $resource->courier_name, ["class"=>"form-select", "required"]) !!} 
+                {!! Form::select('form[courier_name]', App\User::where('user_type', 'user')->selectRaw('CONCAT(first_name, last_name) as name')->get()->pluck('name', 'name')->toArray(), $resource->courier_name, ["class"=>"form-select", "required"]) !!} 
             </div>
 
 
