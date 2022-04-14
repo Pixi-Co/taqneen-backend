@@ -72,6 +72,11 @@
         }
         </style>
     <div class="container" id="form" >
+        @php
+            $users = App\User::where('user_type', 'user')->selectRaw('CONCAT(first_name, last_name) as name')
+                ->get()->pluck('user_full_name', 'user_full_name')
+                ->toArray();
+        @endphp
         <form action="{{ url('/customer-form') }}" method="post">
             <input type="hidden" name="key" value="{{ $key }}"> 
             <input type="hidden" name="id" value="{{ $resource->id }}"> 
