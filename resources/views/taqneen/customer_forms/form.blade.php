@@ -73,9 +73,10 @@
         </style>
     <div class="container" id="form" >
         @php
-            $users = App\User::where('user_type','user')->where('business_id', session('business.id'))->select('*')->selectRaw('CONCAT(first_name, last_name) as name')
-                ->get()->pluck('name', 'name')
-                ->toArray();
+            $users = App\User::where('user_type','user')->where('business_id', session('business.id'))
+            ->get();
+
+            dd($users);
  
         @endphp
         <form action="{{ url('/customer-form') }}" method="post">
