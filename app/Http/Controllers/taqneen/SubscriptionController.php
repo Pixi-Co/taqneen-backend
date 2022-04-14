@@ -54,7 +54,7 @@ class SubscriptionController extends Controller
         ->where('is_renew', '0');
  
 
-        if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions'))) {
+        if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions')) && !auth()->user()->isAdmin()) {
             $query->where('transactions.created_by', auth()->user()->id);
         }
 
