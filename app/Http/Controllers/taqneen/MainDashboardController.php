@@ -116,7 +116,7 @@ class MainDashboardController extends Controller
         $opportunities = Contact::where('type','opportunity')
             ->where('business_id', session('business.id'))
             ->whereNull('converted_by')
-            ->orWhere('created_by',session('user.id'))
+            ->where('created_by',session('user.id'))
             ->latest()
             ->get();
         
