@@ -235,7 +235,7 @@
                         <span class="gfield_required gfield_required_custom">*</span>
                     </span>
                 </label>
-                {!! Form::select('form[courier_name]', $users, ["class"=>"form-select", "required"]) !!} 
+                {!! Form::select('form[courier_name]', $users, $resource->courier_name, ["class"=>"form-select", "required"]) !!} 
             </div>
 
 
