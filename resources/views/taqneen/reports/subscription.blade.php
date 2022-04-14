@@ -85,6 +85,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">@trans('sales_commission')</label>
+                                                        {!! Form::select("user_id", $users, null, ["class" => "form-select user_id"]) !!}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
                                                     <br>
                                                     <button class="btn btn-primary"
                                                         onclick="filter()">@trans('search')</button>
@@ -214,6 +220,7 @@
         function filter() {
             var data = {
                 service_id: $('.service_id').val(),
+                user_id: $('.user_id').val(),
                 subscription_type: $('.subscription_type').val(),
                 transaction_date_start: $('.transaction_date').attr('data-start'),
                 transaction_date_end: $('.transaction_date').attr('data-end'),
@@ -242,6 +249,7 @@
             $('.payment_date').attr('data-start', '');
             $('.payment_date').attr('data-end', '');
 
+            $('.user_id').val('');
             subscriptionTable.ajax.url('/subscriptions');
             subscriptionTable.ajax.reload();
         }

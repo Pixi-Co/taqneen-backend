@@ -181,7 +181,9 @@ class ReportController extends Controller
             'subscription_will_expire_total' => Transaction::where('business_id', session('business.id'))->where('expire_date', '<=', $expire_date)->sum('final_total'),
             'chart' => Transaction::where('business_id', session('business.id'))->pluck('transaction_date', 'final_total')->toArray(),
         ];
-        return view('taqneen.reports.subscription', compact("services", "data"));
+
+        $users = User::couriers()->get()->pluck('user_full_name', 'id')->toArray();
+        return view('taqneen.reports.subscription', compact("services", "data", "users"));
     }
 
     public function dataOfSubscription()
