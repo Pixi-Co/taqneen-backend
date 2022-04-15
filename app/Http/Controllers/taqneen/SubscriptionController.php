@@ -240,7 +240,8 @@ class SubscriptionController extends Controller
         $taxs = TaxRate::getObject();
         $expenses = ExpenseCategory::getObject();
         $expensesList = ExpenseCategory::where('business_id', $business_id)->pluck("name", "id")->toArray();
-        $disabled = '';//auth()->user()->can(find_or_create_p('subscription.edit_courier')) ? "" : "disabled";
+        //$disabled = '';//auth()->user()->can(find_or_create_p('subscription.edit_courier')) ? "" : "disabled";
+        $disabled = auth()->user()->can(find_or_create_p('subscription.edit_courier')) ? "" : "disabled";
         $editCourier = auth()->user()->can(find_or_create_p('subscription.edit_courier')) ? "" : "disabled";
         $subscription->created_by = auth()->user()->id;
         $subscription->contact = new Subscription();

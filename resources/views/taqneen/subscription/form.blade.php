@@ -59,7 +59,7 @@
 
                                                 <div class="mt-3 my-3">
                                                     <label for="">@trans('status')</label>
-                                                    {!! Form::select('status', $status, $subscription->status, ['class' => 'form-select']) !!}
+                                                    {!! Form::select('status', $status, $subscription->status, ['class' => 'form-select', $disabled]) !!}
                                                 </div>
 
 
@@ -392,11 +392,17 @@
 
             </div>
 
-            @can(find_or_create_p('subscription.edit'))
+            @if(auth()->user()->can(find_or_create_p('subscription.edit')))
             <div class="mt-5 text-center">
                 <button class="btn btn-primary profile-button" type="submit">@trans('submit')</button>
             </div>
-            @endcan
+            @endif
+
+            @if(auth()->user()->can(find_or_create_p('subscription.edit')))
+            <div class="mt-5 text-center">
+                <button class="btn btn-primary profile-button" type="submit">@trans('submit')</button>
+            </div>
+            @endif
             <br>
             </section>
         </div>
