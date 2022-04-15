@@ -517,6 +517,7 @@ class SubscriptionController extends Controller
             $resource->expire_date = $resource->getExpireDate();
             $resource->update();
 
+            
             // insert subscription lines
             foreach ($request->subscription_lines as $item) {
                 DB::table('subscription_lines')->insert([
