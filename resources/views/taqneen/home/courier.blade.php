@@ -138,13 +138,7 @@
 					<div class="row m-0 chart-main">
 						<div class="col-xl-4 col-md-6 col-sm-6 p-0 box-col-6">
 							<div class="media align-items-center">
-								@if (count($data['chart']) > 1)
-								<div class="hospital-small-chart">
-									<div class="small-bar">
-										<div class="small-chart flot-chart-container"></div>
-									</div>
-								</div>
-								@endif
+								 
 								<div class="media-body">
 									<div class="right-chart-content">
 										<h4>{{ $subscriptions }}</h4>
@@ -153,30 +147,10 @@
 								</div>
 							</div>
 						</div>
-						{{-- <div class="col-xl-3 col-md-6 col-sm-6 p-0 box-col-6">
-							<div class="media align-items-center">
-								<div class="hospital-small-chart">
-									<div class="small-bar">
-										<div class="small-chart1 flot-chart-container"></div>
-									</div>
-								</div>
-								<div class="media-body">
-									<div class="right-chart-content">
-										<h4>1005</h4>
-										<span>Sales</span>
-									</div>
-								</div>
-							</div>
-						</div> --}}
+						 
 						<div class="col-xl-4 col-md-6 col-sm-6 p-0 box-col-6">
 							<div class="media align-items-center">
-								@if (count($data['chart']) > 1)
-								<div class="hospital-small-chart">
-									<div class="small-bar">
-										<div class="small-chart2 flot-chart-container"></div>
-									</div>
-								</div>
-								@endif
+								 
 								<div class="media-body">
 									<div class="right-chart-content">
 										<h4>{{ $subscriptionsActive }}</h4>
@@ -187,13 +161,7 @@
 						</div>
 						<div class="col-xl-4 col-md-6 col-sm-6 p-0 box-col-6">
 							<div class="media border-none align-items-center">
-								@if (count($data['chart']) > 1)
-								<div class="hospital-small-chart">
-									<div class="small-bar">
-										<div class="small-chart3 flot-chart-container"></div>
-									</div>
-								</div>
-								@endif
+								 
 								<div class="media-body">
 									<div class="right-chart-content">
 										<h4>{{ $subscriptionsExpire }}</h4>
