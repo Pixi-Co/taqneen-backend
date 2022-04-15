@@ -392,16 +392,20 @@
 
             </div>
 
-            @if(auth()->user()->can(find_or_create_p('subscription.edit')) && !auth()->user()->can(find_or_create_p('subscription.create')))
+            @if ($subscription->id)
+            @if(auth()->user()->can(find_or_create_p('subscription.edit')))
             <div class="mt-5 text-center">
                 <button class="btn btn-primary profile-button" type="submit">@trans('submit')</button>
             </div>
             @endif
+            @endif
 
+            @if (!$subscription->id)
             @if(auth()->user()->can(find_or_create_p('subscription.create')))
             <div class="mt-5 text-center">
                 <button class="btn btn-primary profile-button" type="submit">@trans('submit')</button>
             </div>
+            @endif
             @endif
 
             <br>
