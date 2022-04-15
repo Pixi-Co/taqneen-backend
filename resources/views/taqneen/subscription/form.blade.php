@@ -206,8 +206,8 @@
                                                 </div>
 
                                                 <div class="form-group mb-3">
-                                                    <label class="my-2" for="inputName">@trans('register date')</label> *
-                                                    {!! Form::datetimeLocal('shipping_custom_field_1', $subscription->shipping_custom_field_1, ['class' => 'form-control', "required", $disabled]) !!}
+                                                    <label class="my-2" for="inputName">@trans('register date')</label>  
+                                                    {!! Form::datetimeLocal('shipping_custom_field_1', $subscription->shipping_custom_field_1, ['class' => 'form-control', $disabled]) !!}
                                                 </div>
 
                                                 <div class="mt-3 my-3">
@@ -392,17 +392,18 @@
 
             </div>
 
-            @if(auth()->user()->can(find_or_create_p('subscription.edit')))
+            @if(auth()->user()->can(find_or_create_p('subscription.edit')) && !auth()->user()->can(find_or_create_p('subscription.create')))
             <div class="mt-5 text-center">
                 <button class="btn btn-primary profile-button" type="submit">@trans('submit')</button>
             </div>
             @endif
 
-            @if(auth()->user()->can(find_or_create_p('subscription.edit')))
+            @if(auth()->user()->can(find_or_create_p('subscription.create')))
             <div class="mt-5 text-center">
                 <button class="btn btn-primary profile-button" type="submit">@trans('submit')</button>
             </div>
             @endif
+
             <br>
             </section>
         </div>
