@@ -468,12 +468,12 @@
                                              </div>
 
                                              <div class="form-group col-md-6 pt-3">
-                                                 <label>@trans('State')</label>
+                                                 <label>@trans('state_')</label>
                                                  <input type="text" name="state" class="form-control" placeholder="@trans('state ')" >
                                              </div>
 
                                              <div class="form-group col-md-4 pt-3">
-                                                 <label>@trans('Streat')</label>
+                                                 <label>@trans('streat_')</label>
                                                  <input type="text" name="address_line_1" class="form-control" placeholder="@trans('streat  ')" >
                                              </div>
 
