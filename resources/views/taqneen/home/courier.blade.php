@@ -134,7 +134,7 @@
 		</div>
 		<div class="hidden">
 			<div class="card">
-				<div class="card-body p-0">
+				<div class="card-body p-0 w3-padding">
 					<div class="row m-0 chart-main">
 						<div class="col-xl-4 col-md-6 col-sm-6 p-0 box-col-6">
 							<div class="media align-items-center">

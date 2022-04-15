@@ -106,10 +106,12 @@ class Subscription extends Transaction
                 DB::raw("(select first_name from users where users.id = created_by) as sales_commission"),
                 DB::raw("(select method from transaction_payments where transaction_payments.transaction_id = transactions.id) as payment_method"),
                 DB::raw("(select paid_on from transaction_payments where transaction_payments.transaction_id = transactions.id) as paid_on"),
-            )->first(); 
+            )
+            ->where('id', $this->id)
+            ->first(); 
 
 
-        $resource->note = optional($resource->subscription_notes()->latest()->first())->note;
+        $resource->note = optional($this->subscription_notes()->latest()->first())->note;
         //$resource->invoice_url = url('/subscriptions/print') . "/" . $this->getTokenAttribute();
         return optional($resource)->$tag;
     }
