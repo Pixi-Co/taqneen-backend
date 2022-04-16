@@ -60,6 +60,13 @@
             <label for="">
                 reset
                 <br>
+                {!! Form::checkbox("sync", 1, false, ["class" => "w3-check"]) !!}
+                <p class="w3-text-orange">sync new fields of forms if exits</p>
+            </label>
+            <br>
+            <label for="">
+                reset
+                <br>
                 {!! Form::checkbox("reset", 1, false, ["class" => "w3-check"]) !!}
                 <p class="w3-text-red">if your reset your will remove all settings of pdf</p>
             </label>

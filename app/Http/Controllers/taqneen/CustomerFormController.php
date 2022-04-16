@@ -74,7 +74,7 @@ class CustomerFormController extends Controller
         if (!$data)
             $data = new System();  
 
-        if (request()->is_sync == '1') {
+        if (request()->sync == 1) {
             $resourceData = json_decode($resource->value, true);
             foreach($resourceData as $k => $v) {
                 if (!optional($data)->$k) {

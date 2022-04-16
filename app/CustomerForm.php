@@ -41,7 +41,7 @@ class CustomerForm extends Model
             "/assets/images/tamm-pdf/edit_form_tam.png"
         ],
         "MUQEEM_EDIT" => [
-            "/assets/images/muqeem-pdf/page.png",
+            "/assets/images/muqeem-pdf/muqeem_edit.png",
         ],
     ];
 
