@@ -91,6 +91,10 @@
                                                                         data-bs-original-title="" onclick="copyTextToClipboard(this.innerText)" title="">
                                                                         {customer_form_user_email}
                                                                     </span>
+                                                                    <span class="btn btn-primary btn-xs" style="margin: 1px"
+                                                                        data-bs-original-title="" onclick="copyTextToClipboard(this.innerText)" title="">
+                                                                        {user_triger_email}
+                                                                    </span>
                                                                     {!! Form::text('cc', $resource->cc, ['class' => 'form-control', '', 'placeholder' => 'email1@example.com,email2@example.com', 'required']) !!}
                                                                 </div>
 

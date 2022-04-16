@@ -141,6 +141,11 @@ class CustomerFormController extends Controller
                 "number" => $form['token']?? time(),
                 "value" => $json,
             ]);
+
+            // fire triger
+            // assign data 
+            $resource->assignData();
+            Triger::fire2(Triger::$ADD_CUSTOMER_FORM, $resource);
         }
 
         return redirect("/customer-pdf/" . $resource->id);

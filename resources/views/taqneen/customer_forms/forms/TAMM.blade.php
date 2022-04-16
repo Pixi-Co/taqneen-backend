@@ -41,7 +41,7 @@
                       <span class="gfield_required gfield_required_custom">*</span>
                   </span>
               </label>
-              {!! Form::text('form[name_ar]', $resource->name_ar, ['class' => 'form-control', 'placeholder' => '', 'required', "onchange" => "$('.name_ar').val(this.value)"]) !!}
+              {!! Form::text('form[name_ar]', $resource->name_ar, ['class' => 'form-control related', 'placeholder' => '', 'required', "data-related" => "name_ar"]) !!}
           </div>
           <div class="col-md-3 ">
               <label class="gfield_label pb-1" for="">الاسم الإنجليزي الكامل للمنشأة
@@ -49,7 +49,7 @@
                       <span class="gfield_required gfield_required_custom">*</span>
                   </span>
               </label>
-              {!! Form::text('form[name_en]', $resource->name_en, ['class' => 'form-control', 'placeholder' => '', 'required', "onchange" => "$('.name_en').val(this.value)"]) !!}
+              {!! Form::text('form[name_en]', $resource->name_en, ['class' => 'form-control related', 'placeholder' => '', 'required', "onchadata-relatednge" => "name_en"]) !!}
           </div>
           <div class="col-md-3 ">
               <label class="gfield_label pb-1" for="">المدينة
@@ -122,7 +122,7 @@
                       <span class="gfield_required gfield_required_custom">*</span>
                   </span>
               </label>
-              {!! Form::text('form[owner_phone2]', $resource->owner_phone2, ['class' => 'form-control', 'placeholder' => '', 'required', 'maxlength' => 10]) !!}
+              {!! Form::text('form[owner_phone2]', $resource->owner_phone2, ['class' => 'form-control related', 'placeholder' => '', 'required', 'maxlength' => 10, "data-related" => "phone"]) !!}
           </div>
           <div class="col-md-4 ">
               <label class="gfield_label pb-1" for="">ص.ب
@@ -203,8 +203,8 @@
                       </span>
                   </label>
                   <div class="col-sm-10">
-                      {!! Form::date('form[release_date]', $resource->release_date, ['class' => 'form-control', 'placeholder' => '', 'required']) !!}
-                  </div>
+                    {!! Form::date('form[release_date]', $resource->release_date, ['class' => 'form-control', 'placeholder' => 'yyyy/mm/dd', 'required', 'onchange' => '$(".end_date").attr("min", new Date(this.value).addDays(1).toISOString().substring(0, 10))']) !!}
+                 </div>
                   <div class="col-sm-2 pt-1">
                       <img class="ui-datepicker-trigger"
                           src="https://taqneen.com/wp-content/plugins/gravityforms/images/datepicker/datepicker.svg"
@@ -224,8 +224,8 @@
                       </span>
                   </label>
                   <div class="col-sm-10">
-                      {!! Form::date('form[end_date]', $resource->end_date, ['class' => 'form-control', 'placeholder' => '', 'required']) !!}
-                  </div>
+                        {!! Form::date('form[end_date]', $resource->end_date, ['class' => 'form-control end_date', 'placeholder' => 'yyyy/mm/dd', 'required', 'min' => $resource->release_date]) !!}
+                    </div>
                   <div class="col-sm-2 pt-1">
                       <img class="ui-datepicker-trigger"
                           src="https://taqneen.com/wp-content/plugins/gravityforms/images/datepicker/datepicker.svg"
@@ -351,15 +351,8 @@
               {!! Form::text('form[applicant_phone]', $resource->applicant_phone, ['class' => 'form-control', 'placeholder' => '', 'required', 'maxlength' => 10]) !!}
           </div>
          
-          <div class="col-md-12 pb-5">
-            <label class="gfield_label pb-1" for="">
-                اسم المندوب 
-                <span class="gfield_required">
-                    <span class="gfield_required gfield_required_custom">*</span>
-                </span>
-            </label>
-            {!! Form::select('form[courier_name]', $users, $resource->courier_name, ["class"=>"form-select", "required"]) !!}
-        </div>
+          
+          @include("taqneen.customer_forms.forms.GLOBAL")
 
       </div>
        

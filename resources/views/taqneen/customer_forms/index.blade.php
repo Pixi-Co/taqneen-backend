@@ -51,12 +51,10 @@
                                                     <tr>
                                                         <th>#</th>
                                                         <th>@trans('company_number')</th>
-                                                        <th>@trans('form_number')</th>
-                                                        <th>@trans('created_by')</th>
+                                                        <th>@trans('form_number')</th> 
                                                         <th>@trans('created_by')</th>
                                                         <th>@trans('create_at')</th>
-                                                        <th>-</th>
-                                                        {{-- <th>@trans('actions')</th> --}}
+                                                        <th>-</th> 
                                                     </tr>
                                                 </thead>
                                                 <tbody>

@@ -55,7 +55,7 @@
                         <span class="gfield_required gfield_required_custom">*</span>
                     </span>
                 </label>
-                {!! Form::text('form[name_ar]', $resource->name_ar, ['class' => 'form-control', 'required']) !!}
+                {!! Form::text('form[name_ar]', $resource->name_ar, ['class' => 'form-control related', 'required', 'data-related' => 'name_ar']) !!}
 
             </div>
             <div class="col-md-3 ">
@@ -64,8 +64,10 @@
                         <span class="gfield_required gfield_required_custom">*</span>
                     </span>
                 </label>
-                {!! Form::text('form[name_en]', $resource->name_en, ['class' => 'form-control', 'required']) !!}
+                {!! Form::text('form[name_en]', $resource->name_en, ['class' => 'form-control related', 'required', 'data-related' => 'name_ar']) !!}
             </div>
+            {!! Form::hidden("form[name_ar]", $resource->name_ar, ["class" => "name_ar"]) !!}
+            {!! Form::hidden("form[name_en]", $resource->name_en, ["class" => "name_en"]) !!}
             <div class="col-md-3 ">
                 <label class="gfield_label pb-1" for="">المدينة
                     <span class="gfield_required">
@@ -84,7 +86,7 @@
                         <span class="gfield_required gfield_required_custom">*</span>
                     </span>
                 </label>
-                {!! Form::text('form[owner_phone]', $resource->owner_phone, ['class' => 'form-control', 'required', 'maxlength' => 10]) !!}
+                {!! Form::text('form[owner_phone]', $resource->owner_phone, ['class' => 'form-control related', 'required', 'maxlength' => 10, 'data-related' => 'phone']) !!}
             </div>
             <div class="col-md-4 ">
                 <label class="gfield_label pb-1" for="">موقع الشركة الالكتروني :
@@ -212,7 +214,7 @@
                         <span class="gfield_required gfield_required_custom">*</span>
                     </span>
                 </label>
-                {!! Form::text('form[leader_phone2]', $resource->leader_phone2, ['class' => 'form-control', 'required', 'maxlength' => 10]) !!}
+                {!! Form::text('form[leader_phone2]', $resource->leader_phone2, ['class' => 'form-control phone', 'required', 'maxlength' => 10]) !!}
             </div>
             <div class="col-sm-12 pt-3">
                 <label class="gfield_label pb-1" for="">البريد الالكتروني
@@ -257,7 +259,7 @@
                         <span class="gfield_required gfield_required_custom">*</span>
                     </span>
                 </label>
-                {!! Form::text('form[user_phone2]', $resource->user_phone2, ['class' => 'form-control', 'required', 'maxlength' => 10]) !!}
+                {!! Form::text('form[user_phone2]', $resource->user_phone2, ['class' => 'form-control phone', 'required', 'maxlength' => 10]) !!}
             </div>
             <div class="col-sm-12 pt-3">
                 <label class="gfield_label pb-1" for="">البريد الالكتروني
@@ -301,7 +303,7 @@
                         <span class="gfield_required gfield_required_custom">*</span>
                     </span>
                 </label>
-                {!! Form::text('form[sub_represent_phone2]', $resource->sub_represent_phone2, ['class' => 'form-control', 'required', 'maxlength' => 10]) !!}
+                {!! Form::text('form[sub_represent_phone2]', $resource->sub_represent_phone2, ['class' => 'form-control phone', 'required', 'maxlength' => 10]) !!}
             </div>
             <div class="col-sm-12 pt-3">
                 <label class="gfield_label pb-1" for="">البريد الالكتروني
@@ -339,18 +341,9 @@
                     </span>
                 </label>
                 {!! Form::text('form[reason]', $resource->reason, ['class' => 'form-control', 'required']) !!}
-            </div>
+            </div> 
 
-            <div class="col-md-12 pb-5">
-                <label class="gfield_label pb-1" for="">
-                    اسم المندوب 
-                    <span class="gfield_required">
-                        <span class="gfield_required gfield_required_custom">*</span>
-                    </span>
-                </label>
-                {!! Form::select('form[courier_name]', $users, $resource->courier_name, ["class"=>"form-select", "required"]) !!}
-            </div>
-
+            @include("taqneen.customer_forms.forms.GLOBAL")
         </div>
     </div>
 

@@ -31,7 +31,7 @@
                         </span>
                     </label>
                     <div class="col-sm-10">
-                        {!! Form::date('form[release_date]', $resource->release_date, ['class' => 'form-control', 'placeholder' => 'yyyy/mm/dd', 'required']) !!}
+                        {!! Form::date('form[release_date]', $resource->release_date, ['class' => 'form-control', 'placeholder' => 'yyyy/mm/dd', 'required', 'onchange' => '$(".end_date").attr("min", new Date(this.value).addDays(1).toISOString().substring(0, 10))']) !!}
                     </div>
                     <div class="col-sm-2 pt-1">
                         <img class="ui-datepicker-trigger"
@@ -52,7 +52,7 @@
                         </span>
                     </label>
                     <div class="col-sm-10">
-                        {!! Form::date('form[end_date]', $resource->end_date, ['class' => 'form-control', 'placeholder' => 'yyyy/mm/dd', 'required']) !!}
+                        {!! Form::date('form[end_date]', $resource->end_date, ['class' => 'form-control end_date', 'placeholder' => 'yyyy/mm/dd', 'required', 'min' => $resource->release_date]) !!}
                     </div>
                     <div class="col-sm-2 pt-1">
                         <img class="ui-datepicker-trigger"
@@ -74,7 +74,7 @@
                         <span class="gfield_required gfield_required_custom">*</span>
                     </span>
                 </label>
-                {!! Form::text('form[fullname_ar]', $resource->fullname_ar, ['class' => 'form-control', 'required']) !!}
+                {!! Form::text('form[fullname_ar]', $resource->fullname_ar, ['class' => 'form-control related', 'required', 'data-related' => 'name_ar']) !!}
             </div>
             <div class="col-md-3 ">
                 <label class="gfield_label pb-1" for="">الاسم الكامل بالإنجليزي
@@ -82,24 +82,11 @@
                         <span class="gfield_required gfield_required_custom">*</span>
                     </span>
                 </label>
-                {!! Form::text('form[fullname_en]', $resource->fullname_en, ['class' => 'form-control', 'required']) !!}
+                {!! Form::text('form[fullname_en]', $resource->fullname_en, ['class' => 'form-control related', 'required', 'data-related' => 'name_en']) !!}
             </div>
-            <div class="col-md-3 ">
-                <label class="gfield_label pb-1" for="">الاسم المختصر بالعربي
-                    <span class="gfield_required">
-                        <span class="gfield_required gfield_required_custom">*</span>
-                    </span>
-                </label>
-                {!! Form::text('form[name_ar]', $resource->name_ar, ['class' => 'form-control', 'required']) !!}
-            </div>
-            <div class="col-md-3 ">
-                <label class="gfield_label pb-1" for="">الاسم المختصر بالإنجليزي
-                    <span class="gfield_required">
-                        <span class="gfield_required gfield_required_custom">*</span>
-                    </span>
-                </label>
-                {!! Form::text('form[name_en]', $resource->name_en, ['class' => 'form-control', 'required']) !!}
-            </div>
+            {!! Form::hidden("form[name_ar]", $resource->name_ar, ["class" => "name_ar"]) !!}
+            {!! Form::hidden("form[name_en]", $resource->name_en, ["class" => "name_en"]) !!}
+             
         </div>
         <div class="row pt-3">
             <h4 class="gsection_title"> عنوان المنشأة </h4>
@@ -135,7 +122,7 @@
                         <span class="gfield_required gfield_required_custom">*</span>
                     </span>
                 </label>
-                {!! Form::text('form[compony_phone]', $resource->compony_phone, ['class' => 'form-control', 'maxlength' => 10, "max" => 10, "required"]) !!}
+                {!! Form::text('form[compony_phone]', $resource->compony_phone, ['class' => 'form-control related', 'maxlength' => 10, "max" => 10, "required", 'data-related' => 'phone']) !!}
             </div>
             <div class="col-md-4 ">
                 <label class="gfield_label pb-1" for="">رقم الفاكس
@@ -183,7 +170,7 @@
                         <span class="gfield_required gfield_required_custom">*</span>
                     </span>
                 </label>
-                {!! Form::text('form[owner_phone]', $resource->owner_phone, ['class' => 'form-control', 'required', 'maxlength' => 10]) !!}
+                {!! Form::text('form[owner_phone]', $resource->owner_phone, ['class' => 'form-control phone', 'required', 'maxlength' => 10]) !!}
 
             </div>
 
@@ -206,16 +193,7 @@
                 </label>
                 {!! Form::text('form[identity]', $resource->identity, ['class' => 'form-control', 'maxlength' => 10, "max" => 10, "required"]) !!}
 
-            </div>
-            <div class="col-md-12 pb-5">
-                <label class="gfield_label pb-1" for="">
-                    اسم المندوب 
-                    <span class="gfield_required">
-                        <span class="gfield_required gfield_required_custom">*</span>
-                    </span>
-                </label>
-                {!! Form::select('form[courier_name]', $users, $resource->courier_name, ["class"=>"form-select", "required"]) !!}  
-            </div>
+            </div> 
 
             <div class="row pt-3"> 
                 <h3 class="gsection_title pb-4"> معلومات المستخدم الرئيسي </h3>
@@ -234,7 +212,7 @@
                             <span class="gfield_required gfield_required_custom">*</span>
                         </span>
                     </label>
-                    {!! Form::text('form[user_phone]', $resource->user_phone, ['class' => 'form-control', 'placeholder' => '', 'required', 'maxlength' => 10]) !!}
+                    {!! Form::text('form[user_phone]', $resource->user_phone, ['class' => 'form-control phone', 'placeholder' => '', 'required', 'maxlength' => 10]) !!}
                 </div> 
                 <div class="col-md-4 ">
                     <label class="gfield_label pb-1" for="">رقم الهوية
@@ -264,6 +242,7 @@
             </div> 
             <br>
 
+            @include("taqneen.customer_forms.forms.GLOBAL")
 
 
             <div class="col-md-12">

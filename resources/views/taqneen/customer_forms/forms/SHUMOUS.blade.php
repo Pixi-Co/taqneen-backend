@@ -18,7 +18,7 @@
     ];
     @endphp
    <div class="ginput_container ">
-    <legend class="gsection_title">نموزج شموس </legend>
+    <legend class="gsection_title">نموذج شموس </legend>
        <h3 class="gsection_title">بيانات المنشأة</h3>
        <div class="row">
            <div class="col-md-4">
@@ -97,28 +97,28 @@
            <div class="col-md-4 ">
                <label class="gfield_label pb-1" for="">وصف العنوان
                    <span class="gfield_required">
-                       <span class="gfield_required gfield_required_custom">*</span>
+                       <span class="gfield_required gfield_required_custom"></span>
                    </span>
                </label>
-               {!! Form::text('form[addrees]', $resource->addrees, ['class' => 'form-control', 'required']) !!}
+               {!! Form::text('form[addrees]', $resource->addrees, ['class' => 'form-control', '']) !!}
            </div>
        </div>
        <div class="row pt-3">
            <div class="col-md-4 ">
                <label class="gfield_label pb-1" for="">رقم الهاتف
                    <span class="gfield_required">
-                       <span class="gfield_required gfield_required_custom">*</span>
+                       <span class="gfield_required gfield_required_custom"></span>
                    </span>
                </label>
-               {!! Form::text('form[enterprise_phone]', $resource->enterprise_phone, ['class' => 'form-control', 'required', 'maxlength' => 10]) !!}
+               {!! Form::text('form[enterprise_phone]', $resource->enterprise_phone, ['class' => 'form-control related', '', 'maxlength' => 10, 'data-related' => 'phone']) !!}
            </div>
            <div class="col-md-4 ">
                <label class="gfield_label pb-1" for="">رقم الفاكس
                    <span class="gfield_required">
-                       <span class="gfield_required gfield_required_custom">*</span>
+                       <span class="gfield_required gfield_required_custom"></span>
                    </span>
                </label>
-               {!! Form::text('form[enterprise_fax]', $resource->enterprise_fax, ['class' => 'form-control', 'required']) !!}
+               {!! Form::text('form[enterprise_fax]', $resource->enterprise_fax, ['class' => 'form-control', '']) !!}
            </div>
            <div class="col-md-4 ">
                <label class="gfield_label pb-1" for="">البريد الإلكتروني
@@ -220,7 +220,7 @@
                        </span>
                    </label>
                    <div class="col-sm-11">
-                       {!! Form::date('form[subscription_date]', $resource->subscription_date, ['class' => 'form-control', 'required']) !!}
+                       {!! Form::date('form[subscription_date]', $resource->subscription_date?? date('Y-m-d'), ['class' => 'form-control', 'required', "readonly"]) !!}
                    </div>
                    <div class="col-sm-1 pt-1">
                        <img class="ui-datepicker-trigger"
@@ -235,15 +235,7 @@
            </div>
 
 
-           <div class="col-md-12 pb-5">
-                <label class="gfield_label pb-1" for="">
-                    اسم المندوب 
-                    <span class="gfield_required">
-                        <span class="gfield_required gfield_required_custom">*</span>
-                    </span>
-                </label>
-                {!! Form::select('form[courier_name]', $users, $resource->courier_name, ["class"=>"form-select", "required"]) !!} 
-            </div>
+           @include("taqneen.customer_forms.forms.GLOBAL")
 
 
        </div>

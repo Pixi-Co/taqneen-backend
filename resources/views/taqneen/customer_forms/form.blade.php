@@ -94,6 +94,73 @@
     </div>
     <br>
     <br>
-    
+
 </div>
+
 @endsection
+
+@section("script")
+
+<script>
+    var resource = <?php echo json_encode($resource) ?>;
+    $(".related").each(function(){
+        var self = this;
+        var related = $(self).attr('data-related');
+        $("." + related).val(self.value);
+
+        $(this).change(function(){
+            $("." + related).val(self.value);
+        });
+        $(this).keyup(function(){
+            $("." + related).val(self.value);
+        });
+    });
+
+    Date.prototype.addDays = function(days) {
+        var date = new Date(this.valueOf());
+        date.setDate(date.getDate() + days);
+        return date;
+    }
+
+
+    function setOtherUserTemplate(count) {
+        var container = document.getElementById('muqeem_edit_other');
+
+        container.innerHTML = "";
+        for(var index = 1; index <= count; index ++) {
+            var usernameField = "other_users_name_" + index;
+            var identityField = "other_users_identity_" + index;
+            var hiddenField = "other_users_checkbox_remove_" + index;
+            var username = resource[usernameField]? resource[usernameField] : '';
+            var identity = resource[identityField]? resource[identityField] : '';
+            var template = ` 
+                <div class="col-md-6 ">
+                    <label class="gfield_label pb-1" for="">
+                        اسم المستخدم - ${index} 
+                        <span class="gfield_required">
+                            <span class="gfield_required gfield_required_custom">*</span>
+                        </span>
+                    </label>
+                    <input type="text" name="form[${usernameField}]" value="${username}" class="form-control" required  >
+                </div> 
+                <div class="col-md-6 ">
+                    <label class="gfield_label pb-1" for="">
+                        رقم الهوية / الإقامة - ${index} 
+                        <span class="gfield_required">
+                            <span class="gfield_required gfield_required_custom">*</span>
+                        </span>
+                    </label>
+                    <input type="text" name="form[${identityField}]" value="${identity}" class="form-control" maxlength="10" required  >
+                </div>
+                <input type="hidden" name="form[${hiddenField}]" value="1" >
+            `;
+
+            container.innerHTML += template;
+        }
+    }
+
+    setOtherUserTemplate(0);
+    //muqeem_edit_other
+</script>
+@endsection
+ 

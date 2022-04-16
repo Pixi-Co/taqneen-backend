@@ -65,7 +65,7 @@
                 <table class="table-bordered " style="font-size: 12px;">
                     <thead class="" style="background: #D9D9D9; color: black;">
                         <tr class="col-12">
-                            <th class="col-2 text-center">ت</th>
+                            <th class="col-2 text-center">م</th>
                             <th class="col-3 text-center">رقم الحاسب</th>
                             <th class="col-1 text-center"> الخدمة</th>
                             <th class="col-4 text-center"> الوصف</th>
@@ -75,12 +75,13 @@
                     <tbody>
                     @php
                         $total = 0;
+                        $iteration = 1;
                     @endphp
                         
                    @foreach ($resource->subscription_lines()->get() as $item    )
                    <tr class="text-center">
                     <td>
-                        {{ $resource->contact->mobile }}
+                        {{ $loop->iteration }}
                     </td >
                     <td>
                         {{ $resource->contact->custom_field1 }}
@@ -97,45 +98,41 @@
                 </tr>
                 @php
                     $total += $item->total;
+                    $iteration += 1;
                 @endphp
                    @endforeach 
-                    <tr class="text-center" >
+                   <tr class="text-center">
+                       <td>{{ $iteration }}</td>
+                       <td colspan="3" >رسوم منصة</td> 
+                       <td >{{ number_format($resource->custom_field_2? $resource->custom_field_2 : 0, 2) }}</td>
+                   </tr>
+                    <tr class="text-center border-0" >
                         <td class="border-0" style="height:25px;"></td>
                         <td class="border-0" style="height:25px;"></td>
                         <td class="border-0" style="height:25px;"></td> 
-                        <th style="background: #D9D9D9; height: 25px;" class=" p-2
+                        <th style="background: #D9D9D9; height: 25px;border-bottom: 1px solid gray" class=" p-2
                         ">الإجمالي  بدون الضريبة</th>
-                        <td>
+                        <td style=";border-bottom: 1px solid gray">
                             {{ number_format($total, 2) }}
                         </td>
                     </tr>
 
-                    <tr class="text-center">
-                        <td class="border border-white"></td>
-                        <td class="border border-white"></td>
-                        <td class="border border-white"></td> 
-                        <th style="background: #D9D9D9; height: 25px;" class=" p-2">الضريبة المضافة</th>
-                        <td>
-                            {{ number_format(($resource->tax_amount / 100) * $total, 2) }}
+                    <tr class="text-center border-0">
+                        <td class="border-0" style="height:25px;"></td>
+                        <td class="border-0" style="height:25px;"></td>
+                        <td class="border-0" style="height:25px;"></td>
+                        <th style="background: #D9D9D9; height: 25px;border-bottom: 1px solid gray" class=" p-2">الضريبة المضافة</th>
+                        <td style=";border-bottom: 1px solid gray" > 
+                            {{ number_format($resource->tax_amount, 2) }}
                         </td>
-                    </tr>
+                    </tr> 
 
-                    <tr class="text-center">
-                        <td class="border border-white"></td>
-                        <td class="border border-white"></td>
-                        <td class="border-white"></td> 
-                        <th style="background: #D9D9D9;" class=" p-2"> رسوم منصة </th>
-                        <td>
-                            {{ number_format($resource->custom_field_2? $resource->custom_field_2 : 0, 2) }}
-                        </td>
-                    </tr>
-
-                    <tr class="text-center">
-                        <td class="border border-white"></td>
-                        <td class="border border-white"></td>
-                        <td class="border border-white" style="border-top: white; border-bottom: white;"></td> 
-                        <th style="background: #D9D9D9; " class=" p-2">اجمالي القيمة المستحقة</th>
-                        <td>
+                    <tr class="text-center border-0">
+                        <td class="border-0" style="height:25px;"></td> 
+                        <td class="border-0" style="height:25px;"></td> 
+                        <td class="border-0" style="height:25px;"></td> 
+                        <th style="background: #D9D9D9;border-bottom: 1px solid gray" class=" p-2">اجمالي القيمة المستحقة</th>
+                        <td style=";border-bottom: 1px solid gray" >
                             {{ number_format($resource->final_total, 2) }} 
                         </td>
                     </tr>

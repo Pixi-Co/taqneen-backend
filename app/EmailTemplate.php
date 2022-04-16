@@ -41,6 +41,7 @@ class EmailTemplate extends Model
         '{customer_form_user}' => "customer_form_user",
         '{customer_form_pdf_url}' => "customer_form_pdf_url",
         '{customer_form_pdf}' => "customer_form_pdf",
+        '{user_triger_email}' => "user_triger_email",
         '{subscription_note}' => "note"
     ];
     
@@ -70,6 +71,10 @@ class EmailTemplate extends Model
 
         if ($text == "{customer_form_user_email}") {
             return optional($subscription->user)->email;
+        }
+
+        if ($text == "{user_triger_email}") {
+            return optional($subscription)->user_triger_email;
         }
 
         return $text;
