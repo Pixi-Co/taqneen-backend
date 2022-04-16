@@ -63,7 +63,11 @@
                                                             <td>{{ $loop->iteration }}</td>
                                                             <td>{{ $item->company_number }}</td>                       
                                                             <td>{{ $item->token }}</td>                       
-                                                            <td>{{ optional($item->user)->user_full_name }}</td> 
+                                                            <td>
+                                                                @php
+                                                                    dd($item->user);
+                                                                @endphp
+                                                                {{ optional($item->user)->user_full_name }}</td> 
                                                             <td>{{ $item->created_at }}</td> 
                                                             <td>
                                                                 <div style="width: 150px" >
