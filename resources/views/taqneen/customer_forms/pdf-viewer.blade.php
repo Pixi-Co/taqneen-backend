@@ -58,7 +58,7 @@
             </select>
             <br>
             <label for="">
-                reset
+                sync
                 <br>
                 {!! Form::checkbox("sync", 1, false, ["class" => "w3-check"]) !!}
                 <p class="w3-text-orange">sync new fields of forms if exits</p>
