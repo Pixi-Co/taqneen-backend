@@ -37,7 +37,7 @@
  
         <div class="col-md-4 ">
             <label class="gfield_label pb-1" for="">
-                اسم المستخدم الرئيسي* 
+                اسم المستخدم الرئيسي  
                 <span class="gfield_required">
                     <span class="gfield_required gfield_required_custom">*</span>
                 </span>

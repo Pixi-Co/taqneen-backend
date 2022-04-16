@@ -159,7 +159,7 @@
         }
     }
 
-    setOtherUserTemplate(0);
+    setOtherUserTemplate({{ $resource->other_user_count?? 0 }});
     //muqeem_edit_other
 </script>
 @endsection
