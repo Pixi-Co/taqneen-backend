@@ -73,9 +73,9 @@
         </style>
     <div class="container" id="form" >
         @php
-            $users = App\User::where('user_type','user')->where('business_id', session('business.id'))
+            $users = App\User::couriers()
             ->get()
-            ->pluck('user_full_name', 'user_full_name')
+            ->pluck('user_full_name', 'id')
             ->toArray();
  
  
@@ -162,8 +162,8 @@
     setOtherUserTemplate({{ $resource->other_user_count?? 0 }});
     //muqeem_edit_other
 
-    @if ($resource->id)
-    $('.courier_name').val(resource['courier_name']);
+    @if ($resource->id) 
+    $('.courier_name').val(resource['courier_name']);  
     $('.user_triger_email').val(resource['user_triger_email']);
     @endif
 </script>

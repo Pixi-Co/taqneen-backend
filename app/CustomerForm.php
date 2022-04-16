@@ -58,6 +58,12 @@ class CustomerForm extends Model
         return $this->belongsTo(Contact::class, "customer_id");
     }
 
+    public function courier()
+    {
+        $data = json_decode($this->value);
+        return User::find($data['courier_name']?? null);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, "created_by");

@@ -162,6 +162,7 @@ class CustomerFormController extends Controller
     public function downloadPdfApi($id)
     { 
         $resource = CustomerForm::find($id);
+        $resource->courier_name = $resource->courier()->user_full_name;
         $file = $resource->key;   
         $setting = System::where('key', $resource->key)->first();
         $options = json_decode(json_decode(optional($setting)->value), true); 
@@ -183,6 +184,7 @@ class CustomerFormController extends Controller
 
     public function viewPdf(CustomerForm $resource, $key)
     {
+        $resource->courier_name = $resource->courier()->user_full_name;
         $file = $key;  
         
 
