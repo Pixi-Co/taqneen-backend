@@ -152,38 +152,19 @@ class CustomerFormController extends Controller
     }
 
     public function viewPdfApi($id)
-    { 
-        $resource = CustomerForm::find($id);
-        $key = $resource->key;
-        
-        return $this->viewPdf($resource, $key);
+    {   
+        return $this->viewPdf($id);
     }
 
     public function downloadPdfApi($id)
     { 
-        $resource = CustomerForm::find($id);
-        $resource->courier_name = $resource->courier()->user_full_name;
-        $file = $resource->key;   
-        $setting = System::where('key', $resource->key)->first();
-        $options = json_decode(json_decode(optional($setting)->value), true); 
- 
-        $data = json_decode($resource->value, true); 
-        $html = view('taqneen.customer_forms.pdf', compact('resource', 'data', 'options'))->render();
-         
-         
-        //return $html;
-        $stylesheet = file_get_contents('css/customer_forms.css');
-        //$pdf = PDF::loadHTML($html);  
-        $pdf = new \Mpdf\Mpdf();
-        $pdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
-        //$pdf->WriteHTML($stylesheet2,\Mpdf\HTMLParserMode::HEADER_CSS);
-        $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
-        
-        return $pdf->Output('form.pdf', 'D');
+        return $this->viewPdf($id, true);
     }  
 
-    public function viewPdf(CustomerForm $resource, $key)
+    public function viewPdf($id, $download=false)
     {
+        $resource = CustomerForm::find($id);
+        $key = $resource->key;
         $resource->courier_name = $resource->courier()->user_full_name;
         $file = $key;  
         
@@ -195,15 +176,15 @@ class CustomerFormController extends Controller
         $options = json_decode(json_decode(optional($setting)->value), true); 
  
         $data = json_decode($resource->value, true); 
+        $data['courier_name'] = $resource->courier()->user_full_name;
         $html = view('taqneen.customer_forms.pdf', compact('resource', 'data', 'options'))->render();
          
  
-        return $this->getPdf1($html); 
-        //return view('taqneen.customer_forms.pdf.' . $file, compact('resource', 'data'));
+        return $this->getPdf1($html, $download);  
     }
 
 
-    public function getPdf1($html) {
+    public function getPdf1($html, $download=false) {
         $stylesheet = file_get_contents('css/customer_forms.css');
         //$pdf = PDF::loadHTML($html);  
         $pdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [210, 297]]);
@@ -219,7 +200,7 @@ class CustomerFormController extends Controller
         $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY); 
         
         
-        return $pdf->output();
+        return $download? $pdf->Output('form.pdf', 'D') : $pdf->output();
     }
 
     public function getPdf2($html) {
