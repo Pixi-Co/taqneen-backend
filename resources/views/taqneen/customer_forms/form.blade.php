@@ -161,6 +161,11 @@
 
     setOtherUserTemplate({{ $resource->other_user_count?? 0 }});
     //muqeem_edit_other
+
+    @if ($resource->id)
+    $('.courier_name').val(resource['courier_name']);
+    $('.user_triger_email').val(resource['user_triger_email']);
+    @endif
 </script>
 @endsection
  

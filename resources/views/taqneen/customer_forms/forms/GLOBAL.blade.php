@@ -4,7 +4,7 @@
             <span class="gfield_required gfield_required_custom"></span>
         </span>
     </label>
-    {!! Form::select('form[courier_name]', $users, $resource->courier_name, ['class' => 'form-select', "placeholder" => "اختر المندوب"]) !!}
+    {!! Form::select('form[courier_name]', $users, $resource->courier_name, ['class' => 'form-select courier_name', "placeholder" => "اختر المندوب"]) !!}
 </div>
 
 <div class="col-md-12 ">
@@ -14,5 +14,5 @@
             <span class="gfield_required gfield_required_custom"></span>
         </span>
     </label>
-    {!! Form::email("form[user_triger_email]", $resource->user_triger_email, ["class" => "form-control", "placeholder" => "example@gmail.com"]) !!}
+    {!! Form::email("form[user_triger_email]", $resource->user_triger_email, ["class" => "form-control user_triger_email", "placeholder" => "example@gmail.com"]) !!}
 </div>
