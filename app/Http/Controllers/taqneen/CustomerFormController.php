@@ -92,7 +92,7 @@ class CustomerFormController extends Controller
         $customer_id = CustomerForm::getCustomerId();
         $resources = CustomerForm::where('key', $key)->where(function($query) use ($customer_id) {
             if (!auth()->user()->isAdmin()) {
-                $query->where('customer_id', $customer_id);
+                $query->where('created_by', auth()->user()->id);
             }
         })->get(); 
         //dd($resource);

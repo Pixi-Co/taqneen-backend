@@ -18,7 +18,8 @@ class CustomerForm extends Model
 
     public static $KEYS_IMAGES = [
         "MUQEEM" => [
-            "/assets/images/muqeem-pdf/page.png",
+            "/assets/images/muqeem-pdf/page1.png",
+            "/assets/images/muqeem-pdf/page2.png",
         ],
         "TAMM" => [
             "/assets/images/tamm-pdf/page1.png",

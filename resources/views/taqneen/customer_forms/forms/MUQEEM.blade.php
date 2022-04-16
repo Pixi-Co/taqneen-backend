@@ -19,6 +19,15 @@
                     عمليات
             </label> 
          </div>
+         <div class="gchoice " style="display: inline;">
+            <label for="">
+                <input type="checkbox" name="form[choice_3]"
+                    {{ optional($resource)->choice_3? 'checked' : '' }}
+                    value="{{ optional($resource)->choice_3 ? '1' : '0' }}"
+                    onchange="this.value = this.checked? '1' : '0'">
+                    افراد
+            </label> 
+         </div>
      </div>
  </div>
 
