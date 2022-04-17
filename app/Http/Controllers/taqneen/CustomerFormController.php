@@ -190,6 +190,7 @@ class CustomerFormController extends Controller
         //$pdf = PDF::loadHTML($html);  
         $pdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [210, 297]]);
         
+        dd($pdf);
         $pdf->autoScriptToLang = true;
         $pdf->baseScript = 1;
         $pdf->autoVietnamese = true;
