@@ -54,6 +54,11 @@
                                             @trans('subscription import excel')
                                          </button>
                                         @endcan
+                                        @can(find_or_create_p('subscription.export'))
+                                        <button type="button" class="btn btn-primary" onclick="exportExcel()" >
+                                            @trans('subscription export excel')
+                                         </button>
+                                        @endcan
                                          <div class="table-responsive">
                                              <br>
                                             <table class="display" id="subscriptionTable">
@@ -256,6 +261,32 @@ var session_layout = '{{ session()->get('layout') }}';
         $('.user_id').val('');
         subscriptionTable.ajax.url('/subscriptions-data');
         subscriptionTable.ajax.reload();
+    }
+
+    function exportExcel() {
+        var data = {
+            service_id: $('.service_id').val(),
+            user_id: $('.user_id').val(),
+            subscription_type: $('.subscription_type').val(),
+            payment_status: $('.payment_status').val(),
+            transaction_date_start: $('.transaction_date').attr('data-start'),
+            transaction_date_end: $('.transaction_date').attr('data-end'),
+            expire_date_end: $('.expire_date').attr('data-end'),
+            expire_date_start: $('.expire_date').attr('data-start'),
+            
+            payment_date_end: $('.payment_date').attr('data-end'),
+            payment_date_start: $('.payment_date').attr('data-start'),
+
+            register_date_end: $('.register_date').attr('data-end'),
+            register_date_start: $('.register_date').attr('data-start'),
+        };
+ 
+        var href = "{{ url('/subscriptions-export') }}?" + $.param(data);
+        window.location = href;
+        toastr.success('@trans("done")');
+        /*$.get("{{ url('/subscriptions-export') }}?" + $.param(data), function(res){
+
+        });*/
     }
  
     var subscriptionTable = $('#subscriptionTable').DataTable({

@@ -63,8 +63,8 @@ function formAjax(edit, action, selector, load, show_message) {
             });
 
             //sendPost(this.action, formdata, function(r){console.log(r);});
-            var method = self.method;
-            var url = this.action;
+            var method = $(form).attr('method');
+            var url = $(form).attr('action');
 
             if (method.toLocaleLowerCase() == 'get') {
                 console.log(object);

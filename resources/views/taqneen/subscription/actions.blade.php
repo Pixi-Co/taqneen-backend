@@ -101,6 +101,11 @@
                             {!! Form::select('method', $payment_methods, optional($row->payment)->method, ['class' => 'form-select']) !!}
                         </div>
 
+                        <div class="">
+                            <label for="">@trans('payment status')</label>
+                            {!! Form::select('shipping_custom_field_2', $payment_status, $row->shipping_custom_field_2, ['class' => 'form-select']) !!}
+                        </div>
+
                         <div class="form-group">
                             <label class="my-2" for="inputName">@trans('photo of transform')</label>
                             {!! Form::file('custom_field_3', ['class' => 'form-control']) !!}

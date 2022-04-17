@@ -5,6 +5,7 @@ namespace App\Http\Controllers\taqneen;
 use App\Category;
 use App\Contact;
 use App\ExpenseCategory;
+use App\Exports\SubscriptionExport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Imports\SubscriptionImport;
@@ -44,8 +45,7 @@ class SubscriptionController extends Controller
         return view('taqneen.subscription.index', compact("services", "payment_status", "users"));
     }
 
-    public function data()
-    {
+    public function getQuery() {
         $business_id = request()->session()->get('user.business_id');
 
         $query = Subscription::join(
@@ -130,6 +130,13 @@ class SubscriptionController extends Controller
             "transactions.created_by as created_by",
             "transactions.business_id as business_id",
         );
+
+        return $query;
+    }
+
+    public function data()
+    {
+        $query = $this->getQuery();
  
         return DataTables::of($query)
             ->addColumn('action', function ($row) { 
@@ -138,7 +145,11 @@ class SubscriptionController extends Controller
                     "for_elm" => __('for_elm'),
                     "direct_pay" => __('direct_pay')
                 ];
-                return view('taqneen.subscription.actions', compact('row', 'payment_methods'));
+                $payment_status = [
+                    "paid" => __('paid'),
+                    "not_paid" => __('not_paid')
+                ];
+                return view('taqneen.subscription.actions', compact('row', 'payment_methods', 'payment_status'));
             })  
             ->editColumn('created_by', function ($row) {
                 return optional($row->user)->first_name;
@@ -402,6 +413,7 @@ class SubscriptionController extends Controller
         $newSubscription = Subscription::create($resourceData);
         $newSubscription = $newSubscription->refresh();
         $newSubscription->custom_field_4 = $request->custom_field_4;
+        $newSubscription->shipping_custom_field_2 = $request->shipping_custom_field_2;
         $newSubscription->status = Subscription::$ACTIVE;
         /*$newSubscription->created_by = session('user.id');*/
         if ($resource->is_expire == 1)
@@ -465,7 +477,7 @@ class SubscriptionController extends Controller
         $resource->delete();
 
         // fire renew triger
-        Triger::fire(Triger::$RENEW_SUBSCRIPTION, $resource->id);
+        Triger::fire(Triger::$RENEW_SUBSCRIPTION, $newSubscription->id);
         return responseJson(1, __('done'));
     }
 
@@ -802,5 +814,9 @@ class SubscriptionController extends Controller
         //dd($output);
 
         return back()->with('status', $output);;
+    }
+
+    public function export() { 
+        return Excel::download(new SubscriptionExport, 'subscriptions.xlsx');
     }
 }

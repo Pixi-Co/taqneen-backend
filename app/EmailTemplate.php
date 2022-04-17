@@ -55,7 +55,7 @@ class EmailTemplate extends Model
     }
 
     public static function getEmailOfCourier($subscription) {
-        return optional($subscription->user)->email;
+        return optional(optional($subscription)->user)->email;
     }
 
     public static function checkIfTagOrEmail($text, $subscription) {
@@ -94,9 +94,9 @@ class EmailTemplate extends Model
             $emailList = explode(",", $cc);
             //$emailList[] = optional($subscription->contact)->email;
     
-            if (self::getEmailOfCourier($subscription)) {
+            //if (self::getEmailOfCourier($subscription)) {
                 //$emailList[] = self::getEmailOfCourier($subscription);
-            }
+            //}
     
             foreach(self::$TAGS as $key => $value) {
                 $body = str_replace($key, $subscription->getTagValue($value), $body);

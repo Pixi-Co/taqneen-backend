@@ -2,11 +2,12 @@
 
 @section('title', 'Default')
 
-@section('css')
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/chartist.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/date-picker.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/datatables.css') }}">
+@section('css')    
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/animate.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/chartist.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/date-picker.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatables.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/datatable-extension.css') }}">
 @endsection
 
 @section('style')
@@ -192,25 +193,45 @@
 
 
 @section('script')
-    <script src="{{ asset('assets/js/chart/chartist/chartist.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/chartist/chartist-plugin-tooltip.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/knob/knob.min.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/knob/knob-chart.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/apex-chart/apex-chart.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/apex-chart/stock-prices.js') }}"></script>
-    <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dashboard/default.js') }}"></script>
-    <script src="{{ asset('assets/js/notify/index.js') }}"></script>
-    <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.js') }}"></script>
-    <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
-    <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/handlebars.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/typeahead.bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/typeahead.custom.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead-search/handlebars.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
-    <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
+   
+<script src="{{asset('assets/js/chart/chartist/chartist.js')}}"></script>
+<script src="{{asset('assets/js/chart/chartist/chartist-plugin-tooltip.js')}}"></script>
+<script src="{{asset('assets/js/chart/knob/knob.min.js')}}"></script>
+<script src="{{asset('assets/js/chart/knob/knob-chart.js')}}"></script>
+<script src="{{asset('assets/js/chart/apex-chart/apex-chart.js')}}"></script>
+<script src="{{asset('assets/js/chart/apex-chart/stock-prices.js')}}"></script>
+<script src="{{asset('assets/js/notify/bootstrap-notify.min.js')}}"></script>
+<script src="{{asset('assets/js/dashboard/default.js')}}"></script>
+<script src="{{asset('assets/js/notify/index.js')}}"></script>
+<script src="{{asset('assets/js/datepicker/date-picker/datepicker.js')}}"></script>
+<script src="{{asset('assets/js/datepicker/date-picker/datepicker.en.js')}}"></script>
+<script src="{{asset('assets/js/datepicker/date-picker/datepicker.custom.js')}}"></script>
+<script src="{{asset('assets/js/typeahead/handlebars.js')}}"></script>
+<script src="{{asset('assets/js/typeahead/typeahead.bundle.js')}}"></script>
+<script src="{{asset('assets/js/typeahead/typeahead.custom.js')}}"></script>
+<script src="{{asset('assets/js/typeahead-search/handlebars.js')}}"></script>
+<script src="{{asset('assets/js/typeahead-search/typeahead-custom.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatables/datatable.custom.js')}}"></script>
+
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.buttons.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/jszip.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/buttons.colVis.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/pdfmake.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/vfs_fonts.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.autoFill.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.select.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/buttons.bootstrap4.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/buttons.html5.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/buttons.print.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.bootstrap4.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.responsive.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/responsive.bootstrap4.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.keyTable.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.colReorder.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.fixedHeader.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.rowReorder.min.js"></script>
+<script src="{{ url('/assets') }}/js/datatable/datatable-extension/dataTables.scroller.min.js"></script>
 
     <script>
         function addNote(id) {
@@ -267,8 +288,8 @@
             buttons: [
                 'copyHtml5',
                 'excelHtml5',
-                'csvHtml5',
-                'pdfHtml5',
+                //'csvHtml5',
+                //'pdfHtml5',
                 'colvis'
             ],
             columnDefs: [{

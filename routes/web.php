@@ -183,6 +183,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('reports/subscriptions', 'taqneen\ReportController@subscriptions');
     Route::get('subscriptions-data', 'taqneen\SubscriptionController@data');
     Route::post('subscriptions/save', 'taqneen\SubscriptionController@save');
+    Route::get('subscriptions-export', 'taqneen\SubscriptionController@export');
     Route::post('subscriptions/customer-api', 'taqneen\SubscriptionController@customerApi');
     Route::post('subscriptions/add-note/{id}', 'taqneen\SubscriptionController@addNote');
     Route::post('subscriptions/renew/{id}', 'taqneen\SubscriptionController@renew');
