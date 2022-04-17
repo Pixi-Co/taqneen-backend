@@ -9,6 +9,11 @@
 @endsection
 
 @section('style')
+<style>
+    .package option {
+        display: none
+    }
+</style>
 @endsection
 
 @section('breadcrumb-title')
@@ -75,15 +80,15 @@
 
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('select services  ') *</b>
-                                                {!! Form::select("custom_field2", $services, $opportunity->custom_field2, ["class" => "form-select", 'placeholder'=> __('select service'), $disabled]) !!} 
+                                                {!! Form::select("custom_field2", $services, $opportunity->custom_field2, ["class" => "form-select service", 'placeholder'=> __('select service'), $disabled]) !!} 
                                             </div>
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('select packages  ') *</b>
-                                                {!! Form::select("custom_field3", $packages, $opportunity->custom_field3, ["class" => "form-select", $disabled]) !!} 
+                                                {!! Form::select("custom_field3", $packages, $opportunity->custom_field3, ["class" => "form-select package", $disabled]) !!} 
                                             </div>
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('publish date ') *</b>
-                                                <input type="date" name="dob" class="form-control" placeholder="@trans('publish data ')" value="{{ $opportunity->dob }}"  {{ $disabled }} required>
+                                                <input type="date" name="dob" class="form-control" placeholder="@trans('publish data ')" value="{{ $opportunity->dob?? date('Y-m-d') }}"  {{ $disabled }} required>
                                             </div>
                                             
                                             <div class="form-group col-md-6 pt-3">
@@ -143,4 +148,8 @@
     <script src="{{ asset('assets/js/typeahead/typeahead.custom.js') }}"></script>
     <script src="{{ asset('assets/js/typeahead-search/handlebars.js') }}"></script>
     <script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
+
+    <script>
+        .
+    </script>
 @endsection

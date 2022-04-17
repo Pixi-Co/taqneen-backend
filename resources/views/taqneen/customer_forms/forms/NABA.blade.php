@@ -91,7 +91,7 @@
             <div class="col-md-4 ">
                 <label class="gfield_label pb-1" for="">موقع الشركة الالكتروني :
                     <span class="gfield_required">
-                        <span class="gfield_required gfield_required_custom">*</span>
+                        <span class="gfield_required gfield_required_custom"></span>
                     </span>
                 </label>
                 {!! Form::url('form[company_website]', $resource->company_website, ['class' => 'form-control', 'placeholder', 'https//:example.com']) !!}
