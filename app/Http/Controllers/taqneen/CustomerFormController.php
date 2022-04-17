@@ -165,7 +165,7 @@ class CustomerFormController extends Controller
     {
         $resource = CustomerForm::find($id);
         $key = $resource->key;
-        $resource->courier_name = $resource->courier()->user_full_name;
+        $resource->courier_name = optional($resource->courier())->user_full_name;
         $file = $key;  
         
 
@@ -176,7 +176,7 @@ class CustomerFormController extends Controller
         $options = json_decode(json_decode(optional($setting)->value), true); 
  
         $data = json_decode($resource->value, true); 
-        $data['courier_name'] = $resource->courier()->user_full_name;
+        $data['courier_name'] = $resource->courier_name;
         $html = view('taqneen.customer_forms.pdf', compact('resource', 'data', 'options'))->render();
          
   
