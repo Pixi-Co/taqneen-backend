@@ -39,8 +39,12 @@ function formAjax(edit, action, selector, load, show_message) {
                 var e = elements[i];
                 if (e.name.length > 0) {
                     if (e.type == "file") {
-                        if (e.files[0] != undefined)
-                            formdata.append(e.name, e.files[0]);
+                        for (var idx = 0; idx < e.files.length; idx++) {
+                            var f = e.files[idx];
+                            formdata.append(e.name, f);
+                        }
+                        /*if (e.files[0] != undefined)
+                            formdata.append(e.name, e.files[0]);*/
                     } else {
                         if (Array.isArray($(e).val())) {
                             var vv = $(e).val();
