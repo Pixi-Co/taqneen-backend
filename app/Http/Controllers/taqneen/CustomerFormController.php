@@ -179,8 +179,7 @@ class CustomerFormController extends Controller
         $data['courier_name'] = $resource->courier()->user_full_name;
         $html = view('taqneen.customer_forms.pdf', compact('resource', 'data', 'options'))->render();
          
- 
-        return $html;
+  
         return $this->getPdf1($html, $download);  
     }
 
@@ -199,10 +198,8 @@ class CustomerFormController extends Controller
         $pdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
         //$pdf->WriteHTML($stylesheet2,\Mpdf\HTMLParserMode::HEADER_CSS);
         $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY); 
-        
-        
-        return $pdf->output('form.pdf');
-        return $download? $pdf->Output('form.pdf', 'D') : $pdf->output('form.pdf');
+         
+        return $download? $pdf->Output('form.pdf', 'D') : $pdf->output();
     }
 
     public function getPdf2($html) {
