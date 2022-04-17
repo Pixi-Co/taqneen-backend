@@ -200,6 +200,7 @@ class CustomerFormController extends Controller
         $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY); 
          
 
+        dd($pdf);
         return $pdf->output();
         return $download? $pdf->Output('form.pdf', 'D') : $pdf->output();
     }
