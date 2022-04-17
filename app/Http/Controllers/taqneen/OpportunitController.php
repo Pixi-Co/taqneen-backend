@@ -57,7 +57,8 @@ class OpportunitController extends Controller
         $services = Category::forDropdown(session('user.business_id'), "service"); 
         $packages = ServicePackage::where('business_id', session('user.business_id'))->pluck("name", "id")->toArray(); 
         $users = User::forDropdown(session('business.id'));
-        return view('taqneen.opportunities.form',compact('opportunity','services','packages', 'users','status', 'disabled'));
+        $packageResources = ServicePackage::where('business_id', session('user.business_id'))->get();
+        return view('taqneen.opportunities.form',compact('packageResources', 'opportunity','services','packages', 'users','status', 'disabled'));
     }//end create
 
 
@@ -73,7 +74,8 @@ class OpportunitController extends Controller
         $packages = ServicePackage::where('business_id', session('user.business_id'))->pluck("name", "id")->toArray();
         $users = User::forDropdown(session('business.id'));
         $disabled = auth()->user()->isAdmin()? "" : "disabled";
-        return view('taqneen.opportunities.form',compact('opportunity','services','packages', 'users','status', 'disabled'));
+        $packageResources = ServicePackage::where('business_id', session('user.business_id'))->get();
+        return view('taqneen.opportunities.form',compact('packageResources', 'opportunity','services','packages', 'users','status', 'disabled'));
 
     }
 

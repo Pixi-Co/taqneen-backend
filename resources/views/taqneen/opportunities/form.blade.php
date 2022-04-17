@@ -9,10 +9,7 @@
 @endsection
 
 @section('style')
-<style>
-    .package option {
-        display: none
-    }
+<style> 
 </style>
 @endsection
 
@@ -80,11 +77,11 @@
 
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('select services  ') *</b>
-                                                {!! Form::select("custom_field2", $services, $opportunity->custom_field2, ["class" => "form-select service", 'placeholder'=> __('select service'), $disabled]) !!} 
+                                                {!! Form::select("custom_field2", $services, $opportunity->custom_field2, ["class" => "form-select service", 'placeholder'=> __('select service'), $disabled, "onchange" => "setPackage(this.value)"]) !!} 
                                             </div>
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('select packages  ') *</b>
-                                                {!! Form::select("custom_field3", $packages, $opportunity->custom_field3, ["class" => "form-select package", $disabled]) !!} 
+                                                {!! Form::select("custom_field3", $packages, $opportunity->custom_field3, ["class" => "form-select package", 'placeholder'=> __('select package'), $disabled]) !!} 
                                             </div>
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('publish date ') *</b>
@@ -150,6 +147,23 @@
     <script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
 
     <script>
-        .
+        var packages = <?php echo json_encode($packageResources) ?>; 
+        
+        function setPackage(service_id) {
+            $('.package').html('');
+
+            for(var index = 0; index < packages.length; index ++) {
+                var package = packages[index];
+                if (package.service_id == service_id) {
+                    var template = `
+                        <option value="${package.id}" >${package.name}</option>
+                    `;
+                    $('.package')[0].innerHTML += template;
+                }
+            }
+        }
+
+        setPackage('{{ $opportunity->custom_field2 }}');
+        $('.package').val('{{ $opportunity->custom_field3 }}');
     </script>
 @endsection

@@ -36,11 +36,24 @@ class Subscription extends Transaction
         return $date->addYear()->format('Y-m-d');
     }
 
+    public function convertToNotPaidBeforeOneMonth() {
+        $now = Carbon::now()->addDays(30)->format('Y-m-d');
+        $expDate = Carbon::createFromFormat("Y-m-d", $this->expire_date);
+        $days = $expDate->diffInDays($now);
+
+        if ($days <= 30) {
+            $this->shipping_custom_field_2 = "not_paid";
+            $this->update();
+        }
+    }
+
     public function isExpire() {
         $today = time();
         $expire = $today > strtotime($this->expire_date)? 1 : '0';
         $this->is_expire = $expire;
         $this->update();
+        // check on expiring before month
+        $this->convertToNotPaidBeforeOneMonth();
 
         return $expire == 1? true : false;
     }
