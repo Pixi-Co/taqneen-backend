@@ -190,7 +190,6 @@ class CustomerFormController extends Controller
         //$pdf = PDF::loadHTML($html);  
         $pdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [210, 297]]);
         
-        dd($pdf);
         $pdf->autoScriptToLang = true;
         $pdf->baseScript = 1;
         $pdf->autoVietnamese = true;
@@ -199,6 +198,7 @@ class CustomerFormController extends Controller
 
         $pdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
         //$pdf->WriteHTML($stylesheet2,\Mpdf\HTMLParserMode::HEADER_CSS);
+        dd($pdf);
         $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);  
  
         return $download? $pdf->Output('form.pdf', 'D') : $pdf->output();
