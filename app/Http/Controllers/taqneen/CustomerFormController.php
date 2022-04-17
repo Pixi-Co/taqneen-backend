@@ -186,6 +186,7 @@ class CustomerFormController extends Controller
 
     public function getPdf1($html, $download=false) {
         $stylesheet = file_get_contents('css/customer_forms.css');
+        dd($stylesheet);
         //$pdf = PDF::loadHTML($html);  
         $pdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [210, 297]]);
         
@@ -200,7 +201,6 @@ class CustomerFormController extends Controller
         $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY); 
          
 
-        dd($pdf);
         return $pdf->output();
         return $download? $pdf->Output('form.pdf', 'D') : $pdf->output();
     }
