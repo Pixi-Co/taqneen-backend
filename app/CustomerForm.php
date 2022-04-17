@@ -62,7 +62,7 @@ class CustomerForm extends Model
     public function courier()
     {
         $data = json_decode($this->value);
-        return User::find($data->courier_name)? User::find($data->courier_name) : new User();
+        return isset($data->courier_name)? User::find($data->courier_name) : new User();
     }
 
     public function user()
