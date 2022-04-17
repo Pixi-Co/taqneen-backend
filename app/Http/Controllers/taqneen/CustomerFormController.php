@@ -180,6 +180,7 @@ class CustomerFormController extends Controller
         $html = view('taqneen.customer_forms.pdf', compact('resource', 'data', 'options'))->render();
          
  
+        return $html;
         return $this->getPdf1($html, $download);  
     }
 
