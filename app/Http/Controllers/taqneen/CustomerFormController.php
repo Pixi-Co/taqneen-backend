@@ -197,8 +197,6 @@ class CustomerFormController extends Controller
         $pdf->autoLangToFont  = true; 
 
         $pdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
-        
-        dd($html);
         $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);  
  
         return $download? $pdf->Output('form.pdf', 'D') : $pdf->output();
