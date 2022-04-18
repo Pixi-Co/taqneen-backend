@@ -141,7 +141,7 @@
                             <li><a  href="{{url('/support')}}" >@trans('supportboard')</a></li> 
                             @endcan
                             @can(find_or_create_p('support.ticket'))
-                            <li><a  href="{{url('/ticket')}}" >@trans('ticket')</a></li> 
+                            <li><a target="_blank" href="https://ticket.vauxerp.com/" >@trans('ticket')</a></li> 
                             @endcan
                         </ul>
                     </li>
