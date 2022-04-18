@@ -689,7 +689,7 @@
 
                 Object.keys(this.customerObject).forEach(function(element){
                     var customer = subscription.customerObject[element];
-                    html += `<option value="${customer.id}" >${customer.name}-${customer.mobile}</option>`;
+                    html += `<option value="${customer.id}" >${customer.supplier_business_name}-${customer.custom_field1}</option>`;
                 });
                 
                 customerSelect.html(html);
