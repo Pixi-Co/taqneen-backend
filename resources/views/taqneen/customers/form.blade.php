@@ -71,7 +71,7 @@
                                              </div>
                                              <div class="form-group col-md-4">
                                                  <label>@trans('accountant no')</label>
-                                                 <input type="text" name="custom_field1" class="form-control" placeholder="@trans('acountant no')" value="{{ $customer->custom_field1 }}" >
+                                                 <input type="text" name="custom_field1" class="form-control" maxlength="10" placeholder="@trans('acountant no')" value="{{ $customer->custom_field1 }}" >
                                              </div>
 
                                              <div class="form-group col-md-6 pt-3">
@@ -110,7 +110,7 @@
                                              
                                                 <div class="form-group col-md-4">
                                                     <label>@trans('Phone')</label>
-                                                    <input type="text" name="mobile" class="form-control" placeholder="@trans('phone ')" value="{{ $customer->mobile }}" required>
+                                                    <input type="text" name="mobile" class="form-control" maxlength="9" placeholder="50xxxxxxx" value="{{ $customer->mobile }}" required>
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label>@trans('First Name')</label>

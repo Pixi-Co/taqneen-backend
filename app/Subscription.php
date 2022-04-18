@@ -48,6 +48,7 @@ class Subscription extends Transaction
 
         if ($days <= 30) {
             $this->shipping_custom_field_2 = "not_paid";
+            $this->status = "pay_pending";
             $this->update();
         }
     }

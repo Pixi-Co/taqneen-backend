@@ -464,7 +464,7 @@
                                              </div>
                                              <div class="form-group col-md-4">
                                                  <label>@trans('accountant no')</label>
-                                                 <input type="text" name="custom_field1" class="form-control" placeholder="@trans('acountant no')"  >
+                                                 <input type="text" name="custom_field1" class="form-control" maxlength="10" placeholder="@trans('acountant no')"  >
                                              </div>
 
                                              <div class="form-group col-md-6 pt-3">
@@ -511,7 +511,7 @@
                                              
                                              <div class="form-group col-md-4">
                                                  <label>@trans('Phone')</label>
-                                                 <input type="text" name="mobile" class="form-control" placeholder="@trans('phone ')" required>
+                                                 <input type="text" name="mobile" maxlength="9" class="form-control" placeholder="50xxxxxxx" required>
                                              </div>
                                          </div>
                                          

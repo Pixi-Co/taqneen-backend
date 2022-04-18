@@ -300,8 +300,8 @@ var session_layout = '{{ session()->get('layout') }}';
         ],
         dom: 'RlBfrtip',
         buttons: [
-            'copyHtml5',
-            'excelHtml5',
+            //'copyHtml5',
+            //'excelHtml5',
             //'csvHtml5',
             //'pdfHtml5',
             'colvis'
