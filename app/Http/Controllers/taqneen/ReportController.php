@@ -22,7 +22,7 @@ class ReportController extends Controller
         ->where('transactions.business_id', $business_id);
  
 
-        if (find_or_create_p('subscriptions.own_data', 'subscriptions')) {
+        if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions')) && !auth()->user()->isAdmin()) {
             $query->where('transactions.created_by', auth()->user()->id);
         }  
 
@@ -99,7 +99,7 @@ class ReportController extends Controller
         ->where('transactions.business_id', $business_id);
  
 
-        if (find_or_create_p('subscriptions.own_data', 'subscriptions')) {
+        if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions')) && !auth()->user()->isAdmin()) {
             $query->where('transactions.created_by', auth()->user()->id);
         }  
 
