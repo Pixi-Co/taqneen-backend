@@ -131,6 +131,8 @@ class Subscription extends Transaction
             ->first(); 
 
 
+        $resource->status = __($resource->status);
+        $resource->payment_method = __($resource->payment_method);
         $resource->final_total = number_format($resource->final_total, 2);
         $resource->note = optional($this->subscription_notes()->latest()->first())->note;
         //$resource->invoice_url = url('/subscriptions/print') . "/" . $this->getTokenAttribute();
