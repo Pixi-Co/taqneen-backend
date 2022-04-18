@@ -14,12 +14,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@trans('customers')</h3>
+    <h3>@trans('sales_commission_report')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
-    <li class="breadcrumb-item active">@trans('customers')</li>
+    <li class="breadcrumb-item active">@trans('sales_commission_report')</li>
 @endsection
 
 @section('content')
