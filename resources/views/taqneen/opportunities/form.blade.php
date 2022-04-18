@@ -79,10 +79,12 @@
                                                 <b>@trans('select services  ') *</b>
                                                 {!! Form::select("custom_field2", $services, $opportunity->custom_field2, ["class" => "form-select service", 'placeholder'=> __('select service'), $disabled, "onchange" => "setPackage(this.value)"]) !!} 
                                             </div>
+                                            <!--
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('select packages  ') *</b>
                                                 {!! Form::select("custom_field3", $packages, $opportunity->custom_field3, ["class" => "form-select package", 'placeholder'=> __('select package'), $disabled]) !!} 
                                             </div>
+                                            -->
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('publish date ') *</b>
                                                 <input type="date" name="dob" class="form-control" placeholder="@trans('publish data ')" value="{{ $opportunity->dob?? date('Y-m-d') }}"  {{ $disabled }} required>

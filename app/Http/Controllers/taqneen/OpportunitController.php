@@ -46,10 +46,12 @@ class OpportunitController extends Controller
 
     public function create() {
         $status = [
-            "waiting" => trans('waiting'),
-            "processing" => trans('processing'),
-            "active" => trans('active'),
-            "cancel" => trans('cancel'),
+            "new" => __('new'), 
+            "follow" => __('follow'), 
+            "no_need" => __('no_need'), 
+            "no_reach" => __('no_reach'), 
+            "done" => __('done'), 
+            "another_provider" => __('another_provider'),
         ];
         
         $opportunity = new Contact();
@@ -63,11 +65,14 @@ class OpportunitController extends Controller
 
 
     public function edit($id){
+        //new - follow - no need - no-reach - done - anpther provider
         $status = [
-            "waiting" => trans('waiting'),
-            "processing" => trans('processing'),
-            "active" => trans('active'),
-            "cancel" => trans('cancel'),
+            "new" => __('new'), 
+            "follow" => __('follow'), 
+            "no_need" => __('no_need'), 
+            "no_reach" => __('no_reach'), 
+            "done" => __('done'), 
+            "another_provider" => __('another_provider'), 
         ];
         $opportunity = Contact::find($id);
         $services = Category::forDropdown(session('user.business_id'), "service"); 
@@ -125,10 +130,10 @@ class OpportunitController extends Controller
                 "custom_field2" => $request->custom_field2, // service ,
                 "custom_field3" => $request->custom_field3, // package,
                 "custom_field4" => $request->custom_field4, // status,
-                "created_by" => $request->created_by,
+                //"created_by" => $request->created_by,
             ];
             
-           Contact::find($id)->update($data);
+           Contact::find($id)->update($request->all());
 
             $output = [
                 "success" => 1,

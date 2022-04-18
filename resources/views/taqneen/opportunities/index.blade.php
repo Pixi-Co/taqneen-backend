@@ -62,8 +62,7 @@
                                                             <th>@trans('name')</th>
                                                             <th>@trans('phone')</th>
                                                             <th>@trans('email')</th>
-                                                            <th>@trans('serivce')</th>
-                                                            <th>@trans('package')</th>
+                                                            <th>@trans('serivce')</th> 
                                                             <th>@trans('status')</th>
                                                             <th>@trans('assign_user')</th>
                                                             <th>@trans('publish date')</th>
@@ -77,8 +76,7 @@
                                                                 <td>{{ $item->name }}</td>
                                                                 <td>{{ $item->mobile }}</td>
                                                                 <td>{{ $item->email }}</td>
-                                                                <td>{{ optional($item->service)->name }}</td>
-                                                                <td>{{ optional($item->package)->name }}</td>
+                                                                <td>{{ optional($item->service)->name }}</td> 
                                                                 <td>
                                                                     @if ($item->custom_field4 == 'waiting')
                                                                         <label
