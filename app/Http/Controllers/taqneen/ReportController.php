@@ -19,8 +19,7 @@ class ReportController extends Controller
         $business_id = request()->session()->get('user.business_id');
 
         $query = Subscription::query()
-        ->where('transactions.business_id', $business_id)
-        ->where('is_renew', '0');
+        ->where('transactions.business_id', $business_id);
  
 
         if (find_or_create_p('subscriptions.own_data', 'subscriptions')) {
@@ -97,8 +96,7 @@ class ReportController extends Controller
         $business_id = request()->session()->get('user.business_id');
 
         $query = Subscription::query()
-        ->where('transactions.business_id', $business_id)
-        ->where('is_renew', '0');
+        ->where('transactions.business_id', $business_id);
  
 
         if (find_or_create_p('subscriptions.own_data', 'subscriptions')) {
