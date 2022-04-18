@@ -32,7 +32,9 @@
 <script src="{{ asset('js/iziToast.js') }}"></script>
 <script src="{{ asset('js/fullcalendar.min.js') }}"></script>
 <script src="{{ asset('assets/js/theme-customizer/customizer.js') }}"></script>
-
+@php
+    dd(auth()->user()->roles()->first());
+@endphp
 @if (optional(auth()->user()->roles()->first())->name == 'customer#19')
 <script src="{{ url('/') }}/supportboard/js/min/jquery.min.js"></script>
 <script id="sbinit" src="{{  url('/')  }}/supportboard/js/main.js"></script>
