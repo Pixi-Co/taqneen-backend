@@ -101,7 +101,30 @@
 
 @section("script")
 
-<script>
+<script> 
+    $('input').each(function(){
+        if ($(this).attr('maxlength') > 0) {
+            $(this).attr("pattern", "[0-9]+");
+            //$(this).attr("data-toggle", "tooltip");
+            //$(this).attr("title", "{{ __('only_numbers_available') }}");
+            $(this).on('input', function (e) {
+                $(this).val($(this).val().replace(/[^0-9]/g, ''));
+            });
+        }
+
+        /*this.onkeyup = function(){
+            $(this).parent().find('.hind_error').remove();
+            var value = this.value;
+            console.log(isNumber(value));
+            if (!isNumber(value)) {
+                var hint = document.createElement('p');
+                hint.className = "w3-text-red hind_error";
+                hint.innerHTML = "{{ __('only_numbers_available') }}";
+                $(this).parent().append(hint);
+            }
+        };*/
+    });
+
     var resource = <?php echo json_encode($resource) ?>;
     $(".related").each(function(){
         var self = this;
