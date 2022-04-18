@@ -256,9 +256,11 @@ class CustomerController extends Controller
                     $role = $user->roles()->first();
                     $newRole = Role::find($request->input('roles'));
                     //
-                    $user->removeRole($role);
-                    $user->roles()->detach();
-                    $user->forgetCachedPermissions();
+                    if ($role) {
+                        $user->removeRole($role);
+                        $user->roles()->detach();
+                        $user->forgetCachedPermissions();
+                    }
                     $user->assignRole($newRole->name);
                 }
             } else {
