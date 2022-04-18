@@ -429,7 +429,7 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <form action="/subscriptions/customer-api" method="post" class="form" enctype="multipart/form-data">
+                    <form action="/subscriptions/customer-api" method="post" class="" id="customer_form" enctype="multipart/form-data">
                         @csrf
                         
             <div class="row"> 
@@ -722,6 +722,16 @@
                 if (res.status == 1)
                     window.location = "{{  url('/subscriptions')  }}"; 
             });
+
+            formAjax(false, function(res){
+                if (res.status == 1) {
+                    subscription.customerObject[res.data.id] = res.data; 
+                    subscription.observeCustomers();
+                } else { 
+                }
+ 
+                
+            }, "#customer_form");
 
             $('.select2').select2();
 
