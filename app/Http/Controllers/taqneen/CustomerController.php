@@ -97,8 +97,7 @@ class CustomerController extends Controller
     {
         // dd($request->all());
         $this->validate($request, [
-            'password' => 'required|same:confirm_password',
-            'roles' => 'required',
+            'password' => 'required|same:confirm_password', 
         ]);
 
         try {
