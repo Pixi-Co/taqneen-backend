@@ -113,7 +113,7 @@ class Subscription extends Transaction
     }
 
     public function getTagValue($tag) {
-        $url = url('/subscriptions/print') . "/" . $this->getTokenAttribute();
+        $url = url('/subscriptions') . "/" . $this->id;
  
         $resource = DB::table('transactions')
             ->select(
