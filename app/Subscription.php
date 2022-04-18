@@ -121,6 +121,7 @@ class Subscription extends Transaction
                 "transaction_date as subscription_date",
                 DB::raw( "'".$url."' as invoice_url"),
                 DB::raw( "(select name from contacts where contacts.id = contact_id) as contact_name"),
+                DB::raw( "(select supplier_business_name from contacts where contacts.id = contact_id) as supplier_business_name"),
                 DB::raw( "(select name from contacts where contacts.id = contact_id) as customer"),
                 DB::raw("(select first_name from users where users.id = created_by) as sales_commission"),
                 DB::raw("(select method from transaction_payments where transaction_payments.transaction_id = transactions.id) as payment_method"),
