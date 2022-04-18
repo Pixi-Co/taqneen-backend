@@ -36,6 +36,11 @@ class Subscription extends Transaction
         return $date->addYear()->format('Y-m-d');
     }
 
+    public function getExpenses() {
+        $ids = explode(",", $this->custom_field_1);
+        return ExpenseCategory::whereIn('id', $ids);
+    }
+
     public function convertToNotPaidBeforeOneMonth() {
         $now = Carbon::now()->addDays(30)->format('Y-m-d');
         $expDate = Carbon::createFromFormat("Y-m-d", $this->expire_date);

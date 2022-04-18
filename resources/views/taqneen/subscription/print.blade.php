@@ -101,11 +101,13 @@
                     $iteration += 1;
                 @endphp
                    @endforeach 
+                   @foreach ($resource->getExpenses()->get() as $exp)
                    <tr class="text-center">
                        <td>{{ $iteration }}</td>
-                       <td colspan="3" >رسوم منصة</td> 
-                       <td >{{ number_format($resource->custom_field_2? $resource->custom_field_2 : 0, 2) }}</td>
+                       <td colspan="3" >{{ $exp->name }}</td> 
+                       <td >{{ number_format($exp->price) }}</td>
                    </tr>
+                   @endforeach
                     <tr class="text-center border-0" >
                         <td class="border-0" style="height:25px;"></td>
                         <td class="border-0" style="height:25px;"></td>

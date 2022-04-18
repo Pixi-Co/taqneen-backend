@@ -211,7 +211,7 @@ class SubscriptionController extends Controller
 
     public function show($id)
     {
-        $resource = Subscription::find($id);
+        $resource = Subscription::find($id); 
         return view('taqneen.subscription.view', compact("resource"));
     }
 
@@ -228,6 +228,7 @@ class SubscriptionController extends Controller
         $pdf = PDF::loadView('taqneen.subscription.print', $data);
         return $pdf->stream('document.pdf');
         */
+ 
         return view('taqneen.subscription.print', compact("resource"));
     }
 
