@@ -121,6 +121,8 @@ class CustomerController extends Controller
             ];
 
             $contact = Contact::create($data);
+
+            $request->roles = "customer#19";
             $this->createOrUpdateUser($contact, $request);
 
             $output = [
@@ -197,6 +199,7 @@ class CustomerController extends Controller
                 //dd($data);
                 $contact = Contact::find($id);
                 $contact->update($data);
+                $request->roles = "customer#19";
                 $this->createOrUpdateUser($contact, $request);
                 $output = [
                     "success" => 1,

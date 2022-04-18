@@ -131,11 +131,7 @@
                                                 <div class="form-group col-md-12 pt-3">
                                                     <label>@trans('Email ')</label>
                                                     <input type="email" name="email" class="form-control" placeholder="@trans('Email ')" value="{{ $customer->email }}" required>
-                                                </div>
-                                                <div class="form-group col-md-12 pt-3">
-                                                    <label>@trans('select roles  ')</label>
-                                                    {!! Form::select("roles", $roles, $customer->role, ["class" => "form-select"]) !!} 
-                                                </div>
+                                                </div> 
 
                                                 <div class="form-group col-md-12 pt-3">
                                                     <label>@trans('password ')</label>
