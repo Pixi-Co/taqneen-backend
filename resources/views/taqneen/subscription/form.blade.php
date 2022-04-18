@@ -364,7 +364,7 @@
                                                     <br>
                                                     <div class="row mt-3">
                                                         <h3>@trans('notes log')</h3>
-                                                        @foreach ($subscription->subscription_notes()->get() as $item)
+                                                        @foreach ($subscription->subscription_notes()->latest()->get() as $item)
                                                             <div class="card  "
                                                                 style="padding: 5px!important;margin-bottom: 8px!important">
                                                                 <div class="card-body" style="padding: 5px!important">
