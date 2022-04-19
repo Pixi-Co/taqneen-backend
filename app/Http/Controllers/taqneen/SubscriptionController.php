@@ -637,12 +637,16 @@ class SubscriptionController extends Controller
             }
 
             // insert lines
-            if ($request->notes)
+            if ($request->notes) {
                 DB::table('subscription_notes')->insert([
                     "transaction_id" => $resource->id,
                     "user_id" => session('user.id'),
                     "notes" => $request->notes,
                 ]);
+                
+                // fire add node triger
+                Triger::fire(Triger::$ADD_SUBSCRIPTION_NOTE, $id);
+            }
 
             // edit log
             if ($oldResource->status != $resource->status) {
