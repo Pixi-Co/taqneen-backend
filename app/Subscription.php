@@ -131,6 +131,7 @@ class Subscription extends Transaction
             ->first(); 
 
 
+        $resource->company = optional($this->contact)->supplier_business_name;
         $resource->status = __($resource->status);
         $resource->payment_method = __($resource->payment_method);
         $resource->final_total = number_format($resource->final_total, 2);

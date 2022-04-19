@@ -17,10 +17,12 @@ class OpportunitController extends Controller
 {
     public function index(){
         $status = [
-            "waiting" => trans('waiting'),
-            "processing" => trans('processing'),
-            "active" => trans('active'),
-            "cancel" => trans('cancel'),
+            "new" => __('new'), 
+            "follow" => __('follow'), 
+            "no_need" => __('no_need'), 
+            "no_reach" => __('no_reach'), 
+            "done" => __('done'), 
+            "another_provider" => __('another_provider'), 
         ];
         $users = User::forDropdown(session('business.id'));
         $query = Contact::where('type','opportunity')->where('business_id', session('business.id'))

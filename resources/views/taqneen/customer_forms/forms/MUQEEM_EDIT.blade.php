@@ -1,6 +1,6 @@
  
   <div class="ginput_container ginput_container_checkbox">
-    <legend class="gsection_title">نموذج تغيير المستخدم الرئيسي في خدمة تم    </legend> 
+    <legend class="gsection_title">نموذج تغيير المستخدم الرئيسي في خدمة مقيم    </legend> 
    
 </div>
 

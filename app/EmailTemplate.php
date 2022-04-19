@@ -29,7 +29,7 @@ class EmailTemplate extends Model
     public static $TAGS = [
         '{status}' => "status",
         '{customer}' => "contact_name",
-        '{company}' => "supplier_business_name",
+        '{company}' => "company",
         '{sales_commission}' => "sales_commission",
         '{final_total}' => "final_total",
         '{payment_method}' => "payment_method",
