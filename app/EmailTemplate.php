@@ -38,6 +38,7 @@ class EmailTemplate extends Model
         '{renew_date}' => "renew_date",
         '{expire_date}' => "expire_date",
         '{invoice_url}' => "invoice_url",
+        '{subscription_url}' => "subscription_url",
         '{customer_form_name}' => "customer_form_name",
         '{customer_form_user}' => "customer_form_user",
         '{customer_form_pdf_url}' => "customer_form_pdf_url",

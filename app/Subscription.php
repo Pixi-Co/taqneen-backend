@@ -114,6 +114,7 @@ class Subscription extends Transaction
 
     public function getTagValue($tag) {
         $url = url('/subscriptions') . "/" . $this->id;
+        $edit_url = url('/subscriptions') . "/" . $this->id . "/edit";
  
         $resource = DB::table('transactions')
             ->select(
@@ -131,6 +132,7 @@ class Subscription extends Transaction
             ->first(); 
 
 
+        $resource->subscription_url = $edit_url;
         $resource->company = optional($this->contact)->supplier_business_name;
         $resource->contact_name = optional($this->contact)->name;
         $resource->status = $resource->status == "cancel"? __('cancel_') : __($resource->status);
