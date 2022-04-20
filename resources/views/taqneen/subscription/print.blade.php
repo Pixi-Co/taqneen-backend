@@ -106,14 +106,17 @@
                 @endphp
                    @endforeach 
                    @foreach ($resource->getExpenses()->get() as $exp)
+                   @php 
+                    $exp->price = $exp->tax? $exp->price + ( ($exp->tax->amount / 100) * $exp->price ) : $exp->price;
+                   @endphp
                    <tr class="text-center">
                        <td>{{ $iteration ++ }}</td>
                        <td colspan="3" >{{ $exp->name }}</td> 
                        <td >{{ number_format($exp->price) }}</td>
                    </tr>
-                @php
-                    $total += $exp->price; 
-                @endphp
+                    @php
+                        $total += $exp->price; 
+                    @endphp
                    @endforeach
                     <tr class="text-center border-0" >
                         <td class="border-0" style="height:25px;"></td>
