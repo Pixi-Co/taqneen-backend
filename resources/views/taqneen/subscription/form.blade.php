@@ -761,6 +761,17 @@
                 $('select[name=sub_type]').change();
                 subscription.selectDefaultTax();
             @endif
+
+            $('input').each(function(){
+                if ($(this).attr('maxlength') > 0) {
+                    $(this).attr("pattern", "[0-9]+");
+                    //$(this).attr("data-toggle", "tooltip");
+                    //$(this).attr("title", "{{ __('only_numbers_available') }}");
+                    $(this).on('input', function (e) {
+                        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+                    });
+                } 
+            });
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>

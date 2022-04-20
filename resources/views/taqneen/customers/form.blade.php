@@ -188,4 +188,17 @@
     <script src="{{ asset('assets/js/typeahead/typeahead.custom.js') }}"></script>
     <script src="{{ asset('assets/js/typeahead-search/handlebars.js') }}"></script>
     <script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
+    <script>
+
+        $('input').each(function(){
+            if ($(this).attr('maxlength') > 0) {
+                $(this).attr("pattern", "[0-9]+");
+                //$(this).attr("data-toggle", "tooltip");
+                //$(this).attr("title", "{{ __('only_numbers_available') }}");
+                $(this).on('input', function (e) {
+                    $(this).val($(this).val().replace(/[^0-9]/g, ''));
+                });
+            } 
+        });
+    </script>
 @endsection

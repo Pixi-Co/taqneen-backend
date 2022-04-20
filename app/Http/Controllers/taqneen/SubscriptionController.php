@@ -69,6 +69,10 @@ class SubscriptionController extends Controller
             $query->whereIn("transactions.id", $ids);
         }
 
+        if (request()->user_id > 0) {
+            $query->where('transactions.created_by', request()->user_id);
+        }
+
         if (request()->subscription_type) {
             if (request()->subscription_type == 'new')
                 $query->where('transactions.is_renew', '0');
@@ -78,10 +82,6 @@ class SubscriptionController extends Controller
 
         if (request()->payment_status) {
             $query->where('transactions.shipping_custom_field_2', request()->payment_status);
-        }
-
-        if (request()->user_id > 0) {
-            $query->where('transactions.created_by', request()->user_id);
         }
 
         if (request()->register_date_start && request()->register_date_end) {

@@ -87,10 +87,14 @@
                         {{ $resource->contact->custom_field1 }}
                     </td>
                     <td>
-                        {{ optional($item->service()->first())->name }}
+                        <div style="min-with: 100px" >
+                            {{ optional($item->service()->first())->name }}
+                        </div>
                     </td>
                     <td>
+                        <div style="min-with: 100px" >
                         {{ optional($item->package()->first())->name }}
+                        </div>
                     </td>
                     <td >
                         {{ number_format($item->total, 2) }}
@@ -103,7 +107,7 @@
                    @endforeach 
                    @foreach ($resource->getExpenses()->get() as $exp)
                    <tr class="text-center">
-                       <td>{{ $iteration }}</td>
+                       <td>{{ $iteration ++ }}</td>
                        <td colspan="3" >{{ $exp->name }}</td> 
                        <td >{{ number_format($exp->price) }}</td>
                    </tr>
@@ -123,7 +127,7 @@
                         <td class="border-0" style="height:25px;"></td>
                         <td class="border-0" style="height:25px;"></td>
                         <td class="border-0" style="height:25px;"></td>
-                        <th style="background: #D9D9D9; height: 25px;border-bottom: 1px solid gray" class=" p-2">الضريبة المضافة</th>
+                        <th style="background: #D9D9D9; height: 25px;border-bottom: 1px solid gray" class=" p-2">ضريبة القيمة المضافة 15%</th>
                         <td style=";border-bottom: 1px solid gray" > 
                             {{ number_format($resource->tax_amount, 2) }}
                         </td>

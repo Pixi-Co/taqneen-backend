@@ -99,8 +99,9 @@
                 component.style.position = "absolute";
                 component.style.left = (options.left? options.left : 0) + this.unit;
                 component.style.top = (options.top? options.top : 0) + this.unit;
-                component.style.letterSpacing = (options.letterSpacing? options.letterSpacing : 0) + this.unit;
+                component.style.letterSpacing = (options.letterSpacing? options.letterSpacing : 0) + this.unit; 
                 component.style.fontSize = (options.fontSize? options.fontSize : 0) + this.unit;
+                component.style.backgroundColor = (options.backgroundColor? options.backgroundColor : '#ffff');
                 component.style.width = options.width > 0? options.width + this.unit : 'auto';
 
                 var key = options.key? options.key : '';
@@ -152,6 +153,7 @@
                     width: component.style.width,
                     fontSize: component.style.fontSize,
                     letterSpacing: component.style.letterSpacing,
+                    backgroundColor: component.style.backgroundColor,
                     dataValue: component.getAttribute('data-value'),
                     replace: component.getAttribute('data-replace'),
                 };
@@ -221,6 +223,10 @@
                             <td><input  value="${component.style.letterSpacing}" min="1" max="100" onchange="Pdf.saveOptions('${key}', 'letterSpacing', this.value)" ></td>
                         </tr>
                         <tr>
+                            <th>background color</th>
+                            <td><input type="color"  value="${component.style.backgroundColor}"  onchange="Pdf.saveOptions('${key}', 'backgroundColor', this.value)" ></td>
+                        </tr>
+                        <tr>
                             <th>width</th>
                             <td><input  value="${component.style.width}" min="1" max="100" onchange="Pdf.saveOptions('${key}', 'width', this.value)" ></td>
                         </tr>
@@ -252,6 +258,7 @@
                 Pdf.createComponent({
                     key: '{{ $key }}', 
                     value: '{{ $value->dataValue?? $key }}',  
+                    backgroundColor: '{{ $value->backgroundColor?? "white" }}',  
                     letterSpacing: '{{ str_replace(["px", "mm"], "", $value->letterSpacing?? 0) }}', 
                     fontSize: '{{ str_replace(["px", "mm"], "", $value->fontSize?? 15) }}',  
                     left: {{ str_replace(["px", "mm"], "", $value->left?? -200) }},

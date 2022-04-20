@@ -85,6 +85,17 @@
                                                             </select>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="">@trans('sales commision')</label>
+                                                            <select name="user_id" class="form-select  mb-3 user_id">
+                                                                <option value="">@trans('all')</option>
+                                                                @foreach ($users as $user)
+                                                                <option value="{{ $user->id }}">{{ $user->user_full_name }}</option> 
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
 
                                                 </div>
                                                 <div class="form-group mt-4" style="width: 400px; height: 40px">
@@ -106,6 +117,10 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        @php
+                                                            $numbers = 0;
+                                                            $total = 0;
+                                                        @endphp
                                                         @foreach ($resources as $resource)
                                                             <tr>
                                                                 <td>{{ $loop->iteration }}</td> 
@@ -113,8 +128,20 @@
                                                                 <td>{{ $resource->number }}</td> 
                                                                 <td>{{ number_format($resource->sum, 2) }} SAR</td> 
                                                             </tr>
-                                                        @endforeach
+                                                            @php
+                                                                $numbers += $resource->number;
+                                                                $total += $resource->sum;
+                                                            @endphp
+                                                        @endforeach 
                                                     </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>{{ $numbers }}</td>
+                                                            <td>{{ number_format($total, 2) }} SAR</td>
+                                                        </tr>
+                                                    </tfoot>
                                                 </table>
                                             </div>
                                         </div>

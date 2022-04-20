@@ -69,6 +69,20 @@ class ReportController extends Controller
             $query->whereIn("transactions.id", $ids);
         }
 
+
+        if (request()->service_id > 0) {
+            $ids = DB::table('subscription_lines')
+                ->where('service_id', request()->service_id)
+                ->select('transaction_id')
+                ->distinct()
+                ->pluck('transaction_id')->toArray();
+            $query->whereIn("transactions.id", $ids);
+        }
+
+        if (request()->user_id > 0) {
+            $query->where('transactions.created_by', request()->user_id);
+        }
+        
         $resources = Category::where('business_id', session('user.business_id'))->where('category_type', 'service')->get(); 
  
         foreach($resources as $resource) {
@@ -82,12 +96,13 @@ class ReportController extends Controller
             $resource->number = $queryClone->whereIn("transactions.id", $ids)->count();
             $resource->sum = $queryClone->whereIn("transactions.id", $ids)->sum('final_total');
         }
+        $users = User::couriers()->where('user_type','user')->where('business_id', session('business.id'))->latest()->get();
 
         if (request()->ajax()) {
-            return responseJson(1, count($resources) . " " . __('data_found'), view('taqneen.reports.services_report', compact('resources'))->render());
+            return responseJson(1, count($resources) . " " . __('data_found'), view('taqneen.reports.services_report', compact('resources', 'users'))->render());
         }
  
-        return view('taqneen.reports.services_report', compact('resources'));
+        return view('taqneen.reports.services_report', compact('resources', 'users'));
     }
 
     public function salesComissions()
@@ -146,6 +161,19 @@ class ReportController extends Controller
             $query->whereIn("transactions.id", $ids);
         }
 
+        if (request()->service_id > 0) {
+            $ids = DB::table('subscription_lines')
+                ->where('service_id', request()->service_id)
+                ->select('transaction_id')
+                ->distinct()
+                ->pluck('transaction_id')->toArray();
+            $query->whereIn("transactions.id", $ids);
+        }
+
+        if (request()->user_id > 0) {
+            $query->where('transactions.created_by', request()->user_id);
+        }
+
         $resources = User::couriers()->where('user_type','user')->where('business_id', session('business.id'))->latest()->get();
  
         foreach($resources as $resource) {
@@ -153,12 +181,13 @@ class ReportController extends Controller
             $resource->number = $queryClone->where("created_by", $resource->id)->count();
             $resource->sum = $queryClone->where("created_by", $resource->id)->sum('final_total');
         }
+        $services = Category::where('business_id', session('user.business_id'))->where('category_type', 'service')->get(); 
 
         if (request()->ajax()) {
-            return responseJson(1, count($resources) . " " . __('data_found'), view('taqneen.reports.sales_commision_reportes', compact('resources'))->render());
+            return responseJson(1, count($resources) . " " . __('data_found'), view('taqneen.reports.sales_commision_reportes', compact('resources', 'services'))->render());
         }
  
-        return view('taqneen.reports.sales_commision_reportes', compact('resources'));
+        return view('taqneen.reports.sales_commision_reportes', compact('resources', 'services'));
     }
 
 
