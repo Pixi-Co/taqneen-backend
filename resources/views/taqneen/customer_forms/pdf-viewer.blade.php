@@ -258,7 +258,7 @@
                 Pdf.createComponent({
                     key: '{{ $key }}', 
                     value: '{{ $value->dataValue?? $key }}',  
-                    backgroundColor: '{{ $value->backgroundColor?? "white" }}',  
+                    backgroundColor: '{{ $value->backgroundColor?? "transparent" }}',  
                     letterSpacing: '{{ str_replace(["px", "mm"], "", $value->letterSpacing?? 0) }}', 
                     fontSize: '{{ str_replace(["px", "mm"], "", $value->fontSize?? 15) }}',  
                     left: {{ str_replace(["px", "mm"], "", $value->left?? -200) }},
