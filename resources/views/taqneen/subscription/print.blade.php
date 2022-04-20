@@ -111,6 +111,9 @@
                        <td colspan="3" >{{ $exp->name }}</td> 
                        <td >{{ number_format($exp->price) }}</td>
                    </tr>
+                @php
+                    $total += $exp->price; 
+                @endphp
                    @endforeach
                     <tr class="text-center border-0" >
                         <td class="border-0" style="height:25px;"></td>
