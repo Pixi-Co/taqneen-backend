@@ -200,8 +200,7 @@ class User extends Authenticatable
             $business_id = session('business.id');
         }
 
-        $query = User::where('business_id', $business_id)
-                    ->user();
+        $query = User::couriers()->user();
                     
         if (!$include_commission_agents) {
             $query->where('is_cmmsn_agnt', 0);
