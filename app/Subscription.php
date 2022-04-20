@@ -123,7 +123,7 @@ class Subscription extends Transaction
                 DB::raw( "(select name from contacts where contacts.id = contact_id) as contact_name"),
                 DB::raw( "(select supplier_business_name from contacts where contacts.id = contact_id) as supplier_business_name"),
                 DB::raw( "(select name from contacts where contacts.id = contact_id) as customer"),
-                DB::raw("(select first_name from users where users.id = created_by) as sales_commission"),
+                DB::raw("(select first_name from users where users.id = transactions.created_by) as sales_commission"),
                 DB::raw("(select method from transaction_payments where transaction_payments.transaction_id = transactions.id) as payment_method"),
                 DB::raw("(select paid_on from transaction_payments where transaction_payments.transaction_id = transactions.id) as paid_on"),
             )
@@ -135,7 +135,7 @@ class Subscription extends Transaction
         $resource->status = $resource->status == "cancel"? __('cancel_') : __($resource->status);
         $resource->payment_method = __($resource->payment_method);
         $resource->final_total = number_format($resource->final_total, 2);
-        $resource->note = optional($this->subscription_notes()->latest()->first())->note;
+        $resource->note = optional($this->subscription_notes()->latest()->first())->notes;
         //$resource->invoice_url = url('/subscriptions/print') . "/" . $this->getTokenAttribute();
         return optional($resource)->$tag;
     }
