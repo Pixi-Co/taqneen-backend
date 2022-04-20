@@ -291,6 +291,9 @@ class ReportController extends Controller
             ->editColumn('created_by', function ($row) {
                 return optional($row->user)->first_name;
             })
+            ->editColumn('final_total', function ($row) {
+                return number_format($row->final_total, 2);
+            })
             ->addColumn('services', function ($row) {
                 return implode(", ", $row->subscription_lines()->select('*', DB::raw('(select name from categories where categories.id = service_id) as service'))->pluck('service')->toArray());
             })

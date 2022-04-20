@@ -136,7 +136,7 @@
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>
-                                                            <td></td>
+                                                            <td>الاجمالى</td>
                                                             <td></td>
                                                             <td>{{ $numbers }}</td>
                                                             <td>{{ number_format($total, 2) }} SAR</td>
