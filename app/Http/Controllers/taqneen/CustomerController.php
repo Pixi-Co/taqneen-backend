@@ -252,13 +252,7 @@ class CustomerController extends Controller
                     "password" => $request->password ? bcrypt($request->password) : '',
                 ];
 
-                $user->update($data);
-                $role = $user->roles()->first();
-                if ($role) {
-                    $user->removeRole($role);
-                    $user->roles()->detach();
-                    $user->forgetCachedPermissions();
-                }
+                $user->update($data); 
                 $user->assignRole("customer");
             } else {
                 // create
