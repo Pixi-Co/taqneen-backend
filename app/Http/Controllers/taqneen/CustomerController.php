@@ -97,7 +97,7 @@ class CustomerController extends Controller
     {
         // dd($request->all());
         $this->validate($request, [
-            'password' => 'required|same:confirm_password', 
+            'password' => 'required|same:confirm_password',
         ]);
 
         try {
@@ -253,18 +253,13 @@ class CustomerController extends Controller
                 ];
 
                 $user->update($data);
-
-                if ($request->roles) {
-                    $role = $user->roles()->first();
-                    $newRole = Role::find($request->input('roles'));
-                    //
-                    if ($role) {
-                        $user->removeRole($role);
-                        $user->roles()->detach();
-                        $user->forgetCachedPermissions();
-                    }
-                    $user->assignRole($newRole->name);
+                $role = $user->roles()->first();
+                if ($role) {
+                    $user->removeRole($role);
+                    $user->roles()->detach();
+                    $user->forgetCachedPermissions();
                 }
+                $user->assignRole("customer");
             } else {
                 // create
 
@@ -279,9 +274,7 @@ class CustomerController extends Controller
                     "business_id" => session('business.id'),
                     "user_type" => 'user_customer',
                 ]);
-                if ($request->roles)
-                    $user->assignRole($request->input('roles'));
-
+                $user->assignRole("customer");
                 $customer->converted_by = $user->id;
                 $customer->update();
             }
