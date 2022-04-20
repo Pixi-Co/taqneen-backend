@@ -49,7 +49,7 @@
                       <span class="gfield_required gfield_required_custom">*</span>
                   </span>
               </label>
-              {!! Form::text('form[name_en]', $resource->name_en, ['class' => 'form-control related', 'placeholder' => '', 'required', "onchadata-relatednge" => "name_en"]) !!}
+              {!! Form::text('form[name_en]', $resource->name_en, ['class' => 'form-control related', 'placeholder' => '', 'required', "data-related" => "name_en"]) !!}
           </div>
           <div class="col-md-3 ">
               <label class="gfield_label pb-1" for="">المدينة
