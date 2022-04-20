@@ -77,19 +77,25 @@
                                                                 <td>{{ $item->mobile }}</td>
                                                                 <td>{{ $item->email }}</td>
                                                                 <td>{{ optional($item->service)->name }}</td> 
-                                                                <td>
+                                                                <td>  
                                                                     @if ($item->custom_field4 == 'new')
                                                                         <label
-                                                                            class="badge w3-orange">{{ __($item->custom_field4) }}</label>
+                                                                            class="badge w3-indigo">{{ __($item->custom_field4) }}</label>
                                                                     @elseif ($item->custom_field4 == 'follow')
                                                                         <label
-                                                                            class="badge w3-deep-orange">{{ __($item->custom_field4) }}</label>
+                                                                            class="badge w3-orange">{{ __($item->custom_field4) }}</label>
+                                                                    @elseif ($item->custom_field4 == 'no_need')
+                                                                        <label
+                                                                            class="badge w3-yellow">{{ __($item->custom_field4) }}</label>
+                                                                    @elseif ($item->custom_field4 == 'no_reach')
+                                                                        <label
+                                                                            class="badge w3-red">{{ __($item->custom_field4) }}</label>
                                                                     @elseif ($item->custom_field4 == 'done')
                                                                         <label
                                                                             class="badge w3-green">{{ __($item->custom_field4) }}</label>
                                                                     @elseif ($item->custom_field4 == 'another_provider')
                                                                         <label
-                                                                            class="badge w3-indigo">{{ __($item->custom_field4) }}</label>
+                                                                            class="badge w3-blue">{{ __($item->custom_field4) }}</label>
                                                                     @else
                                                                         <label
                                                                             class="badge w3-dark-gray">{{ __($item->custom_field4) }}</label>
