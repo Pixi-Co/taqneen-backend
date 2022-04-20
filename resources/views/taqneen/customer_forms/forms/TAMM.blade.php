@@ -57,10 +57,16 @@
                       <span class="gfield_required gfield_required_custom">*</span>
                   </span>
               </label>
-              {!! Form::text('form[city]', $resource->city, ['class' => 'form-control', 'placeholder' => '', 'required']) !!}
+              {!! Form::text('form[city]', $resource->city, ['class' => 'form-control related', 'placeholder' => '', 'required', 'data-related' => 'company_address']) !!}
           </div>
+          {!! Form::hidden("form[company_address]", $resource->short_name_ar, ["class" => "company_address"]) !!}
           {!! Form::hidden("form[short_name_ar]", $resource->short_name_ar, ["class" => "name_ar"]) !!}
           {!! Form::hidden("form[short_name_en]", $resource->short_name_en, ["class" => "name_en"]) !!}
+          {!! Form::hidden("form[fax]", $resource->fax, ["class" => "phone"]) !!}
+          {!! Form::hidden("form[phone_1]", $resource->fax, ["class" => "phone"]) !!}
+          {!! Form::hidden("form[phone_2]", $resource->fax, ["class" => "phone"]) !!}
+          {!! Form::hidden("form[phone_3]", $resource->fax, ["class" => "phone"]) !!}
+          {!! Form::hidden("form[user_id_name]", $resource->fax, ["class" => "user_id_name"]) !!}
 
       </div>
       <div class="row pt-3">
@@ -276,7 +282,7 @@
                       <span class="gfield_required gfield_required_custom">*</span>
                   </span>
               </label>
-              {!! Form::text('form[user_name_ar]', $resource->user_name_ar, ['class' => 'form-control', 'placeholder' => '', 'required']) !!}
+              {!! Form::text('form[user_name_ar]', $resource->user_name_ar, ['class' => 'form-control related', 'placeholder' => '', 'required', 'data-related' => 'user_id_name']) !!}
           </div>
           <div class="col-md-4 ">
               <label class="gfield_label pb-1" for="">الإسم بالإنجليزي
