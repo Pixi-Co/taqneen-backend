@@ -132,6 +132,7 @@ class Subscription extends Transaction
 
 
         $resource->company = optional($this->contact)->supplier_business_name;
+        $resource->customer = optional($this->contact)->name;
         $resource->status = $resource->status == "cancel"? __('cancel_') : __($resource->status);
         $resource->payment_method = __($resource->payment_method);
         $resource->final_total = number_format($resource->final_total, 2);
