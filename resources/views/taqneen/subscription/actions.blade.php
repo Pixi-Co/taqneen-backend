@@ -92,12 +92,12 @@
                         @csrf
 
                         @php
-                            dd($row->payment);
+                            dd($payment);
                         @endphp
 
                         <div class="form-group">
                             <label class="my-2" for="inputName">@trans('pay date')</label>
-                            {!! Form::date('pay_date', date('Y-m-d', strtotime(optional($row->payment)->paid_on)), ['class' => 'form-control']) !!}
+                            {!! Form::date('pay_date', date('Y-m-d', strtotime(optional($payment)->paid_on)), ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="">
