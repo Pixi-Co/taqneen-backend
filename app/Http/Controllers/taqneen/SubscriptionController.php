@@ -416,6 +416,7 @@ class SubscriptionController extends Controller
         $newSubscription->custom_field_4 = $request->custom_field_4;
         $newSubscription->shipping_custom_field_2 = $request->shipping_custom_field_2;
         $newSubscription->status = Subscription::$ACTIVE;
+        $newSubscription->expire_date = null;
         /*$newSubscription->created_by = session('user.id');*/
         if ($resource->isExpire())
             $newSubscription->transaction_date = $request->pay_date; 
