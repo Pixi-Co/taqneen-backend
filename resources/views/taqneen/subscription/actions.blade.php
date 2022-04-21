@@ -93,7 +93,7 @@
 
                         <div class="form-group">
                             <label class="my-2" for="inputName">@trans('pay date')</label>
-                            {!! Form::datetimeLocal('pay_date', date('Y-m-d\TH:i', strtotime(optional($row->payment()->latest()->first())->paid_on)), ['class' => 'form-control']) !!}
+                            {!! Form::datetimeLocal('pay_date', date('Y-m-d', strtotime(optional($row->payment()->latest()->first())->paid_on)), ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="">
