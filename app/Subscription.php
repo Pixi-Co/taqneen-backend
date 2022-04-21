@@ -31,8 +31,8 @@ class Subscription extends Transaction
     public function getExpireDate() {
         if ($this->expire_date)
             return $this->expire_date;
-        $Transdate = $this->transaction_date;
-        $date = Carbon::createFromFormat("Y-m-d H:i:s", $Transdate);
+        $transdate = $this->transaction_date?? date('Y-m-d H:i:s');
+        $date = Carbon::createFromFormat("Y-m-d H:i:s", $transdate);
         return $date->addYear()->format('Y-m-d');
     }
 
