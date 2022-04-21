@@ -89,11 +89,7 @@
             <form method="post" class="form" action="/subscriptions/renew/{{ $row->id }}">
                 <div class="modal-body">
                     <div class="row">
-                        @csrf
-
-                        @php
-                            dd($payment);
-                        @endphp
+                        @csrf 
 
                         <div class="form-group">
                             <label class="my-2" for="inputName">@trans('pay date')</label>
