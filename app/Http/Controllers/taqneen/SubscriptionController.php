@@ -419,8 +419,8 @@ class SubscriptionController extends Controller
         /*$newSubscription->created_by = session('user.id');*/
         if ($resource->isExpire()) {
             $newSubscription->transaction_date = $request->pay_date;  
-            dd($newSubscription->transaction_date);
             $date = Carbon::createFromFormat("Y-m-d H:i:s", $newSubscription->transaction_date); 
+            dd($date);
             $newSubscription->expire_date = $date->addYear()->format('Y-m-d');
         }
 
