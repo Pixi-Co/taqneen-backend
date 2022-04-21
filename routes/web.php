@@ -165,6 +165,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/notification-template/form', 'taqneen\NotificationTemplateController@form');
     Route::post('/notification-template', 'taqneen\NotificationTemplateController@save');
     Route::delete('/notification-template/{id}', 'taqneen\NotificationTemplateController@destroy');
+    Route::get('subscriptions-delete/{id}',[SubscriptionController::class,'destroy']);
 /*
     Route::get('customerForm/createcustomermasarat', [CustomerFormController::class,'createCustomerMasarat']); 
     Route::get('customerForm/createcustomermuqeem', [CustomerFormController::class,'createCustomerMuqeem']); 
