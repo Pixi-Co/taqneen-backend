@@ -89,11 +89,11 @@
             <form method="post" class="form" action="/subscriptions/renew/{{ $row->id }}">
                 <div class="modal-body">
                     <div class="row">
-                        @csrf 
+                        @csrf
 
                         <div class="form-group">
                             <label class="my-2" for="inputName">@trans('pay date')</label>
-                            {!! Form::date('pay_date', date('Y-m-d', strtotime(optional($payment)->paid_on)), ['class' => 'form-control']) !!}
+                            {!! Form::datetimeLocal('pay_date', date('Y-m-d\TH:i', strtotime(optional($payment)->paid_on)), ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="">
