@@ -66,6 +66,7 @@
           {!! Form::hidden("form[phone_1]", $resource->fax, ["class" => "phone"]) !!}
           {!! Form::hidden("form[phone_2]", $resource->fax, ["class" => "phone"]) !!}
           {!! Form::hidden("form[phone_3]", $resource->fax, ["class" => "phone"]) !!}
+          {!! Form::hidden("form[phone_4]", $resource->fax, ["class" => "phone"]) !!}
           {!! Form::hidden("form[user_id_name]", $resource->fax, ["class" => "user_id_name"]) !!}
 
       </div>
@@ -129,6 +130,22 @@
                   </span>
               </label>
               {!! Form::text('form[owner_phone2]', $resource->owner_phone2, ['class' => 'form-control related', 'placeholder' => '', 'required', 'maxlength' => 10, "data-related" => "phone"]) !!}
+          </div>
+          <div class="col-md-3 ">
+              <label class="gfield_label pb-1" for="">اسم المدير :
+                  <span class="gfield_required">
+                      <span class="gfield_required gfield_required_custom">*</span>
+                  </span>
+              </label>
+              {!! Form::text('form[manager_name]', $resource->manager_name, ['class' => 'form-control', 'placeholder' => '', 'required']) !!}
+          </div>
+          <div class="col-md-4 ">
+              <label class="gfield_label pb-1" for="">جوال المدير
+                  <span class="gfield_required">
+                      <span class="gfield_required gfield_required_custom">*</span>
+                  </span>
+              </label>
+              {!! Form::text('form[manager_telephone]', $resource->manager_telephone, ['class' => 'form-control ', 'placeholder' => '', 'required', 'maxlength' => 10]) !!}
           </div>
           <div class="col-md-4 ">
               <label class="gfield_label pb-1" for="">ص.ب
