@@ -149,9 +149,7 @@ class SubscriptionController extends Controller
                     "paid" => __('paid'),
                     "not_paid" => __('not_paid')
                 ];
-                $payment = TransactionPayment::where('transaction_id', $row->id)->latest()->first();
-
-                dd($payment);
+                $payment = TransactionPayment::where('transaction_id', $row->id)->latest()->first(); 
                 return view('taqneen.subscription.actions', compact('row', 'payment_methods', 'payment_status', 'payment'));
             })  
             ->editColumn('created_by', function ($row) {
