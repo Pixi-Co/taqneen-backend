@@ -417,10 +417,10 @@ class SubscriptionController extends Controller
         $newSubscription->shipping_custom_field_2 = $request->shipping_custom_field_2;
         $newSubscription->status = Subscription::$ACTIVE;
         /*$newSubscription->created_by = session('user.id');*/
-        if ($resource->is_expire == 1)
+        if ($resource->isExpire())
             $newSubscription->transaction_date = $request->pay_date; 
 
-        if ($resource->is_expire != 1) {
+        if (!$resource->isExpire()) {
             $Transdate = $resource->expire_date;
             $date = Carbon::createFromFormat("Y-m-d", $Transdate); 
             $newSubscription->expire_date = $date->addYear()->format('Y-m-d');
