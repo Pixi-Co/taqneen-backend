@@ -42,6 +42,9 @@ class Subscription extends Transaction
     }
 
     public function convertToNotPaidBeforeOneMonth() {
+        if (!$this->expire_date)
+            return false;
+
         $now = Carbon::now()->addDays(30)->format('Y-m-d');
         $expDate = Carbon::createFromFormat("Y-m-d", $this->expire_date);
         $days = $expDate->diffInDays($now);
