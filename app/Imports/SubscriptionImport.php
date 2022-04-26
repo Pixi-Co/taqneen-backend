@@ -23,6 +23,10 @@ class SubscriptionImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
+        dd([
+            $row['payment_data'],
+            $row['start_date'],
+        ]);
         try {
             // step 1 => create customer
             $customer = $this->createCustomer($row);
@@ -93,7 +97,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
             "address" => $contact->address_line_1,
             "user_type" => 'user_customer',
             "password" => isset($data['password']) ? bcrypt($data['password']) : '',
-        ]; 
+        ];
 
         if ($user) {
             $user->update($fill);
@@ -101,19 +105,8 @@ class SubscriptionImport implements ToModel, WithHeadingRow
             $user = User::create($fill);
         }
 
-
-        if (isset($data['role'])) {
-            $data['role'] = strtolower($data['role']) . "#" . session('business.id');
-            $role = $user->roles()->first();
-            $newRole = Role::where('name', $role)->first();
-            if ($newRole) {
-                if ($role)
-                    $user->removeRole($role->name);
-                $user->roles()->detach();
-                $user->forgetCachedPermissions();
-                $user->assignRole($newRole->name);
-            }
-        }
+        $role = "customer";
+        $user->ssignRole($role);
 
         return $user->refresh();
     }
@@ -160,7 +153,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
             "transaction_date" => $date,  // expenses amount
             "sub_type" => $row['paper'],  // expenses amount
             "business_id" => session('business.id'),
-        ]; 
+        ];
 
         // insert transactions
         $resource = Transaction::create($data);
