@@ -55,7 +55,7 @@
                                         
                                         
                                         <div class="table-responsive pt-3">
-                                            <table class="display" id="advance-4">
+                                            <table class="display" id="customerTable">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
@@ -71,26 +71,7 @@
                                                 <tbody>
                                                     @foreach($customers as $item)
                                                     @php
-                                                        $html = "";
-                                                        $status = optional($item->subscriptions()->first())->status;
-
-                                                        if (optional($item->subscriptions()->first())->isExpire()) { 
-                                                            $html = "<span class='badge w3-red' >" . __("expired") . "</span>"; 
-                                                        }
-                                                        else {
-                                                            if ($status == App\Subscription::$ACTIVE)
-                                                                $html = "<span class='badge w3-green' >" . __(App\Subscription::$ACTIVE) . "</span>";
-                                                            else if ($status == App\Subscription::$CANCEL)
-                                                                $html = "<span class='badge w3-red' >" . __(App\Subscription::$CANCEL . "_") . "</span>";
-                                                            else if ($status == App\Subscription::$PAY_PENDING)
-                                                                $html = "<span class='badge w3-orange' >" . __(App\Subscription::$PAY_PENDING) . "</span>";
-                                                            else if ($status == App\Subscription::$PROCESSING)
-                                                                $html = "<span class='badge w3-indigo' >" . __(App\Subscription::$PROCESSING) . "</span>";
-                                                            else if ($status == App\Subscription::$WAITING)
-                                                                $html = "<span class='badge w3-yellow' >" . __(App\Subscription::$WAITING) . "</span>";
-                                                            else
-                                                                $html = "<span class='badge w3-gray' >-</span>";
-                                                        }
+                                                        
                                         
                                                     @endphp
                                                     <tr>
@@ -101,17 +82,10 @@
                                                         <td>{!! $html !!}</td>          
                                                         <td>{{  $item->email  }}</td>          
                                                         <td>{{  $item->custom_field1  }}</td>          
+                                                        <td>{{  $item->status  }}</td>          
                                                          
                                                         <td class="d-flex">
-                                                            @can(find_or_create_p('customer.edit'))
-                                                            <a role="button" href="/customers/{{ $item->id }}/edit" class="m-1 btn btn-primary btn-sm" >@trans('edit')</a>
-                                                            @endcan
-                                                            @can(find_or_create_p('customer.show'))
-                                                            <a role="button" href="/customers/{{ $item->id }}" class="m-1 btn btn-primary btn-sm" >@trans('show')</a>
-                                                            @endcan
-                                                            @can(find_or_create_p('customer.delete'))
-                                                            <button onclick="destroy('/customers/{{ $item->id }}')" class="m-1 btn btn-danger bt-sm" >@trans('remove')</button>
-                                                            @endcan
+                                                            
                                                         </td>     
                                                     </tr> 
                                                     @endforeach
@@ -226,6 +200,44 @@ var session_layout = '{{ session()->get('layout') }}';
 
 
 <script>
+    
+    var customerTable = $('#customerTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '/customers',
+        "autoWidth": true,
+        "lengthMenu": [
+            [10, 25, 50, 100, 500, 1000, -1],
+            [10, 25, 50, 100, 500, 1000, "All"]
+        ],
+        dom: 'RlBfrtip',
+        buttons: [
+            //'copyHtml5',
+            //'excelHtml5',
+            //'csvHtml5',
+            //'pdfHtml5',
+            'colvis'
+        ],
+        columnDefs: [{
+            targets: 9,
+            orderable: false,
+            searchable: false,
+        },{
+            targets: 10,
+            orderable: false,
+            searchable: false,
+        },  ],  
+        columns: [
+            { data: 'supplier_business_name', name: 'supplier_business_name' },
+            { data: 'name', name: 'name' },
+            { data: 'sales_commission', name: 'sales_commission' },
+            { data: 'status', name: 'status' },
+            { data: 'email', name: 'email' },
+            { data: 'custom_field1', name: 'custom_field1' },
+            { data: 'action', name: 'action' } 
+        ],
+    });
+
     $(document).ready(function() {
         $('#next').click(function(){
             $('#staticBackdrop').hide();

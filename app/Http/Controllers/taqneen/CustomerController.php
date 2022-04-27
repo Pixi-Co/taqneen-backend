@@ -6,6 +6,7 @@ use App\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Imports\CustomersImport;
+use App\Subscription;
 use App\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -13,10 +14,21 @@ use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Contracts\Permission;
 use Spatie\Permission\Models\Role;
+use Yajra\DataTables\Facades\DataTables;
 
 class CustomerController extends Controller
 {
     public function index()
+    {
+        if (request()->ajax()) {
+            return $this->data();
+        }
+
+        return view('taqneen.customers.index');
+    }
+
+
+    public function data()
     {
         $query = Contact::where('type', 'customer')
             ->select(
@@ -30,10 +42,39 @@ class CustomerController extends Controller
             $query->onlyMe();
         }
 
-        $customers = $query->get();
-        return view('taqneen.customers.index', compact('customers'));
-    }
+        return DataTables::of($query)
+            ->addColumn('action', function ($item) {
+                return view('taqneen.customers.actions', compact('item'));
+            })
+            ->addColumn('sales_commission', function ($item) {
+               return optional(optional($item->subscriptions()->first())->user)->user_full_name;
+            })
+            ->addColumn('status', function ($item) {
+                $html = "";
+                $status = optional($item->subscriptions()->first())->status;
 
+                if (optional($item->subscriptions()->first())->isExpire()) {
+                    $html = "<span class='badge w3-red' >" . __("expired") . "</span>";
+                } else {
+                    if ($status == Subscription::$ACTIVE)
+                        $html = "<span class='badge w3-green' >" . __(Subscription::$ACTIVE) . "</span>";
+                    else if ($status == Subscription::$CANCEL)
+                        $html = "<span class='badge w3-red' >" . __(Subscription::$CANCEL . "_") . "</span>";
+                    else if ($status == Subscription::$PAY_PENDING)
+                        $html = "<span class='badge w3-orange' >" . __(Subscription::$PAY_PENDING) . "</span>";
+                    else if ($status == Subscription::$PROCESSING)
+                        $html = "<span class='badge w3-indigo' >" . __(Subscription::$PROCESSING) . "</span>";
+                    else if ($status == Subscription::$WAITING)
+                        $html = "<span class='badge w3-yellow' >" . __(Subscription::$WAITING) . "</span>";
+                    else
+                        $html = "<span class='badge w3-gray' >-</span>";
+                }
+
+                return $html;
+            })
+            ->rawColumns(['action', 'status'])
+            ->make(true);
+    }
 
     public function create()
     {
@@ -252,7 +293,7 @@ class CustomerController extends Controller
                     "password" => $request->password ? bcrypt($request->password) : '',
                 ];
 
-                $user->update($data); 
+                $user->update($data);
                 $user->assignRole("customer");
             } else {
                 // create
