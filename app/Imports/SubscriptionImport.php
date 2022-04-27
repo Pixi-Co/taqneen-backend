@@ -158,6 +158,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
             "final_total" => $final_total,  // expenses amount
             "transaction_date" => $date,  // expenses amount
             "sub_type" => $row['paper'],  // expenses amount
+            "shipping_custom_field_2" => $row['payment_status']?? '',  // expenses amount
             "business_id" => session('business.id'),
         ];
 
