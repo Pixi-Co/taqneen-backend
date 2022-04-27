@@ -112,7 +112,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
         }
 
         $role = "customer";
-        $user->ssignRole($role);
+        $user->assignRole($role);
 
         return $user->refresh();
     }
