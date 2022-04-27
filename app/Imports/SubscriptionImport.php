@@ -24,8 +24,8 @@ class SubscriptionImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-        $row['payment_data'] = $this->getDate($row['payment_data']);
-        $row['start_date'] = $this->getDate($row['start_date']);
+        //$row['payment_data'] = $this->getDate($row['payment_data']);
+        //$row['start_date'] = $this->getDate($row['start_date']);
         
 
         dd([
