@@ -47,7 +47,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
             $this->createSubscriptionPayment($row, $subscription);
 
             return $subscription;
-        } catch (Exception $th) {
+        } catch (\Exception $th) {
             return null;
         }
     }
