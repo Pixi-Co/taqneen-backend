@@ -72,8 +72,8 @@ class SubscriptionImport implements ToModel, WithHeadingRow
         $customer = Contact::create([
             "supplier_business_name" => $row['company'],
             "custom_field1" => $row['pc_number'],
-            "mobile" => $row['phone'],
-            "email" => $row['email'],
+            "mobile" => $row['phone']?? '-',
+            "email" => $row['email']?? '-',
             "state" => $row['state'],
             "address_line_1" => $row['address'],
             "zip_code" => $row['zip_code'],
