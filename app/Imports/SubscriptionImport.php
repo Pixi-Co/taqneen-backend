@@ -8,6 +8,7 @@ use App\Subscription;
 use App\TaxRate;
 use App\Transaction;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -23,6 +24,8 @@ class SubscriptionImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
+        $row['payment_data'] = Carbon::createFromFormat("mm/dd/yyyy", $row['payment_data'])->parse('Y-m-d');
+        $row['start_date'] = Carbon::createFromFormat("mm/dd/yyyy", $row['start_date'])->parse('Y-m-d');
         dd([
             $row['payment_data'],
             $row['start_date'],
