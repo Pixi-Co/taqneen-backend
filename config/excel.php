@@ -48,7 +48,7 @@ return [
             'use_bom'                => false,
             'include_separator_line' => false,
             'excel_compatibility'    => false,
-            'output_encoding'        => '',
+            'output_encoding'        => '', 
         ],
 
         /*
@@ -122,7 +122,7 @@ return [
         |
         */
         'csv'         => [
-            'delimiter'        => null,
+            'delimiter'        => ",",
             'enclosure'        => '"',
             'escape_character' => '\\',
             'contiguous'       => false,
