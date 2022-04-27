@@ -220,11 +220,7 @@ var session_layout = '{{ session()->get('layout') }}';
             'colvis'
         ],
         columnDefs: [{
-            targets: 9,
-            orderable: false,
-            searchable: false,
-        },{
-            targets: 10,
+            targets: 6,
             orderable: false,
             searchable: false,
         },  ],  
