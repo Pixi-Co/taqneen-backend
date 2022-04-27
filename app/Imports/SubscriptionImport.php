@@ -29,8 +29,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
         
 
         dd([
-            $row['company'],
-            $row['person'],
+            $row
         ]);
         try {
             // step 1 => create customer
