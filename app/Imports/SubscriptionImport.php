@@ -161,8 +161,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
             "shipping_custom_field_2" => $row['payment_status']?? '',  // expenses amount
             "business_id" => session('business.id'),
         ];
-
-        dd($data);
+ 
         // insert transactions
         $resource = Transaction::create($data);
         $resource = Subscription::find($resource->id);
