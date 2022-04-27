@@ -57,8 +57,7 @@
                                         <div class="table-responsive pt-3">
                                             <table class="display" id="customerTable">
                                                 <thead>
-                                                    <tr>
-                                                        <th>#</th>
+                                                    <tr> 
                                                         <th>@trans('company name')</th>
                                                         <th>@trans(' name')</th>
                                                         <th>@trans('sales commission')</th>
