@@ -45,7 +45,7 @@ class Subscription extends Transaction
         if (!$this->expire_date)
             return false;
 
-        $now = Carbon::now()->addDays(30)->format('Y-m-d');
+        $now = Carbon::now()->format('Y-m-d');
         $expDate = Carbon::createFromFormat("Y-m-d", $this->expire_date);
         $days = $expDate->diffInDays($now);
 
