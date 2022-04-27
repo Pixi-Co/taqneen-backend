@@ -24,8 +24,8 @@ class SubscriptionImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-        $row['payment_data'] = Carbon::createFromFormat("mm/dd/yyyy", $row['payment_data'])->parse('Y-m-d');
-        $row['start_date'] = Carbon::createFromFormat("mm/dd/yyyy", $row['start_date'])->parse('Y-m-d');
+        $row['payment_data'] = $this->getDate($row['payment_data']);
+        $row['start_date'] = $this->getDate($row['start_date']);
         dd([
             $row['payment_data'],
             $row['start_date'],
@@ -53,6 +53,12 @@ class SubscriptionImport implements ToModel, WithHeadingRow
         } catch (\Exception $th) {
             return null;
         }
+    }
+
+    public function getDate($string) {
+        $date = date('Y-m-d');
+        $arr = explode("/", $string);
+        return count($arr) > 1? $arr['2'] . "-". $arr['0'] . "-" . $arr['1'] : null;
     }
 
     public function createCustomer(array $row)
