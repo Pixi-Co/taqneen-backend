@@ -69,26 +69,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($customers as $item)
-                                                    @php
-                                                        
-                                        
-                                                    @endphp
-                                                    <tr>
-                                                        <td>{{$loop->iteration}}</td>
-                                                        <td>{{  $item->supplier_business_name  }}</td>          
-                                                        <td><a href="{{ route('profile.show',$item->id)}}">{{  $item->name  }}</a></td>          
-                                                        <td>{{ optional(optional($item->subscriptions()->first())->user)->user_full_name }}</td>          
-                                                        <td>{!! $html !!}</td>          
-                                                        <td>{{  $item->email  }}</td>          
-                                                        <td>{{  $item->custom_field1  }}</td>          
-                                                        <td>{{  $item->status  }}</td>          
-                                                         
-                                                        <td class="d-flex">
-                                                            
-                                                        </td>     
-                                                    </tr> 
-                                                    @endforeach
+                                                    
                                                 </tbody>
                                                 {{-- <tfoot>
                                                     <tr>
