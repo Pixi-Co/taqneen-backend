@@ -200,7 +200,8 @@ class ReportController extends Controller
         $business_id = session('business.id');
         $services = Category::where("business_id", $business_id)->where('category_type', 'service')->get();
 
-        dd(Subscription::where("business_id", $business_id)->where('is_expire', 1)->get()->toArray());
+        dd(Subscription::where("business_id", $business_id)->where('is_expire', "1")->get()->toArray());
+
         $expire_date = date('Y-m-d', strtotime(date('Y-m-d'). ' + 31 days'));
         $data = [
             'subscription_total' => Transaction::where('business_id', session('business.id'))->sum('final_total'),
