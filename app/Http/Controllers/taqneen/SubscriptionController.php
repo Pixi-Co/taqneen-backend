@@ -159,6 +159,7 @@ class SubscriptionController extends Controller
                 return $row->service_names;
             })
             ->editColumn('is_expire', function ($row) {
+                return $row->is_expire;
                 $html2 = "";
 
                 if (!$row->isExpire())
