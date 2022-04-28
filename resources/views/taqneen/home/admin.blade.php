@@ -175,7 +175,7 @@
 								</div>
 								<div class="media-body">
 									<div class="right-chart-content">
-										<h4>{{ $subscriptionsActive }}</h4>
+										<h4>{{ $subscriptions - $subscriptionsExpire }}</h4>
 										<span>@trans('active subscriptions ')</span>
 									</div>
 								</div>
