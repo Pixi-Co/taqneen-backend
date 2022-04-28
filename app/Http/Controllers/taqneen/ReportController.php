@@ -193,6 +193,7 @@ class ReportController extends Controller
 
     public function subscriptions()
     {
+        dd(Subscription::where('is_expire', '1')->get()->toArray());
         if (request()->ajax()) {
             return $this->dataOfSubscription();
         }
