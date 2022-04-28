@@ -101,6 +101,11 @@
         background-color: #10437057!important;
         border-color: #1044704d!important; 
     }
+
+    .notification-dropdown {
+        height: 300px;
+        overflow: auto;
+    }
 </style>
 
 
