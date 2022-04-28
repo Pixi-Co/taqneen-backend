@@ -104,7 +104,7 @@
 
     .notification-dropdown {
         height: 300px;
-        overflow: auto;
+        overflow: auto!important;
     }
 </style>
 
