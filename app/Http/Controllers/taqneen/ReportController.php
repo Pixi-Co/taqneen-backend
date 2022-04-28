@@ -200,12 +200,12 @@ class ReportController extends Controller
         $business_id = session('business.id');
         $services = Category::where("business_id", $business_id)->where('category_type', 'service')->get();
 
-        dd(DB::table('transactions')->where("business_id", $business_id)->where('expire_date', "<=", date('Y-m-d'))->get()->toArray());
+        //dd(DB::table('transactions')->where("business_id", $business_id)->where('expire_date', "<=", date('Y-m-d'))->get()->toArray());
 
         $expire_date = date('Y-m-d', strtotime(date('Y-m-d'). ' + 31 days'));
         $data = [
             'subscription_total' => Transaction::where('business_id', session('business.id'))->sum('final_total'),
-            'subscription_expire_total' => Subscription::where('is_expire', '1')->sum('final_total'),
+            'subscription_expire_total' => DB::table('transactions')->where("business_id", $business_id)->where('expire_date', "<=", date('Y-m-d'))->sum('final_total'),
             'subscription_active_total' => Transaction::where('business_id', session('business.id'))->where('is_expire', '0')->sum('final_total'),
             'subscription_will_expire_total' => Subscription::getExpireSubscriptionForThisMonth()->sum('final_total'),
             'chart' => Transaction::where('business_id', session('business.id'))->pluck('transaction_date', 'final_total')->toArray(),
