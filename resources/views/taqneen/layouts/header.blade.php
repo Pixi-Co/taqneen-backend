@@ -206,7 +206,9 @@
                             </a>
                         </li>
                     @endforeach
+                    <!--
                     <li><a class="btn btn-primary" href="#">@trans('Check all notification')</a></li>
+                    -->
                 </ul>
             </li>
             {{-- <li class="onhover-dropdown">
