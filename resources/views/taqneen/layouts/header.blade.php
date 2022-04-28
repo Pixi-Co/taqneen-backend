@@ -156,7 +156,7 @@
                     ->where('business_id', session('business.id'))
                     ->where('converted_by', null)
                     ->get();
-                $expireSubscriptions = App\Subscription::getExpireSubscriptionAfterOneDay();
+                $expireSubscriptions = App\Subscription::getExpireSubscriptionForThisMonth()->get();
                 foreach ($expireSubscriptions as $item) {
                     $msg = __('subscription of {customer} will expire in {expire_date}');
                     $msg = str_replace('{customer}', optional($item->contact)->name, $msg);

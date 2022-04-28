@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Mpdf\Tag\Sub;
 
 class Subscription extends Transaction
 { 
@@ -54,6 +55,12 @@ class Subscription extends Transaction
             $this->status = "pay_pending";
             $this->update();
         }
+    }
+
+    public static function getExpireSubscriptionForThisMonth() {
+        $startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
+        $endDate = Carbon::now()->endOfMonth()->format('Y-m-d'); 
+        return self::whereBetween('expire_date', [$startDate, $endDate]);
     }
 
     public function isExpire() {

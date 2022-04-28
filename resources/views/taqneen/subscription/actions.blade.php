@@ -1,11 +1,13 @@
 <div style="width: 200px">
 
     @can(find_or_create_p('subscription.edit'))
+    @if ($row->is_expire != 1)
     <a target="_blank" href="{{ url('/subscriptions/') }}/{{ $row->id }}/edit"
         style="width: 25px!important;height: 25px!important;border-radius: 5em!important;padding: 4px!important"
         class="btn w3-white w3-text-orange material-shadow">
         <i style="margin-top: 4px;" class="fa fa-edit"></i>
     </a>
+    @endif
     @endcan
      
     <a target="_blank" href="{{ url('/subscriptions/') }}/{{ $row->id }}/edit"

@@ -20,24 +20,25 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-    { 
+    {
         $languages_keys_trans = [];
         try {
-            
+
             $languages_keys_trans = DB::table('language')->select('id', 'key')->pluck('id', 'key')->toArray();
             session([
                 "languages_keys_trans" => $languages_keys_trans
-            ]); 
-        } catch (\Exception $th) { 
+            ]);
+        } catch (\Exception $th) {
         }
         ini_set('memory_limit', '-1');
         set_time_limit(0);
+ 
 
         //force https
         $url = parse_url(config('app.url'));
-        
-        if($url['scheme'] == 'https'){
-           \URL::forceScheme('https');
+
+        if ($url['scheme'] == 'https') {
+            \URL::forceScheme('https');
         }
 
         if (request()->has('lang')) {
@@ -52,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
 
         $asset_v = config('constants.asset_version', 1);
         View::share('asset_v', $asset_v);
-        
+
         // Share the list of modules enabled in sidebar
         View::composer(
             ['*'],
@@ -73,7 +74,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer(
             ['layouts.*'],
             function ($view) {
-                if(isAppInstalled()){
+                if (isAppInstalled()) {
                     $keys = ['additional_js', 'additional_css'];
                     $__system_settings = System::getProperties($keys, true);
 
@@ -89,10 +90,9 @@ class AppServiceProvider extends ServiceProvider
                             } else {
                                 $__system_settings['additional_js'] = $value['additional_js'];
                             }
-                            
                         }
                         if (!empty($value['additional_css'])) {
-                            if (isset($__system_settings['additional_css'])){
+                            if (isset($__system_settings['additional_css'])) {
                                 $__system_settings['additional_css'] .= $value['additional_css'];
                             } else {
                                 $__system_settings['additional_css'] = $value['additional_css'];
@@ -105,22 +105,22 @@ class AppServiceProvider extends ServiceProvider
                             $additional_views = array_merge($additional_views, $value['additional_views']);
                         }
                     }
-                    
+
                     $view->with('__additional_views', $additional_views);
                     $view->with('__additional_html', $additional_html);
                     $view->with('__system_settings', $__system_settings);
                 }
             }
         );
-        
+
         //This will fix "Specified key was too long; max key length is 767 bytes issue during migration"
         Schema::defaultStringLength(191);
-        
+
         //Blade directive to format number into required format.
         Blade::directive('num_format', function ($expression) {
             return "number_format($expression, config('constants.currency_precision', 2), session('currency')['decimal_separator'], session('currency')['thousand_separator'])";
         });
-        
+
         //Blade directive to format number into required format.
         Blade::directive('trans', function ($key) {
             return "<?php echo __($key) ?>";
@@ -201,7 +201,7 @@ class AppServiceProvider extends ServiceProvider
                 if (session('business.time_format') == 24) {
                     $time_format = 'H:i';
                 }
-                
+
                 return "\Carbon::createFromTimestamp(strtotime($date))->format(session('business.date_format') . ' ' . '$time_format')";
             } else {
                 return null;

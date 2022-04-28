@@ -205,7 +205,7 @@ class ReportController extends Controller
             'subscription_total' => Transaction::where('business_id', session('business.id'))->sum('final_total'),
             'subscription_expire_total' => Transaction::where('business_id', session('business.id'))->where('is_expire', '1')->sum('final_total'),
             'subscription_active_total' => Transaction::where('business_id', session('business.id'))->where('is_expire', '0')->sum('final_total'),
-            'subscription_will_expire_total' => Transaction::where('business_id', session('business.id'))->where('expire_date', '<=', $expire_date)->sum('final_total'),
+            'subscription_will_expire_total' => Subscription::getExpireSubscriptionForThisMonth()->sum('final_total'),
             'chart' => Transaction::where('business_id', session('business.id'))->pluck('transaction_date', 'final_total')->toArray(),
         ];
 

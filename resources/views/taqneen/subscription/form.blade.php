@@ -141,7 +141,11 @@
                                                                     v-bind:name="'subscription_lines['+index+'][package_id]'">
                                                             </td>
                                                             <td>
-                                                                <input type="text" v-model="item.total" readonly
+                                                                <input type="text" v-model="item.total" 
+                                                                    @if(!auth()->user()->can(find_or_create_p('customers.own_data', 'subscriptions')))
+                                                                    readonly
+                                                                    @endcan
+                                                                    onkeyup="subscription.changeTax()"
                                                                     class="form-control">
                                                                 <input type="hidden" v-model="item.total"
                                                                     v-bind:name="'subscription_lines['+index+'][total]'">

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Transaction;
 use Carbon\Carbon;
 use App\Contact;
+use App\Subscription;
 use Illuminate\Support\Facades\DB;
 
 class MainDashboardController extends Controller
@@ -36,7 +37,7 @@ class MainDashboardController extends Controller
         // total of subscriptions
         $subscriptions = Transaction::where('business_id', session('business.id'))->count();
         $subscriptionsActive = Transaction::where('business_id', session('business.id'))->where('is_expire','0')->count();
-        $subscriptionsExpire = Transaction::where('business_id', session('business.id'))->where('is_expire','1')->count();
+        $subscriptionsExpire = Subscription::getExpireSubscriptionForThisMonth()->count();
         // sum of totalsales in this month
         $now = Carbon::now();
         $startDateOfMonth = $now->startOfMonth()->format('Y-m-d H:i:s');
