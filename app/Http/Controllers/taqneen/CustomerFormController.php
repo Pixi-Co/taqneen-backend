@@ -88,15 +88,7 @@ class CustomerFormController extends Controller
     }
  
 
-    public function index($key){
-        session([
-            "customer_form" => $key
-        ]);
-
-        if (!auth()->user()) {
-            return redirect("/quick_access");
-        }
-
+    public function index($key){ 
         $instance = CustomerForm::class;
         $customer_id = CustomerForm::getCustomerId();
         $resources = CustomerForm::where('key', $key)->where(function($query) use ($customer_id) {
@@ -115,6 +107,13 @@ class CustomerFormController extends Controller
 
     public function create($key)
     { 
+        session([
+            "customer_form" => $key
+        ]);
+
+        if (!auth()->user()) {
+            return redirect("/quick_access");
+        }
         $resource = new CustomerForm();
         return view("taqneen.customer_forms.form", compact('key', 'resource'));
     }
