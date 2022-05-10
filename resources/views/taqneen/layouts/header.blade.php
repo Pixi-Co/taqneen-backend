@@ -164,7 +164,7 @@
                   } else  {
                     $q->where('transactions.created_by', auth()->user()->id);
                   }
-                })->get(); 
+                })->get();  
                 foreach ($expireSubscriptions as $item) {
                     $msg = __('subscription of {customer} will expire in {expire_date}');
                     $msg = str_replace('{customer}', optional($item->contact)->name, $msg);
