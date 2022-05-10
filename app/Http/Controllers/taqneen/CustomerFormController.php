@@ -272,6 +272,7 @@ class CustomerFormController extends Controller
 
         $customer = Contact::where('email', $request->email)->first(); 
 
+        if (!$customer)
         $customer = Contact::create([
             "supplier_business_name" => '-',
             "custom_field1" => '-',

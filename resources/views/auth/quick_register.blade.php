@@ -195,6 +195,7 @@
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
     <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="{{ asset('/js/formajax.js') }}"></script>
     <!-- Plugin used-->
 
     <script>
