@@ -1,7 +1,7 @@
  
     <div class="ginput_container "> 
 
-        <legend class="gsection_title">نموزج مسارات</legend>
+        <legend class="gsection_title">نموذج مسارات</legend>
          <br>
         <h4 class="gsection_title">بيانات المنشأة</h4>
         <div class="row">
