@@ -97,6 +97,10 @@ Route::middleware(['setData'])->group(function () {
         
     Auth::routes();
     Route::post('/register', 'taqneen\CustomerFormController@createAccount');
+    Route::get('/quick_access', function()
+    {
+        return view('auth.quick_register');
+    });
     Route::post('/quick_access', 'taqneen\CustomerFormController@quickAccessAccount');
     
     Route::get('/verify-email', "UserController@verifyEmail");
