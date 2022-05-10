@@ -192,4 +192,7 @@
 
 
 
+    <script>
+        formAjax();
+    </script>
 @endsection
