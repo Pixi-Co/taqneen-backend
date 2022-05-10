@@ -135,7 +135,7 @@ class CustomerForm extends Model
     }
 
     public function getPdf() {
-        $media = Media::where('model_type', 'App\CustomerForm')->where('model_id', $this->id)->first();
+        $media = Media::where('model_type', 'App\CustomerForm')->where('model_id', $this->id)->latest()->first();
         return $media;
     }
 
