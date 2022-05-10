@@ -312,9 +312,11 @@ class CustomerFormController extends Controller
             "username" => $contact->email,
             "contact_number" => $contact->mobile,
             "address" => $contact->address_line_1,
+            "converted_by" => $contact->id,
             "user_type" => 'user_customer',
             "business_id" => '19',
             "password" => isset($data['password']) ? bcrypt($data['password']) : '',
+            "converted_by" => $contact->id,
         ]; 
 
         if ($user) {
