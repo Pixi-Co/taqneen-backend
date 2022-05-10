@@ -6,6 +6,8 @@ use App\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\CustomerForm;
+use App\Media;
+use App\Subscription;
 use App\System;
 use App\Triger;
 use App\User;
@@ -16,22 +18,23 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 class CustomerFormController extends Controller
 {
-    public function pdfViewer() { 
-        $defaultKey = request()->key? request()->key : CustomerForm::$KEYS[0];
+    public function pdfViewer()
+    {
+        $defaultKey = request()->key ? request()->key : CustomerForm::$KEYS[0];
         $keys = CustomerForm::$KEYS;
         $image = CustomerForm::$KEYS_IMAGES[$defaultKey];
 
-        $resource = CustomerForm::where('key', $defaultKey)->latest()->first(); 
-        
+        $resource = CustomerForm::where('key', $defaultKey)->latest()->first();
+
 
         if (request()->reset) {
             $setting = System::where('key', $defaultKey)->first();
             $resourceData = json_decode($resource->value, true);
             $newDate = [];
-            foreach($resourceData as $k => $v) { 
-                $newDate[$k] = $k; 
+            foreach ($resourceData as $k => $v) {
+                $newDate[$k] = $k;
             }
- 
+
             $json = json_encode(json_encode($newDate));
 
             if (!$setting) {
@@ -46,7 +49,7 @@ class CustomerFormController extends Controller
             }
 
             return redirect("customer-pdf-viewer?key=" . $defaultKey);
-        } 
+        }
 
         if (request()->ajax()) {
             $key = request()->key;
@@ -66,47 +69,48 @@ class CustomerFormController extends Controller
 
             return 1;
         }
- 
-        $setting = System::where('key', $defaultKey)->first(); 
-        if (!$setting)
-            $setting = new System(); 
 
-        $data = json_decode(json_decode($setting->value));  
+        $setting = System::where('key', $defaultKey)->first();
+        if (!$setting)
+            $setting = new System();
+
+        $data = json_decode(json_decode($setting->value));
         if (!$data)
-            $data = new System();  
+            $data = new System();
 
         if (request()->sync == 1) {
             $resourceData = json_decode($resource->value, true);
-            foreach($resourceData as $k => $v) {
+            foreach ($resourceData as $k => $v) {
                 if (!optional($data)->$k) {
                     $data->$k = $k;
                 }
             }
-        } 
-  
+        }
+
         return view("taqneen.customer_forms.pdf-viewer", compact("resource", "setting", "data", "keys", "image"));
     }
- 
 
-    public function index($key){ 
+
+    public function index($key)
+    {
         $instance = CustomerForm::class;
         $customer_id = CustomerForm::getCustomerId();
-        $resources = CustomerForm::where('key', $key)->where(function($query) use ($customer_id) {
+        $resources = CustomerForm::where('key', $key)->where(function ($query) use ($customer_id) {
             if (!auth()->user()->isAdmin()) {
                 $query->where('created_by', auth()->user()->id);
             }
-        })->get(); 
+        })->get();
         //dd($resource);
-        foreach($resources as $item){
+        foreach ($resources as $item) {
             $item->assignData();
         }
-         
-        return view('taqneen.customer_forms.index' , compact('resources', 'key')); 
+
+        return view('taqneen.customer_forms.index', compact('resources', 'key'));
     }
 
 
     public function create($key)
-    { 
+    {
         session([
             "customer_form" => $key
         ]);
@@ -121,7 +125,7 @@ class CustomerFormController extends Controller
             return redirect("/login");
         }
     }
-    
+
 
     public function edit($id)
     {
@@ -129,16 +133,17 @@ class CustomerFormController extends Controller
         $key = $resource->key;
         $resource->assignData();
         return view("taqneen.customer_forms.form", compact('key', 'resource'));
-    } 
+    }
 
 
-    public function save(Request $request) {
+    public function save(Request $request)
+    {
         $key = $request->key;
         $id = $request->id;
         $form = $request->form;
         $customerId = CustomerForm::getCustomerId();
         $userId = auth()->user()->id;
-        $json = json_encode($form); 
+        $json = json_encode($form);
 
         if ($id) {
             $resource = CustomerForm::find($id);
@@ -150,7 +155,7 @@ class CustomerFormController extends Controller
                 "key" => $key,
                 "customer_id" => $customerId,
                 "created_by" => $userId,
-                "number" => $form['token']?? time(),
+                "number" => $form['token'] ?? time(),
                 "value" => $json,
             ]);
 
@@ -164,76 +169,95 @@ class CustomerFormController extends Controller
     }
 
     public function viewPdfApi($id)
-    {   
+    {
         return $this->viewPdf($id);
     }
 
     public function downloadPdfApi($id)
-    { 
+    {
         return $this->viewPdf($id, true);
-    }  
+    }
 
-    public function viewPdf($id, $download=false)
+    public function viewPdf($id, $download = false)
     {
         $resource = CustomerForm::find($id);
         $key = $resource->key;
         $resource->courier_name = optional($resource->courier())->user_full_name;
-        $file = $key;  
-        
+        $file = $key;
 
-        if (!$resource) 
+
+        if (!$resource)
             $resource = new CustomerForm();
 
         $setting = System::where('key', $resource->key)->first();
-        $options = json_decode(json_decode(optional($setting)->value), true); 
- 
-        $data = json_decode($resource->value, true); 
+        $options = json_decode(json_decode(optional($setting)->value), true);
+
+        $data = json_decode($resource->value, true);
         $data['courier_name'] = $resource->courier_name;
         $html = view('taqneen.customer_forms.pdf', compact('resource', 'data', 'options'))->render();
-         
-  
-        return $this->getPdf1($html, $download);  
+
+
+        return $this->getPdf1($html, $download);
     }
 
 
-    public function getPdf1($html, $download=false) {
+    public function uploadPdf(Request $request)
+    {
+        $validator = validator($request->all(), [
+            "file" => 'required|max:10000|mimes:pdf',
+        ]);
+
+        if ($validator->fails()) {
+            return responseJson(0, $validator->errors()->first());
+        } 
+        $resource = CustomerForm::find($request->id);
+        // insert media
+        Media::uploadMedia(session('business.id'), $resource, $request, "file", false, "App\CustomerForm");
+
+        return responseJson(1, __('file_uploaded'));
+    }
+
+    public function getPdf1($html, $download = false)
+    {
         $stylesheet = file_get_contents('css/customer_forms.css');
-       
+
         //$pdf = PDF::loadHTML($html);  
         $pdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [210, 297]]);
-        
+
         $pdf->autoScriptToLang = true;
         $pdf->baseScript = 1;
         $pdf->autoVietnamese = true;
-        $pdf->autoArabic = true; 
-        $pdf->autoLangToFont  = true; 
+        $pdf->autoArabic = true;
+        $pdf->autoLangToFont  = true;
 
-        $pdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
-        $pdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);  
- 
-        return $download? $pdf->Output('form.pdf', 'D') : $pdf->output();
+        $pdf->WriteHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
+        $pdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
+
+        return $download ? $pdf->Output('form.pdf', 'D') : $pdf->output();
     }
 
-    public function getPdf2($html) {
+    public function getPdf2($html)
+    {
         $html2pdf = new Html2Pdf();
         $html2pdf->writeHTML($html);
         $html2pdf->output('myPdf.pdf');
     }
 
-    public function createAccount(Request $request) {
- 
+    public function createAccount(Request $request)
+    {
+
         $validator = validator($request->all(), [
             "email" => "email|required|unique:users,email|max:191",
             "pc_number" => "required|unique:contacts,custom_field1|max:191",
             "name" => "required|max:191",
             "password" => "required|max:191|min:8",
         ]);
- 
+
         if ($validator->fails()) {
             return responseJson(0, $validator->errors()->first());
         }
 
-        $customer = Contact::where('custom_field1', $request->pc_number)->first(); 
+        $customer = Contact::where('custom_field1', $request->pc_number)->first();
         $names = explode(" ", $request->name);
         $first_name = $names[0];
         $last_name = str_replace($first_name, "", $request->name);
@@ -252,13 +276,13 @@ class CustomerFormController extends Controller
             "business_id" => 19,
             "created_by" => optional(User::first())->id,
             "type" => 'customer',
-        ]); 
+        ]);
         $customer = $customer->refresh();
 
         $userData = [
             "password" => $request->password,
             "role" => "customer"
-        ];  
+        ];
         $user = $this->createUser($customer, $userData);
         $customer->update([
             "converted_by" => $user->id,
@@ -266,34 +290,35 @@ class CustomerFormController extends Controller
         return responseJson(1, __('your_account_has_been_created'));
     }
 
-    public function quickAccessAccount(Request $request) {
- 
+    public function quickAccessAccount(Request $request)
+    {
+
         $validator = validator($request->all(), [
             "email" => "email|required|unique:users,email|max:191",
         ]);
- 
+
         if ($validator->fails()) {
             return responseJson(0, $validator->errors()->first());
         }
 
-        $customer = Contact::where('email', $request->email)->first(); 
+        $customer = Contact::where('email', $request->email)->first();
 
         if (!$customer)
-        $customer = Contact::create([
-            "supplier_business_name" => '-',
-            "custom_field1" => '-',
-            "mobile" => $request->email,
-            "email" => $request->email,
-            "state" => '',
-            "address_line_1" => '',
-            "zip_code" => '',
-            "first_name" => '-',
-            "last_name" => '-',
-            "name" =>  '-',
-            "business_id" => 19,
-            "created_by" => optional(User::first())->id,
-            "type" => 'customer',
-        ]); 
+            $customer = Contact::create([
+                "supplier_business_name" => '-',
+                "custom_field1" => '-',
+                "mobile" => $request->email,
+                "email" => $request->email,
+                "state" => '',
+                "address_line_1" => '',
+                "zip_code" => '',
+                "first_name" => '-',
+                "last_name" => '-',
+                "name" =>  '-',
+                "business_id" => 19,
+                "created_by" => optional(User::first())->id,
+                "type" => 'customer',
+            ]);
         $customer = $customer->refresh();
 
         $userData = [
@@ -302,7 +327,7 @@ class CustomerFormController extends Controller
         ];
         $user = $this->createUser($customer, $userData);
         $customer->converted_by = $user->id;
-        $customer->update(); 
+        $customer->update();
 
         Auth::login($user);
         return responseJson(1, __('your_account_has_been_created'));
@@ -320,11 +345,11 @@ class CustomerFormController extends Controller
             "email" => $contact->email,
             "username" => $contact->email,
             "contact_number" => $contact->mobile,
-            "address" => $contact->address_line_1, 
+            "address" => $contact->address_line_1,
             "user_type" => 'user_customer',
             "business_id" => '19',
             "password" => isset($data['password']) ? bcrypt($data['password']) : '',
-        ]; 
+        ];
 
         if ($user) {
             $user->update($fill);
@@ -345,16 +370,16 @@ class CustomerFormController extends Controller
                 $user->assignRole($newRole->name);
             }
         }
- 
+
         return $user->refresh();
     }
 
     public function destroy($id)
-    { 
-        try { 
+    {
+        try {
             $subscribe_customer = CustomerForm::find($id);
             $subscribe_customer->delete();
-           
+
             $output = [
                 "success" => 1,
                 "msg" => __('delete successfull')
@@ -366,7 +391,6 @@ class CustomerFormController extends Controller
             ];
         }
 
-        return $output; 
+        return $output;
     }
-    
 }

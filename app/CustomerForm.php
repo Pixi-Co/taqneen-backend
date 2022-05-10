@@ -133,4 +133,13 @@ class CustomerForm extends Model
         //$resource->invoice_url = url('/subscriptions/print') . "/" . $this->getTokenAttribute();
         return $resource->$tag;
     }
+
+    public function getPdf() {
+        $media = Media::where('model_type', 'App\CustomerForm')->where('model_id', $this->id)->first();
+        return $media;
+    }
+
+    public function getPdfUrl() {
+        return $this->getPdf()? url("/uploads/media") . "/" . optional($this->getPdf())->file_name : null;
+    }
 }
