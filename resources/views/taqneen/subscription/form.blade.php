@@ -203,6 +203,11 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="mt-3 my-3">
+                                                    <label for="">@trans('subscription_phone')</label>
+                                                    {!! Form::text('shipping_custom_field_3', $subscription->shipping_custom_field_3, ['class' => 'form-control', "required", $subscriptionPhoneDisabled]) !!}
+                                                </div>
+
                                                 <div class="form-group mb-3">
                                                     <label class="my-2" for="inputName">@trans('subscription
                                                         date')</label> *
@@ -341,8 +346,13 @@
                                                                 v-model="resource.contact.address_line_1">
                                                         </div>
                                                     -->
-                                                        <div class="col-md-12 mt-3">
-                                                            <label class="labels">@trans('appartment_no')</label>
+                                                        <div class="col-md-6 mt-3">
+                                                            <label class="labels">@trans('appartment_no') 1</label>
+                                                            <input type="text" class="form-control" readonly
+                                                                v-model="resource.contact.address_line_1">
+                                                        </div>
+                                                        <div class="col-md-6 mt-3">
+                                                            <label class="labels">@trans('appartment_no') 2</label>
                                                             <input type="text" class="form-control" readonly
                                                                 v-model="resource.contact.address_line_2">
                                                         </div>

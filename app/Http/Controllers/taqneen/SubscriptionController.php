@@ -204,7 +204,7 @@ class SubscriptionController extends Controller
                 return number_format($row->final_total, 2);
             })
             ->addColumn('share', function ($row) {
-                return view('layouts.partials.share', ["phone" => $row->mobile, "email" => $row->email]);
+                return view('layouts.partials.share', ["phone" => $row->shipping_custom_field_3, "email" => $row->email]);
             })
             ->rawColumns(['action', 'share', 'status', 'shipping_custom_field_2', 'is_expire'])
             ->make(true);
@@ -256,6 +256,7 @@ class SubscriptionController extends Controller
         $expensesList = ExpenseCategory::where('business_id', $business_id)->pluck("name", "id")->toArray();
         //$disabled = '';//auth()->user()->can(find_or_create_p('subscription.edit_courier')) ? "" : "disabled";
         $disabled = auth()->user()->can(find_or_create_p('subscription.edit_courier')) ? "" : "disabled";
+        $subscriptionPhoneDisabled = auth()->user()->can(find_or_create_p('subscription.edit_subscription_phone', 'subscriptions')) ? "" : "disabled";
         $editCourier = auth()->user()->can(find_or_create_p('subscription.edit_courier')) ? "" : "disabled";
         $subscription->created_by = auth()->user()->id;
         $subscription->contact = new Subscription();
@@ -311,6 +312,7 @@ class SubscriptionController extends Controller
             "payment_status",
             "roles",
             "editCourier",
+            "subscriptionPhoneDisabled",
         ));
     }
 
@@ -336,6 +338,7 @@ class SubscriptionController extends Controller
         $expenses = ExpenseCategory::getObject();
         $expensesList = ExpenseCategory::where('business_id', $business_id)->pluck("name", "id")->toArray();
         $disabled = auth()->user()->can(find_or_create_p('subscription.edit_courier')) ? "" : "disabled";
+        $subscriptionPhoneDisabled = auth()->user()->can(find_or_create_p('subscription.edit_subscription_phone', 'subscriptions')) ? "" : "disabled";
         $subscription->transaction_date = date('Y-m-d\TH:i', strtotime($subscription->transaction_date));
         $payment->paid_on = date('Y-m-d\TH:i', strtotime($payment->paid_on));
 
@@ -389,6 +392,7 @@ class SubscriptionController extends Controller
             "customerObject",
             "payment_status",
             "roles",
+            "subscriptionPhoneDisabled",
         ));
     }
 
@@ -521,6 +525,7 @@ class SubscriptionController extends Controller
                 "custom_field_4" => $request->custom_field_4,  // expenses amount
                 "shipping_custom_field_1" => $request->shipping_custom_field_1,  // register date
                 "shipping_custom_field_2" => $request->shipping_custom_field_2,  // payment status
+                "shipping_custom_field_3" => $request->shipping_custom_field_3,  // subscription phone
                 "final_total" => $request->final_total,  // expenses amount
                 "transaction_date" => $request->transaction_date,  // expenses amount
                 "sub_type" => $request->sub_type,  // expenses amount
@@ -614,6 +619,7 @@ class SubscriptionController extends Controller
                 "custom_field_4" => $request->custom_field_4,  // transform number
                 "shipping_custom_field_1" => $request->shipping_custom_field_1,  // register date
                 "shipping_custom_field_2" => $request->shipping_custom_field_2,  // payment status
+                "shipping_custom_field_3" => $request->shipping_custom_field_3,  // subscription phone
                 "final_total" => $request->final_total,  // expenses amount
                 "transaction_date" => $request->transaction_date,  // expenses amount
                 "sub_type" => $request->sub_type,  // expenses amount

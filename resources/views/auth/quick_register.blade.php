@@ -37,8 +37,7 @@
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
-
-    @include("taqneen.layouts.css")
+ 
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
     <style> 
         .login-card .login-main .theme-form label {
@@ -135,13 +134,13 @@
     .customizer-links {
         display: none;
     }
-</style> 
+</style>
 </head>
 
 <body>
     <!-- login page start-->
     <div class="container-fluid p-0">
-        <form class="theme-" id="form" method="post" >
+        <form action="{{ url('/quick_access') }}" class="form" method="post">
             @csrf
             <div class="row m-0">
                 <div class="col-12 p-0">
@@ -156,42 +155,23 @@
                                     </a>
                                 </div>
                                 <br>
-                            <div class="login-main">
-                                <form class="theme-" id="form" method="post" >
-                                    @csrf
-                                    <h4>{{ __('create_account') }}</h4>
-                                    <p>{{ __('enter_your_account_data') }}</p>
+                            <div class="login-main"> 
+                                    <h4>{{ __('quick access your account') }}</h4>
+                                    <p>{{ __('Enter your email') }}</p>
                                     <div class="form-group">
-                                        <label class="col-form-label">{{ __('name') }}</label>
-                                        <input class="form-control" type="text" required="" name="name"
-                                            placeholder="{{ __('name') }}"> 
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label">{{ __('pc_number') }}</label>
-                                        <input class="form-control" maxlength="10" pattern="[0-9]+" type="text" required="" name="pc_number"
-                                            placeholder="0000000000"> 
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label">{{ __('email_') }}</label>
+                                        <label class="col-form-label">{{ __('Email Address') }}</label>
                                         <input class="form-control" type="email" required="" name="email"
-                                            placeholder="Test@gmail.com"> 
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label">{{ __('password_') }}</label>
-                                        <input class="form-control password" type="password" name="password" required=""
-                                            placeholder="">
-                                        <strong class="text-danger" >{{ $errors->first('password') }}</strong>
-                                        <div class="show-hide " style="left: 20px;right: inherit" onclick="$('.password').attr('type') == 'text'? $('.password').attr('type', 'password') : $('.password').attr('type', 'text')" >
-                                            <span class="show"> </span>
-                                        </div>
-                                    </div>
+                                            placeholder="Test@gmail.com">
+                                        <strong class="text-danger">{{ $errors->first('email') }}</strong>
+                                    </div> 
                                     <div class="form-group mb-0"> 
-                                        <button class="btn btn-primary btn-block" type="submit">{{ __('create account') }}</button>
-                                        <a href="{{ url('/login') }}" class="btn btn-primary btn-block" type="submit">{{ __('sign_in') }}</a>
+                                        <button class="btn btn-primary btn-block" type="submit">{{ __('continue') }}</button>
+                                        <a class="btn btn-primary btn-block" href="{{ url('/login') }}" type="submit">{{ __('sign_in') }}</a>
                                     </div> 
                                     <div class="social mt-4 hidden">
                                         
-                                    </div> 
+                                    </div>
+     
                             </div>
                         </div>
                     </div>
@@ -215,29 +195,15 @@
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
     <script src="{{ asset('assets/js/script.js') }}"></script>
-    <script src="{{ asset('/js/formajax.js') }}"></script>
     <!-- Plugin used-->
 
-    @include("taqneen.layouts.script")
-
     <script>
+        
         formAjax(true, function(res){
             if (res.status == 1)
-                window.location = "{{ url('/login') }}";
+                window.location = "{{ url('/customer-form') }}/{{ session('customer_form') }}";
         }, "#form");
-        
-    $('input').each(function(){
-        if ($(this).attr('maxlength') > 0) {
-            $(this).attr("pattern", "[0-9]+");
-            //$(this).attr("data-toggle", "tooltip");
-            //$(this).attr("title", "{{ __('only_numbers_available') }}");
-            $(this).on('input', function (e) {
-                $(this).val($(this).val().replace(/[^0-9]/g, ''));
-            });
-        } 
-    });
-
-    </script>    
+    </script>
 </body>
 
 </html>

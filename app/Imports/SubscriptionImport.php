@@ -164,6 +164,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
             "transaction_date" => $date,   
             "sub_type" => $row['paper'],   
             "shipping_custom_field_2" => $row['payment_status']?? '',   
+            "shipping_custom_field_3" => $row['sub_phone']?? '',  // subscription phone
             "business_id" => session('business.id'),
         ];
  

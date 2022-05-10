@@ -97,6 +97,7 @@ Route::middleware(['setData'])->group(function () {
         
     Auth::routes();
     Route::post('/register', 'taqneen\CustomerFormController@createAccount');
+    Route::post('/quick_access', 'taqneen\CustomerFormController@quickAccessAccount');
     
     Route::get('/verify-email', "UserController@verifyEmail");
     Route::get('/verify', 'BusinessController@verfiy')->name('business.verfiy');

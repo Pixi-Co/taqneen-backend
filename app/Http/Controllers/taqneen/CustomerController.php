@@ -38,7 +38,7 @@ class CustomerController extends Controller
             ->where('business_id', session('business.id'))
             ->latest();
 
-        if (auth()->user()->can(find_or_create_p('customers.own_data', 'customers'))) {
+        if (auth()->user()->can(find_or_create_p('customers.own_data', 'customers')) && !auth()->user()->isAdmin()) {
             $query->onlyMe();
         }
 

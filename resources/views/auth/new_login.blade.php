@@ -38,6 +38,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
 
+    <script src="{{ url('/') }}/supportboard/js/min/jquery.min.js"></script>
+    <script id="sbinit" src="{{  url('/')  }}/supportboard/js/main.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
     <style> 
         .login-card .login-main .theme-form label {

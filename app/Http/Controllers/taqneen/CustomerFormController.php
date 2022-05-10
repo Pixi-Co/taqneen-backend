@@ -9,6 +9,7 @@ use App\CustomerForm;
 use App\System;
 use App\Triger;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use PDF;
 use Spatie\Permission\Models\Role;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -88,6 +89,14 @@ class CustomerFormController extends Controller
  
 
     public function index($key){
+        session([
+            "customer_form" => $key
+        ]);
+
+        if (!auth()->user()) {
+            return redirect("/quick_access");
+        }
+
         $instance = CustomerForm::class;
         $customer_id = CustomerForm::getCustomerId();
         $resources = CustomerForm::where('key', $key)->where(function($query) use ($customer_id) {
@@ -252,6 +261,44 @@ class CustomerFormController extends Controller
         return responseJson(1, __('your_account_has_been_created'));
     }
 
+    public function quickAccessAccount(Request $request) {
+ 
+        $validator = validator($request->all(), [
+            "email" => "email|required|unique:users,email|max:191",
+        ]);
+ 
+        if ($validator->fails()) {
+            return responseJson(0, $validator->errors()->first());
+        }
+
+        $customer = Contact::where('email', $request->email)->first(); 
+
+        $customer = Contact::create([
+            "supplier_business_name" => '-',
+            "custom_field1" => '-',
+            "mobile" => $request->email,
+            "email" => $request->email,
+            "state" => '',
+            "address_line_1" => '',
+            "zip_code" => '',
+            "first_name" => '-',
+            "last_name" => '-',
+            "name" =>  '-',
+            "business_id" => 19,
+            "created_by" => optional(User::first())->id,
+            "type" => 'customer',
+        ]); 
+        $customer = $customer->refresh();
+
+        $userData = [
+            "password" => $request->email,
+            "role" => "customer"
+        ];
+        $this->createUser($customer, $userData);
+
+        return responseJson(1, __('your_account_has_been_created'));
+    }
+
     public function createUser(Contact $contact, array $data)
     {
         $user = $contact->loginUser;
@@ -290,6 +337,7 @@ class CustomerFormController extends Controller
             }
         }
 
+        Auth::login($user); 
         return $user->refresh();
     }
 

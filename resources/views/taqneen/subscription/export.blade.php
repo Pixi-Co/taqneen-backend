@@ -22,6 +22,7 @@
         <th>{{ __('payment_method') }}</th>
         <th>{{ __('paper_status') }}</th>
         <th>{{ __('expire_date') }}</th> 
+        <th>{{ __('subscription_phone') }}</th> 
     </tr>
 
     @foreach ($resources as $resource)  
@@ -48,6 +49,7 @@
         <td>{{ optional($resource->payment)->method }}</td>
         <td>{{ $resource->sub_type }}</td>
         <td>{{ $resource->expire_date }}</td>
+        <td>{{ $resource->shipping_custom_field_3 }}</td>
     </tr>
     @endforeach
 </table>

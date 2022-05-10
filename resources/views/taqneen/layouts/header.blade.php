@@ -154,9 +154,16 @@
                 $notifications = [];
                 $opts = App\Contact::where('type', 'opportunity')
                     ->where('business_id', session('business.id'))
-                    ->where('converted_by', null)
+                    ->whereNull('converted_by')
+                    ->where('created_by', session('user.id'))
+                    ->latest()
                     ->get();
-                $expireSubscriptions = App\Subscription::getExpireSubscriptionForThisMonth()->get();
+                $expireSubscriptions = App\Subscription::where(function($q){
+                  if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions')) && !auth()->user()->isAdmin()) {
+                    $q->where('transactions.created_by', auth()->user()->id);
+                  }
+                })
+                  ->getExpireSubscriptionForThisMonth()->get();
                 foreach ($expireSubscriptions as $item) {
                     $msg = __('subscription of {customer} will expire in {expire_date}');
                     $msg = str_replace('{customer}', optional($item->contact)->name, $msg);
