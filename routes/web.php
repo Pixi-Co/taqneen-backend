@@ -114,6 +114,9 @@ Route::middleware(['setData'])->group(function () {
 
     Route::get('/quote/{token}', 'SellPosController@showInvoice')
         ->name('show_quote');
+
+    
+    Route::get('/customer-form/{key}', 'taqneen\CustomerFormController@create');
 });
 
 //Routes for authenticated users only
@@ -122,7 +125,6 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
 
     // customer forms
     
-    Route::get('/customer-form/{key}', 'taqneen\CustomerFormController@create');
     Route::get('/customer-form-index/{key}', 'taqneen\CustomerFormController@index');
     Route::post('/customer-form', 'taqneen\CustomerFormController@save');
     Route::get('/customer-form/edit/{id}', 'taqneen\CustomerFormController@edit');
