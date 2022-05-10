@@ -301,10 +301,10 @@ class CustomerFormController extends Controller
             "role" => "customer"
         ];
         $user = $this->createUser($customer, $userData);
-        $customer->update([
-            "converted_by" => $user->id,
-        ]);
+        $customer->converted_by = $user->id;
+        $customer->update(); 
 
+        Auth::login($user);
         return responseJson(1, __('your_account_has_been_created'));
     }
 
@@ -345,8 +345,7 @@ class CustomerFormController extends Controller
                 $user->assignRole($newRole->name);
             }
         }
-
-        Auth::login($user); 
+ 
         return $user->refresh();
     }
 
