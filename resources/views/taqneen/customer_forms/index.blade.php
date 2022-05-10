@@ -194,7 +194,10 @@
 
 
     <script>
-        formAjax();
+        formAjax(false, function(res){
+            if (res.status == 1)
+                window.location.reload();
+        });
 
         $(document).ready(function(){
             formAjax();
