@@ -200,7 +200,10 @@
         });
 
         $(document).ready(function(){
-            formAjax();
+            formAjax(false, function(res){
+                if (res.status == 1)
+                    window.location.reload();
+            });
         });
     </script>
 @endsection
