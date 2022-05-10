@@ -254,9 +254,11 @@ class CustomerFormController extends Controller
         $userData = [
             "password" => $request->password,
             "role" => "customer"
-        ];
-        $this->createUser($customer, $userData);
-
+        ];  
+        $user = $this->createUser($customer, $userData);
+        $customer->update([
+            "converted_by" => $user->id,
+        ]);
         return responseJson(1, __('your_account_has_been_created'));
     }
 
@@ -294,7 +296,10 @@ class CustomerFormController extends Controller
             "password" => $request->email,
             "role" => "customer"
         ];
-        $this->createUser($customer, $userData);
+        $user = $this->createUser($customer, $userData);
+        $customer->update([
+            "converted_by" => $user->id,
+        ]);
 
         return responseJson(1, __('your_account_has_been_created'));
     }
@@ -316,7 +321,6 @@ class CustomerFormController extends Controller
             "user_type" => 'user_customer',
             "business_id" => '19',
             "password" => isset($data['password']) ? bcrypt($data['password']) : '',
-            "converted_by" => $contact->id,
         ]; 
 
         if ($user) {
