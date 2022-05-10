@@ -140,7 +140,7 @@
 <body>
     <!-- login page start-->
     <div class="container-fluid p-0">
-        <form action="{{ url('/quick_access') }}" class="form" method="post">
+        <form action="{{ url('/quick_access') }}" class="form" method="post" id="form" >
             @csrf
             <div class="row m-0">
                 <div class="col-12 p-0">
