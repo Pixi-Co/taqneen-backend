@@ -144,6 +144,7 @@
                     </div>
                     <form method="post" class="form" action="/customer-form-upload" enctype="multipart/form-data">
                         <div class="modal-body">
+                            <input type="hidden" name="id" value="{{ $item->id }}" >
                             @csrf
                             <div class="row mt-2">
                                 <div class="col-md-12">
@@ -194,5 +195,9 @@
 
     <script>
         formAjax();
+
+        $(document).ready(function(){
+            formAjax();
+        });
     </script>
 @endsection
