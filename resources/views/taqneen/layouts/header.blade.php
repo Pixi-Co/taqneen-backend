@@ -160,7 +160,7 @@
                     ->get();
                 $expireSubscriptions = App\Subscription::getExpireSubscriptionForThisMonth()->where(function($q){
                   if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions')) && !auth()->user()->isAdmin()) {
-                    $q->where('transactions.created_by', auth()->user()->id);
+                    $q->onlyMe();
                   }
                 })->get();
                 foreach ($expireSubscriptions as $item) {
