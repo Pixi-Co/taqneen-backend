@@ -115,7 +115,11 @@ class CustomerFormController extends Controller
             return redirect("/quick_access");
         }
         $resource = new CustomerForm();
-        return view("taqneen.customer_forms.form", compact('key', 'resource'));
+        try {
+            return view("taqneen.customer_forms.form", compact('key', 'resource'));
+        } catch (\Exception $th) {
+            return redirect("/login");
+        }
     }
     
 
