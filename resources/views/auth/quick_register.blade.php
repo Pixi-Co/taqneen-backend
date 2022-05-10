@@ -198,6 +198,8 @@
     <script src="{{ asset('/js/formajax.js') }}"></script>
     <!-- Plugin used-->
 
+    @include("taqneen.layouts.script")
+
     <script>
         
         formAjax(true, function(res){
