@@ -12,7 +12,7 @@
     <meta name="author" content="pixelstrap">
     <link rel="icon" href="{{ asset('/images/logo.png') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('/images/logo.png') }}" type="image/x-icon">
-    <title>Cuba - Premium Admin Template - @yield('title')</title>
+    <title>Taqneen - @yield('title')</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap"
         rel="stylesheet">
