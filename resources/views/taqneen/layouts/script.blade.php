@@ -15,7 +15,6 @@
 <!-- Plugins JS start-->
 <script id="menu" src="{{ asset('assets/js/sidebar-menu.js') }}"></script>
 <script id="menu" src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
-@yield('script')
 
 @if (Route::current()->getName() != 'popover')
     <script src="{{ asset('assets/js/tooltip-init.js') }}"></script>
@@ -172,5 +171,6 @@
     
     //setActiveForSidebarList();
 </script>
+@yield('script')
 
 @include("layouts.js.iziToast")
