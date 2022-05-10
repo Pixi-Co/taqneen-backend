@@ -60,12 +60,7 @@ class Subscription extends Transaction
     public static function getExpireSubscriptionForThisMonth() {
         $startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
         $endDate = Carbon::now()->endOfMonth()->format('Y-m-d'); 
-
-        return self::where(function($q){
-            if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions')) && !auth()->user()->isAdmin()) { 
-                $q->onlyMe();
-            }
-        })->whereBetween('expire_date', [$startDate, $endDate]);
+        return self::whereBetween('expire_date', [$startDate, $endDate]);
     }
 
     public function isExpire() {
