@@ -161,17 +161,10 @@
                 $expireSubscriptions = App\Subscription::getExpireSubscriptionForThisMonth()->where(function($q){
                   if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions')) && !auth()->user()->isAdmin()) {
                     $q->where('transactions.created_by', auth()->user()->id);
+                  } else  {
+                    $q->where('transactions.created_by', auth()->user()->id);
                   }
-                })->get();
-
-                dd([
-                  App\Subscription::getExpireSubscriptionForThisMonth()->where(function($q){
-                    if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions')) && !auth()->user()->isAdmin()) {
-                      $q->where('transactions.created_by', auth()->user()->id);
-                    }
-                  })->get(),
-                  auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions')) && !auth()->user()->isAdmin()
-                ]);
+                })->get(); 
                 foreach ($expireSubscriptions as $item) {
                     $msg = __('subscription of {customer} will expire in {expire_date}');
                     $msg = str_replace('{customer}', optional($item->contact)->name, $msg);
