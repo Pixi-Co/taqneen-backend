@@ -136,6 +136,16 @@
                                                         <b>{{ $data['subscription_will_expire_total'] }}</b>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">@trans('subscription type')</label>
+                                                        <select class="form-select  mb-3 subscription_type"  >
+                                                            <option value="">@trans('all')</option>
+                                                            <option value="new">@trans('new')</option> 
+                                                            <option value="renew">@trans('renew')</option> 
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <br>
                                             <div id="subscription_chart" style="display: none" class="w3-block" ></div>
