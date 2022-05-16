@@ -118,6 +118,7 @@ class CustomerFormController extends Controller
         try {
             return view("taqneen.customer_forms.form", compact('key', 'resource'));
         } catch (\Exception $th) {
+            dd($th->getMessage());
             return redirect("/login");
         }
     }
