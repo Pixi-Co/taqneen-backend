@@ -122,6 +122,7 @@ Route::middleware(['setData'])->group(function () {
     
     Route::get('/customer-form/{key}', 'taqneen\CustomerFormController@create');
     Route::get('/customer-form-pdf/{key}', 'taqneen\CustomerFormController@viewFinalPage');
+    Route::post('/customer-form-upload', 'taqneen\CustomerFormController@uploadPdf');
 });
 
 //Routes for authenticated users only
@@ -132,7 +133,6 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     
     Route::get('/customer-form-index/{key}', 'taqneen\CustomerFormController@index');
     Route::post('/customer-form', 'taqneen\CustomerFormController@save');
-    Route::post('/customer-form-upload', 'taqneen\CustomerFormController@uploadPdf');
     Route::get('/customer-form/edit/{id}', 'taqneen\CustomerFormController@edit');
     Route::delete('/customer-form/{id}', 'taqneen\CustomerFormController@destroy');
 

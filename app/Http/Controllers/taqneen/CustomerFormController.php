@@ -224,6 +224,9 @@ class CustomerFormController extends Controller
 
     public function uploadPdf(Request $request)
     {
+        if (!auth()->user())
+            $this->preAccount();
+        
         $validator = validator($request->all(), [
             "file" => 'required|max:10000|mimes:pdf',
         ]);
