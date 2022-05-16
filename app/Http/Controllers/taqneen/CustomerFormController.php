@@ -405,6 +405,10 @@ class CustomerFormController extends Controller
         $ip = request()->ip();
         $email = $ip . "@taqneen.com";
         $password = "123456789";
+
+        $customer = Contact::where('mobile', $ip)->first();
+
+        if (!$customer)
         $customer = Contact::create([
             "supplier_business_name" => $ip,
             "custom_field1" => '-',
