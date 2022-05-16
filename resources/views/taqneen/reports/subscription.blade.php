@@ -103,7 +103,7 @@
                                             </div>
 
                                             <br>
-                                            <div class="row">
+                                            <div class="row" style="display: none" >
                                                 <div class="col-md-3 w3-padding">
                                                     <div class="w3-card w3-round card-body w3-center w3-text-dark-gray">
                                                         <h5>
@@ -138,7 +138,7 @@
                                                 </div>
                                             </div>
                                             <br>
-                                            <div id="subscription_chart" class="w3-block" ></div>
+                                            <div id="subscription_chart" style="display: none" class="w3-block" ></div>
                                             <br>
                                             <div class="table-responsive">
                                                 <table class="display" id="subscriptionTable">

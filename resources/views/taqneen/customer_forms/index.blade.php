@@ -42,10 +42,7 @@
                                         <div class="card-body">
                                             <a role="button" href="{{ url('customer-form') }}/{{ $key }}"
                                                 class="btn btn-primary">@trans('add_' . $key)</a>
-
-
-
-
+ 
                                             <div class="table-responsive pt-3">
                                                 <table class="display" id="advance-4">
                                                     <thead>

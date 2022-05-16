@@ -205,7 +205,7 @@
 
                                                 <div class="mt-3 my-3">
                                                     <label for="">@trans('subscription_phone')</label>
-                                                    {!! Form::text('shipping_custom_field_3', $subscription->shipping_custom_field_3, ['class' => 'form-control', "required", $subscriptionPhoneDisabled]) !!}
+                                                    {!! Form::text('shipping_custom_field_3', $subscription->shipping_custom_field_3, ['class' => 'form-control', "maxlength" => "9", "pattern" => "[0-9]+", "required", $subscriptionPhoneDisabled]) !!}
                                                 </div>
 
                                                 <div class="form-group mb-3">

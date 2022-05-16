@@ -114,6 +114,7 @@
                                                             <th>@trans('sales_commision')</th> 
                                                             <th>@trans('number')</th> 
                                                             <th>@trans('total')</th> 
+                                                            <th>@trans('percent')</th> 
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -127,6 +128,8 @@
                                                                 <td>{{ $resource->user_full_name }}</td> 
                                                                 <td>{{ $resource->number }}</td> 
                                                                 <td>{{ number_format($resource->sum, 2) }} SAR</td> 
+                                                                <td>0.5 %</td> 
+                                                                <td>{{ $resource->totla * 0.5 }}</td> 
                                                             </tr>
                                                             @php
                                                                 $numbers += $resource->number;

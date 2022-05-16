@@ -136,6 +136,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
         $final_total = $row['expense_amount']?? 0;
         $total = 0;
         $servicePrices = explode(",", $row['price']);
+        $row['type'] = $row['type']?? 'new';
 
         foreach ($servicePrices as $price) {
             $price = str_replace(' ', "", $price);
@@ -166,6 +167,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
             "shipping_custom_field_2" => $row['payment_status']?? '',   
             "shipping_custom_field_3" => $row['sub_phone']?? '',  // subscription phone
             "business_id" => session('business.id'),
+            "is_renew" => $row['type'] == 'new'? '0' : '1',   
         ];
  
         // insert transactions

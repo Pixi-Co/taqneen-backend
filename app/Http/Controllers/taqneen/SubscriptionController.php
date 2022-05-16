@@ -52,7 +52,7 @@ class SubscriptionController extends Controller
             "contacts", "contacts.id", "=", "transactions.contact_id"
         )
         ->where('transactions.business_id', $business_id)
-        ->where('is_renew', '0');
+        /*->where('is_renew', '0')*/;
  
 
         if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions')) && !auth()->user()->isAdmin()) {
@@ -485,6 +485,11 @@ class SubscriptionController extends Controller
 
         // delete old subscription
         $resource->delete();
+
+        // update new subscription
+        $newSubscription->is_renew = '1';
+        $newSubscription->renew_date = date('Y-m-d');
+        $newSubscription->update();
 
         // fire renew triger
         Triger::fire(Triger::$RENEW_SUBSCRIPTION, $newSubscription->id);

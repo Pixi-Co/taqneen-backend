@@ -180,6 +180,7 @@ class ReportController extends Controller
             $queryClone = clone $query;  
             $resource->number = $queryClone->where("created_by", $resource->id)->count();
             $resource->sum = $queryClone->where("created_by", $resource->id)->sum('final_total');
+            $resource->total = $queryClone->where("created_by", $resource->id)->sum('final_total - tax_amount');
         }
         $services = Category::where('business_id', session('user.business_id'))->where('category_type', 'service')->get(); 
 

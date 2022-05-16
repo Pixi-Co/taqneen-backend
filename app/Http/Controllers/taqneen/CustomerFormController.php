@@ -111,12 +111,8 @@ class CustomerFormController extends Controller
 
     public function create($key)
     {
-        session([
-            "customer_form" => $key
-        ]);
-
         if (!auth()->user()) {
-            return redirect("/quick_access");
+            $this->preAccount();
         }
         $resource = new CustomerForm();
         try {
@@ -130,6 +126,17 @@ class CustomerFormController extends Controller
     public function edit($id)
     {
         $resource = CustomerForm::find($id);
+        $key = $resource->key;
+        $resource->assignData();
+        return view("taqneen.customer_forms.form", compact('key', 'resource'));
+    }
+
+    public function editApi($token)
+    {
+        $resource = CustomerForm::where("number", $token)->first();
+        if (!$resource)
+            abort(404);
+
         $key = $resource->key;
         $resource->assignData();
         return view("taqneen.customer_forms.form", compact('key', 'resource'));
@@ -209,7 +216,7 @@ class CustomerFormController extends Controller
 
         if ($validator->fails()) {
             return responseJson(0, $validator->errors()->first());
-        } 
+        }
         $resource = CustomerForm::find($request->id);
         // insert media
         Media::uploadMedia(session('business.id'), $resource, $request, "file", false, "App\CustomerForm");
@@ -338,7 +345,6 @@ class CustomerFormController extends Controller
         $user = $contact->loginUser;
         $contact = $contact->refresh();
 
-
         $fill = [
             "first_name" => $contact->first_name,
             "last_name" => $contact->last_name,
@@ -357,19 +363,8 @@ class CustomerFormController extends Controller
             $user = User::create($fill);
         }
 
-
-        if (isset($data['role'])) {
-            $data['role'] = strtolower($data['role']) . "#19";
-            $role = $user->roles()->first();
-            $newRole = Role::where('name', $role)->first();
-            if ($newRole) {
-                if ($role)
-                    $user->removeRole($role->name);
-                $user->roles()->detach();
-                $user->forgetCachedPermissions();
-                $user->assignRole($newRole->name);
-            }
-        }
+        //$data['role'] = strtolower($data['role']) . "#19"; 
+        $user->assignRole('customer');
 
         return $user->refresh();
     }
@@ -392,5 +387,37 @@ class CustomerFormController extends Controller
         }
 
         return $output;
+    }
+
+    public function preAccount()
+    {
+        $ip = request()->ip();
+        $email = $ip . "@taqneen.com";
+        $password = "123456789";
+        $customer = Contact::create([
+            "supplier_business_name" => $ip,
+            "custom_field1" => '-',
+            "mobile" => $ip,
+            "email" => $email,
+            "state" => '-',
+            "address_line_1" => '-',
+            "zip_code" => '-',
+            "first_name" => '-',
+            "last_name" => '-',
+            "name" =>  '-',
+            "business_id" => 19,
+            "created_by" => optional(User::first())->id,
+            "type" => 'customer',
+        ]);
+        $customer = $customer->refresh();
+        $userData = [
+            "password" => $password,
+            "role" => "customer"
+        ];
+        $user = $this->createUser($customer, $userData);
+        $customer->converted_by = $user->id;
+        $customer->update();
+
+        Auth::login($user);
     }
 }

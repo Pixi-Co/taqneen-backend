@@ -10,7 +10,6 @@
             </select>
         </div>
     </div>
-    <!--
     <div class="hidden">
         <div class="form-group">
             <label for="">@trans('subscription type')</label>
@@ -21,7 +20,6 @@
             </select>
         </div>
     </div>
--->
     <div class="col-md-4">
         <div class="form-group">
             <label for="">@trans('sales_commission')</label>
