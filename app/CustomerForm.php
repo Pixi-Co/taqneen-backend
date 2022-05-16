@@ -129,6 +129,7 @@ class CustomerForm extends Model
         $resource->customer_form_user = optional($this->user)->first_name;
         $resource->user_triger_email = $this->user_triger_email;
         $resource->customer_form_pdf_url = url('/customer-pdf') . "/" . $this->id;
+        $resource->customer_form_upload_page = url('/customer-form-pdf') . "/" . $this->number;
         $resource->customer_form_pdf = "<a href='" . url('/customer-pdf-download') . "/" . $this->id . "' ><div style='margin: auto;border: 1px solid lightgray;text-align: center;width: 100px;border-radius: 6px;box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;' ><img style='width: 100px;' src='" . url('/images/pdf_file.jpg') . "' ><br> <b>تحميل</b> </div></a><br>";
         //$resource->invoice_url = url('/subscriptions/print') . "/" . $this->getTokenAttribute();
         return $resource->$tag;

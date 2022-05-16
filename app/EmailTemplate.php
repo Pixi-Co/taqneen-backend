@@ -43,6 +43,7 @@ class EmailTemplate extends Model
         '{customer_form_user}' => "customer_form_user",
         '{customer_form_pdf_url}' => "customer_form_pdf_url",
         '{customer_form_pdf}' => "customer_form_pdf",
+        '{customer_form_upload_page}' => "customer_form_upload_page",
         '{user_triger_email}' => "user_triger_email",
         '{subscription_note}' => "note"
     ];

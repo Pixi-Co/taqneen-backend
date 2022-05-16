@@ -82,10 +82,12 @@
                     <div class="modal-title">
 
                     </div>
-
-                    <div class="w3-gray w3-padding btn" style="width: 100px;border-radius: 5em;margin: auto" >
-                       <i class="fa fa-cloud-download"></i> {{ __('download_pdf') }}
-                    </div>
+                    <br>
+                    <a href="{{ url('/customer-pdf-download') }}/{{ $resource->id }}">
+                        <div class="btn-primary w3-padding btn" style="width: 200px;border-radius: 5em;margin: auto" >
+                            <i class="fa fa-cloud-download"></i> {{ __('download_pdf') }}
+                         </div>
+                    </a>
                     <br>
                     <br>
 

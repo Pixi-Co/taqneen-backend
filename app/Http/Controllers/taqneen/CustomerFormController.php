@@ -124,6 +124,9 @@ class CustomerFormController extends Controller
     }
 
     public function viewFinalPage($key) {
+        if (!auth()->user())
+            $this->preAccount();
+
         $resource = CustomerForm::where("number", $key)->first();
         if (!$resource)
             abort(404);
