@@ -123,6 +123,16 @@ class CustomerFormController extends Controller
         }
     }
 
+    public function viewFinalPage($key) {
+        $resource = CustomerForm::where("number", $key)->first();
+        if (!$resource)
+            abort(404);
+
+        $key = $resource->key;
+        $resource->assignData();
+        return view("taqneen.customer_forms.final", compact('key', 'resource'));
+    }
+
 
     public function edit($id)
     {
@@ -173,7 +183,7 @@ class CustomerFormController extends Controller
             Triger::fire2(Triger::$ADD_CUSTOMER_FORM, $resource);
         }
 
-        return redirect("/customer-pdf/" . $resource->id);
+        return redirect("/customer-form-pdf/" . $resource->number);
     }
 
     public function viewPdfApi($id)

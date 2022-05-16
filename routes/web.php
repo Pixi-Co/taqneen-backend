@@ -130,6 +130,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     // customer forms
     
     Route::get('/customer-form-index/{key}', 'taqneen\CustomerFormController@index');
+    Route::get('/customer-form-pdf/{key}', 'taqneen\CustomerFormController@viewFinalPage');
     Route::post('/customer-form', 'taqneen\CustomerFormController@save');
     Route::post('/customer-form-upload', 'taqneen\CustomerFormController@uploadPdf');
     Route::get('/customer-form/edit/{id}', 'taqneen\CustomerFormController@edit');
