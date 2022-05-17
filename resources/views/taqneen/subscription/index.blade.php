@@ -114,7 +114,7 @@
     </div>
 
      <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal fade importModal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header text-center">
@@ -130,14 +130,14 @@
             <button id="next" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
                @trans('next')
             </button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('close_') }}</button>
+            <button type="button" class="btn btn-secondary" onclick="$('.importModal').modal('hiden')" data-bs-dismiss="modal">{{ __('close_') }}</button>
         </div>
       </div>
     </div>
   </div>
   
   <!-- Modal -->
-  <div class="modal " id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal importModal" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -155,7 +155,7 @@
                 </div>
         </div>
         <div class="modal-footer">
-            <input type="submit" value="@trans('submit')" class="btn btn-primary float-right" data-bs-original-title="" title="">
+            <input type="submit" value="@trans('submit')" onclick="$('.importModal').modal('hiden')" class="btn btn-primary float-right" data-bs-original-title="" title="">
             <button id="back" type="button" class="btn btn-info" data-bs-dismiss="modal">@trans('back')</button>
 
         </div>
