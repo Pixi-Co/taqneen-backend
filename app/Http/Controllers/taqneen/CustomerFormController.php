@@ -360,6 +360,10 @@ class CustomerFormController extends Controller
     public function createUser(Contact $contact, array $data)
     {
         $user = $contact->loginUser;
+
+        if (!$user)
+            $user = User::where('email', $contact->email)->first();
+
         $contact = $contact->refresh();
 
         $fill = [
