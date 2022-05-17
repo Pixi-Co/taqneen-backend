@@ -39,16 +39,14 @@
         <i style="margin-top: 4px;" class="fa fas fa-comment-o"></i>
     </a>
     @endcan
-
-    @if ($row->is_renew != 1)
+ 
     @can(find_or_create_p('subscription.renew'))
     <a onclick="$('#subscriptionRenew{{ $row->id }}').modal('show')" href="#"
         style="width: auto!important;height: 25px!important;border-radius: 5px!important;padding: 4px!important"
         class="btn w3-deep-orange material-shadow">
         <i class="fa fa-refresh"></i> @trans('renew')
     </a>
-    @endcan
-    @endif
+    @endcan 
 </div>
 
 
