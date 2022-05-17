@@ -1,6 +1,6 @@
  
   <div class="ginput_container ginput_container_checkbox">
-      <legend class="gsection_title">  نموزج   تم</legend> 
+      <legend class="gsection_title">  نموذج   تم</legend> 
       <div class="gfield_checkbox" id="input_1_4">
           <div class="gchoice" style="display: inline;">
               <label for="">

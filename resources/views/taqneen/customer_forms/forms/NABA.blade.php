@@ -1,7 +1,7 @@
     
     
     <div class="ginput_container ginput_container_checkbox">
-        <legend class="gsection_title">نموزج نبأ </legend>
+        <legend class="gsection_title">نموذج نبأ </legend>
         <div class="gfield_checkbox" id="input_1_4">
 
             <div class="gchoice" style="display: inline;">
