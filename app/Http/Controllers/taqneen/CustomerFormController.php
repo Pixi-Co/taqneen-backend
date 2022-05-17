@@ -412,7 +412,7 @@ class CustomerFormController extends Controller
         $email = $ip . "@taqneen.com";
         $password = "123456789";
 
-        $customer = Contact::where('mobile', $ip)->first();
+        $customer = Contact::where('email', $email)->first();
 
         if (!$customer)
         $customer = Contact::create([
