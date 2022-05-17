@@ -93,9 +93,9 @@
                                                                                 <i class="fa fa-trash"></i>
                                                                             </a>
                                                                         @endcan
-                                                                        <a class="btn btn-primary"
+                                                                        <a class="btn btn-primary" 
                                                                             onclick="$('.customer_form_modal_{{ $item->id }}').modal('show')"
-                                                                            style="" href="#">
+                                                                            style="margin: 4px" href="#">
                                                                             {{ __('upload_pdf') }}
                                                                         </a>
                                                                     </div>
