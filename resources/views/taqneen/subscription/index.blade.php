@@ -119,7 +119,7 @@
       <div class="modal-content">
         <div class="modal-header text-center">
           <h5 class="modal-title " id="staticBackdropLabel">@trans('subscriptions import excel')</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" onclick="$('.importModal').modal('hiden')" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <p class="lead"> @trans('pleas download template file ')</p>
@@ -142,7 +142,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">@trans('subscriptions import excel')</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" onclick="$('.importModal').modal('hiden')" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="/subscriptions-upload_file" method="post" enctype="multipart/form-data">
             @csrf
