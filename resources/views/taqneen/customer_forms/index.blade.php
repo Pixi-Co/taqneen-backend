@@ -68,7 +68,7 @@
                                                                 <td>{{ $item->created_at }}</td>
                                                                 <td>
                                                                     @if ($item->getPdfUrl())
-                                                                        <a href="{{ $item->getPdfUrl() }}"
+                                                                        <a role="button" class="btn w3-deep-orange" href="{{ $item->getPdfUrl() }}"
                                                                             target="_blank">{{ __('view_file') }}</a>
                                                                     @endif
                                                                 </td>
@@ -78,11 +78,6 @@
                                                                             style="width: 25px;height: 25px;border-radius: 5em;padding: 5px;"
                                                                             href="{{ url('/customer-pdf') }}/{{ $item->id }}">
                                                                             <i class="fa fa-file-pdf-o"></i>
-                                                                        </a>
-                                                                        <a class="btn btn-primary"
-                                                                            onclick="$('.customer_form_modal_{{ $item->id }}').modal('show')"
-                                                                            style="" href="#">
-                                                                            {{ __('upload_pdf') }}
                                                                         </a>
                                                                         @can('customer_form.edit')
                                                                             <a class="w3-btn w3-card w3-white w3-text-orange"
@@ -98,6 +93,11 @@
                                                                                 <i class="fa fa-trash"></i>
                                                                             </a>
                                                                         @endcan
+                                                                        <a class="btn btn-primary"
+                                                                            onclick="$('.customer_form_modal_{{ $item->id }}').modal('show')"
+                                                                            style="" href="#">
+                                                                            {{ __('upload_pdf') }}
+                                                                        </a>
                                                                     </div>
                                                                 </td>
                                                             </tr>
