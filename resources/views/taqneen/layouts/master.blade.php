@@ -21,9 +21,6 @@
 
     <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
 
-    @php
-      dd(optional(auth()->user()->roles()->first())->name);
-    @endphp
     @if (optional(auth()->user()->roles()->first())->name == 'customer' || !auth()->user()->roles()->first())
     <script src="{{ url('/') }}/supportboard/js/min/jquery.min.js"></script>
     <script id="sbinit" src="{{  url('/')  }}/supportboard/js/main.js"></script> 
