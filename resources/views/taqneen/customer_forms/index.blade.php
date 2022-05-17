@@ -95,7 +95,7 @@
                                                                         @endcan
                                                                         <a class="btn btn-primary" 
                                                                             onclick="$('.customer_form_modal_{{ $item->id }}').modal('show')"
-                                                                            style="margin: 4px" href="#">
+                                                                            style="margin: 5px;width: 150px" href="#">
                                                                             {{ __('upload_pdf') }}
                                                                         </a>
                                                                     </div>
