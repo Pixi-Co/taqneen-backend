@@ -80,7 +80,9 @@
             <div class="modal-dialog" style="margin: auto">
                 <div class="modal-content  w3-center text-center">
                     <div class="modal-title">
-
+                        <div class="alert alert-warning">
+                            {{ __('please_download_pdf_file_and_fill_it') }}
+                        </div>
                     </div>
                     <br>
                     <a href="{{ url('/customer-pdf-download') }}/{{ $resource->id }}">
