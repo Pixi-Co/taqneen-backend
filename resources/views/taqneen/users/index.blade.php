@@ -56,6 +56,8 @@
                                                         <th>@trans(' email ')</th>
                                                         <th>@trans('phone ')</th>
                                                         <th>@trans(' address')</th>
+                                                        <th>@trans('commission_type')</th>
+                                                        <th>@trans('commission_value')</th>
                                                         <th>@trans(' role')</th>
                                                         
                                                         <th>@trans('actions')</th>
@@ -70,6 +72,8 @@
                                                         <td>{{  $item->email  }}</td>          
                                                         <td>{{  $item->contact_number  }}</td>          
                                                         <td>{{  $item->address  }}</td>          
+                                                        <td>{{  $item->custom_field_2  }}</td>          
+                                                        <td>{{  $item->custom_field_3  }}</td>          
                                                         <td>
                                                             @if (!empty($item->getRoleNames()))
                                                                 @foreach ($item->getRoleNames() as $v)

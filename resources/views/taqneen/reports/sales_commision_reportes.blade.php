@@ -115,12 +115,14 @@
                                                             <th>@trans('number')</th> 
                                                             <th>@trans('total')</th> 
                                                             <th>@trans('percent')</th> 
+                                                            <th>@trans('percent_value')</th> 
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @php
                                                             $numbers = 0;
                                                             $total = 0;
+                                                            $percent = 0;
                                                         @endphp
                                                         @foreach ($resources as $resource)
                                                             <tr>
@@ -128,12 +130,31 @@
                                                                 <td>{{ $resource->user_full_name }}</td> 
                                                                 <td>{{ $resource->number }}</td> 
                                                                 <td>{{ number_format($resource->sum, 2) }} SAR</td> 
-                                                                <td>0.5 %</td> 
-                                                                <td>{{ $resource->totla * 0.5 }}</td> 
+                                                                <td>
+                                                                @if($resource->custom_field_2 == 'fixed')
+                                                                {{ $resource->custom_field_2 }} SAR
+                                                                @else
+                                                                {{ $resource->custom_field_2 }} %
+                                                                @endif    
+                                                                </td> 
+                                                                <td> 
+                                                                    @if ($resource->custom_field_2 == 'fixed')
+                                                                    @php
+                                                                        $cp = $resource->number * $resource->custom_field_3;
+                                                                    @endphp
+                                                                    {{ $cp }}
+                                                                    @else
+                                                                    @php
+                                                                        $cp = $resource->total * ($resource->custom_field_3 / 100);
+                                                                    @endphp
+                                                                    {{ $cp }}
+                                                                    @endif SAR
+                                                                </td> 
                                                             </tr>
                                                             @php
                                                                 $numbers += $resource->number;
                                                                 $total += $resource->sum;
+                                                                $percent += $cp;
                                                             @endphp
                                                         @endforeach 
                                                     </tbody>
@@ -143,6 +164,8 @@
                                                             <td>الاجمالى</td>
                                                             <td>{{ $numbers }}</td>
                                                             <td>{{ number_format($total, 2) }} SAR</td>
+                                                            <td></td>
+                                                            <td>{{ $percent }} SAR</td>
                                                         </tr>
                                                     </tfoot>
                                                 </table>

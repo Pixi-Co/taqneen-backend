@@ -80,6 +80,16 @@
                                                 </div>
     
                                                 <div class="form-group col-md-12 pt-3">
+                                                    <label>@trans('commission_type')</label>
+                                                    {!! Form::select("custom_field_2", $types, $user->custom_field_2, ["class" => "form-select", "placeholder" => __('commission_type')]) !!}
+                                                </div>
+    
+                                                <div class="form-group col-md-12 pt-3">
+                                                    <label>@trans('commission_value')</label>
+                                                    {!! Form::number("custom_field_3", $user->custom_field_3, ["class" => "form-control"]) !!}
+                                                </div>
+    
+                                                <div class="form-group col-md-12 pt-3">
                                                     <label>@trans('address  ')</label>
                                                     <input type="text" name="address" class="form-control" placeholder="@trans('address  ')" value="{{ $user->address }}">
                                                 </div>

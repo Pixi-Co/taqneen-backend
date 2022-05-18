@@ -45,7 +45,11 @@ class UserController extends Controller
         $user = new User();
         $roles = Role::where('business_id', session('business.id'))->pluck('name','name')->all();
         //dd($roles);
-        return view('taqneen.users.form',compact('user','roles'));
+        $types = [
+            'fixed' => 'fixed',
+            'percent' => 'percent',
+        ];
+        return view('taqneen.users.form',compact('user','roles', 'types'));
     }
 
     public function edit($id){
@@ -53,7 +57,11 @@ class UserController extends Controller
         $roles = Role::where('business_id', session('business.id'))->pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->first();
         
-        return view('taqneen.users.form',compact('user','roles','userRole'));
+        $types = [
+            'fixed' => 'fixed',
+            'percent' => 'percent',
+        ];
+        return view('taqneen.users.form',compact('user','roles','userRole', 'types'));
     }
 
     public function store(Request $request){
@@ -74,6 +82,8 @@ class UserController extends Controller
                 "email" => $request->email,
                 "contact_number" => $request->contact_number,
                 "address" => $request->address, 
+                "custom_field_2" => $request->custom_field_2,  // percent type
+                "custom_field_3" => $request->custom_field_3,  // percent value
                 "password" => bcrypt($request->password),
                 "business_id" =>session('business.id'),
                 "user_type" => 'user',
@@ -120,6 +130,8 @@ class UserController extends Controller
                 "username" => $request->username,
                 "email" => $request->email,
                 "contact_number" => $request->contact_number,
+                "custom_field_2" => $request->custom_field_2,  // percent type
+                "custom_field_3" => $request->custom_field_3,  // percent value
                 "address" => $request->address,  
             ]; 
             
