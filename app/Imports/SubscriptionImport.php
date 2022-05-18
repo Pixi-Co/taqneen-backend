@@ -61,12 +61,12 @@ class SubscriptionImport implements ToModel, WithHeadingRow
         $date = date('Y-m-d');
         $arr = explode("/", $string);
         /**
-         * 0 => Month
-         * 1 => Day
+         * 0 => Day
+         * 1 => Month
          * 2 => Year
          * 
          */
-        return count($arr) > 1? $arr['2'] . "-". $arr['0'] . "-" . $arr['1'] : null;
+        return count($arr) > 1? $arr['2'] . "-". $arr['1'] . "-" . $arr['0'] : null;
     }
 
     public function createCustomer(array $row)
