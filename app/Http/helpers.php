@@ -623,7 +623,7 @@ if (!function_exists('__')) {
 
             if (auth()->user()) {
                 $userLang = auth()->user()->language;
-                $business = auth()->user()->business->typeId;
+                $business = auth()->user()->business? auth()->user()->business->typeId : 1;
             } else {
                 $userLang = request()->language ? request()->language : 'ar';
             }
