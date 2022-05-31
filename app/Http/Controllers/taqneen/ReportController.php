@@ -173,6 +173,13 @@ class ReportController extends Controller
         if (request()->user_id > 0) {
             $query->where('transactions.created_by', request()->user_id);
         }
+        
+        if (request()->subscription_type) {
+            if (request()->subscription_type == 'new')
+                $query->where('is_renew', '0');
+            else
+                $query->where('is_renew', '1');
+        }
 
         $resources = User::couriers()->where('user_type','user')->where('business_id', session('business.id'))->latest()->get();
  

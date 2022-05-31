@@ -90,8 +90,8 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         $this->businessUtil->activityLog($user, 'login');
-
-        if (!$user->business->is_active) {
+        
+        if (!optional($user->business)->is_active) {
             \Auth::logout();
             return redirect('/login')
               ->with(

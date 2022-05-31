@@ -75,6 +75,16 @@
                                                             <input type="hidden" name="payment_date_end" class="payment_date_end" >
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="">@trans('subscription type')</label>
+                                                            <select name="subscription_type" class="form-select  mb-3 subscription_type">
+                                                                <option value="">@trans('all')</option>
+                                                                <option value="new">@trans('new')</option>
+                                                                <option value="renew">@trans('renew')</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label for="">@trans('payment status')</label>
