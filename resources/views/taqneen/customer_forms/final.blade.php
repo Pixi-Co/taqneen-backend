@@ -13,7 +13,7 @@ if (request()->test != 1) {
 @endsection
 
 @section('content')
-    <div class="w3-block card">
+    <div class="w3-block  ">
         <br>
         <style>
             * {
@@ -91,8 +91,7 @@ if (request()->test != 1) {
         <div class="container" id="form">
             <div class="card">
 				<div class="card-header">
-					<h5>Form Wizard And Validation</h5>
-					<span>Validation Step Form Wizard</span>
+					<h5>{{ __('steps_of_customer_form_header') }}</h5> 
 				</div>
 				<div class="card-body">
 					<div class="stepwizard">
@@ -115,12 +114,13 @@ if (request()->test != 1) {
     
                         <input type="hidden" name="id" value="{{ $resource->id }}">
                         @csrf
-						<div class="setup-content" id="step-1" style="display: none;">
+						<div class="setup-content" id="step-1" >
 							<div class="col-xs-12">
 								<div class="col-md-12">
 									<div class="w3-center w3-large">
                                         {{ __('please_download_pdf_file_and_fill_it') }}
                                     </div>
+                                    <br>
 									<div class="w3-center">
                                         <button class="btn btn-primary nextBtn pull-" type="button" data-bs-original-title="" title="">{{ __('next') }}</button>
                                     </div>
@@ -138,6 +138,7 @@ if (request()->test != 1) {
                                             </div>
                                         </a>
                                     </div>
+                                    <br>
 									<div class="w3-center">
                                         <button class="btn btn-primary pull-" type="button" onclick="gotoStep(1)" data-bs-original-title="" title="">{{ __('back') }}</button>
 									    <button class="btn btn-primary nextBtn pull-" type="button" data-bs-original-title="" title="">Next</button>
@@ -145,13 +146,14 @@ if (request()->test != 1) {
 								</div>
 							</div>
 						</div>
-						<div class="setup-content" id="step-3" style="">
+						<div class="setup-content" id="step-3" style="display: none;">
 							<div class="col-xs-12">
 								<div class="col-md-12">
 									<div class="mb-12">
 										<label class="labels">@trans('upload_pdf')</label>
                                         <input type="file" name="file" class="form-control" id="">
 									</div> 
+                                    <br>
 									<div class="w3-center">
                                         <button class="btn btn-primary pull-" type="button" onclick="gotoStep(2)" data-bs-original-title="" title="">{{ __('back') }}</button>
 									    <button class="btn btn-primary nextBtn pull-" type="submit" data-bs-original-title="" title="">{{ __('submit') }}</button>
@@ -161,61 +163,7 @@ if (request()->test != 1) {
 						</div> 
 					</form>
 				</div>
-			</div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h5>{{ __('steps_of_customer_form_header') }}</h5>
-                </div>
-                <form method="post" class="form" action="/customer-form-upload" enctype="multipart/form-data">
-
-                    <input type="hidden" name="id" value="{{ $resource->id }}">
-                    @csrf
-                    <!-- multistep form -->
-                    <!-- progressbar -->
-                    <ul id="progressbar">
-                        <li class="active">{{ __('customer_form_step1') }}</li>
-                        <li>{{ __('customer_form_step2') }}</li>
-                        <li>{{ __('customer_form_step3') }}</li>
-                    </ul>
-                    <!-- fieldsets -->
-                    <fieldset>
-                        <h2 class="fs-title">{{ __('customer_form_step1') }}</h2>
-                        <h3 class="fs-subtitle">{{ __('step') }} 1</h3>
-                        <div class="w3-center w3-large">
-                            {{ __('please_download_pdf_file_and_fill_it') }}
-                        </div>
-                        <input type="button" name="next" class="next action-button" value="{{ __('next') }}" />
-                    </fieldset>
-                    <fieldset>
-                        <h2 class="fs-title">{{ __('customer_form_step2') }}</h2>
-                        <h3 class="fs-subtitle">{{ __('step') }} 2</h3>
-                        <div class="w3-block w3-center">
-                            <a href="{{ url('/customer-pdf-download') }}/{{ $resource->id }}">
-                                <div class="btn-primary w3-padding btn"
-                                    style="width: 200px;border-radius: 5em;margin: auto">
-                                    <i class="fa fa-cloud-download"></i> {{ __('download_pdf') }}
-                                </div>
-                            </a>
-                        </div>
-                        <input type="button" name="previous" class="previous action-button" value="{{ __('back') }}" />
-                        <input type="button" name="next" class="next action-button" value="{{ __('next') }}" />
-                    </fieldset>
-                    <fieldset>
-                        <h2 class="fs-title">{{ __('customer_form_step3') }}</h2>
-                        <h3 class="fs-subtitle">{{ __('step') }} 3</h3>
-                        <div class="row mt-2">
-                            <div class="col-md-12">
-                                <label class="labels">@trans('upload_pdf')</label>
-                                <input type="file" name="file" class="form-control" id="">
-                            </div>
-                        </div>
-                        <input type="button" name="previous" class="previous action-button" value="{{ __('back') }}" />
-                        <input type="submit" name="submit" class="submit action-button" value="{{ __('submit') }}" />
-                    </fieldset>
-
-                </form>
-            </div>
+			</div> 
         </div>
         <br>
 
