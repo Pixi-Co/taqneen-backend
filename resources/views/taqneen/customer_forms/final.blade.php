@@ -223,6 +223,7 @@ if (request()->test != 1) {
 @endsection
 
 @section('script')
+<script src="{{ url('/') }}/assets/js/form-wizard/form-wizard-two.js"></script>
     <script>
         function gotoStep(step) {
             $('.setup-content').hide();
