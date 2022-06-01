@@ -159,6 +159,7 @@
 @endsection
 
 @section('script')
+<link rel="stylesheet" type="text/css" href="{{ url('/') }}/assets/css/style.css">
 <script src="{{ url('/') }}/assets/js/form-wizard/form-wizard-three.js"></script>
 <script src="{{ url('/') }}/assets/js/form-wizard/jquery.backstretch.min.js"></script>
     <script>
