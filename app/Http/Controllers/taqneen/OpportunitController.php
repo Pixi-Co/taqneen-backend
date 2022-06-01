@@ -88,6 +88,7 @@ class OpportunitController extends Controller
 
 
     public function store(Request  $request){
+        $contact = null;
         try{
             $data=[
                 "name" => $request->name,
@@ -102,7 +103,7 @@ class OpportunitController extends Controller
                 "type" => 'opportunity',
             ];
             
-           Contact::create($data);
+           $contact = Contact::create($data);
 
             $output = [
                 "success" => 1,
@@ -116,7 +117,7 @@ class OpportunitController extends Controller
             ];
         }
         // dd($output); 
-        Triger::fire2(Triger::$ADD_OPPORTUNITY, new Contact());
+        Triger::fire2(Triger::$ADD_OPPORTUNITY, $contact);
 
         return back()->with('status', $output); 
 
