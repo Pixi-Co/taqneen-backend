@@ -99,87 +99,70 @@ if (request()->test != 1) {
 						<div class="stepwizard-row setup-panel">
 							<div class="stepwizard-step">
 								<a class="btn-primary btn" href="#step-1" data-bs-original-title="" title="">1</a>
-								<p>Step 1</p>
+								<p>{{ __('customer_form_step1') }}</p>
 							</div>
 							<div class="stepwizard-step">
 								<a class="btn-primary btn" href="#step-2" data-bs-original-title="" title="">2</a>
-								<p>Step 2</p>
+								<p>{{ __('customer_form_step2') }}</p>
 							</div>
 							<div class="stepwizard-step">
 								<a class="btn-primary btn btn-light" href="#step-3" data-bs-original-title="" title="">3</a>
-								<p>Step 3</p>
-							</div>
-							<div class="stepwizard-step">
-								<a class="btn-primary btn" href="#step-4" data-bs-original-title="" title="">4</a>
-								<p>Step 4</p>
-							</div>
+								<p>{{ __('customer_form_step3') }}</p>
+							</div> 
 						</div>
 					</div>
-					<form action="#" method="POST">
+                    <form method="post" class="form" action="/customer-form-upload" enctype="multipart/form-data">
+    
+                        <input type="hidden" name="id" value="{{ $resource->id }}">
+                        @csrf
 						<div class="setup-content" id="step-1" style="display: none;">
 							<div class="col-xs-12">
 								<div class="col-md-12">
-									<div class="mb-3">
-										<label class="control-label">First Name</label>
-										<input class="form-control" type="text" placeholder="Johan" required="required" data-bs-original-title="" title="">
-									</div>
-									<div class="mb-3">
-										<label class="control-label">Last Name</label>
-										<input class="form-control" type="text" placeholder="Deo" required="required" data-bs-original-title="" title="">
-									</div>
-									<button class="btn btn-primary nextBtn pull-right" type="button" data-bs-original-title="" title="">Next</button>
+									<div class="w3-center w3-large">
+                                        {{ __('please_download_pdf_file_and_fill_it') }}
+                                    </div>
+									<div class="w3-center">
+                                        <button class="btn btn-primary nextBtn pull-" type="button" data-bs-original-title="" title="">{{ __('next') }}</button>
+                                    </div>
 								</div>
 							</div>
 						</div>
 						<div class="setup-content" id="step-2" style="display: none;">
 							<div class="col-xs-12">
 								<div class="col-md-12">
-									<div class="mb-3">
-										<label class="control-label">Email</label>
-										<input class="form-control" type="text" placeholder="name@example.com" required="required" data-bs-original-title="" title="">
-									</div>
-									<div class="mb-3">
-										<label class="control-label">Password</label>
-										<input class="form-control" type="password" placeholder="Password" required="required" data-bs-original-title="" title="">
-									</div>
-									<button class="btn btn-primary nextBtn pull-right" type="button" data-bs-original-title="" title="">Next</button>
+									<div class="w3-block w3-center">
+                                        <a href="{{ url('/customer-pdf-download') }}/{{ $resource->id }}">
+                                            <div class="btn-primary w3-padding btn"
+                                                style="width: 200px;border-radius: 5em;margin: auto">
+                                                <i class="fa fa-cloud-download"></i> {{ __('download_pdf') }}
+                                            </div>
+                                        </a>
+                                    </div>
+									<div class="w3-center">
+                                        <button class="btn btn-primary pull-" type="button" onclick="gotoStep(1)" data-bs-original-title="" title="">{{ __('back') }}</button>
+									    <button class="btn btn-primary nextBtn pull-" type="button" data-bs-original-title="" title="">Next</button>
+                                    </div>
 								</div>
 							</div>
 						</div>
 						<div class="setup-content" id="step-3" style="">
 							<div class="col-xs-12">
 								<div class="col-md-12">
-									<div class="mb-3">
-										<label class="control-label">Birth date</label>
-										<input class="form-control" type="date" required="required" data-bs-original-title="" title="">
-									</div>
-									<div class="mb-3">
-										<label class="control-label">Have Passport</label>
-										<input class="form-control" type="text" placeholder="yes/No" required="required" data-bs-original-title="" title="">
-									</div>
-									<button class="btn btn-primary nextBtn pull-right" type="button" data-bs-original-title="" title="">Next</button>
+									<div class="mb-12">
+										<label class="labels">@trans('upload_pdf')</label>
+                                        <input type="file" name="file" class="form-control" id="">
+									</div> 
+									<div class="w3-center">
+                                        <button class="btn btn-primary pull-" type="button" onclick="gotoStep(2)" data-bs-original-title="" title="">{{ __('back') }}</button>
+									    <button class="btn btn-primary nextBtn pull-" type="submit" data-bs-original-title="" title="">{{ __('submit') }}</button>
+                                    </div>
 								</div>
 							</div>
-						</div>
-						<div class="setup-content" id="step-4" style="display: none;">
-							<div class="col-xs-12">
-								<div class="col-md-12">
-									<div class="mb-3">
-										<label class="control-label">State</label>
-										<input class="form-control mt-1" type="text" placeholder="State" required="required" data-bs-original-title="" title="">
-									</div>
-									<div class="mb-3">
-										<label class="control-label">City</label>
-										<input class="form-control mt-1" type="text" placeholder="City" required="required" data-bs-original-title="" title="">
-									</div>
-									<button class="btn btn-success pull-right" type="submit" data-bs-original-title="" title="">Finish!</button>
-								</div>
-							</div>
-						</div>
+						</div> 
 					</form>
 				</div>
 			</div>
-            
+
             <div class="card">
                 <div class="card-header">
                     <h5>{{ __('steps_of_customer_form_header') }}</h5>
@@ -242,8 +225,8 @@ if (request()->test != 1) {
 @section('script')
     <script>
         function gotoStep(step) {
-            $('.form-step').hide();
-            $('.form-step' + step).show();
+            $('.setup-content').hide();
+            $('#step-' + step).show();
         }
 
         $('input').each(function() {
