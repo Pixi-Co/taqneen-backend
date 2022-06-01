@@ -141,7 +141,7 @@ if (request()->test != 1) {
                                     <br>
 									<div class="w3-center">
                                         <button class="btn btn-primary pull-" type="button" onclick="gotoStep(1)" data-bs-original-title="" title="">{{ __('back') }}</button>
-									    <button class="btn btn-primary nextBtn pull-" type="button" data-bs-original-title="" title="">Next</button>
+									    <button class="btn btn-primary nextBtn pull-" type="button" data-bs-original-title="" title="">{{ __('next') }}</button>
                                     </div>
 								</div>
 							</div>
