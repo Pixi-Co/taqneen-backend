@@ -484,7 +484,7 @@ class SubscriptionController extends Controller
         $resource->update();
 
         // delete old subscription
-        $resource->delete();
+        //$resource->delete();
 
         // update new subscription
         $newSubscription->is_renew = '1';
