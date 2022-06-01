@@ -35,4 +35,6 @@ define('SB_DB_PORT', '');
 /* [extra] */
 
 define('SB_ADMIN_LANG', 'ar');
+
+define('SB_CROSS_DOMAIN', true);
 ?>
