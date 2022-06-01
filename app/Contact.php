@@ -25,7 +25,7 @@ class Contact extends Authenticatable
 
     /**
      * The attributes that should be mutated to dates.
-     *
+     * 
      * @var array
      */
     
@@ -327,6 +327,11 @@ class Contact extends Authenticatable
     function oppUser() {
         return $this->belongsTo(User::class, "created_by");
     }
+     
+    function user() {
+        return $this->belongsTo(User::class, "created_by");
+    }
+
     public function package() {
         return $this->belongsTo(ServicePackage::class, "custom_field3");
     }

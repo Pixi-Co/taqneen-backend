@@ -3,7 +3,7 @@
 
 @php
 if (request()->test != 1) {
-    exit();
+    //exit();
 }
 @endphp
 
