@@ -89,7 +89,98 @@ if (request()->test != 1) {
 
         </style>
         <div class="container" id="form">
-            <div class="card__">
+            <div class="card">
+				<div class="card-header">
+					<h5>Form Wizard And Validation</h5>
+					<span>Validation Step Form Wizard</span>
+				</div>
+				<div class="card-body">
+					<div class="stepwizard">
+						<div class="stepwizard-row setup-panel">
+							<div class="stepwizard-step">
+								<a class="btn-primary btn" href="#step-1" data-bs-original-title="" title="">1</a>
+								<p>Step 1</p>
+							</div>
+							<div class="stepwizard-step">
+								<a class="btn-primary btn" href="#step-2" data-bs-original-title="" title="">2</a>
+								<p>Step 2</p>
+							</div>
+							<div class="stepwizard-step">
+								<a class="btn-primary btn btn-light" href="#step-3" data-bs-original-title="" title="">3</a>
+								<p>Step 3</p>
+							</div>
+							<div class="stepwizard-step">
+								<a class="btn-primary btn" href="#step-4" data-bs-original-title="" title="">4</a>
+								<p>Step 4</p>
+							</div>
+						</div>
+					</div>
+					<form action="#" method="POST">
+						<div class="setup-content" id="step-1" style="display: none;">
+							<div class="col-xs-12">
+								<div class="col-md-12">
+									<div class="mb-3">
+										<label class="control-label">First Name</label>
+										<input class="form-control" type="text" placeholder="Johan" required="required" data-bs-original-title="" title="">
+									</div>
+									<div class="mb-3">
+										<label class="control-label">Last Name</label>
+										<input class="form-control" type="text" placeholder="Deo" required="required" data-bs-original-title="" title="">
+									</div>
+									<button class="btn btn-primary nextBtn pull-right" type="button" data-bs-original-title="" title="">Next</button>
+								</div>
+							</div>
+						</div>
+						<div class="setup-content" id="step-2" style="display: none;">
+							<div class="col-xs-12">
+								<div class="col-md-12">
+									<div class="mb-3">
+										<label class="control-label">Email</label>
+										<input class="form-control" type="text" placeholder="name@example.com" required="required" data-bs-original-title="" title="">
+									</div>
+									<div class="mb-3">
+										<label class="control-label">Password</label>
+										<input class="form-control" type="password" placeholder="Password" required="required" data-bs-original-title="" title="">
+									</div>
+									<button class="btn btn-primary nextBtn pull-right" type="button" data-bs-original-title="" title="">Next</button>
+								</div>
+							</div>
+						</div>
+						<div class="setup-content" id="step-3" style="">
+							<div class="col-xs-12">
+								<div class="col-md-12">
+									<div class="mb-3">
+										<label class="control-label">Birth date</label>
+										<input class="form-control" type="date" required="required" data-bs-original-title="" title="">
+									</div>
+									<div class="mb-3">
+										<label class="control-label">Have Passport</label>
+										<input class="form-control" type="text" placeholder="yes/No" required="required" data-bs-original-title="" title="">
+									</div>
+									<button class="btn btn-primary nextBtn pull-right" type="button" data-bs-original-title="" title="">Next</button>
+								</div>
+							</div>
+						</div>
+						<div class="setup-content" id="step-4" style="display: none;">
+							<div class="col-xs-12">
+								<div class="col-md-12">
+									<div class="mb-3">
+										<label class="control-label">State</label>
+										<input class="form-control mt-1" type="text" placeholder="State" required="required" data-bs-original-title="" title="">
+									</div>
+									<div class="mb-3">
+										<label class="control-label">City</label>
+										<input class="form-control mt-1" type="text" placeholder="City" required="required" data-bs-original-title="" title="">
+									</div>
+									<button class="btn btn-success pull-right" type="submit" data-bs-original-title="" title="">Finish!</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+            
+            <div class="card">
                 <div class="card-header">
                     <h5>{{ __('steps_of_customer_form_header') }}</h5>
                 </div>
@@ -197,87 +288,5 @@ if (request()->test != 1) {
 
 
         
-//jQuery time
-var current_fs, next_fs, previous_fs; //fieldsets
-var left, opacity, scale; //fieldset properties which we will animate
-var animating; //flag to prevent quick multi-click glitches
-
-$(".next").click(function(){
-	if(animating) return false;
-	animating = true;
-	
-	current_fs = $(this).parent();
-	next_fs = $(this).parent().next();
-	
-	//activate next step on progressbar using the index of next_fs
-	$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
-	
-	//show the next fieldset
-	next_fs.show(); 
-	//hide the current fieldset with style
-	current_fs.animate({opacity: 0}, {
-		step: function(now, mx) {
-			//as the opacity of current_fs reduces to 0 - stored in "now"
-			//1. scale current_fs down to 80%
-			scale = 1 - (1 - now) * 0.2;
-			//2. bring next_fs from the right(50%)
-			left = (now * 50)+"%";
-			//3. increase opacity of next_fs to 1 as it moves in
-			opacity = 1 - now;
-			current_fs.css({
-        'transform': 'scale('+scale+')',
-        'position': 'absolute'
-      });
-			next_fs.css({'left': left, 'opacity': opacity});
-		}, 
-		duration: 800, 
-		complete: function(){
-			current_fs.hide();
-			animating = false;
-		}, 
-		//this comes from the custom easing plugin
-		easing: 'easeInOutBack'
-	});
-});
-
-$(".previous").click(function(){
-	if(animating) return false;
-	animating = true;
-	
-	current_fs = $(this).parent();
-	previous_fs = $(this).parent().prev();
-	
-	//de-activate current step on progressbar
-	$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
-	
-	//show the previous fieldset
-	previous_fs.show(); 
-	//hide the current fieldset with style
-	current_fs.animate({opacity: 0}, {
-		step: function(now, mx) {
-			//as the opacity of current_fs reduces to 0 - stored in "now"
-			//1. scale previous_fs from 80% to 100%
-			scale = 0.8 + (1 - now) * 0.2;
-			//2. take current_fs to the right(50%) - from 0%
-			left = ((1-now) * 50)+"%";
-			//3. increase opacity of previous_fs to 1 as it moves in
-			opacity = 1 - now;
-			current_fs.css({'left': left});
-			previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity});
-		}, 
-		duration: 800, 
-		complete: function(){
-			current_fs.hide();
-			animating = false;
-		}, 
-		//this comes from the custom easing plugin
-		easing: 'easeInOutBack'
-	});
-});
-
-$(".submit").click(function(){
-	return false;
-})
-
     </script>
 @endsection
