@@ -97,7 +97,7 @@ if (request()->test != 1) {
 					<div class="stepwizard">
 						<div class="stepwizard-row setup-panel">
 							<div class="stepwizard-step">
-								<a class="btn-primary btn" href="#step-1" data-bs-original-title="" title="">1</a>
+								<a class="btn-primary btn btn-light" href="#step-1" data-bs-original-title="" title="">1</a>
 								<p>{{ __('customer_form_step1') }}</p>
 							</div>
 							<div class="stepwizard-step">
@@ -105,7 +105,7 @@ if (request()->test != 1) {
 								<p>{{ __('customer_form_step2') }}</p>
 							</div>
 							<div class="stepwizard-step">
-								<a class="btn-primary btn btn-light" href="#step-3" data-bs-original-title="" title="">3</a>
+								<a class="btn-primary btn" href="#step-3" data-bs-original-title="" title="">3</a>
 								<p>{{ __('customer_form_step3') }}</p>
 							</div> 
 						</div>
