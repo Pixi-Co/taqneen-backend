@@ -37,4 +37,6 @@ define('SB_DB_PORT', '');
 define('SB_ADMIN_LANG', 'ar');
 
 define('SB_CROSS_DOMAIN', true);
+
+define('SB_CROSS_DOMAIN_URL', 'https://taqneen.com');
 ?>
