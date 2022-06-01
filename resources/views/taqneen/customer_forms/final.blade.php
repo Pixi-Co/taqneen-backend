@@ -97,7 +97,7 @@ if (request()->test != 1) {
 					<div class="stepwizard">
 						<div class="stepwizard-row setup-panel">
 							<div class="stepwizard-step">
-								<a class="btn-primary btn btn-light" href="#step-1" data-bs-original-title="" title="">1</a>
+								<a class="btn-primary btn btn-light step1" href="#step-1" data-bs-original-title="" title="">1</a>
 								<p>{{ __('customer_form_step1') }}</p>
 							</div>
 							<div class="stepwizard-step">
@@ -173,6 +173,9 @@ if (request()->test != 1) {
 @section('script')
 <script src="{{ url('/') }}/assets/js/form-wizard/form-wizard-two.js"></script>
     <script>
+
+        $('.step1').click();
+
         function gotoStep(step) {
             $('.setup-content').hide();
             $('#step-' + step).show();
@@ -212,6 +215,7 @@ if (request()->test != 1) {
 
 
         $(document).ready(function() {
+            $('.step1').click();
             formAjax(false, function(res) {
                 if (res.status == 1)
                     window.location.reload();
