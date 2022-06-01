@@ -117,7 +117,7 @@ if (request()->test != 1) {
 						<div class="setup-content" id="step-1" >
 							<div class="col-xs-12">
 								<div class="col-md-12">
-									<div class="w3-center w3-large">
+									<div class="w3-center w3-xlarge w3-text-deep-orange">
                                         {{ __('please_download_pdf_file_and_fill_it') }}
                                     </div>
                                     <br>
