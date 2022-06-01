@@ -289,7 +289,7 @@ class CustomerController extends Controller
                     "last_name" => $request->last_name,
                     "email" => $request->email,
                     "contact_number" => $request->contact_number,
-                    "address" => $request->address_line_1,
+                    "address" => $request->address_line_1, 
                     "password" => $request->password ? bcrypt($request->password) : '',
                 ];
 

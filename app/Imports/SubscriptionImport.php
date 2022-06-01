@@ -111,6 +111,7 @@ class SubscriptionImport implements ToModel, WithHeadingRow
             "last_name" => $contact->last_name,
             "email" => $contact->email,
             "contact_number" => $contact->mobile,
+            "business_id" => $contact->business_id,
             "address" => $contact->address_line_1,
             "user_type" => 'user_customer',
             "password" => isset($data['password']) ? bcrypt($data['password']) : '',

@@ -632,7 +632,7 @@
             calcuclateTotal: function() {
                 var total = 0;
                 for (var index = 0; index < app.resource.subscription_lines.length; index++) {
-                    total += app.resource.subscription_lines[index].total;
+                    total += parseFloat(app.resource.subscription_lines[index].total);
                 }
 
                 app.resource.total = total;
