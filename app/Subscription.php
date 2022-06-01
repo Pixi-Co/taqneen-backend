@@ -57,7 +57,7 @@ class Subscription extends Transaction
         }
 
         // check subscriptions 
-        self::dialyCheckSubscription();
+        //self::dialyCheckSubscription();
     }
 
     public static function getExpireSubscriptionForThisMonth() {
