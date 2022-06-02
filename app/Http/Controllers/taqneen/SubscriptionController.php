@@ -475,12 +475,8 @@ class SubscriptionController extends Controller
         ]);
 
         $resource = Subscription::find($id);
-        $resource->update([
-            "is_renew" => '1',
-            'renew_date' => date('Y-m-d')
-        ]);
-        $resource->is_renew = '1';
-        $resource->renew_date = date('Y-m-d');
+        //$resource->is_renew = '1';
+        //$resource->renew_date = date('Y-m-d');
         $resource->update();
 
         // delete old subscription

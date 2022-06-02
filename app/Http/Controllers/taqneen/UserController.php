@@ -33,7 +33,7 @@ class UserController extends Controller
         if($user->user_type == 'user'){
             return view('taqneen.users.profile',compact('user','userRole'));
         }else{
-            $customer= Contact::where('converted_by',session('user.id'))->first();
+            $customer= Contact::where('converted_by',session('user.id'))->first()?? new Contact();
             //dd($customer);
             return view('taqneen.customers.profile',compact('customer'));
 
