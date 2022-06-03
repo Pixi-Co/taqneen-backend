@@ -132,7 +132,7 @@ class EmailTemplate extends Model
             try {
                 $res = sendMailJet($data['to'], $data['subject'], $data['body'], $data['title'], null, "/images/img-25.jpg", "", $data['from']);
                  
-                
+                dd($res);
             } catch (Exception $th) { 
 
                 dd($th->getMessage());
