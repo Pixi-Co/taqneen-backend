@@ -663,7 +663,7 @@ class SubscriptionController extends Controller
             }
 
             // edit log
-            if ($oldResource->status != $resource->status) {
+            if ($oldResource->status != $request->status) {
                 $msg = __('change status of subscription from {old} to {new}');
                 $msg = str_replace("{old}", $oldResource->status, $msg);
                 $msg = str_replace("{new}", $resource->status, $msg);
