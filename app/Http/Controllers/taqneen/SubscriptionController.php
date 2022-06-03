@@ -635,17 +635,19 @@ class SubscriptionController extends Controller
             // insert transactions
             $resource->update($data);
 
-            // insert subscription lines
-            foreach ($request->subscription_lines as $item) {
+            if ($request->subscription_lines) {
                 // remove old
                 $resource->subscription_lines()->delete();
 
-                DB::table('subscription_lines')->insert([
-                    "transaction_id" => $resource->id,
-                    "service_id" => $item['service_id'],
-                    "package_id" => $item['package_id'],
-                    "total" => $item['total']
-                ]);
+                // insert subscription lines
+                foreach ($request->subscription_lines as $item) { 
+                    DB::table('subscription_lines')->insert([
+                        "transaction_id" => $resource->id,
+                        "service_id" => $item['service_id'],
+                        "package_id" => $item['package_id'],
+                        "total" => $item['total']
+                    ]);
+                }
             }
 
             // insert lines
