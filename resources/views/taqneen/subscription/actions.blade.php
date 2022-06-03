@@ -23,14 +23,12 @@
         <i style="margin-top: 4px;" class="fa fa-print"></i>
     </a>
     @endcan
-
-    <!--
+ 
     <a onclick="destroy('/subscriptions/{{ $row->id }}')" href="#"
         style="width: 25px!important;height: 25px!important;border-radius: 5em!important;padding: 4px!important"
         class="btn w3-white w3-text-red material-shadow">
         <i style="margin-top: 4px;" class="fa fa-solid fa-trash"></i>
-    </a>
--->
+    </a> 
 
     @can(find_or_create_p('subscription.note'))
     <a onclick="addNote('{{ $row->id }}')" href="#"
