@@ -86,16 +86,16 @@ class SubscriptionController extends Controller
 
         if (request()->register_date_start && request()->register_date_end) {
             $dates = [
-                request()->register_date_start . " 01:00:00",
-                request()->register_date_end . " 24:00:00"
+                request()->register_date_start . " 00:00:00",
+                request()->register_date_end . " 23:59:00"
             ];
             $query->whereBetween('transactions.shipping_custom_field_1', $dates);
         }
 
         if (request()->transaction_date_start && request()->transaction_date_end) {
             $dates = [
-                request()->transaction_date_start . " 01:00:00",
-                request()->transaction_date_end . " 24:00:00"
+                request()->transaction_date_start . " 00:00:00",
+                request()->transaction_date_end . " 23:59:00"
             ];
             $query->whereBetween('transactions.transaction_date', $dates);
         }
@@ -110,8 +110,8 @@ class SubscriptionController extends Controller
 
         if (request()->payment_date_start && request()->payment_date_end) {
             $dates = [
-                request()->payment_date_start . " 01:00:00",
-                request()->payment_date_end . " 24:00:00"
+                request()->payment_date_start . " 00:00:00",
+                request()->payment_date_end . " 23:59:00"
             ];
             $ids = DB::table('transaction_payments')
                 ->where('business_id', session('business.id'))
