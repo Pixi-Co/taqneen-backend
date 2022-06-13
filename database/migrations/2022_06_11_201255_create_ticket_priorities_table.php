@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBusinessTypeTable extends Migration
+class CreateTicketPrioritiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateBusinessTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('business_types', function (Blueprint $table) {
+        Schema::create('ticket_priorities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('icon');
-            $table->string('description');
+            $table->string('color');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateBusinessTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('business_type');
+        Schema::dropIfExists('ticket_priorities');
     }
 }

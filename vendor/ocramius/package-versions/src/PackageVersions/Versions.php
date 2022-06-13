@@ -203,7 +203,7 @@ final class Versions
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
   'windwalker/renderer' => '3.5.23@b157f2832dac02209db032cb61e21b8264ee4499',
   'windwalker/structure' => '3.5.23@59466adb846685d60463f9c1403df2832d2fcf90',
-  'laravel/laravel' => 'dev-main@e39217323440ef5f00ed492e13ab1b1edb3d2c3f',
+  'laravel/laravel' => 'dev-main@f8801345662e89ded62ae073122787289503ead9',
 );
 
     private function __construct()

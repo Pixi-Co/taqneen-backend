@@ -143,7 +143,7 @@
             allow_dismiss: true,
             delay: 2000,
             showProgressbar: true,
-            timer: 300,
+            timer: 500,
             animate:{
             enter:'animated fadeInDown',
             exit:'animated fadeOutUp'

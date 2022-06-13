@@ -175,12 +175,31 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::post('/notification-template', 'taqneen\NotificationTemplateController@save');
     Route::delete('/notification-template/{id}', 'taqneen\NotificationTemplateController@destroy');
     Route::get('subscriptions-delete/{id}',[SubscriptionController::class,'destroy']);
+
+    Route::group(['prefix'=>'support'],function (){
+        Route::get('/ticket/priorities','taqneen\TicketPriorityController@index')->name('tickets.priorities');
+        Route::get('ticket/priorities/create', 'taqneen\TicketPriorityController@create')->name('tickets.priorities.create');
+        Route::post('ticket/priorities/create', 'taqneen\TicketPriorityController@store')->name('tickets.priorities.store');
+        Route::get('ticket/priorities/edit/{id}', 'taqneen\TicketPriorityController@edit')->name('tickets.priorities.edit');
+        Route::post('ticket/priorities/edit/{id}', 'taqneen\TicketPriorityController@update')->name('tickets.priorities.update');
+        Route::post('ticket/priorities/delete/{id}', 'taqneen\TicketPriorityController@delete')->name('tickets.priorities.delete');
+
+
+        Route::get('/ticket/departments','taqneen\TicketDepartmentController@index')->name('tickets.departments');
+        Route::get('ticket/departments/create', 'taqneen\TicketDepartmentController@create')->name('tickets.departments.create');
+        Route::post('ticket/departments/create', 'taqneen\TicketDepartmentController@store')->name('tickets.departments.store');
+        Route::get('ticket/departments/edit/{id}', 'taqneen\TicketDepartmentController@edit')->name('tickets.departments.edit');
+        Route::post('ticket/departments/edit/{id}', 'taqneen\TicketDepartmentController@update')->name('tickets.departments.update');
+        Route::post('ticket/departments/delete/{id}', 'taqneen\TicketDepartmentController@delete')->name('tickets.departments.delete');
+
+
+    });
 /*
-    Route::get('customerForm/createcustomermasarat', [CustomerFormController::class,'createCustomerMasarat']); 
-    Route::get('customerForm/createcustomermuqeem', [CustomerFormController::class,'createCustomerMuqeem']); 
-    Route::get('customerForm/createcustomernaba', [CustomerFormController::class,'createCustomerNaba']); 
-    Route::get('customerForm/createcustomershomoos', [CustomerFormController::class,'createCustomerShomoos']); 
-    Route::get('customerForm/createcustomertamm', [CustomerFormController::class,'createCustomerTamm']); 
+    Route::get('customerForm/createcustomermasarat', [CustomerFormController::class,'createCustomerMasarat']);
+    Route::get('customerForm/createcustomermuqeem', [CustomerFormController::class,'createCustomerMuqeem']);
+    Route::get('customerForm/createcustomernaba', [CustomerFormController::class,'createCustomerNaba']);
+    Route::get('customerForm/createcustomershomoos', [CustomerFormController::class,'createCustomerShomoos']);
+    Route::get('customerForm/createcustomertamm', [CustomerFormController::class,'createCustomerTamm']);
 */
     Route::post('customerForm/createCustomerMasarat', [CustomerFormController::class,'save'])->name('createCustomerMasarat.store'); 
     Route::post('customerForm/createcustomermuqeem', [CustomerFormController::class,'save'])->name('createCustomerMuqeem.store'); 
@@ -235,4 +254,3 @@ Route::middleware(['EcomApi'])->prefix('api/ecom')->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 });
- 
