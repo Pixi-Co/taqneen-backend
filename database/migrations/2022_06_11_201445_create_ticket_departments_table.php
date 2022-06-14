@@ -16,6 +16,9 @@ class CreateTicketDepartmentsTable extends Migration
         Schema::create('ticket_departments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->unsignedBigInteger('priority_id')->nullable();
+            $table->foreign('priority_id')->references('id')->on('ticket_priorities')->onDelete(null);
             $table->timestamps();
         });
     }

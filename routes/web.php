@@ -192,6 +192,13 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         Route::post('ticket/departments/edit/{id}', 'taqneen\TicketDepartmentController@update')->name('tickets.departments.update');
         Route::post('ticket/departments/delete/{id}', 'taqneen\TicketDepartmentController@delete')->name('tickets.departments.delete');
 
+        Route::get('department/users','taqneen\DepartmentUserController@index')->name('department.users');
+        Route::get('department/users/create', 'taqneen\DepartmentUserController@create')->name('department.users.create');
+        Route::post('department/users/create', 'taqneen\DepartmentUserController@store')->name('department.users.store');
+        Route::get('department/users/edit/{id}', 'taqneen\DepartmentUserController@edit')->name('department.users.edit');
+        Route::post('departments/edit/{id}', 'taqneen\DepartmentUserController@update')->name('department.users.update');
+        Route::post('department/users/delete/{id}', 'taqneen\DepartmentUserController@delete')->name('department.users.delete');
+
 
     });
 /*

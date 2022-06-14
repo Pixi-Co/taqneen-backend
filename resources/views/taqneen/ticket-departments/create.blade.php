@@ -25,7 +25,7 @@
 
 @section('content')
     <div class="container-fluid">
-        <form action="{{ route('tickets.priorities.create')}}" method="post" >
+        <form action="{{ route('tickets.departments.store')}}" method="post" >
             @csrf
             <div class="row">
                 <!-- Content Wrapper. Contains page content -->
@@ -38,59 +38,70 @@
                     </section>
                     <section class="content">
                         <div class="row">
-                            <div class="col-md-11">
-                                <div class="card card-primary">
+                                <div class="col-md-12">
+                                    <div class="card card-primary">
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li class="text-bold">{{$error}}</li>
+                                                    @endforeach
+                                                </ul>
 
-                                    <div class="card-body">
-                                        <div class="form-group mb-3">
-                                            <label for="name" class="form-label">{{__('support.department_name')}}</label>
-                                            <input type="text" name="name" class="form-control" id="name" placeholder="{{__('support.ticket_priority_name')}}">
-                                            @if($errors->has('name'))
-                                                <div class="text text-danger">
-                                                    {{$errors->first('name')}}
-                                                </div>
-                                            @endif
-                                        </div>
+                                            </div>
+                                        @endif
+                                        <div class="card-body">
+                                            <div class="form-group mb-3">
+                                                <label for="name" class="form-label">{{__('support.department_name')}}</label>
+                                                <input type="text" name="name" class="form-control" id="name" value="{{old('name')}}" placeholder="{{__('support.ticket_priority_name')}}">
+                                                @if($errors->has('name'))
+                                                    <div class="text text-danger">
+                                                        {{$errors->first('name')}}
+                                                    </div>
+                                                @endif
+                                            </div>
 
-                                        <div class="form-group mb-3">
-                                            <label for="name" class="form-label text-bold text-info">{{__('support.department_titles')}}</label>
-                                            <fieldset class="ticket-titles" style="border: 1px dashed #e88446">
-                                                <div class="row targetDiv" id="div0">
-                                                    <div class="col-md-12">
-                                                        <div id="group1" class="title_duplicate">
-                                                            <div class="row entry">
-                                                                <div class="col-xs-12 col-md-8" style="margin: 5px">
-                                                                    <div class="form-group">
-                                                                        <input class="form-control form-control-sm" name="fields[]" type="text" placeholder="department-title">
+                                            <div class="form-group mb-3">
+                                                <label for="name" class="form-label text-bold text-info">{{__('support.department_titles')}}</label>
+                                                <fieldset class="ticket-titles" style="border: 1px dashed #e88446">
+                                                    <div class="row targetDiv" id="div0">
+                                                        <div class="col-md-12">
+                                                            <div id="group1" class="title_duplicate">
+                                                                <div class="row entry">
+                                                                    <div class="col-xs-12 col-md-4" style="margin: 5px">
+                                                                        <div class="form-group">
+                                                                            <input class="form-control" name="department_titles[]" value="{{old('department_titles')}}" type="text" placeholder="department-title">
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-xs-12 col-md-2" style="margin: 5px">
-                                                                    <div class="form-group">
-                                                                        <button type="button" class="btn-xs btn-success btn-sm btn-add">
-                                                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                        </button>
+
+                                                                    <div class="col-xs-12 col-md-3" style="margin: 5px">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control" name="titles_priorities[]">
+                                                                                @if(count($priorities))
+                                                                                    @foreach($priorities as $priority)
+                                                                                        <option value="{{$priority->id}}">{{$priority->name}}</option>
+                                                                                    @endforeach
+                                                                                @else
+                                                                                    <option>please select priority</option>
+                                                                                @endif
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-xs-12 col-md-1" style="margin: 5px">
+                                                                        <div class="form-group">
+                                                                            <button type="button" class="btn-xs btn-success btn-sm btn-add">
+                                                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-
-                                        <div class="form-group mb-3">
-                                            <label for="users" class="form-label">{{__('support.department_title_users')}}</label>
-                                           <select class="form-control">
-                                               <option>user1</option>
-                                               <option>users</option>
-                                               <option>user3</option>
-                                               <option>user4/option>
-                                           </select>
-                                            @if($errors->has('color'))
-                                                <p class="text text-danger">
-                                                    {{$errors->first('color')}}
-                                                </p>
-                                            @endif
+                                                </fieldset>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

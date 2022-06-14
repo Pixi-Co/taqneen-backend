@@ -147,6 +147,10 @@
                             @endcan
 
                             @can(find_or_create_p('support.supportboard'))
+                                <li><a  href="{{url('/support/department/users')}}" >{{__('support.department_users')}}</a></li>
+                            @endcan
+
+                            @can(find_or_create_p('support.supportboard'))
                                 <li><a  href="{{url('/support/tickets')}}" >{{__('support.all_tickets')}}</a></li>
                             @endcan
 

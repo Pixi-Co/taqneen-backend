@@ -15,6 +15,7 @@ return array(
     'Zend\\Diactoros\\' => array($vendorDir . '/zendframework/zend-diactoros/src'),
     'Yajra\\DataTables\\' => array($vendorDir . '/yajra/laravel-datatables-oracle/src'),
     'XdgBaseDir\\' => array($vendorDir . '/dnoegel/php-xdg-base-dir/src'),
+    'WpOrg\\Requests\\' => array($vendorDir . '/rmccue/requests/src'),
     'Windwalker\\Structure\\' => array($vendorDir . '/windwalker/structure'),
     'Windwalker\\Renderer\\' => array($vendorDir . '/windwalker/renderer'),
     'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
