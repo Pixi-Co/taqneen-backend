@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DepartmentUser extends Model
 {
-    protected $fillable = ['user_id','ticket_id'];
+    protected $fillable = ['user_id','ticket_id','created_at','updated_at'];
 
     public function user()
     {
