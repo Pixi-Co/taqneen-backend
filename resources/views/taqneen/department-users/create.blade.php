@@ -12,20 +12,20 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>{{__('support.department_users')}}</h3>
+    <h3>@lang('support.department_users')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
     <li class="breadcrumb-item">
-        <a href="{{__('support.ticket_priorities')}}">{{__('support.ticket_priorities')}}</a>
+        <a href="{{__('support.ticket_priorities')}}">@lang('support.department_users')</a>
     </li>
-    <li class="breadcrumb-item active">{{__('support.add_ticket_priority')}}</li>
+    <li class="breadcrumb-item active">@lang('support.add_department_users')</li>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <form action="{{ route('tickets.departments.store')}}" method="post" >
+        <form action="{{ route('department.users.store')}}" method="post" >
             @csrf
             <div class="row">
                 <!-- Content Wrapper. Contains page content -->
@@ -52,15 +52,16 @@
                                         @endif
                                         <div class="card-body">
                                             <div class="col-xs-12 col-md-8" style="margin: 5px">
+                                                <label for="name" class="form-label">@lang('support.ticket_department')</label>
                                                 <div class="form-group">
-                                                    <select class="form-control" id="main_departments" name="department_id">
-                                                        <option>please select main department</option>
+                                                    <select class="form-control" id="main_department">
+                                                        <option>@lang('messages.please_select')</option>
                                                     @if(count($mainDepartments))
                                                             @foreach($mainDepartments as $mainDepartment)
                                                                 <option value="{{$mainDepartment->id}}">{{$mainDepartment->name}}</option>
                                                             @endforeach
                                                         @else
-                                                            <option>please select priority</option>
+                                                            <option>@lang('messages.please_select')</option>
                                                         @endif
 
                                                     </select>
@@ -68,15 +69,16 @@
                                             </div>
 
                                             <div class="col-xs-12 col-md-8" style="margin: 5px">
+                                                <label for="name" class="form-label">@lang('support.sub_department')</label>
                                                 <div class="form-group">
                                                     <select class="form-control sub_departments" name="sub_department">
-                                                        <option>please select sub department</option>
+                                                        <option>@lang('messages.please_select')</option>
                                                         @if(count($subDepartments))
                                                             @foreach($subDepartments as $sub_department)
                                                                 <option class="{{$sub_department->parent_id}}" value="{{$sub_department->id}}">{{$sub_department->name}}</option>
                                                             @endforeach
                                                         @else
-                                                            <option>please select sub department</option>
+                                                            <option>@lang('messages.please_select')</option>
                                                         @endif
 
                                                     </select>
@@ -84,8 +86,9 @@
                                             </div>
 
                                             <div class="col-xs-12 col-md-8" style="margin: 5px">
+                                                <label for="name" class="form-label">@lang('support.users')</label>
                                                 <div class="form-group">
-                                                    <select class="form-control" name="department_id">
+                                                    <select class="form-control select2" name="users[]" multiple="multiple">
                                                         @if(count($users))
                                                             @foreach($users as $user)
                                                                 <option value="{{$user->id}}">{{$user->first_name}}</option>
@@ -143,7 +146,7 @@
         $( document ).ready(function() {
 
             $('select[name="sub_department"] option').not(':first').hide();
-            $('#main_departments').on('change', function() {
+            $('#main_department').on('change', function() {
                 $('select[name="sub_department"] option').not(':first').hide();
                 $('.'+this.value+'').show();
             });

@@ -14,12 +14,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>{{__('support.ticket_priorities')}}</h3>
+    <h3>@lang('support.ticket_priorities')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
-    <li class="breadcrumb-item active">{{__('support.ticket_priorities')}}</li>
+    <li class="breadcrumb-item active">@lang('support.ticket_priorities')</li>
 @endsection
 
 @section('content')
@@ -52,7 +52,7 @@
                                                     <tr>
                                                         <th>#</th>
                                                         <th>@trans('name')</th>
-                                                        <th>@trans('preview')</th>
+                                                        <th>@lang('support.preview')</th>
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                     </thead>
@@ -66,13 +66,12 @@
                                                                     {{  $periorty->name   }}
                                                                 </span>
                                                             </td>
-                                                            <td>{{  $periorty->create_at   }}</td>
                                                             <td class="d-flex">
                                                                 @can(find_or_create_p('user.edit'))
-                                                                    <a role="button" href="/userstaq/{{ $periorty->id }}/edit" class="m-1 btn btn-primary btn-sm" >@trans('edit')</a>
+                                                                    <a role="button" class="m-1 btn btn-sm btn-warning-gradien" href="{{route('tickets.priorities.edit',$periorty->id)}}"><i class="fa fa-edit"></i></a>
                                                                 @endcan
                                                                 @can(find_or_create_p('user.delete'))
-                                                                    <button onclick="destroy('/userstaq/{{ $periorty->id }}')" class="m-1 btn btn-danger bt-sm" >@trans('remove')</button>
+                                                                        <button class="m-1 btn btn-sm btn-danger-gradien" onclick="destroy('{{route('tickets.priorities.delete',$periorty->id)}}')" ><i class="fa fa-trash"></i></button>
                                                                 @endcan
                                                             </td>
                                                         </tr>

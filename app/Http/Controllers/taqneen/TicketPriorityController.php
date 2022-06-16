@@ -42,9 +42,28 @@ class TicketPriorityController extends Controller
         return back()->with('status', $output);
     }
 
-    public function edit(Request $request,$id)
+    public function edit($id)
     {
+        $priority = TicketPriority::findOrFail($id);
+        return view('taqneen.ticket-priority.edit',compact('priority'));
 
+
+    }
+
+    public function update(TicketPriorityRequest $request,$id)
+    {
+        $updated = TicketPriority::where('id',$id)->update($request->validated());
+        if ($updated)
+            $output = [
+                "success" => 1,
+                "msg" => __('done')
+            ];
+        else
+            $output = [
+                "success" => 1,
+                "msg" => __('failed')
+            ];
+        return redirect()->route('tickets.priorities')->with('status', $output);
     }
 
     public function destory($id)

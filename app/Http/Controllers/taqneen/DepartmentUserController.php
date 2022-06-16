@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\taqneen;
 
-use App\Http\Requests\taqneen\TicketDepartmentRequest;
+use App\DepartmentUser;
+use App\Http\Requests\taqneen\DepartmentUserRequest;
 use App\TicketDepartment;
-use App\TicketPriority;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,7 +15,10 @@ class DepartmentUserController extends Controller
 {
     public function index()
     {
-            }
+        $departmentUsers = DepartmentUser::with(['user','ticket'])->get();
+        $departmentUsers = $departmentUsers->groupBy('ticket.name');
+        return view('taqneen.department-users.index',compact('departmentUsers'));
+    }
 
 
     public function create()
@@ -27,25 +30,23 @@ class DepartmentUserController extends Controller
         return view('taqneen.department-users.create',compact('mainDepartments','subDepartments','users'));
     }
 
-    public function store(TicketDepartmentRequest $request)
+    public function store(DepartmentUserRequest $request)
     {
         try {
-            DB::beginTransaction();
-            $mainDepartment = TicketDepartment::create(['name'=>$request->name]);
-            foreach ($request->department_titles as $key => $departTitle){
-                $insertedData =[
-                  'name'=>$departTitle,
-                  'priority_id'=>$request->titles_priorities[$key]
-                ];
-                $mainDepartment->parentDepartment()->create($insertedData);
-            }
 
+            foreach ($request->users as $user){
+                $insertedData=[
+                  'ticket_id'=>$request->sub_department,
+                  'user_id'=>$user,
+                ];
+                DepartmentUser::updateOrCreate($insertedData);
+            }
 
             $output = [
                 "success" => 1,
                 "msg" => __('done')
             ];
-            DB::commit();
+
         }catch (\Exception $th)
         {
             DB::rollBack();
@@ -57,7 +58,7 @@ class DepartmentUserController extends Controller
         return back()->with('status', $output);
     }
 
-    public function edit(Request $request,$id)
+    public function edit($id)
     {
 
     }

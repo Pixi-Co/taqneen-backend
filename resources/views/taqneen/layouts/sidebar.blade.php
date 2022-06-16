@@ -139,19 +139,23 @@
                         <ul class="sidebar-submenu"  >
 
                             @can(find_or_create_p('support.supportboard'))
-                                <li><a  href="{{url('/support/ticket/priorities')}}" >{{__('support.ticket_priorities')}}</a></li>
+                                <li><a  href="{{url('/support/ticket/priorities')}}" >@lang('support.ticket_priorities')</a></li>
+                            @endcan
+
+                                @can(find_or_create_p('support.supportboard'))
+                                    <li><a  href="{{url('/support/ticket/statues')}}">@lang('support.ticket_statues')</a></li>
+                                @endcan
+
+                            @can(find_or_create_p('support.supportboard'))
+                                <li><a  href="{{url('/support/ticket/departments')}}" >@lang('support.ticket_department')</a></li>
                             @endcan
 
                             @can(find_or_create_p('support.supportboard'))
-                                <li><a  href="{{url('/support/ticket/department')}}" >{{__('support.ticket_department')}}</a></li>
+                                <li><a  href="{{url('/support/department/users')}}" >@lang('support.department_users')</a></li>
                             @endcan
 
                             @can(find_or_create_p('support.supportboard'))
-                                <li><a  href="{{url('/support/department/users')}}" >{{__('support.department_users')}}</a></li>
-                            @endcan
-
-                            @can(find_or_create_p('support.supportboard'))
-                                <li><a  href="{{url('/support/tickets')}}" >{{__('support.all_tickets')}}</a></li>
+                                <li><a  href="{{url('/support/tickets')}}" >@lang('support.all_tickets')</a></li>
                             @endcan
 
                             @can(find_or_create_p('support.ticket'))

@@ -8,14 +8,19 @@ class TicketDepartment extends Model
 {
     protected $guarded = ['id'];
 
-    public function parentDepartment(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function subDepartments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-       return $this->hasMany(TicketDepartment::class,'parent_id','id');
+       return $this->hasMany(TicketDepartment::class,'parent_id','id')->with('priority');
     }
 
-    public function departmentChildes(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function department(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(TicketDepartment::class,'parent_id','id');
+    }
+
+    public function priority()
+    {
+        return $this->belongsTo(TicketPriority::class,'priority_id','id');
     }
 
 }

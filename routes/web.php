@@ -185,6 +185,14 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         Route::post('ticket/priorities/delete/{id}', 'taqneen\TicketPriorityController@delete')->name('tickets.priorities.delete');
 
 
+        Route::get('/ticket/statues','taqneen\TicketStatusController@index')->name('tickets.statues');
+        Route::get('ticket/statues/create', 'taqneen\TicketStatusController@create')->name('tickets.statues.create');
+        Route::post('ticket/statues/create', 'taqneen\TicketStatusController@store')->name('tickets.statues.store');
+        Route::get('ticket/statues/edit/{id}', 'taqneen\TicketStatusController@edit')->name('tickets.statues.edit');
+        Route::post('ticket/statues/edit/{id}', 'taqneen\TicketStatusController@update')->name('tickets.statues.update');
+        Route::post('ticket/statues/delete/{id}', 'taqneen\TicketStatusController@delete')->name('tickets.statues.delete');
+
+
         Route::get('/ticket/departments','taqneen\TicketDepartmentController@index')->name('tickets.departments');
         Route::get('ticket/departments/create', 'taqneen\TicketDepartmentController@create')->name('tickets.departments.create');
         Route::post('ticket/departments/create', 'taqneen\TicketDepartmentController@store')->name('tickets.departments.store');
@@ -197,7 +205,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         Route::post('department/users/create', 'taqneen\DepartmentUserController@store')->name('department.users.store');
         Route::get('department/users/edit/{id}', 'taqneen\DepartmentUserController@edit')->name('department.users.edit');
         Route::post('departments/edit/{id}', 'taqneen\DepartmentUserController@update')->name('department.users.update');
-        Route::post('department/users/delete/{id}', 'taqneen\DepartmentUserController@delete')->name('department.users.delete');
+        Route::delete('department/users/delete/{id}', 'taqneen\DepartmentUserController@delete')->name('department.users.delete');
 
 
     });

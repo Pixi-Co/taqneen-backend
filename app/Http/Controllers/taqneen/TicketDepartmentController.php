@@ -15,8 +15,8 @@ class TicketDepartmentController extends Controller
 {
     public function index()
     {
-        $priorities = TicketPriority::all();
-        return view('taqneen.ticket-priority.index',compact('priorities'));
+        $departments = TicketDepartment::whereNull('parent_id')->with('subDepartments')->get();
+        return view('taqneen.ticket-departments.index',compact('departments'));
     }
 
 

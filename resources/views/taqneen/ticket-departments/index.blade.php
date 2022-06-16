@@ -14,12 +14,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>{{__('support.ticket_priorities')}}</h3>
+    <h3>@lang('support.ticket_department')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
-    <li class="breadcrumb-item active">{{__('support.ticket_priorities')}}</li>
+    <li class="breadcrumb-item active">@lang('support.ticket_department')</li>
 @endsection
 
 @section('content')
@@ -50,32 +50,48 @@
                                                 <table class="display dataTable">
                                                     <thead class="text-center">
                                                     <tr>
-                                                        <th>#</th>
                                                         <th>@trans('name')</th>
-                                                        <th>@trans('preview')</th>
+                                                        <th>@lang('support.priority')</th>
+                                                        <th>@lang('support.date')</th>
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    @foreach($priorities as $periorty)
+                                                    @foreach($departments as $department)
                                                         <tr>
-                                                            <td>{{$loop->iteration}}</td>
-                                                            <td>{{  $periorty->name   }}</td>
-                                                            <td>
-                                                                <span  class="badge" style="background-color: {{$periorty->color}}">
-                                                                    {{  $periorty->name   }}
-                                                                </span>
-                                                            </td>
-                                                            <td>{{  $periorty->create_at   }}</td>
-                                                            <td class="d-flex">
+                                                            <th>{{  $department->name   }}</th>
+                                                            <th>-</th>
+                                                            <th>{{  $department->created_at   }}</th>
+                                                            <th class="d-flex">
                                                                 @can(find_or_create_p('user.edit'))
-                                                                    <a role="button" href="/userstaq/{{ $periorty->id }}/edit" class="m-1 btn btn-primary btn-sm" >@trans('edit')</a>
+                                                                    <a role="button" href="/userstaq/{{ $department->id }}/edit" class="m-1 btn btn-warning-gradien btn-sm" ><i class="fa fa-edit"></i></a>
                                                                 @endcan
                                                                 @can(find_or_create_p('user.delete'))
-                                                                    <button onclick="destroy('/userstaq/{{ $periorty->id }}')" class="m-1 btn btn-danger bt-sm" >@trans('remove')</button>
+                                                                    <button onclick="destroy('/userstaq/{{ $department->id }}')" class="m-1 btn btn-danger-gradien bt-sm" ><i class="fa fa-trash"></i></button>
                                                                 @endcan
-                                                            </td>
+                                                            </th>
                                                         </tr>
+                                                        @if(count($department->subDepartments))
+                                                            @foreach($department->subDepartments as $sub_department)
+                                                                <tr>
+                                                                    <td>{{  $sub_department->name   }}</td>
+                                                                    <td>
+                                                                        <span  class="badge" style="background-color: {{$sub_department->priority->color}}">
+                                                                            {{$sub_department->priority->name}}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>{{  $department->created_at   }}</td>
+                                                                    <td class="d-flex">
+                                                                        @can(find_or_create_p('user.edit'))
+                                                                            <a role="button" href="/userstaq/{{ $department->id }}/edit" class="m-1 btn btn-warning-gradien btn-sm"><i class="fa fa-edit"></i></a>
+                                                                        @endcan
+                                                                        @can(find_or_create_p('user.delete'))
+                                                                            <button onclick="destroy('/userstaq/{{ $department->id }}')" class="m-1 btn btn-danger-gradien bt-sm"><i class="fa fa-trash"></i></button>
+                                                                        @endcan
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        @endif
                                                     @endforeach
                                                     </tbody>
                                                 </table>
