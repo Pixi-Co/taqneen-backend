@@ -153,7 +153,7 @@
                                                             <div class="user d-flex flex-row align-items-center">
 
                                                                 <img src="{{ asset('images/avatar.png') }}" width="30" class="user-img rounded-circle mr-2">
-                                                                <span><small class="font-weight-bold text-primary">{{$ticketReply->user->first_name." ".$ticketReply->user->last_name}}</small><small class="font-weight-bold">{{$ticketReply->reply}}</small></span>
+                                                                <span class="p-r-15"><strong class="font-weight-bold text-primary">{{$ticketReply->user->first_name." ".$ticketReply->user->last_name}}</strong><b class="font-weight-bold">{{$ticketReply->reply}}</b></span>
 
                                                             </div>
                                                             <small>{{$ticketReply->created_at->diffForHumans()}}</small>
@@ -162,11 +162,11 @@
                                                         <div class="action d-flex justify-content-between mt-2 align-items-center">
 
                                                             <div class="reply px-4">
-                                                                <a href="{{route('tickets.reply.delete',$ticketReply->id)}}">
-                                                                    <small class="w3-btn w3-border w3-round"><i class="fa fa-trash"></i></small>
+                                                                <a role="button" class="w3-btn w3-border w3-round" href="{{route('tickets.reply.delete',$ticketReply->id)}}">
+                                                                    <small><i class="fa fa-trash"></i></small>
                                                                 </a>
-                                                               <a href="{{route('tickets.reply.edit',$ticketReply->id)}}">
-                                                                   <small class="w3-btn w3-border w3-round"><i class="fa fa-edit"></i></small>
+                                                               <a role="button" class="w3-btn w3-border w3-round" href="{{route('tickets.reply.edit',$ticketReply->id)}}">
+                                                                   <small><i class="fa fa-edit"></i></small>
                                                                </a>
                                                             </div>
 
