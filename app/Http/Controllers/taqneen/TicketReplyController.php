@@ -2,38 +2,38 @@
 
 namespace App\Http\Controllers\taqneen;
 
-use App\Http\Requests\taqneen\TicketStatusRequest;
+use App\Http\Requests\taqneen\TicketReplyRequest;
+use App\Ticket;
+use App\TicketReply;
 use App\TicketStatus;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 
-class TicketStatusController extends Controller
+class TicketReplyController extends Controller
 {
-    public function index()
-    {
-        $statues = TicketStatus::all();
-        return view('taqneen.ticket.ticket-status.index',compact('statues'));
-    }
 
-
-    public function create()
-    {
-        return view('taqneen.ticket.ticket-status.create');
-    }
-
-    public function store(TicketStatusRequest $request)
+    public function store(TicketReplyRequest $request)
     {
 
         try {
             $data = $request->validated();
-            if (isset($request->is_default))
-            {
-                TicketStatus::query()->update(['is_default'=>0]);
-                $data['is_default'] =  1;
+            if($request->file('file')) {
+                $file = $request->file('file');
+                $filename = time().'_'.$file->getClientOriginalName();
+                // File upload location
+                $location = 'tickets/files/replies';
+                // Upload file
+                $file->move($location,$filename);
+                $data['file'] = $filename;
             }
-            $data['is_send_mail'] = isset($request->is_send_mail) ? 1:0;
-            TicketStatus::create($data);
+            $data['user_id'] = auth()->id();
+            if (isset($data['status_id']))
+            {
+                $ticket =Ticket::findOrFail($data['ticket_id']);
+                $ticket->update(['status_id'=>$data['status_id']]);
+            }
+            TicketReply::create($data);
             $output = [
                 "success" => 1,
                 "msg" => __('done')

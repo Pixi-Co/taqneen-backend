@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTicketStatusesTable extends Migration
+class CreateCannedRepliesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateTicketStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ticket_statuses', function (Blueprint $table) {
+        Schema::create('canned_replies', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->boolean('is_send_mail')->default(false);
-            $table->boolean('is_default')->default(false);
+            $table->string('title');
+            $table->string('message');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateTicketStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ticket_statuses');
+        Schema::dropIfExists('canned_replies');
     }
 }

@@ -14,12 +14,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.ticket_department')</h3>
+    <h3>@lang('support.ticket_statues')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
-    <li class="breadcrumb-item active">@lang('support.ticket_department')</li>
+    <li class="breadcrumb-item active">@lang('support.ticket_statues')</li>
 @endsection
 
 @section('content')
@@ -44,40 +44,36 @@
                                         </div> --}}
                                         <div class="card-body">
                                             @can(find_or_create_p('ticket_priority.create'))
-                                                <a role="button" href="{{route('department.users.create')}}" class="btn btn-primary" >@trans('add new')</a>
+                                                <a role="button" href="{{route('canned-reply.create')}}" class="btn btn-primary" >@trans('add new')</a>
                                             @endcan
                                             <div class="table-responsive pt-3">
-                                                <table class="display table table-striped">
+                                                <table class="display dataTable">
                                                     <thead class="text-center">
                                                     <tr>
-                                                        <th>@trans('name')</th>
+                                                        <th>#</th>
+                                                        <th>@trans('title')</th>
+                                                        <th>@lang('support.created_at')</th>
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    @foreach($departmentUsers as $key =>$department_user)
+                                                    @foreach($cannedReplies as $cannedReply)
                                                         <tr>
-                                                            <th style="font-size: 18px;color: #000;font-weight: bold;background-color: #81b4f5">{{ $key}}</th>
-                                                            <th style="background-color: #81b4f5">
-                                                                @can(find_or_create_p('user.edit'))
-                                                                    <a role="button" href="/userstaq/id/edit" class="m-1 btn btn-warning-gradien btn-sm" ><i class="fa fa-edit"></i></a>
-                                                                @endcan
-                                                                @can(find_or_create_p('user.delete'))
-                                                                    <button onclick="destroy('/userstaq/')" class="m-1 btn btn-danger-gradien bt-sm" ><i class="fa fa-trash"></i></button>
-                                                                @endcan
-                                                            </th>
-                                                        </tr>
-                                                        @foreach($department_user as $user)
-                                                            <tr>
-                                                                <td class="text-center">{{$user->user->first_name.$user->user->last_name}}</td>
-                                                                <td class="d-flex">
-                                                                    @can(find_or_create_p('user.delete'))
-                                                                        <button onclick="destroy('/userstaq/')" class="m-1 btn btn-danger-gradien bt-sm" ><i class="fa fa-trash"></i></button>
-                                                                    @endcan
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
+                                                            <td>{{$loop->iteration}}</td>
+                                                            <td>{{  $cannedReply->title   }}</td>
+                                                            <td>{{  $cannedReply->created_at->diffForHumans() }}</td>
+                                                            <td class="d-flex">
 
+                                                                @can(find_or_create_p('user.edit'))
+                                                                    <a role="button" href="{{route('canned-reply.edit',$cannedReply->id)}}" class="m-1 btn btn-warning btn-sm" ><i class="fa fa-edit"></i></a>
+                                                                @endcan
+
+                                                                @can(find_or_create_p('user.delete'))
+                                                                    <button onclick="destroy('{{route('canned-reply.delete',$cannedReply->id)}}')" class="m-1 btn btn-danger-gradien bt-sm" ><i class="fa fa-trash"></i></button>
+                                                                @endcan
+
+                                                            </td>
+                                                        </tr>
                                                     @endforeach
                                                     </tbody>
                                                 </table>

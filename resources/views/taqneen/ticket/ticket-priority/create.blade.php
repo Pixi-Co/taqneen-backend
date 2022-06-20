@@ -18,14 +18,14 @@
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
     <li class="breadcrumb-item">
-        <a href="{{route('tickets.priorities')}}">@lang('support.ticket_priorities')</a>
+        <a href="{{__('support.ticket_priorities')}}">@lang('support.ticket_priorities')</a>
     </li>
-    <li class="breadcrumb-item active">@lang('support.edit_ticket_priority')</li>
+    <li class="breadcrumb-item active">@lang('support.add_ticket_priority')</li>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <form action="{{ route('tickets.priorities.update',$priority->id)}}" method="post" >
+        <form action="{{ route('tickets.priorities.create')}}" method="post" >
             @csrf
             <div class="row">
                 <!-- Content Wrapper. Contains page content -->
@@ -44,7 +44,7 @@
                                     <div class="card-body">
                                         <div class="form-group mb-3">
                                             <label for="name" class="form-label">@lang('support.name')</label>
-                                            <input type="text" name="name" value="{{$priority->name}}" class="form-control" id="name" placeholder="@lang('support.ticket_priority_name')">
+                                            <input type="text" name="name" class="form-control" id="name" placeholder="@lang('support.ticket_priority_name')">
                                             @if($errors->has('name'))
                                                 <div class="text text-danger">
                                                     {{$errors->first('name')}}
@@ -54,7 +54,7 @@
 
                                         <div class="form-group mb-3">
                                             <label for="color" class="form-label">@lang('support.ticket_priority_color')</label>
-                                            <input type="color" name="color" value="{{$priority->color}}" class="form-control" id="color">
+                                            <input type="color" name="color" class="form-control" id="color">
                                             @if($errors->has('color'))
                                                 <p class="text text-danger">
                                                     {{$errors->first('color')}}
@@ -76,7 +76,7 @@
         </form>
     </div>
     <script type="text/javascript">
-        import Init from "../../../../public/js/init";
+        import Init from "../../../../../public/js/init";
         var session_layout = '{{ session()->get('layout') }}';
         export default {
             components: {Init}

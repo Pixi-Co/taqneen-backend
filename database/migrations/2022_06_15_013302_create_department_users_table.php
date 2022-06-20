@@ -17,8 +17,9 @@ class CreateDepartmentUsersTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('ticket_id');
-            $table->foreign('ticket_id')->references('id')->on('ticket_departments');
+            $table->unsignedBigInteger('department_id');
+            $table->foreign('department_id')->references('id')->on('ticket_departments');
+            $table->boolean('is_active')->default(1);
             $table->timestamps();
         });
     }

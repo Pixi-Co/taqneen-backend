@@ -17,6 +17,8 @@ class CreateTicketRepliesTable extends Migration
             $table->bigIncrements('id');
             $table->text('reply');
 
+            $table->string('file')->nullable();
+
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 

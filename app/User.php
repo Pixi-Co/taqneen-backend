@@ -308,6 +308,11 @@ class User extends Authenticatable
         return $role_name;
     }
 
+    public function getFullNameAttribute()
+    {
+         return $this->first_name." ". $this->last_name;
+    }
+
     public function media()
     {
         return $this->morphOne(\App\Media::class, 'model');

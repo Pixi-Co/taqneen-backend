@@ -177,6 +177,30 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('subscriptions-delete/{id}',[SubscriptionController::class,'destroy']);
 
     Route::group(['prefix'=>'support'],function (){
+
+        Route::get('tickets','taqneen\TicketController@index')->name('tickets');
+        Route::get('tickets/create', 'taqneen\TicketController@create')->name('tickets.create');
+        Route::get('tickets/show/{id}', 'taqneen\TicketController@show')->name('tickets.show');
+        Route::get('tickets/{ticket_id}/status/change/{status_id}', 'taqneen\TicketController@changeTicketStatus')->name('tickets.status.change');
+        Route::post('tickets/create', 'taqneen\TicketController@store')->name('tickets.store');
+        Route::get('tickets/edit/{id}', 'taqneen\TicketController@edit')->name('tickets.edit');
+        Route::post('tickets/edit/{id}', 'taqneen\TicketController@update')->name('tickets.update');
+        Route::post('tickets/delete/{id}', 'taqneen\TicketController@delete')->name('tickets.delete');
+        Route::post('tickets/change/user', 'taqneen\TicketController@changeTicketUser')->name('tickets.changeTicketUser');
+
+//        ticket replies
+        Route::post('tickets/reply','taqneen\TicketReplyController@store')->name('tickets.reply.store');
+        Route::delete('tickets/reply/delete/{id}','taqneen\TicketReplyController@delete')->name('tickets.reply.delete');
+        Route::delete('tickets/reply/edit/{id}','taqneen\TicketReplyController@delete')->name('tickets.reply.edit');
+
+        Route::get('canned-reply','taqneen\CannedReplyController@index')->name('canned-reply');
+        Route::get('canned-reply/create', 'taqneen\CannedReplyController@create')->name('canned-reply.create');
+        Route::post('canned-reply/create', 'taqneen\CannedReplyController@store')->name('canned-reply.store');
+        Route::get('canned-reply/edit/{id}', 'taqneen\CannedReplyController@edit')->name('canned-reply.edit');
+        Route::post('canned-reply/edit/{id}', 'taqneen\CannedReplyController@update')->name('canned-reply.update');
+        Route::post('canned-reply/delete/{id}', 'taqneen\CannedReplyController@delete')->name('canned-reply.delete');
+
+
         Route::get('/ticket/priorities','taqneen\TicketPriorityController@index')->name('tickets.priorities');
         Route::get('ticket/priorities/create', 'taqneen\TicketPriorityController@create')->name('tickets.priorities.create');
         Route::post('ticket/priorities/create', 'taqneen\TicketPriorityController@store')->name('tickets.priorities.store');
@@ -193,7 +217,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         Route::post('ticket/statues/delete/{id}', 'taqneen\TicketStatusController@delete')->name('tickets.statues.delete');
 
 
-        Route::get('/ticket/departments','taqneen\TicketDepartmentController@index')->name('tickets.departments');
+        Route::get('ticket/departments','taqneen\TicketDepartmentController@index')->name('tickets.departments');
         Route::get('ticket/departments/create', 'taqneen\TicketDepartmentController@create')->name('tickets.departments.create');
         Route::post('ticket/departments/create', 'taqneen\TicketDepartmentController@store')->name('tickets.departments.store');
         Route::get('ticket/departments/edit/{id}', 'taqneen\TicketDepartmentController@edit')->name('tickets.departments.edit');
@@ -205,7 +229,11 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         Route::post('department/users/create', 'taqneen\DepartmentUserController@store')->name('department.users.store');
         Route::get('department/users/edit/{id}', 'taqneen\DepartmentUserController@edit')->name('department.users.edit');
         Route::post('departments/edit/{id}', 'taqneen\DepartmentUserController@update')->name('department.users.update');
-        Route::delete('department/users/delete/{id}', 'taqneen\DepartmentUserController@delete')->name('department.users.delete');
+        Route::get('main/department/users/stop/{id}', 'taqneen\DepartmentUserController@deactivateAll')->name('main.department.users.stop');
+        Route::get('main/department/users/active/{id}', 'taqneen\DepartmentUserController@activateAll')->name('main.department.users.active');
+        Route::get('department/users/stop/{id}', 'taqneen\DepartmentUserController@status')->name('department.users.stop');
+        Route::delete('main/department/users/delete/{id}', 'taqneen\DepartmentUserController@delateAllForDepartment')->name('main.department.users.delete');
+        Route::delete('department/users/delete/{id}', 'taqneen\DepartmentUserController@destory')->name('department.users.delete');
 
 
     });

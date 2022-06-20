@@ -4,7 +4,7 @@ namespace App\Http\Requests\taqneen;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TicketStatusRequest extends FormRequest
+class TicketRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,10 @@ class TicketStatusRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|string',
-            'is_send_mail'=>'sometimes|required',
-            'is_default'=>'sometimes|required',
+            'computer_number'=>'required',
+            'sub_department'=>'required',
+            'description'=>'required|',
+            'file'=>'nullable|file|mimes:ppt,pptx,doc,docx,pdf,xls,xlsx,jpg,png,gif,jpeg,|max:204800',
         ];
     }
 
@@ -34,7 +35,7 @@ class TicketStatusRequest extends FormRequest
     public function messages()
     {
         return [
-            "description.required_if"=>"description field is required if send mail checked"
+            "description"=>"description field is required"
         ];
     }
 }

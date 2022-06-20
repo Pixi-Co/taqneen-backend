@@ -18,7 +18,7 @@
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
     <li class="breadcrumb-item">
-        <a href="{{__('support.ticket_priorities')}}">@lang('support.department_users')</a>
+        <a href="{{route('department.users')}}">@lang('support.department_users')</a>
     </li>
     <li class="breadcrumb-item active">@lang('support.add_department_users')</li>
 @endsection
@@ -51,6 +51,7 @@
                                             </div>
                                         @endif
                                         <div class="card-body">
+
                                             <div class="col-xs-12 col-md-8" style="margin: 5px">
                                                 <label for="name" class="form-label">@lang('support.ticket_department')</label>
                                                 <div class="form-group">
@@ -58,7 +59,7 @@
                                                         <option>@lang('messages.please_select')</option>
                                                     @if(count($mainDepartments))
                                                             @foreach($mainDepartments as $mainDepartment)
-                                                                <option value="{{$mainDepartment->id}}">{{$mainDepartment->name}}</option>
+                                                                <option value="{{$mainDepartment->id}}" {{$mainDepartment->id==$targetDepartment->department->parent_id?'selected':''}}>{{$mainDepartment->name}}</option>
                                                             @endforeach
                                                         @else
                                                             <option>@lang('messages.please_select')</option>
@@ -75,7 +76,7 @@
                                                         <option>@lang('messages.please_select')</option>
                                                         @if(count($subDepartments))
                                                             @foreach($subDepartments as $sub_department)
-                                                                <option class="{{$sub_department->parent_id}}" value="{{$sub_department->id}}">{{$sub_department->name}}</option>
+                                                                <option class="{{$sub_department->parent_id}}" {{$sub_department->id==$targetDepartment->department_id?'selected':''}} value="{{$sub_department->id}}">{{$sub_department->name}}</option>
                                                             @endforeach
                                                         @else
                                                             <option>@lang('messages.please_select')</option>
@@ -88,10 +89,10 @@
                                             <div class="col-xs-12 col-md-8" style="margin: 5px">
                                                 <label for="name" class="form-label">@lang('support.users')</label>
                                                 <div class="form-group">
-                                                    <select class="form-control select2" name="users[]" multiple="multiple">
+                                                    <select class="form-control select2" name="user">
                                                         @if(count($users))
                                                             @foreach($users as $user)
-                                                                <option value="{{$user->id}}">{{$user->first_name}}</option>
+                                                                <option value="{{$user->id}}" {{$user->id==$targetDepartment->user_id?'selected':''}}>{{$user->first_name}}</option>
                                                             @endforeach
                                                         @else
                                                             <option>please select one/more user</option>
@@ -116,7 +117,7 @@
         </form>
     </div>
     <script type="text/javascript">
-        import Init from "../../../../public/js/init";
+        import Init from "../../../../../public/js/init";
         var session_layout = '{{ session()->get('layout') }}';
         export default {
             components: {Init}
@@ -153,3 +154,4 @@
         });
     </script>
 @endsection
+

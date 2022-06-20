@@ -13,13 +13,13 @@ class TicketPriorityController extends Controller
     public function index()
     {
         $priorities = TicketPriority::all();
-        return view('taqneen.ticket-priority.index',compact('priorities'));
+        return view('taqneen.ticket.ticket-priority.index',compact('priorities'));
     }
 
 
     public function create()
     {
-        return view('taqneen.ticket-priority.create');
+        return view('taqneen.ticket.ticket-priority.create');
     }
 
     public function store(TicketPriorityRequest $request)
@@ -45,7 +45,7 @@ class TicketPriorityController extends Controller
     public function edit($id)
     {
         $priority = TicketPriority::findOrFail($id);
-        return view('taqneen.ticket-priority.edit',compact('priority'));
+        return view('taqneen.ticket.ticket-priority.edit',compact('priority'));
 
 
     }
@@ -68,6 +68,8 @@ class TicketPriorityController extends Controller
 
     public function destory($id)
     {
-
+        $ticketPriority = TicketPriority::findOrFail($id);
+        $ticketPriority->delete();
+        return responseJson(1, __('done'));
     }
 }

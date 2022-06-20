@@ -52,8 +52,8 @@
                                                     <tr>
                                                         <th>#</th>
                                                         <th>@trans('name')</th>
-                                                        <th>@lang('support.status_desc')</th>
                                                         <th>@lang('support.send_mail')</th>
+                                                        <th>@lang('support.is_default')</th>
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                     </thead>
@@ -62,8 +62,32 @@
                                                         <tr>
                                                             <td>{{$loop->iteration}}</td>
                                                             <td>{{  $status->name   }}</td>
-                                                            <td>{{  $status->description }}</td>
-                                                            <td>{{  $status->is_send_mail==1?__('support.send_mail'):__('support.not_send_mail') }}</td>
+                                                            <td>
+                                                                @if( $status->is_send_mail==1)
+                                                                    <span  class="badge" style="background-color: #2BAD71">
+                                                                        @lang('support.yes')
+                                                                     </span>
+
+                                                                @else
+                                                                    <span  class="badge" style="background-color: #AD2B52">
+                                                                      @lang('support.no')
+                                                                    </span>
+                                                                @endif
+
+                                                            </td>
+                                                            <td>
+                                                                @if( $status->is_default==1)
+                                                                    <span  class="badge" style="background-color: #2BAD71">
+                                                                        @lang('support.yes')
+                                                                     </span>
+
+                                                                @else
+                                                                    <span  class="badge" style="background-color: #AD2B52">
+                                                                      @lang('support.no')
+                                                                    </span>
+                                                                @endif
+
+                                                            </td>
                                                             <td class="d-flex">
 
                                                                 @can(find_or_create_p('user.edit'))

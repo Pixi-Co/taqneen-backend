@@ -12,20 +12,20 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.ticket_priorities')</h3>
+    <h3>{{__('support.ticket_statuses')}}</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
     <li class="breadcrumb-item">
-        <a href="{{__('support.ticket_priorities')}}">@lang('support.ticket_priorities')</a>
+        <a href="{{__('support.ticket_priorities')}}">{{__('support.ticket_statuses')}}</a>
     </li>
-    <li class="breadcrumb-item active">@lang('support.add_ticket_priority')</li>
+    <li class="breadcrumb-item active">{{__('support.edit_ticket_statuses')}}</li>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <form action="{{ route('tickets.priorities.create')}}" method="post" >
+        <form action="{{ route('canned-reply.update',$cannedReply->id)}}" method="post" >
             @csrf
             <div class="row">
                 <!-- Content Wrapper. Contains page content -->
@@ -43,21 +43,23 @@
 
                                     <div class="card-body">
                                         <div class="form-group mb-3">
-                                            <label for="name" class="form-label">@lang('support.name')</label>
-                                            <input type="text" name="name" class="form-control" id="name" placeholder="@lang('support.ticket_priority_name')">
-                                            @if($errors->has('name'))
+                                            <label for="name" class="form-label">{{__('support.status_name')}}</label>
+                                            <input type="text" name="title" value="{{$cannedReply->title??old('name')}}" class="form-control" id="name" placeholder="{{__('support.ticket_pstatus_name')}}">
+                                            @if($errors->has('title'))
                                                 <div class="text text-danger">
-                                                    {{$errors->first('name')}}
+                                                    {{$errors->first('title')}}
                                                 </div>
                                             @endif
                                         </div>
 
                                         <div class="form-group mb-3">
-                                            <label for="color" class="form-label">@lang('support.ticket_priority_color')</label>
-                                            <input type="color" name="color" class="form-control" id="color">
-                                            @if($errors->has('color'))
+                                            <label for="color" class="form-label">{{__('support.description')}}</label>
+                                            <textarea name="message" class="form-control">
+                                                {{$cannedReply->message}}
+                                            </textarea>
+                                            @if($errors->has('message'))
                                                 <p class="text text-danger">
-                                                    {{$errors->first('color')}}
+                                                    {{$errors->first('message')}}
                                                 </p>
                                             @endif
                                         </div>
@@ -76,7 +78,7 @@
         </form>
     </div>
     <script type="text/javascript">
-        import Init from "../../../../public/js/init";
+        import Init from "../../../../../public/js/init";
         var session_layout = '{{ session()->get('layout') }}';
         export default {
             components: {Init}

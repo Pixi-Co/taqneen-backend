@@ -14,12 +14,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.ticket_department')</h3>
+    <h3>@lang('support.ticket_statues')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
-    <li class="breadcrumb-item active">@lang('support.ticket_department')</li>
+    <li class="breadcrumb-item active">@lang('support.ticket_statues')</li>
 @endsection
 
 @section('content')
@@ -44,55 +44,55 @@
                                         </div> --}}
                                         <div class="card-body">
                                             @can(find_or_create_p('ticket_priority.create'))
-                                                <a role="button" href="{{route('tickets.priorities.create')}}" class="btn btn-primary" >@trans('add new')</a>
+                                                <a role="button" href="{{route('tickets.create')}}" class="btn btn-primary" >@trans('add new')</a>
                                             @endcan
                                             <div class="table-responsive pt-3">
                                                 <table class="display dataTable">
                                                     <thead class="text-center">
                                                     <tr>
-                                                        <th>@trans('name')</th>
+                                                        <th>@lang('id')</th>
+                                                        <th>@trans('title')</th>
+                                                        <th>@lang('support.department')</th>
+                                                        <th>@lang('support.customer')</th>
                                                         <th>@lang('support.priority')</th>
-                                                        <th>@lang('support.date')</th>
+                                                        <th>@lang('support.user')</th>
+                                                        <th>@lang('support.status')</th>
+                                                        <th>@lang('support.created_at')</th>
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    @foreach($departments as $department)
-                                                        <tr>
-                                                            <th>{{  $department->name   }}</th>
-                                                            <th>-</th>
-                                                            <th>{{  $department->created_at   }}</th>
-                                                            <th class="d-flex">
-                                                                @can(find_or_create_p('user.edit'))
-                                                                    <a role="button" href="/userstaq/{{ $department->id }}/edit" class="m-1 btn btn-warning-gradien btn-sm" ><i class="fa fa-edit"></i></a>
-                                                                @endcan
-                                                                @can(find_or_create_p('user.delete'))
-                                                                    <button onclick="destroy('/userstaq/{{ $department->id }}')" class="m-1 btn btn-danger-gradien bt-sm" ><i class="fa fa-trash"></i></button>
-                                                                @endcan
-                                                            </th>
-                                                        </tr>
-                                                        @if(count($department->subDepartments))
-                                                            @foreach($department->subDepartments as $sub_department)
-                                                                <tr>
-                                                                    <td>{{  $sub_department->name   }}</td>
-                                                                    <td>
-                                                                        <span  class="badge" style="background-color: {{$sub_department->priority->color}}">
-                                                                            {{$sub_department->priority->name}}
-                                                                        </span>
-                                                                    </td>
-                                                                    <td>{{  $department->created_at   }}</td>
-                                                                    <td class="d-flex">
-                                                                        @can(find_or_create_p('user.edit'))
-                                                                            <a role="button" href="/userstaq/{{ $department->id }}/edit" class="m-1 btn btn-warning-gradien btn-sm"><i class="fa fa-edit"></i></a>
-                                                                        @endcan
-                                                                        @can(find_or_create_p('user.delete'))
-                                                                            <button onclick="destroy('/userstaq/{{ $department->id }}')" class="m-1 btn btn-danger-gradien bt-sm"><i class="fa fa-trash"></i></button>
-                                                                        @endcan
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                        @endif
-                                                    @endforeach
+                                                        @foreach($tickets as $ticket)
+                                                            <tr>
+                                                                <td><a class="text-info text-bold" href="{{route('tickets.show',$ticket['id'])}}">{{$ticket['id']}}</a></td>
+                                                                <td>{{$ticket['title']}}</td>
+                                                                <td>{{$ticket['department']}}</td>
+                                                                <td>{{$ticket['customer']}}</td>
+                                                                <td>
+                                                                     <span  class="badge" style="background-color: {{$ticket['priority_color']}}">
+                                                                        {{  $ticket['priority'] }}
+                                                                     </span>
+                                                                </td>
+                                                                <td>{{$ticket['user']}}</td>
+                                                                <td>{{$ticket['status']}}</td>
+                                                                <td>{{$ticket['created_at']}}</td>
+                                                                <td class="d-flex">
+
+                                                                    @can(find_or_create_p('user.edit'))
+                                                                        <a role="button" href="" class="m-1 btn btn-warning btn-sm" ><i class="fa fa-edit"></i></a>
+                                                                    @endcan
+
+                                                                    @can(find_or_create_p('user.delete'))
+                                                                        <button onclick="destroy('')" class="m-1 btn btn-danger-gradien bt-sm" ><i class="fa fa-trash"></i></button>
+                                                                    @endcan
+
+                                                                    @can(find_or_create_p('user.delete'))
+                                                                        <a role="button" href="{{route('tickets.show',$ticket['id'])}}" class="m-1 btn btn-info-gradien bt-sm" ><i class="fa fa-eye"></i></a>
+                                                                    @endcan
+
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
                                                     </tbody>
                                                 </table>
                                             </div>

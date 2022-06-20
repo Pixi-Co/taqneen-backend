@@ -139,6 +139,10 @@
                         <ul class="sidebar-submenu"  >
 
                             @can(find_or_create_p('support.supportboard'))
+                                <li><a  href="{{url('/support/canned-reply')}}" >@lang('support.canned_reply')</a></li>
+                            @endcan
+
+                            @can(find_or_create_p('support.supportboard'))
                                 <li><a  href="{{url('/support/ticket/priorities')}}" >@lang('support.ticket_priorities')</a></li>
                             @endcan
 

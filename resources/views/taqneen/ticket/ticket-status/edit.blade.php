@@ -20,12 +20,12 @@
     <li class="breadcrumb-item">
         <a href="{{__('support.ticket_priorities')}}">{{__('support.ticket_statuses')}}</a>
     </li>
-    <li class="breadcrumb-item active">{{__('support.add_ticket_statuses')}}</li>
+    <li class="breadcrumb-item active">{{__('support.edit_ticket_statuses')}}</li>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <form action="{{ route('tickets.statues.store')}}" method="post" >
+        <form action="{{ route('tickets.statues.update',$status->id)}}" method="post" >
             @csrf
             <div class="row">
                 <!-- Content Wrapper. Contains page content -->
@@ -44,7 +44,7 @@
                                     <div class="card-body">
                                         <div class="form-group mb-3">
                                             <label for="name" class="form-label">{{__('support.status_name')}}</label>
-                                            <input type="text" name="name" value="{{old('name')}}" class="form-control" id="name" placeholder="{{__('support.ticket_pstatus_name')}}">
+                                            <input type="text" name="name" value="{{$status->name??old('name')}}" class="form-control" id="name" placeholder="{{__('support.ticket_pstatus_name')}}">
                                             @if($errors->has('name'))
                                                 <div class="text text-danger">
                                                     {{$errors->first('name')}}
@@ -55,7 +55,7 @@
                                         <div class="form-group mb-3">
                                             <label for="color" class="form-label">{{__('support.description')}}</label>
                                             <textarea name="description" class="form-control">
-
+                                                {{$status->description}}
                                             </textarea>
                                             @if($errors->has('description'))
                                                 <p class="text text-danger">
@@ -66,7 +66,7 @@
 
                                         <div class="form-group mb-3">
                                             <div class="form-check">
-                                                <input class="form-check-input" name="is_send_mail"  type="checkbox" id="flexCheckDefault" {{old('is_send_mail')!==null? 'checked':''}}>
+                                                <input class="form-check-input" name="is_send_mail"  type="checkbox" id="flexCheckDefault" {{$status->is_send_mail==1? 'checked':''}}>
                                                 <label class="form-check-label" for="flexCheckDefault">
                                                     {{__('support.send_mail')}}
                                                 </label>
@@ -74,6 +74,20 @@
                                             @if($errors->has('is_send_mail'))
                                                 <p class="text text-danger">
                                                     {{$errors->first('is_send_mail')}}
+                                                </p>
+                                            @endif
+                                        </div>
+
+                                        <div class="form-group mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="is_default"  type="checkbox" id="flexCheckisDefault" {{$status->is_default==1? 'checked':''}}>
+                                                <label class="form-check-label" for="flexCheckisDefault">
+                                                    @lang('support.is_default')
+                                                </label>
+                                            </div>
+                                            @if($errors->has('is_default'))
+                                                <p class="text text-danger">
+                                                    {{$errors->first('is_default')}}
                                                 </p>
                                             @endif
                                         </div>
@@ -92,7 +106,7 @@
         </form>
     </div>
     <script type="text/javascript">
-        import Init from "../../../../public/js/init";
+        import Init from "../../../../../public/js/init";
         var session_layout = '{{ session()->get('layout') }}';
         export default {
             components: {Init}

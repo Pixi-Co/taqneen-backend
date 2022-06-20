@@ -12,20 +12,20 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>{{__('support.ticket_statuses')}}</h3>
+    <h3>@lang('support.canned_reply')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
     <li class="breadcrumb-item">
-        <a href="{{__('support.ticket_priorities')}}">{{__('support.ticket_statuses')}}</a>
+        <a href="{{route('canned-reply')}}">@lang('support.canned_reply')</a>
     </li>
-    <li class="breadcrumb-item active">{{__('support.edit_ticket_statuses')}}</li>
+    <li class="breadcrumb-item active">@lang('support.add_canned_reply')</li>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <form action="{{ route('tickets.statues.update',$status->id)}}" method="post" >
+        <form action="{{ route('canned-reply.create')}}" method="post" >
             @csrf
             <div class="row">
                 <!-- Content Wrapper. Contains page content -->
@@ -43,37 +43,23 @@
 
                                     <div class="card-body">
                                         <div class="form-group mb-3">
-                                            <label for="name" class="form-label">{{__('support.status_name')}}</label>
-                                            <input type="text" name="name" value="{{$status->name??old('name')}}" class="form-control" id="name" placeholder="{{__('support.ticket_pstatus_name')}}">
-                                            @if($errors->has('name'))
+                                            <label for="name" class="form-label">@lang('support.name')</label>
+                                            <input type="text" name="title" value="{{old('name')}}" class="form-control" id="name">
+                                            @if($errors->has('title'))
                                                 <div class="text text-danger">
-                                                    {{$errors->first('name')}}
+                                                    {{$errors->first('title')}}
                                                 </div>
                                             @endif
                                         </div>
 
                                         <div class="form-group mb-3">
-                                            <label for="color" class="form-label">{{__('support.description')}}</label>
-                                            <textarea name="description" class="form-control">
-                                                {{$status->description}}
-                                            </textarea>
-                                            @if($errors->has('description'))
-                                                <p class="text text-danger">
-                                                    {{$errors->first('description')}}
-                                                </p>
-                                            @endif
-                                        </div>
+                                            <label for="color" class="form-label">@lang('support.status_desc')</label>
+                                            <textarea name="message" class="form-control">
 
-                                        <div class="form-group mb-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="is_send_mail"  type="checkbox" id="flexCheckDefault" {{$status->is_send_mail==1? 'checked':''}}>
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    {{__('support.send_mail')}}
-                                                </label>
-                                            </div>
-                                            @if($errors->has('is_send_mail'))
+                                            </textarea>
+                                            @if($errors->has('message'))
                                                 <p class="text text-danger">
-                                                    {{$errors->first('is_send_mail')}}
+                                                    {{$errors->first('message')}}
                                                 </p>
                                             @endif
                                         </div>
@@ -92,7 +78,7 @@
         </form>
     </div>
     <script type="text/javascript">
-        import Init from "../../../../public/js/init";
+        import Init from "../../../../../public/js/init";
         var session_layout = '{{ session()->get('layout') }}';
         export default {
             components: {Init}

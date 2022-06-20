@@ -27,12 +27,14 @@ class CreateTicketsTable extends Migration
             $table->unsignedInteger('agent_id');
             $table->foreign('agent_id')->references('id')->on('users');
 
-            $table->longText('description');
+            $table->unsignedBigInteger('priority_id');
+            $table->foreign('priority_id')->references('id')->on('ticket_priorities');
 
+
+            $table->longText('description');
+            $table->string('file')->nullable();
 
             $table->timestamp('completed_at')->nullable();
-
-
 
             $table->timestamps();
         });

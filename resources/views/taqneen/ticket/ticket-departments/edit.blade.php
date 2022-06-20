@@ -12,15 +12,15 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.ticket_priorities')</h3>
+    <h3>{{__('support.ticket_departments')}}</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
     <li class="breadcrumb-item">
-        <a href="{{__('support.ticket_priorities')}}">@lang('support.ticket_priorities')</a>
+        <a href="{{__('support.ticket_departments')}}">{{__('support.ticket_departments')}}</a>
     </li>
-    <li class="breadcrumb-item active">@lang('support.add_ticket_priority')</li>
+    <li class="breadcrumb-item active">{{__('support.add_ticket_departments)}}</li>
 @endsection
 
 @section('content')
@@ -52,8 +52,8 @@
                                         @endif
                                         <div class="card-body">
                                             <div class="form-group mb-3">
-                                                <label for="name" class="form-label">@lang('support.name')</label>
-                                                <input type="text" name="name" class="form-control" id="name" value="{{old('name')}}" placeholder="@lang('support.name')">
+                                                <label for="name" class="form-label">{{__('support.department_name')}}</label>
+                                                <input type="text" name="name" class="form-control" id="name" value="{{old('name')}}" placeholder="{{__('support.ticket_priority_name')}}">
                                                 @if($errors->has('name'))
                                                     <div class="text text-danger">
                                                         {{$errors->first('name')}}
@@ -62,7 +62,7 @@
                                             </div>
 
                                             <div class="form-group mb-3">
-                                                <label for="name" class="form-label text-bold text-info">@lang('support.ticket_titles')</label>
+                                                <label for="name" class="form-label text-bold text-info">{{__('support.department_titles')}}</label>
                                                 <fieldset class="ticket-titles" style="border: 1px dashed #e88446">
                                                     <div class="row targetDiv" id="div0">
                                                         <div class="col-md-12">
@@ -70,7 +70,7 @@
                                                                 <div class="row entry">
                                                                     <div class="col-xs-12 col-md-4" style="margin: 5px">
                                                                         <div class="form-group">
-                                                                            <input class="form-control" name="department_titles[]" value="{{old('department_titles')}}" type="text" placeholder="@lang('support.name')">
+                                                                            <input class="form-control" name="department_titles[]" value="{{old('department_titles')}}" type="text" placeholder="department-title">
                                                                         </div>
                                                                     </div>
 
@@ -82,7 +82,7 @@
                                                                                         <option value="{{$priority->id}}">{{$priority->name}}</option>
                                                                                     @endforeach
                                                                                 @else
-                                                                                    <option>@lang('support.select_priority')</option>
+                                                                                    <option>please select priority</option>
                                                                                 @endif
 
                                                                             </select>
@@ -118,7 +118,7 @@
         </form>
     </div>
     <script type="text/javascript">
-        import Init from "../../../../public/js/init";
+        import Init from "../../../../../public/js/init";
         var session_layout = '{{ session()->get('layout') }}';
         export default {
             components: {Init}

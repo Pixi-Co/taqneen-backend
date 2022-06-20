@@ -16,14 +16,14 @@ class TicketDepartmentController extends Controller
     public function index()
     {
         $departments = TicketDepartment::whereNull('parent_id')->with('subDepartments')->get();
-        return view('taqneen.ticket-departments.index',compact('departments'));
+        return view('taqneen.ticket.ticket-departments.index',compact('departments'));
     }
 
 
     public function create()
     {
         $priorities = TicketPriority::all();
-        return view('taqneen.ticket-departments.create',compact('priorities'));
+        return view('taqneen.ticket.ticket-departments.create',compact('priorities'));
     }
 
     public function store(TicketDepartmentRequest $request)

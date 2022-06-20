@@ -4,7 +4,7 @@ namespace App\Http\Requests\taqneen;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TicketStatusRequest extends FormRequest
+class CannedReplyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +24,8 @@ class TicketStatusRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|string',
-            'is_send_mail'=>'sometimes|required',
-            'is_default'=>'sometimes|required',
-        ];
-    }
-
-
-    public function messages()
-    {
-        return [
-            "description.required_if"=>"description field is required if send mail checked"
+            'title'=>'required|string',
+            'message'=>'required|string',
         ];
     }
 }

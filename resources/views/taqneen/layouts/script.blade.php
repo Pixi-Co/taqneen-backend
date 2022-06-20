@@ -100,7 +100,7 @@
                     };
                     $.post(link, $.param(data), function(res) {
                         toastr.success(res.msg);
-                        if (res.success == 1) {
+                        if (res.success == 1 || res.status) {
                             window.location.reload();
                         }
                     });
