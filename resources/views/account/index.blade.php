@@ -23,7 +23,7 @@
             </div>
         </div>
     @endif
-    @can('account.access')
+{{--    @can('account.access')--}}
     <div class="row">
         <div class="col-sm-12">
             <div class="nav-tabs-custom">
@@ -169,7 +169,7 @@
             </div>
         </div>
     </div>
-    @endcan
+{{--    @endcan--}}
     
     <div class="modal fade account_model" tabindex="-1" role="dialog" 
     	aria-labelledby="gridSystemModalLabel">

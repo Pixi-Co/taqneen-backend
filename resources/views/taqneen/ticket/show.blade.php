@@ -115,32 +115,16 @@
                             <div class="col-md-7 col-sm-12">
                                 <div class="card card-primary">
                                     <div class="card-header">
-                                        <div class="row">
-                                            <div class="col-md-5 col-sm-12">
-                                                <a role="button" href="#reply" class="btn btn-primary btn-sm">Reply</a>
-                                            </div>
-                                            <div class="col-md-6 col-sm-12">
-                                                <div class="w3-dropdown-hover">
-                                                    <button class="btn btn-primary btn-sm">@lang('support.ticket_statues')</button>
-                                                    <div class="w3-dropdown-content w3-bar-block w3-border">
-                                                        @foreach($ticketStatuses as $ticketStatus)
-                                                            <a href="{{route('tickets.status.change',[$ticket['id'],$ticketStatus->id])}}" class="w3-bar-item w3-button">{{$ticketStatus->name}}</a>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <h4>{{$ticket['title']}}</h4>
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-4" style="font-size: 13px; font-weight: bold">
-                                                #{{$ticket['description']}}
+                                                #{{$ticket['id'] . " | " .$ticket['description']}}
                                             </div>
                                         </div><hr>
 
 {{--                                        replies --}}
-
-
                                         <div class="container mt-5">
                                             <div class="headings d-flex justify-content-between align-items-center mb-3">
                                                 <h5>comments(6)</h5>
@@ -178,8 +162,6 @@
                                                 </div>
                                             @endforeach
                                         </div>
-
-
 {{--                                        end replies--}}
                                     </div>
                                 </div>
@@ -236,38 +218,6 @@
                                 </div>
                             </div>
                             <div class="col-md-5 col-sm-12">
-
-                                <div class="card card-primary">
-                                    <div class="card-header">
-                                        <div class="row">
-                                            <div class="col-md-4 col-sm-12">@lang('support.customer')</div>
-                                            <div class="col-md-6 col-sm-12">
-                                                <a role="button" class="btn btn-primary btn-sm">all-tickets</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-12">
-                                                <div>
-                                                    <img class="img-fluid img-sm" style="width: 40px;height: 40px;border-radius: 50%"
-                                                         src="{{ asset('images/avatar.png') }}" alt="">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-7 col-sm-12">{{$ticket['customer_email']}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card card-primary">
-                                    <div class="card-header">
-                                        @lang('support.ticket_desc')
-                                    </div>
-                                    <div class="card-body">
-                                        <span class="text-bold">#{{$ticket['id']}}</span>{{" ".$ticket['description']}}
-                                    </div>
-                                </div>
-
                                 <div class="card card-primary">
                                     <div class="card-header">
                                         @lang('support.ticket_details')
@@ -278,7 +228,6 @@
                                             <div class="col-md-6 col-sm-6">{{$ticket['department']}}</div>
                                         </div>
                                         <hr>
-
                                         <div class="row">
                                             <div class="col-md-6 col-sm-6">@lang('support.sub_department')</div>
                                             <div class="col-md-6 col-sm-6">{{$ticket['title']}}</div>
@@ -286,13 +235,36 @@
                                         <hr>
 
                                         <div class="row bg-gray-active">
-                                            <div class="col-md-6 col-sm-6">@lang('support.status')</div>
-                                            <div class="col-md-6 col-sm-6">{{$ticket['status']}}</div>
+                                            <div class="col-md-3 col-sm-6">@lang('support.status')</div>
+                                            <div class="col-md-4 col-sm-6">{{$ticket['status']}}</div>
+                                            <div class="col-md-4 col-sm-6">
+                                                <div class="w3-dropdown-hover">
+                                                    <button class="btn btn-primary btn-sm">@lang('support.ticket_statues')</button>
+                                                    <div class="w3-dropdown-content w3-bar-block w3-border">
+                                                        @foreach($ticketStatuses as $ticketStatus)
+                                                            <a href="{{route('tickets.status.change',[$ticket['id'],$ticketStatus->id])}}" class="w3-bar-item w3-button">{{$ticketStatus->name}}</a>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-md-6 col-sm-6">@lang('support.priority')</div>
                                             <div class="col-md-6 col-sm-6"><span class="badge" style="background-color: {{$ticket['priority_color']}}">{{$ticket['priority']}}</span></div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+{{--                                            اسم العميل اللي عمل التيكت او التيكت خاصه به--}}
+                                            <div class="col-md-6 col-sm-6">@lang('support.client_name')</div>
+                                            <div class="col-md-6 col-sm-6"><span class="badge" style="background-color: {{$ticket['priority_color']}}">$client name</span></div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6">@lang('support.700xxx')</div>
+                                            <div class="col-md-6 col-sm-6"><span class="badge" style="background-color: {{$ticket['priority_color']}}">$computer name</span></div>
                                         </div>
                                         <hr>
                                         <div class="row">
