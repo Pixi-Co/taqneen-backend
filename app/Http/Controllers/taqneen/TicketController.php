@@ -98,13 +98,14 @@ class TicketController extends Controller
     }
     public function show($id)
     {
+        $auth_user = auth()->user();
         $ticket = Ticket::with(['user','agent','department','priority','status'])->findOrFail($id);
         $ticket = $this->prepareTicketData($ticket);
         $cannedReplies = CannedReply::all();
         $ticketStatuses = TicketStatus::all();
-        $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with('user')->get();
+        $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with('user')->latest()->get();
         $users = User::limit(70)->get();
-        return view('taqneen.ticket.show',compact('ticket','cannedReplies','ticketStatuses','users','ticketsReplies'));
+        return view('taqneen.ticket.show',compact('ticket','cannedReplies','ticketStatuses','users','ticketsReplies','auth_user'));
     }
 
     public function edit($id)

@@ -114,20 +114,75 @@
                         <div class="row">
                             <div class="col-md-7 col-sm-12">
                                 <div class="card card-primary">
-                                    <div class="card-header">
-                                        <h4>{{$ticket['title']}}</h4>
-                                    </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-4" style="font-size: 13px; font-weight: bold">
+                                            <div class="col-md-3" style="font-size: 13px; font-weight: bold">
+                                                @lang('support.ticket_desc')
+                                            </div>
+                                            <div class="col-md-7" style="font-size: 13px; font-weight: bold">
                                                 #{{$ticket['id'] . " | " .$ticket['description']}}
                                             </div>
                                         </div><hr>
+                                    </div>
+                                </div>
+                                <div id="reply" class="card card-primary">
+                                    <form action="{{route('tickets.reply.store')}}" method="post" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="ticket_id" value="{{$ticket['id']}}">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="form-group mb-3">
+                                                    <select class="form-control" id="canned_reply">
+                                                        <option disabled selected>@lang('support.canned_reply')</option>
+                                                        @foreach($cannedReplies as $canned_reply)
+                                                            <option value="{{$canned_reply->message}}">{{$canned_reply->title}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
 
+                                                <div class="form-group mb-3">
+                                                    <label for="color" class="form-label">@lang('support.status_desc')</label>
+                                                    <textarea  cols="6" rows="6" id="message" name="reply" required="required" class="form-control">{{old('reply')}}</textarea>
+                                                    @if($errors->has('reply'))
+                                                        <p class="text text-danger">
+                                                            {{$errors->first('reply')}}
+                                                        </p>
+                                                    @endif
+                                                </div>
+
+                                                <div class="form-group mb-3">
+                                                    <div class="mb-3">
+                                                        <label for="formFile" class="form-label">@lang('support.upload_file')</label>
+                                                        <input class="form-control" name="file" type="file" id="formFile">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-3">
+                                                    <label for="status" class="form-label">@lang('support.status')</label>
+                                                    @foreach($ticketStatuses as $key=>$ticketStatus)
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" value="{{$ticketStatus->id}}" type="radio" name="status_id" id="flexRadioDefault{{$key}}">
+                                                            <label class="form-check-label" for="flexRadioDefault{{$key}}">
+                                                                {{$ticketStatus->name}}
+                                                            </label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+
+                                                <div class="form-group mb-3">
+                                                    <button type="submit" class="btn btn-primary btn-sm">@lang('save')</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="card card-primary">
+                                    <div class="card-body">
 {{--                                        replies --}}
                                         <div class="container mt-5">
                                             <div class="headings d-flex justify-content-between align-items-center mb-3">
-                                                <h5>comments(6)</h5>
+                                                <h5>@lang('support.comments') ({{$ticketsReplies->count()}})</h5>
                                             </div>
 
                                             @foreach($ticketsReplies as $ticketReply)
@@ -135,86 +190,34 @@
                                                     <div class="card p-3 mt-2">
                                                         <div class="d-flex justify-content-between">
                                                             <div class="user d-flex flex-row align-items-center">
-
-                                                                <img src="{{ asset('images/avatar.png') }}" width="30" class="user-img rounded-circle mr-2">
-                                                                <span class="p-r-15"><strong class="font-weight-bold text-primary">{{$ticketReply->user->first_name." ".$ticketReply->user->last_name}}</strong><b class="font-weight-bold">{{$ticketReply->reply}}</b></span>
-
+                                                                <p>
+                                                                    <img src="{{ asset('images/avatar.png') }}" width="30" class="user-img rounded-circle mr-2">
+                                                                    <span>{{$ticketReply->user->first_name." ".$ticketReply->user->last_name}}</span>
+                                                                </p>
+                                                                <span class="p-r-15"><b class="font-weight-bold">{{$ticketReply->reply}}</b></span>
                                                             </div>
                                                             <small>{{$ticketReply->created_at->diffForHumans()}}</small>
                                                         </div>
 
-                                                        <div class="action d-flex justify-content-between mt-2 align-items-center">
+                                                        @if(!empty($ticketReply->file))
+                                                            <div class="action d-flex justify-content-between mt-2 align-items-center">
 
-                                                            <div class="reply px-4">
-                                                                <a role="button" class="w3-btn w3-border w3-round" href="{{route('tickets.reply.delete',$ticketReply->id)}}">
-                                                                    <small><i class="fa fa-trash"></i></small>
-                                                                </a>
-                                                               <a role="button" class="w3-btn w3-border w3-round" href="{{route('tickets.reply.edit',$ticketReply->id)}}">
-                                                                   <small><i class="fa fa-edit"></i></small>
-                                                               </a>
+                                                                <div class="reply px-4">
+                                                                </div>
+
+                                                                <div class="icons align-items-center">
+                                                                    <a><i class="fa fa-download text-info"></i><small>download</small></a>
+                                                                </div>
+
                                                             </div>
 
-                                                            <div class="icons align-items-center">
-                                                                <i class="fa fa-check-circle-o check-icon text-primary"></i>
-                                                            </div>
-                                                        </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             @endforeach
                                         </div>
 {{--                                        end replies--}}
                                     </div>
-                                </div>
-
-                                <div id="reply" class="card card-primary">
-                                   <form action="{{route('tickets.reply.store')}}" method="post" enctype="multipart/form-data">
-                                     @csrf
-                                      <input type="hidden" name="ticket_id" value="{{$ticket['id']}}">
-                                       <div class="card-body">
-                                           <div class="row">
-                                               <div class="form-group mb-3">
-                                                   <div class="mb-3">
-                                                       <label for="formFile" class="form-label">@lang('support.upload_file')</label>
-                                                       <input class="form-control" name="file" type="file" id="formFile">
-                                                   </div>
-                                               </div>
-                                               <div class="form-group mb-3">
-                                                   <select class="form-control" id="canned_reply">
-                                                       <option disabled selected>@lang('support.canned_reply')</option>
-                                                       @foreach($cannedReplies as $canned_reply)
-                                                           <option value="{{$canned_reply->message}}">{{$canned_reply->title}}</option>
-                                                       @endforeach
-                                                   </select>
-                                               </div>
-
-                                               <div class="form-group mb-3">
-                                                   <label for="color" class="form-label">@lang('support.status_desc')</label>
-                                                   <textarea  cols="6" rows="6" id="message" name="reply" required="required" class="form-control">{{old('reply')}}</textarea>
-                                                   @if($errors->has('reply'))
-                                                       <p class="text text-danger">
-                                                           {{$errors->first('reply')}}
-                                                       </p>
-                                                   @endif
-                                               </div>
-
-                                               <div class="form-group mb-3">
-                                                   <label for="status" class="form-label">@lang('support.status')</label>
-                                                   @foreach($ticketStatuses as $key=>$ticketStatus)
-                                                       <div class="form-check">
-                                                           <input class="form-check-input" value="{{$ticketStatus->id}}" type="radio" name="status_id" id="flexRadioDefault{{$key}}">
-                                                           <label class="form-check-label" for="flexRadioDefault{{$key}}">
-                                                               {{$ticketStatus->name}}
-                                                           </label>
-                                                       </div>
-                                                   @endforeach
-                                               </div>
-
-                                               <div class="form-group mb-3">
-                                                   <button type="submit" class="btn btn-primary btn-sm">@lang('save')</button>
-                                               </div>
-                                           </div>
-                                       </div>
-                                   </form>
                                 </div>
                             </div>
                             <div class="col-md-5 col-sm-12">
@@ -236,10 +239,10 @@
 
                                         <div class="row bg-gray-active">
                                             <div class="col-md-3 col-sm-6">@lang('support.status')</div>
-                                            <div class="col-md-4 col-sm-6">{{$ticket['status']}}</div>
-                                            <div class="col-md-4 col-sm-6">
+                                            <div class="col-md-3 col-sm-6">{{$ticket['status']}}</div>
+                                            <div class="col-md-5 col-sm-6">
                                                 <div class="w3-dropdown-hover">
-                                                    <button class="btn btn-primary btn-sm">@lang('support.ticket_statues')</button>
+                                                    <button class="btn btn-primary btn-sm">@lang('support.change')<i class="fa fa-arrow-down"></i></button>
                                                     <div class="w3-dropdown-content w3-bar-block w3-border">
                                                         @foreach($ticketStatuses as $ticketStatus)
                                                             <a href="{{route('tickets.status.change',[$ticket['id'],$ticketStatus->id])}}" class="w3-bar-item w3-button">{{$ticketStatus->name}}</a>

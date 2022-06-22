@@ -14,12 +14,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.ticket_statues')</h3>
+    <h3>@lang('support.all_tickets')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
-    <li class="breadcrumb-item active">@lang('support.ticket_statues')</li>
+    <li class="breadcrumb-item active">@lang('support.all_tickets')</li>
 @endsection
 
 @section('content')
@@ -38,10 +38,65 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-sm-12">
+                                    <div class="card card-primary">
+                                        <div class="card-body">
+                                                <form action="{{route('tickets.reply.store')}}" method="post" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="row">
+
+                                                        <div class="form-group mb-3 col-md-4 col-sm-6 ">
+                                                            <div>
+                                                                <label for="formFile" class="form-label">@lang('support.upload_file')</label>
+                                                                <input class="form-control" name="file" type="file" id="formFile">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group mb-3 col-md-4 col-sm-6 ">
+                                                            <div>
+                                                                <label for="formFile" class="form-label">@lang('support.upload_file')</label>
+                                                                <input class="form-control" name="file" type="file" id="formFile">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group mb-3 col-md-4 col-sm-6 ">
+                                                            <div>
+                                                                <label for="formFile" class="form-label">@lang('support.upload_file')</label>
+                                                                <input class="form-control" name="file" type="file" id="formFile">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group mb-3 col-md-4 col-sm-6 ">
+                                                            <div>
+                                                                <label for="formFile" class="form-label">@lang('support.upload_file')</label>
+                                                                <input class="form-control" name="file" type="file" id="formFile">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group mb-3 col-md-4 col-sm-6 ">
+                                                            <div>
+                                                                <label for="formFile" class="form-label">@lang('support.upload_file')</label>
+                                                                <input class="form-control" name="file" type="file" id="formFile">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group mb-3 col-md-4 col-sm-6 ">
+                                                            <div>
+                                                                <label for="formFile" class="form-label">@lang('support.upload_file')</label>
+                                                                <input class="form-control" name="file" type="file" id="formFile">
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <button type="submit" class="btn btn-primary btn-sm">@lang('search')</button>
+                                                    </div>
+                                                </form>
+                                        </div>
+                                        </div>
+                                    </div>
                                     <div class="card">
-                                        {{-- <div class="card-header">
-                                            <h5>@trans('lang.Opportunities')</h5>
-                                        </div> --}}
+
                                         <div class="card-body">
                                             @can(find_or_create_p('ticket_priority.create'))
                                                 <a role="button" href="{{route('tickets.create')}}" class="btn btn-primary" >@trans('add new')</a>
