@@ -130,8 +130,8 @@
                     
 					
                     {{------------------------ support button -----------------------------}}
-                    @can(find_or_create_p('support.view'))
-					<li   class=" sidebar-list">
+{{--                    @can(find_or_create_p('support.view'))--}}
+					    <li   class=" sidebar-list">
                         <a class="sidebar-link sidebar-title" href="#">
                             <i data-feather="message-circle"></i><span  >{{ trans('support') }}</span>
                             <div class="according-menu"><i class="fa fa-angle-{{request()->segments() == '/support' ? 'down' : 'right' }}"></i></div>
@@ -158,16 +158,16 @@
                                 <li><a  href="{{url('/support/department/users')}}" >@lang('support.department_users')</a></li>
                             @endcan
 
-                            @can(find_or_create_p('support.supportboard'))
+{{--                            @can(find_or_create_p('support.supportboard'))--}}
                                 <li><a  href="{{url('/support/tickets')}}" >@lang('support.all_tickets')</a></li>
-                            @endcan
+{{--                            @endcan--}}
 
                             @can(find_or_create_p('support.ticket'))
                             <li><a target="_blank" href="https://taqneen.com/open-a-ticket/" >@trans('ticket')</a></li> 
                             @endcan
                         </ul>
                     </li>
-                    @endcan
+{{--                    @endcan--}}
 
                     @can(find_or_create_p('calendar.view'))
                     {{------------------------ calendar button -----------------------------}}

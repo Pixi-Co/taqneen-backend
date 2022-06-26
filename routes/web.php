@@ -97,6 +97,11 @@ Route::middleware(['setData'])->group(function () {
         
     Auth::routes();
     Route::post('/register', 'taqneen\CustomerFormController@createAccount');
+
+    Route::get('support/guest/tickets/create', 'taqneen\TicketController@createGuestTicket')->name('tickets.guest.create');
+    Route::post('support/guest/tickets/create', 'taqneen\TicketController@store')->name('tickets.guest.create');
+
+
     Route::get('/quick_access', function()
     {
         return view('auth.quick_register');
@@ -187,6 +192,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         Route::post('tickets/edit/{id}', 'taqneen\TicketController@update')->name('tickets.update');
         Route::post('tickets/delete/{id}', 'taqneen\TicketController@delete')->name('tickets.delete');
         Route::post('tickets/change/user', 'taqneen\TicketController@changeTicketUser')->name('tickets.changeTicketUser');
+        Route::get('tickets/print/{id}', 'taqneen\TicketController@printTicket')->name('tickets.print');
 
 //        ticket replies
         Route::post('tickets/reply','taqneen\TicketReplyController@store')->name('tickets.reply.store');

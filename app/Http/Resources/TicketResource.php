@@ -20,6 +20,7 @@ class TicketResource extends JsonResource
             "department"=>$this->resource->department->department->name,
             "description"=>$this->resource->description,
             "customer"=>$this->resource->agent->full_name,
+            "computer_num"=>$this->resource->agent->custom_field_1,
             "status"=>$this->resource->status->name,
             "priority"=>$this->resource->priority->name,
             "priority_color"=>$this->resource->priority->color,

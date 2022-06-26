@@ -336,7 +336,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(\Modules\Crm\Entities\CrmContact::class, 'crm_contact_id');
     }
-    
+
+    public function contactInfo()
+    {
+        return $this->belongsTo(Contact::class, 'contact_id');
+    }
 
     /**
      * Get the contact for the user.
@@ -434,7 +438,7 @@ class User extends Authenticatable
     }
 
     public static function couriers() {
-        $role = Role::find(41);  
+        $role = Role::find(127);
         return $role->users();
     }
 }

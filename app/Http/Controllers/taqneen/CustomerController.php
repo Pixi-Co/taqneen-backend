@@ -144,7 +144,7 @@ class CustomerController extends Controller
         try {
             $data = [
                 "supplier_business_name" => $request->supplier_business_name,
-                "custom_field1" => $request->custom_field1,
+                "custom_field1" => $request->custom_field1,//computer number
                 "mobile" => $request->mobile,
                 "email" => $request->email,
                 "state" => $request->state,
@@ -291,6 +291,7 @@ class CustomerController extends Controller
                     "contact_number" => $request->contact_number,
                     "address" => $request->address_line_1, 
                     "password" => $request->password ? bcrypt($request->password) : '',
+                    'contact_id'=>$customer->id,
                 ];
 
                 $user->update($data);
@@ -308,6 +309,8 @@ class CustomerController extends Controller
                     "password" => bcrypt($request->password),
                     "business_id" => session('business.id'),
                     "user_type" => 'user_customer',
+                    "custom_field_1" => $customer->custom_field1,
+                    "contact_id"=>$customer->id
                 ]);
                 $user->assignRole("customer");
                 $customer->converted_by = $user->id;

@@ -40,56 +40,84 @@
                                 <div class="col-sm-12">
                                     <div class="card card-primary">
                                         <div class="card-body">
-                                                <form action="{{route('tickets.reply.store')}}" method="post" enctype="multipart/form-data">
+                                                <form action="{{route('tickets')}}" method="get" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="row">
+                                                        <div class="mb-3 col-md-4 col-sm-6 ">
+                                                            <div class="form-group">
+                                                                <label for="formFile" class="form-label">@lang('support.ticket_titles')</label>
+                                                                <select class="form-control sub_departments" id="sub_department" name="sub_department">
+                                                                    <option disabled selected>@lang('messages.please_select')</option>
+                                                                    @if(count($subDepartments))
+                                                                        @foreach($subDepartments as $sub_department)
+                                                                            <option class="{{$sub_department->parent_id}}" value="{{$sub_department->id}}" {{$sub_department->parent_id==old('sub_department')?'selected':''}}>{{$sub_department->name}}</option>
+                                                                        @endforeach
+                                                                    @else
+                                                                        <option disabled>@lang('messages.please_select')</option>
+                                                                    @endif
 
-                                                        <div class="form-group mb-3 col-md-4 col-sm-6 ">
-                                                            <div>
-                                                                <label for="formFile" class="form-label">@lang('support.upload_file')</label>
-                                                                <input class="form-control" name="file" type="file" id="formFile">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-4 col-sm-6 ">
+                                                            <div class="form-group">
+                                                                <label for="formFile" class="form-label">@lang('support.ticket_priorities')</label>
+                                                                <select class="form-control" name="priority" id="priority">
+                                                                    @if(count($priorities))
+                                                                        <option disabled selected>@lang('support.ticket_priorities')</option>
+                                                                        @foreach($priorities as $priority)
+                                                                            <option value="{{$priority->id}}" {{$priority->id==old('priority')?'selected':''}}>{{$priority->name}}</option>
+                                                                        @endforeach
+                                                                    @else
+                                                                        <option disabled>@lang('support.select_priority')</option>
+                                                                    @endif
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-4 col-sm-6 ">
+                                                            <div class="form-group">
+                                                                <label for="formFile" class="form-label">@lang('support.status')</label>
+                                                                <select class="form-control" id="status" name="status">
+                                                                    @if(count($ticketStatues))
+                                                                        <option disabled selected>@lang('support.status')</option>
+                                                                        @foreach($ticketStatues as $ticketStatue)
+                                                                            <option value="{{$ticketStatue->id}}" {{$ticketStatue->id == old('status')?'selected':''}}>{{$ticketStatue->name}}</option>
+                                                                        @endforeach
+                                                                    @else
+                                                                        <option disabled>@lang('support.status')</option>
+                                                                    @endif
+
+                                                                </select>
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group mb-3 col-md-4 col-sm-6 ">
                                                             <div>
-                                                                <label for="formFile" class="form-label">@lang('support.upload_file')</label>
-                                                                <input class="form-control" name="file" type="file" id="formFile">
+                                                                <label for="computer_number" class="form-label">@lang('support.computer_num')</label>
+                                                                <input class="form-control" name="computer_number" type="text" id="computer_number">
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group mb-3 col-md-4 col-sm-6 ">
                                                             <div>
-                                                                <label for="formFile" class="form-label">@lang('support.upload_file')</label>
-                                                                <input class="form-control" name="file" type="file" id="formFile">
+                                                                <label for="user_name" class="form-label">@lang('support.user_name')</label>
+                                                                <input class="form-control" name="user_name" value="{{old('user_name')}}" type="text" id="user_name">
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group mb-3 col-md-4 col-sm-6 ">
                                                             <div>
-                                                                <label for="formFile" class="form-label">@lang('support.upload_file')</label>
-                                                                <input class="form-control" name="file" type="file" id="formFile">
+                                                                <label for="client_name" class="form-label">@lang('support.client_name')</label>
+                                                                <input class="form-control" value="{{old('client_name')}}" name="client_name" type="text" id="client_name">
                                                             </div>
                                                         </div>
-
-                                                        <div class="form-group mb-3 col-md-4 col-sm-6 ">
-                                                            <div>
-                                                                <label for="formFile" class="form-label">@lang('support.upload_file')</label>
-                                                                <input class="form-control" name="file" type="file" id="formFile">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group mb-3 col-md-4 col-sm-6 ">
-                                                            <div>
-                                                                <label for="formFile" class="form-label">@lang('support.upload_file')</label>
-                                                                <input class="form-control" name="file" type="file" id="formFile">
-                                                            </div>
-                                                        </div>
-
-
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <button type="submit" class="btn btn-primary btn-sm">@lang('search')</button>
+                                                        <button role="button" type="button" id="reset" class="btn btn-primary btn-sm">@lang('reset')</button>
+                                                        <button type="button" id="search" class="btn btn-primary btn-sm">@lang('search')</button>
                                                     </div>
                                                 </form>
                                         </div>
@@ -98,17 +126,18 @@
                                     <div class="card">
 
                                         <div class="card-body">
-                                            @can(find_or_create_p('ticket_priority.create'))
+{{--                                            @can(find_or_create_p('ticket_priority.create'))--}}
                                                 <a role="button" href="{{route('tickets.create')}}" class="btn btn-primary" >@trans('add new')</a>
-                                            @endcan
+{{--                                            @endcan--}}
                                             <div class="table-responsive pt-3">
-                                                <table class="display dataTable">
+                                                <table class="display data-table">
                                                     <thead class="text-center">
                                                     <tr>
                                                         <th>@lang('id')</th>
                                                         <th>@trans('title')</th>
                                                         <th>@lang('support.department')</th>
                                                         <th>@lang('support.customer')</th>
+                                                        <th>@lang('support.computer_num')</th>
                                                         <th>@lang('support.priority')</th>
                                                         <th>@lang('support.user')</th>
                                                         <th>@lang('support.status')</th>
@@ -117,37 +146,6 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach($tickets as $ticket)
-                                                            <tr>
-                                                                <td><a class="text-info text-bold" href="{{route('tickets.show',$ticket['id'])}}">{{$ticket['id']}}</a></td>
-                                                                <td>{{$ticket['title']}}</td>
-                                                                <td>{{$ticket['department']}}</td>
-                                                                <td>{{$ticket['customer']}}</td>
-                                                                <td>
-                                                                     <span  class="badge" style="background-color: {{$ticket['priority_color']}}">
-                                                                        {{  $ticket['priority'] }}
-                                                                     </span>
-                                                                </td>
-                                                                <td>{{$ticket['user']}}</td>
-                                                                <td>{{$ticket['status']}}</td>
-                                                                <td>{{$ticket['created_at']}}</td>
-                                                                <td class="d-flex">
-
-                                                                    @can(find_or_create_p('user.edit'))
-                                                                        <a role="button" href="" class="m-1 btn btn-warning btn-sm" ><i class="fa fa-edit"></i></a>
-                                                                    @endcan
-
-                                                                    @can(find_or_create_p('user.delete'))
-                                                                        <button onclick="destroy('')" class="m-1 btn btn-danger-gradien bt-sm" ><i class="fa fa-trash"></i></button>
-                                                                    @endcan
-
-                                                                    @can(find_or_create_p('user.delete'))
-                                                                        <a role="button" href="{{route('tickets.show',$ticket['id'])}}" class="m-1 btn btn-info-gradien bt-sm" ><i class="fa fa-eye"></i></a>
-                                                                    @endcan
-
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -192,7 +190,64 @@
     <script src="{{asset('assets/js/typeahead-search/typeahead-custom.js')}}"></script>
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('assets/js/datatable/datatables/datatable.custom.js')}}"></script>
-    <script>
-        $(".dataTable").DataTable();
+    <script type="text/javascript">
+        $(function () {
+
+            var table = $('.data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                "autoWidth": true,
+                ajax: {
+                    url: "{{ route('tickets') }}",
+                    data: function (data) {
+                        data.status = $('#status').val(),
+                            data.priority = $('#priority').val(),
+                            data.user_name = $('#user_name').val(),
+                            data.client_name = $('#client_name').val(),
+                            data.computer_number = $('#computer_number').val(),
+                            data.sub_department = $('#sub_department').val();
+                    }
+                },
+                columnDefs: [
+                    {
+                        targets: '_all',
+                        defaultContent: '-'
+                    }
+                ],
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'department.name', name: 'sub_department_id'},
+                    {data: 'department.department.name', name: 'main_department_id'},
+                    {data: 'agent.first_name', name: 'customer_name'},
+                    {data: 'agent.custom_field_1', name: 'computer_number'},
+                    {data: 'priority.name', name: 'priority_id'},
+                    {data: 'user.first_name', name: 'user_name'},
+                    {data: 'status.name', name: 'status_id'},
+                    {data: 'created_at', name: 'created_at'},
+                    { data: 'action', name: 'action' }
+                ]
+            });
+
+            $('#search').on('click',function(){
+                table.draw();
+            });
+
+            $('#reset').on('click',function(){
+                table.on('preXhr.dt',function (e,settings,data){
+                    data.status = null,
+                        data.priority = null,
+                        data.user_name = null,
+                        data.client_name = null,
+                        data.priority = null,
+                        data.computer_number = null,
+                        data.sub_department = null;
+                    table.DataTable().ajax.reload();
+                    return false;
+                })
+
+
+            });
+
+        });
     </script>
 @endsection

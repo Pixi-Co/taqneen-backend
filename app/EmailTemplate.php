@@ -26,6 +26,15 @@ class EmailTemplate extends Model
         "ADD_SUBSCRIPTION_NOTE" => "add subscription note",
     ];
 
+    public static function getStatusAllowSendMail()
+    {
+        $statues = TicketStatus::where('is_send_mail',1)->pluck('name','name')->toArray();
+        foreach ($statues as $key=>$value)
+        {
+            self::$TRIGERS[strtoupper($key)] = $value;
+        }
+    }
+
     public static $TAGS = [
         '{status}' => "status",
         '{customer}' => "contact_name",
@@ -45,7 +54,9 @@ class EmailTemplate extends Model
         '{customer_form_pdf}' => "customer_form_pdf",
         '{customer_form_upload_page}' => "customer_form_upload_page",
         '{user_triger_email}' => "user_triger_email",
-        '{subscription_note}' => "note"
+        '{subscription_note}' => "note",
+        '{ticket_id}' => "id",
+        '{ticket_status}' => "status_id",
     ];
     
     public static function getTemplate($triger) {
@@ -153,4 +164,3 @@ class EmailTemplate extends Model
     }
 }
 
- 

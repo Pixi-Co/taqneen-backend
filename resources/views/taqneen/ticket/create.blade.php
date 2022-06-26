@@ -33,49 +33,70 @@
                     <!-- Content Header (Page header) -->
                     <section class="content-header">
                         <div class="container-fluid">
-
                         </div><!-- /.container-fluid -->
                     </section>
                     <section class="content">
                         <div class="card card-primary">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group mb-3">
-                                            <label for="computer_number" class="form-label">@lang('support.computer_number')<b class="text-danger">*</b></label>
-                                            <input type="text" name="computer_number" value="{{old('computer_number')}}" class="form-control" id="computer_number" placeholder="700xxxxxxxxxxx">
-                                            @if($errors->has('computer_number'))
-                                                <div class="text text-danger">
-                                                    {{$errors->first('computer_number')}}
-                                                </div>
-                                            @endif
+                                    @if(!empty(auth()->user())&&auth()->user()->user_type==\App\Enum\UserType::$USERCUSTOMER)
+                                        <div class="col-md-4">
+                                            <div class="form-group mb-3">
+                                                <label for="computer_number" class="form-label">@lang('support.computer_number')<b class="text-danger">*</b></label>
+                                                <input type="text" name="computer_num" value="{{isset($authedUser)?$authedUser->custom_field1:''}}" class="form-control" id="computer_number" placeholder="700xxxxxxxxxxx">
+                                                @if($errors->has('computer_number'))
+                                                    <div class="text text-danger">
+                                                        {{$errors->first('computer_number')}}
+                                                    </div>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group mb-3">
-                                            <label for="name" class="form-label">@lang('support.email')</label>
-                                            <input type="text" value="{{old('email')}}" class="form-control">
-                                            @if($errors->has('email'))
-                                                <div class="text text-danger">
-                                                    {{$errors->first('email')}}
-                                                </div>
-                                            @endif
+                                        <div class="col-md-4">
+                                            <div class="form-group mb-3">
+                                                <label for="name" class="form-label">@lang('support.email')</label>
+                                                <input type="text" name="client_email" value="{{isset($authedUser)?$authedUser->email:''}}" class="form-control">
+                                                @if($errors->has('client_email'))
+                                                    <div class="text text-danger">
+                                                        {{$errors->first('client_email')}}
+                                                    </div>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group mb-3">
-                                            <label for="name" class="form-label">@lang('support.name')</label>
-                                            <input type="text" name="name" value="{{old('name')}}" class="form-control" id="name">
-                                            @if($errors->has('name'))
-                                                <div class="text text-danger">
-                                                    {{$errors->first('name')}}
-                                                </div>
-                                            @endif
+                                        <div class="col-md-4">
+                                            <div class="form-group mb-3">
+                                                <label for="name" class="form-label">@lang('support.name')</label>
+                                                <input type="text" name="client_name" value="{{isset($authedUser)?$authedUser->name:''}}" class="form-control" id="name">
+                                                @if($errors->has('client_name'))
+                                                    <div class="text text-danger">
+                                                        {{$errors->first('client_name')}}
+                                                    </div>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
 
+                                    @endif
 
-                                    <div class="col-xs-12 col-md-8" style="margin: 5px">
+                                    @if(!empty(auth()->user())&&auth()->user()->user_type==\App\Enum\UserType::$USER)
+                                            <div class="col-xs-12 col-md-8" style="margin: 5px">
+                                            <label for="name" class="form-label">@lang('support.client_name')<b class="text-danger">*</b></label>
+                                            <div class="form-group">
+                                                <select class="form-control select2" id="main_department">
+                                                    <option>@lang('messages.please_select')</option>
+                                                    @if(count($users))
+                                                        @foreach($users as $user)
+                                                            <option value="{{$user->id}}">{{$user->full_name}}</option>
+                                                        @endforeach
+                                                    @else
+                                                        <option>@lang('messages.please_select')</option>
+                                                    @endif
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-xs-6 col-md-6">
                                         <label for="name" class="form-label">@lang('support.ticket_department')<b class="text-danger">*</b></label>
                                         <div class="form-group">
                                             <select class="form-control" id="main_department">
@@ -92,7 +113,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-xs-12 col-md-8" style="margin: 5px">
+                                    <div class="col-xs-6 col-md-6">
                                         <label for="name" class="form-label">@lang('support.sub_department')<b class="text-danger">*</b></label>
                                         <div class="form-group">
                                             <select class="form-control sub_departments" name="sub_department">
@@ -106,10 +127,17 @@
                                                 @endif
 
                                             </select>
+
+                                            @if($errors->has('sub_department'))
+                                                <div class="text text-danger">
+                                                    {{$errors->first('sub_department')}}
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
-
-                                    <div class="col-xs-12 col-md-8" style="margin: 5px">
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-12" style="margin: 5px">
                                         <div class="form-group mb-3">
                                             <label for="color" class="form-label">@lang('support.status_desc')<b class="text-danger">*</b></label>
                                             <textarea name="description" class="form-control">
@@ -131,8 +159,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>

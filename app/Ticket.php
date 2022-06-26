@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
-    protected $fillable = ['status_id','department_id','user_id','agent_id','description','completed_at','priority_id'];
+    protected $fillable = ['status_id','department_id','user_id','agent_id','description','completed_at','priority_id','created_by','computer_num','client_email','client_name'];
 
     public function status()
     {
@@ -25,11 +25,16 @@ class Ticket extends Model
     }
     public function agent()
     {
-        return $this->belongsTo(User::class,'agent_id','id');
+        return $this->belongsTo(User::class,'agent_id','id')->with('contactInfo');
     }
 
     public function priority()
     {
         return $this->belongsTo(TicketPriority::class,'priority_id','id');
+    }
+
+    public function getTagValue($tag) {
+        $resource = $this;
+        return $resource->$tag;
     }
 }

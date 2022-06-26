@@ -25,7 +25,7 @@
 
 @section('content')
     <div class="container-fluid">
-        <form action="{{ route('department.users.store')}}" method="post" >
+        <form action="{{ route('department.users.update',$targetDepartment->id)}}" method="post" >
             @csrf
             <div class="row">
                 <!-- Content Wrapper. Contains page content -->
@@ -99,6 +99,15 @@
                                                         @endif
 
                                                     </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" name="is_active"  type="checkbox" id="flexCheckisDefault" {{$departmentUser->isactive==1?"checked":""}}>
+                                                    <label class="form-check-label" for="flexCheckisDefault">
+                                                        @lang('support.is_default')
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>

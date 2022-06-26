@@ -131,7 +131,8 @@
                                         <input type="hidden" name="ticket_id" value="{{$ticket['id']}}">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="form-group mb-3">
+                                                @if(auth()->user()->user_type==\App\Enum\UserType::$USER)
+                                                    <div class="form-group mb-3">
                                                     <select class="form-control" id="canned_reply">
                                                         <option disabled selected>@lang('support.canned_reply')</option>
                                                         @foreach($cannedReplies as $canned_reply)
@@ -139,6 +140,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                                @endif
 
                                                 <div class="form-group mb-3">
                                                     <label for="color" class="form-label">@lang('support.status_desc')</label>
@@ -153,22 +155,27 @@
                                                 <div class="form-group mb-3">
                                                     <div class="mb-3">
                                                         <label for="formFile" class="form-label">@lang('support.upload_file')</label>
-                                                        <input class="form-control" name="file" type="file" id="formFile">
+                                                        <input class="form-control" name="file" type="file" id="formFile" multiple>
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group mb-3">
-                                                    <label for="status" class="form-label">@lang('support.status')</label>
-                                                    @foreach($ticketStatuses as $key=>$ticketStatus)
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" value="{{$ticketStatus->id}}" type="radio" name="status_id" id="flexRadioDefault{{$key}}">
-                                                            <label class="form-check-label" for="flexRadioDefault{{$key}}">
-                                                                {{$ticketStatus->name}}
-                                                            </label>
+                                                    @if(auth()->user()->user_type==\App\Enum\UserType::$USER)
+                                                        <div class="form-group mb-3">
+                                                            <label for="status" class="form-label">@lang('support.status')</label>
+                                                           <div class="row">
+                                                               @foreach($ticketStatuses as $key=>$ticketStatus)
+                                                                   <div class="col-md-4 col-sm-4">
+                                                                       <div class="form-check">
+                                                                           <input class="form-check-input" value="{{$ticketStatus->id}}" type="radio" name="status_id" id="flexRadioDefault{{$key}}">
+                                                                           <label class="form-check-label" for="flexRadioDefault{{$key}}">
+                                                                               {{$ticketStatus->name}}
+                                                                           </label>
+                                                                       </div>
+                                                                   </div>
+                                                               @endforeach
+                                                           </div>
                                                         </div>
-                                                    @endforeach
-                                                </div>
-
+                                                    @endif
                                                 <div class="form-group mb-3">
                                                     <button type="submit" class="btn btn-primary btn-sm">@lang('save')</button>
                                                 </div>
@@ -240,34 +247,24 @@
                                         <div class="row bg-gray-active">
                                             <div class="col-md-3 col-sm-6">@lang('support.status')</div>
                                             <div class="col-md-3 col-sm-6">{{$ticket['status']}}</div>
-                                            <div class="col-md-5 col-sm-6">
-                                                <div class="w3-dropdown-hover">
-                                                    <button class="btn btn-primary btn-sm">@lang('support.change')<i class="fa fa-arrow-down"></i></button>
-                                                    <div class="w3-dropdown-content w3-bar-block w3-border">
-                                                        @foreach($ticketStatuses as $ticketStatus)
-                                                            <a href="{{route('tickets.status.change',[$ticket['id'],$ticketStatus->id])}}" class="w3-bar-item w3-button">{{$ticketStatus->name}}</a>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                         <hr>
-                                        <div class="row">
-                                            <div class="col-md-6 col-sm-6">@lang('support.priority')</div>
-                                            <div class="col-md-6 col-sm-6"><span class="badge" style="background-color: {{$ticket['priority_color']}}">{{$ticket['priority']}}</span></div>
-                                        </div>
-                                        <hr>
-
+                                        @if(auth()->user()->user_type==\App\Enum\UserType::$USER)
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6">@lang('support.priority')</div>
+                                                <div class="col-md-6 col-sm-6"><span class="badge" style="background-color: {{$ticket['priority_color']}}">{{$ticket['priority']}}</span></div>
+                                            </div><hr>
+                                        @endif
                                         <div class="row">
 {{--                                            اسم العميل اللي عمل التيكت او التيكت خاصه به--}}
                                             <div class="col-md-6 col-sm-6">@lang('support.client_name')</div>
-                                            <div class="col-md-6 col-sm-6"><span class="badge" style="background-color: {{$ticket['priority_color']}}">$client name</span></div>
+                                            <div class="col-md-6 col-sm-6">{{$ticket['customer']}}</div>
                                         </div>
                                         <hr>
 
                                         <div class="row">
-                                            <div class="col-md-6 col-sm-6">@lang('support.700xxx')</div>
-                                            <div class="col-md-6 col-sm-6"><span class="badge" style="background-color: {{$ticket['priority_color']}}">$computer name</span></div>
+                                            <div class="col-md-6 col-sm-6">@lang('support.computer_num')</div>
+                                            <div class="col-md-6 col-sm-6">{{$ticket['computer_num']}}</div>
                                         </div>
                                         <hr>
                                         <div class="row">
@@ -280,9 +277,11 @@
                                     <div class="card-header">
                                         <div class="row">
                                             <div class="col-md-4 col-sm-12">@lang('support.assigned_agent')</div>
-                                            <div class="col-md-6 col-sm-12">
-                                                <button id="reassign_user" role="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-repeat"></i>@lang('support.re_assign')</button>
-                                            </div>
+                                            @if(auth()->user()->user_type==\App\Enum\UserType::$USER)
+                                                <div class="col-md-6 col-sm-12">
+                                                    <button id="reassign_user" role="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-repeat"></i>@lang('support.re_assign')</button>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -293,7 +292,7 @@
                                                          src="{{ asset('images/avatar.png') }}" alt="">
                                                 </div>
                                             </div>
-                                            <div class="col-md-7 col-sm-12">{{$ticket['customer_email']}}</div>
+                                            <div class="col-md-7 col-sm-12">{{$ticket['user']}}</div>
                                         </div>
                                     </div>
                                 </div>

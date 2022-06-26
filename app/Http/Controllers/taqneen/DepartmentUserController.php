@@ -4,6 +4,7 @@ namespace App\Http\Controllers\taqneen;
 
 use App\DepartmentUser;
 use App\Http\Requests\taqneen\DepartmentUserRequest;
+use App\Http\Requests\taqneen\DepartmentUserUpdateRequest;
 use App\TicketDepartment;
 use App\User;
 use Illuminate\Http\Request;
@@ -68,8 +69,18 @@ class DepartmentUserController extends Controller
 
     }
 
-    public function update(Request $request,$id)
+    public function update(DepartmentUserUpdateRequest $request,$id)
     {
+        $data['department_id'] = $request->sub_department;
+        $data['user'] = $request->user;
+        $data['is_active'] = isset($request->is_Active)?1:0;
+        $departmentUser =DepartmentUser::findOrFail($id);
+        $departmentUser->update($data);
+        $output = [
+            "success" => 1,
+            "msg" => __('done')
+        ];
+        return redirect(route('department.users'))->with('status',$output);
 
     }
 

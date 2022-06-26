@@ -18,14 +18,18 @@ class TicketReplyController extends Controller
 
         try {
             $data = $request->validated();
-            if($request->file('file')) {
-                $file = $request->file('file');
-                $filename = time().'_'.$file->getClientOriginalName();
-                // File upload location
-                $location = 'tickets/files/replies';
-                // Upload file
-                $file->move($location,$filename);
-                $data['file'] = $filename;
+            if($request->file('files')) {
+                $files = $request->file('files');
+                foreach ($files as $file)
+                {
+                    $file = $request->file('file');
+                    $filename = time().'_'.$file->getClientOriginalName();
+                    // File upload location
+                    $location = 'tickets/files/replies';
+                    // Upload file
+                    $file->move($location,$filename);
+                    $data['file'] = $filename;
+                }
             }
             $data['user_id'] = auth()->id();
             if (isset($data['status_id']))
@@ -58,33 +62,12 @@ class TicketReplyController extends Controller
 
     public function update(TicketStatusRequest $request,$id)
     {
-        $data =$request->validated();
-        if (isset($request->is_default))
-        {
-            TicketStatus::query()->update(['is_default'=>0]);
-            $data['is_default'] =  1;
-        }
-        $data['is_send_mail'] = isset($request->is_send_mail) ? 1:0;
-        $updated = TicketStatus::where('id',$id)->update($data);
-        if ($updated)
-            $output = [
-                "success" => 1,
-                "msg" => __('done')
-            ];
-        else
-            $output = [
-                "success" => 1,
-                "msg" => __('failed')
-            ];
-    return redirect()->route('tickets.statues')->with('status', $output);
 
     }
 
     public function destory($id)
     {
-        $ticketStatus = TicketStatus::findOrFail($id);
-        $ticketStatus->delete();
-        return responseJson(1, __('done'));
+
     }
 
 }

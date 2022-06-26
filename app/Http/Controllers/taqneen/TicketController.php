@@ -3,18 +3,24 @@
 namespace App\Http\Controllers\taqneen;
 
 use App\CannedReply;
+use App\Contact;
 use App\DepartmentUser;
+use App\EmailTemplate;
+use App\Enum\UserType;
+use App\Http\Requests\taqneen\TicketRequest;
 use App\Http\Resources\TicketResource;
 use App\Ticket;
 use App\TicketDepartment;
 use App\TicketPriority;
 use App\TicketReply;
 use App\TicketStatus;
+use App\Triger;
 use App\User;
 use App\Utils\Util;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 
 class TicketController extends Controller
@@ -26,41 +32,106 @@ class TicketController extends Controller
     {
         $this->commonUtil = $commonUtil;
     }
-    public function index()
+    public function index(Request $request)
     {
-        $is_admin = $this->commonUtil->is_admin(auth()->user());
-        $tickets = Ticket::query();
-        if (!$is_admin) {
-            $tickets =  $tickets->where('user_id',auth()->id())->with(['user','agent','department','status'])->get();
-        }else
-            $tickets =  $tickets->with(['user','agent','department','priority','status'])->get();
+        $subDepartments  = TicketDepartment::whereNotNull('parent_id')->get();
+        $priorities = TicketPriority::all();
+        $ticketStatues = TicketStatus::all();
+        if ($request->ajax()) {
+            $data = Ticket::with(['user','agent','department','priority','status'])->select('*');
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($ticket) {
+                    return view('taqneen.ticket.actions', compact('ticket'));
+                })
 
-        $tickets = collect(TicketResource::collection($tickets));
-        return view('taqneen.ticket.index',compact('tickets'));
+                ->editColumn('agent.first_name', function ($ticket) {
+                    return $ticket->agent->first_name??$ticket->client_name;
+                })
+
+                ->editColumn('agent.custom_field_1', function ($ticket) {
+                    return $ticket->agent->custom_field_1??$ticket->computer_num;
+                })
+
+                ->filter(function ($instance) use ($request) {
+                    if ($request->get('sub_department') !== null ){
+                        $instance->where('department_id', $request->get('sub_department'));
+                    }
+
+                    if ($request->get('priority') !== null ){
+                        $instance->where('priority_id', $request->get('priority'));
+                    }
+
+                    if ($request->get('status') !== null ){
+                        $instance->where('status_id', $request->get('status'));
+                    }
+                    if (!empty($request->get('user_name'))) {
+                        $instance->whereHas('user',function($w) use($request){
+                            $search = $request->get('user_name');
+                            $w->where('first_name', 'LIKE', "%$search%")
+                                ->orWhere('last_name', 'LIKE', "%$search%");
+                        });
+                    }
+
+                    if (!empty($request->get('client_name'))) {
+                        $instance->whereHas('agent',function($w) use($request){
+                            $search = $request->get('client_name');
+                            $w->where('first_name', 'LIKE', "%$search%")
+                                ->orWhere('last_name', 'LIKE', "%$search%");
+                        })->orWhere('client_name',"LIKE","%".$request->get('client_name')."%");
+                    }
+
+                    if (!empty($request->get('computer_num'))) {
+                        $instance->whereHas('agent',function($w) use($request){
+                            $search = $request->get('computer_num');
+                            $w->where('custom_field_1', $search);
+                        })->orWhere('computer_num',$request->get('computer_num'));
+                    }
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('taqneen.ticket.index',compact('subDepartments','priorities','ticketStatues'));
     }
 
 
     public function create()
     {
+        $authedUser = auth()->user()->contactInfo()->get(['id','name','email','custom_field1'])->first();
+        $departments = TicketDepartment::all();
+        $users = User::where('user_type',UserType::$USERCUSTOMER)->get();
+        $mainDepartments = $departments->where('parent_id',null);
+        $subDepartments =$departments->where('parent_id','!==',null);
+        return view('taqneen.ticket.create',compact('mainDepartments','subDepartments','users','authedUser'));
+    }
+
+    public function createGuestTicket()
+    {
         $departments = TicketDepartment::all();
         $mainDepartments = $departments->where('parent_id',null);
         $subDepartments =$departments->where('parent_id','!==',null);
-        return view('taqneen.ticket.create',compact('mainDepartments','subDepartments'));
+        return view('taqneen.ticket.guest-create',compact('mainDepartments','subDepartments'));
     }
 
-    public function store(Request $request)
+
+    public function store(TicketRequest $request)
     {
         try {
             $priority_id = $this->getTicketPriorty($request->sub_department);
             $user_id = $this->getAssignedUser($request->sub_department);
-            $status_id = $this->getDefaultTicketStatus();
+            $status = $this->getDefaultTicketStatus();
+            $agent_id = auth()->check()?auth()->user()->user_type==UserType::$USERCUSTOMER?auth()->user()->id:$request->agent_id:null;
             $data = [
-                "agent_id"=>auth()->user()->id,
+                "agent_id"=>$agent_id,
                 'user_id'=>$user_id,
                 'priority_id'=>$priority_id,
-                'status_id'=>$status_id,
+                'status_id'=>$status->id,
                 'description'=>$request->description,
-                'department_id'=>$request->sub_department
+                'department_id'=>$request->sub_department,
+                'created_by'=>auth()->user()->id??$agent_id,
+                'computer_num'=>$request->computer_num,
+                'client_email'=>$request->client_email,
+                'client_name'=>$request->client_name,
             ];
             if($request->file('file')) {
                 $file = $request->file('file');
@@ -72,17 +143,24 @@ class TicketController extends Controller
                 $data['file'] = $filename;
             }
 
-            $created = Ticket::create($data);
-            if ($created)
+            $ticket = Ticket::create($data);
+            if ($ticket)
+            {
+                $checkTrigger = $this->checkStatusTrigger(strtoupper($status->name));
+                if ($checkTrigger)
+                    Triger::fire2(strtoupper($status->name), $ticket);
                 $output = [
                     "success" => 1,
                     "msg" => __('done')
                 ];
+            }
             else
                 $output = [
                     "success" => 0,
                     "msg" => __('fail')
                 ];
+             if (url()->current()==route('tickets.guest.create'))
+                 return back()->with('done',__('thank you for sending ticket will reply soon'));
             return redirect()->route('tickets')->with('status', $output);
 
         }catch (\Exception $th)
@@ -104,8 +182,18 @@ class TicketController extends Controller
         $cannedReplies = CannedReply::all();
         $ticketStatuses = TicketStatus::all();
         $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with('user')->latest()->get();
-        $users = User::limit(70)->get();
+        $users = User::where('user_type',UserType::$USERCUSTOMER)->get();
         return view('taqneen.ticket.show',compact('ticket','cannedReplies','ticketStatuses','users','ticketsReplies','auth_user'));
+    }
+
+    public function printTicket($id)
+    {
+        $auth_user = auth()->user();
+        $ticket = Ticket::with(['user','agent','department','priority','status'])->findOrFail($id);
+        $ticket = $this->prepareTicketData($ticket);
+        $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with('user')->latest()->get();
+        return view('taqneen.ticket.print-ticket',compact('ticket','ticketsReplies'));
+
     }
 
     public function edit($id)
@@ -191,9 +279,9 @@ class TicketController extends Controller
     {
        $defaultStatus =  TicketStatus::where('is_default',1)->first();
        if ($defaultStatus)
-           return $defaultStatus->id;
+           return $defaultStatus ;
        else
-           return TicketStatus::first()->id;
+           return TicketStatus::first();
     }
 
     public function changeTicketUser(Request $request)
@@ -230,13 +318,19 @@ class TicketController extends Controller
             "sub_department_id"=>$ticket->department->id,
             "department"=>$ticket->department->department->name,
             "description"=>$ticket->description,
-            "customer"=>$ticket->agent->full_name,
-            "customer_email"=>$ticket->agent->email,
+            "customer"=>$ticket->agent->full_name??$ticket->client_name,
+            "computer_num"=>$ticket->agent->custom_field_1??$ticket->computer_num,
+            "customer_email"=>$ticket->agent->email??$ticket->client_email,
             "status"=>$ticket->status->name,
             "priority"=>$ticket->priority->name,
             "priority_color"=>$ticket->priority->color,
             "user"=>$ticket->user->full_name,
-            "created_at"=>$ticket->created_at->diffForHumans(),
+            "created_at"=>$ticket->created_at,
         ];
+    }
+
+    public function checkStatusTrigger($status)
+    {
+        return (boolean) (EmailTemplate::where('template_for',$status)->first());
     }
 }

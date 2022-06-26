@@ -56,7 +56,7 @@ class TicketDepartmentController extends Controller
         return back()->with('status', $output);
     }
 
-    public function edit(Request $request,$id)
+    public function edit($id)
     {
 
     }

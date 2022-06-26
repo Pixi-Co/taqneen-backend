@@ -12,4 +12,8 @@ class TicketReply extends Model
     {
         return $this->belongsTo(User::class,'user_id','id')->select(['id','first_name','last_name','email']);
     }
+
+    protected $casts =[
+        'file'=>'array'
+    ];
 }
