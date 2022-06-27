@@ -34,10 +34,6 @@ class CreateTicketsTable extends Migration
             $table->unsignedBigInteger('priority_id');
             $table->foreign('priority_id')->references('id')->on('ticket_priorities');
 
-            $table->string('client_email')->nullable();
-            $table->string('computer_num')->nullable();
-            $table->string('client_name')->nullable();
-
             $table->longText('description');
             $table->string('file')->nullable();
 

@@ -1,14 +1,18 @@
 <?php
+
 /**
- * Nexmo Client Library for PHP
+ * Vonage Client Library for PHP
  *
- * @copyright Copyright (c) 2016 Nexmo, Inc. (http://nexmo.com)
- * @license   https://github.com/Nexmo/nexmo-php/blob/master/LICENSE.txt MIT License
+ * @copyright Copyright (c) 2016-2020 Vonage, Inc. (http://vonage.com)
+ * @license https://github.com/Vonage/vonage-php-sdk-core/blob/master/LICENSE.txt Apache License 2.0
  */
 
-namespace Nexmo\Client;
+declare(strict_types=1);
 
-use Nexmo\Client;
+namespace Vonage\Client;
+
+use RuntimeException;
+use Vonage\Client;
 
 trait ClientAwareTrait
 {
@@ -17,17 +21,19 @@ trait ClientAwareTrait
      */
     protected $client;
 
-    public function setClient(Client $client)
+    public function setClient(Client $client): self
     {
         $this->client = $client;
+
+        return $this;
     }
 
-    protected function getClient()
+    public function getClient(): ?Client
     {
         if (isset($this->client)) {
             return $this->client;
         }
 
-        throw new \RuntimeException('Nexmo\Client not set');
+        throw new RuntimeException('Vonage\Client not set');
     }
 }

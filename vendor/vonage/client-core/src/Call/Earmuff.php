@@ -1,19 +1,35 @@
 <?php
+
 /**
- * Nexmo Client Library for PHP
+ * Vonage Client Library for PHP
  *
- * @copyright Copyright (c) 2017 Nexmo, Inc. (http://nexmo.com)
- * @license   https://github.com/Nexmo/nexmo-php/blob/master/LICENSE.txt MIT License
+ * @copyright Copyright (c) 2016-2020 Vonage, Inc. (http://vonage.com)
+ * @license https://github.com/Vonage/vonage-php-sdk-core/blob/master/LICENSE.txt Apache License 2.0
  */
 
-namespace Nexmo\Call;
+declare(strict_types=1);
 
-class Earmuff implements \JsonSerializable
+namespace Vonage\Call;
+
+use JsonSerializable;
+
+use function trigger_error;
+
+/**
+ * @deprecated Use Vonage\Voice\Client::earmuffCall()
+ */
+class Earmuff implements JsonSerializable
 {
-    public function jsonSerialize()
+    public function __construct()
     {
-        return [
-            'action' => 'earmuff'
-        ];
+        trigger_error(
+            'Vonage\Call\Earmuff is deprecated, please use Vonage\Voice\Client::earmuffCall() instead',
+            E_USER_DEPRECATED
+        );
+    }
+
+    public function jsonSerialize(): array
+    {
+        return ['action' => 'earmuff'];
     }
 }

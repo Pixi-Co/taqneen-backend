@@ -38,6 +38,13 @@ class TicketRequest extends FormRequest
                     return (is_null($this->user) or $this->user->user_type==UserType::$USERCUSTOMER) ;
                 }),
             ],
+
+            'mobile'=>[
+                Rule::requiredIf(function (){
+                    return (is_null($this->user) or $this->user->user_type==UserType::$USERCUSTOMER) ;
+                }),
+            ],
+
             'client_name'=>[
                 Rule::requiredIf(function (){
                     return (is_null($this->user) or $this->user->user_type==UserType::$USERCUSTOMER) ;

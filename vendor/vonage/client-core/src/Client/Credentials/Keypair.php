@@ -1,27 +1,41 @@
 <?php
+
 /**
- * Nexmo Client Library for PHP
+ * Vonage Client Library for PHP
  *
- * @copyright Copyright (c) 2016 Nexmo, Inc. (http://nexmo.com)
- * @license   https://github.com/Nexmo/nexmo-php/blob/master/LICENSE.txt MIT License
+ * @copyright Copyright (c) 2016-2020 Vonage, Inc. (http://vonage.com)
+ * @license https://github.com/Vonage/vonage-php-sdk-core/blob/master/LICENSE.txt Apache License 2.0
  */
 
-namespace Nexmo\Client\Credentials;
+declare(strict_types=1);
 
-use Lcobucci\JWT\Builder;
+namespace Vonage\Client\Credentials;
+
+use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
-use Nexmo\Application\Application;
+use Lcobucci\JWT\Token;
+use Vonage\Application\Application;
 
-class Keypair extends AbstractCredentials implements CredentialsInterface
+use function base64_encode;
+use function mt_rand;
+use function time;
+
+/**
+ * @property mixed application
+ */
+class Keypair extends AbstractCredentials
 {
+    /**
+     * @var Key
+     */
     protected $key;
-
-    protected $signer;
 
     public function __construct($privateKey, $application = null)
     {
         $this->credentials['key'] = $privateKey;
+
         if ($application) {
             if ($application instanceof Application) {
                 $application = $application->getId();
@@ -30,52 +44,62 @@ class Keypair extends AbstractCredentials implements CredentialsInterface
             $this->credentials['application'] = $application;
         }
 
-        $this->key = new Key($privateKey);
-        $this->signer = new Sha256();
+        $this->key = InMemory::plainText($privateKey);
     }
 
-    public function generateJwt(array $claims = [])
+    public function generateJwt(array $claims = []): Token
     {
+        $config = Configuration::forSymmetricSigner(new Sha256(), $this->key);
+
         $exp = time() + 60;
         $iat = time();
-        $jti = base64_encode(mt_rand());
+        $jti = base64_encode((string)mt_rand());
 
         if (isset($claims['exp'])) {
             $exp = $claims['exp'];
+
             unset($claims['exp']);
         }
 
         if (isset($claims['iat'])) {
             $iat = $claims['iat'];
+
             unset($claims['iat']);
         }
 
         if (isset($claims['jti'])) {
             $jti = $claims['jti'];
+
             unset($claims['jti']);
         }
 
-        $builder = new Builder();
-        $builder->setIssuedAt($iat)
-                ->setExpiration($exp)
-                ->setId($jti);
-
+        $builder = $config->builder();
+        $builder->issuedAt((new \DateTimeImmutable())->setTimestamp($iat))
+            ->expiresAt((new \DateTimeImmutable())->setTimestamp($exp))
+            ->identifiedBy($jti);
 
         if (isset($claims['nbf'])) {
-            $builder->setNotBefore($claims['nbf']);
+            $builder->canOnlyBeUsedAfter((new \DateTimeImmutable())->setTimestamp($claims['nbf']));
+
             unset($claims['nbf']);
         }
 
         if (isset($this->credentials['application'])) {
-            $builder->set('application_id', $this->credentials['application']);
+            $builder->withClaim('application_id', $this->credentials['application']);
+        }
+
+        if (isset($claims['sub'])) {
+            $builder->relatedTo($claims['sub']);
+
+            unset($claims['sub']);
         }
 
         if (!empty($claims)) {
             foreach ($claims as $claim => $value) {
-                $builder->set($claim, $value);
+                $builder->withClaim($claim, $value);
             }
         }
 
-        return $builder->sign($this->signer, $this->key)->getToken();
+        return $builder->getToken($config->signer(), $config->signingKey());
     }
 }

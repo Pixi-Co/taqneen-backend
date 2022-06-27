@@ -42,6 +42,7 @@ return [
      "sub_department"=>"القسم الفرعي",
      "yes"=>"نعم",
      "no"=>"لا",
+     "mobile"=>"رقم التليفون",
 
     "active"=>"نشط",
     "not_active"=>"غير نشط",
@@ -50,5 +51,6 @@ return [
     "computer_num"=>"رقم الحاسب",
     "email"=>"البريد الالكتروني",
     "upload_file"=>"ارفاق ملف",
+    "edit_ticket"=>"تعديل التذكره",
 
 ];

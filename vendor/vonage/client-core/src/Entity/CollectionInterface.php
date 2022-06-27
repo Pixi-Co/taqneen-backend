@@ -1,29 +1,29 @@
 <?php
+
 /**
- * Nexmo Client Library for PHP
+ * Vonage Client Library for PHP
  *
- * @copyright Copyright (c) 2016 Nexmo, Inc. (http://nexmo.com)
- * @license   https://github.com/Nexmo/nexmo-php/blob/master/LICENSE.txt MIT License
+ * @copyright Copyright (c) 2016-2020 Vonage, Inc. (http://vonage.com)
+ * @license https://github.com/Vonage/vonage-php-sdk-core/blob/master/LICENSE.txt Apache License 2.0
  */
 
-namespace Nexmo\Entity;
+declare(strict_types=1);
 
-interface CollectionInterface extends \Countable, \Iterator
+namespace Vonage\Entity;
+
+use Countable;
+use Iterator;
+
+interface CollectionInterface extends Countable, Iterator
 {
-    /**
-     * @return string
-     */
-    public static function getCollectionName();
 
-    /**
-     * @return string
-     */
-    public static function getCollectionPath();
+    public static function getCollectionName(): string;
+
+    public static function getCollectionPath(): string;
 
     /**
      * @param $data
      * @param $idOrEntity
-     * @return mixed
      */
     public function hydrateEntity($data, $idOrEntity);
 }

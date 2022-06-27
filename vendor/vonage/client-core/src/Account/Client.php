@@ -1,180 +1,259 @@
 <?php
 
-namespace Nexmo\Account;
+/**
+ * Vonage Client Library for PHP
+ *
+ * @copyright Copyright (c) 2016-2020 Vonage, Inc. (http://vonage.com)
+ * @license https://github.com/Vonage/vonage-php-sdk-core/blob/master/LICENSE.txt Apache License 2.0
+ */
 
-use Nexmo\ApiErrorHandler;
-use Nexmo\Client\ClientAwareInterface;
-use Nexmo\Client\ClientAwareTrait;
-use Nexmo\Network;
-use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Request;
-use Nexmo\Client\Exception;
+declare(strict_types=1);
+
+namespace Vonage\Account;
+
+use Psr\Http\Client\ClientExceptionInterface;
+use Vonage\Client\APIClient;
+use Vonage\Client\APIResource;
+use Vonage\Client\ClientAwareInterface;
+use Vonage\Client\ClientAwareTrait;
+use Vonage\Client\Exception as ClientException;
+use Vonage\Client\Exception\Request as ClientRequestException;
+use Vonage\Client\Exception\Validation as ClientValidationException;
+use Vonage\Entity\Filter\KeyValueFilter;
+use Vonage\InvalidResponseException;
+
+use function array_key_exists;
+use function count;
+use function is_null;
+use function json_decode;
 
 /**
  * @todo Unify the exception handling to avoid duplicated code and logic (ie: getPrefixPricing())
  */
-class Client implements ClientAwareInterface
+class Client implements ClientAwareInterface, APIClient
 {
+    /**
+     * @deprecated This object will be dropping support for ClientAwareInterface in the future
+     */
     use ClientAwareTrait;
 
-    public function getPrefixPricing($prefix)
+    /**
+     * @var APIResource
+     */
+    protected $accountAPI;
+
+    /**
+     * @var APIResource
+     */
+    protected $secretsAPI;
+
+    public function __construct(?APIResource $accountAPI = null, ?APIResource $secretsAPI = null)
     {
-        $queryString = http_build_query([
-            'prefix' => $prefix
-        ]);
+        $this->accountAPI = $accountAPI;
+        $this->secretsAPI = $secretsAPI;
+    }
 
-        $request = new Request(
-            $this->getClient()->getRestUrl() . '/account/get-prefix-pricing/outbound?'.$queryString,
-            'GET',
-            'php://temp'
-        );
-
-        $response = $this->client->send($request);
-        $rawBody = $response->getBody()->getContents();
-
-        $body = json_decode($rawBody, true);
-
-        $codeCategory = (int) ($response->getStatusCode()/100);
-        if ($codeCategory != 2) {
-            if ($codeCategory == 4) {
-                throw new Exception\Request($body['error-code-label']);
-            } elseif ($codeCategory == 5) {
-                throw new Exception\Server($body['error-code-label']);
-            }
+    /**
+     * Shim to handle older instantiations of this class
+     *
+     * @deprecated Will remove in v3
+     */
+    public function getAccountAPI(): APIResource
+    {
+        if (is_null($this->accountAPI)) {
+            $api = new APIResource();
+            $api->setClient($this->getClient())
+                ->setBaseUrl($this->getClient()->getRestUrl())
+                ->setIsHAL(false)
+                ->setBaseUri('/account')
+                ->setCollectionName('');
+            $this->accountAPI = $api;
         }
 
-        if ($body['count'] == 0) {
+        return clone $this->accountAPI;
+    }
+
+    public function getAPIResource(): APIResource
+    {
+        return $this->getAccountAPI();
+    }
+
+    /**
+     * Shim to handle older instantiations of this class
+     *
+     * @deprecated Will remove in v3
+     */
+    public function getSecretsAPI(): APIResource
+    {
+        if (is_null($this->secretsAPI)) {
+            $api = new APIResource();
+            $api->setClient($this->getClient())
+                ->setBaseUrl($this->getClient()->getApiUrl())
+                ->setIsHAL(false)
+                ->setBaseUri('/accounts')
+                ->setCollectionName('');
+            $this->secretsAPI = $api;
+        }
+
+        return clone $this->secretsAPI;
+    }
+
+    /**
+     * Returns pricing based on the prefix requested
+     *
+     * @return array<PrefixPrice>
+     */
+    public function getPrefixPricing($prefix): array
+    {
+        $api = $this->getAccountAPI();
+        $api->setBaseUri('/account/get-prefix-pricing/outbound');
+        $api->setCollectionName('prices');
+
+        $data = $api->search(new KeyValueFilter(['prefix' => $prefix]));
+
+        if (count($data) === 0) {
             return [];
         }
 
         // Multiple countries can match each prefix
         $prices = [];
 
-        foreach ($body['prices'] as $p) {
+        foreach ($data as $p) {
             $prefixPrice = new PrefixPrice();
-            $prefixPrice->jsonUnserialize($p);
+            $prefixPrice->fromArray($p);
             $prices[] = $prefixPrice;
         }
+
         return $prices;
     }
 
-    public function getSmsPrice($country)
+    /**
+     * Get SMS Pricing based on Country
+     *
+     * @throws ClientExceptionInterface
+     * @throws ClientRequestException
+     * @throws ClientException\Exception
+     * @throws ClientException\Server
+     */
+    public function getSmsPrice(string $country): SmsPrice
     {
         $body = $this->makePricingRequest($country, 'sms');
         $smsPrice = new SmsPrice();
-        $smsPrice->jsonUnserialize($body);
+        $smsPrice->fromArray($body);
+
         return $smsPrice;
     }
 
-    public function getVoicePrice($country)
+    /**
+     * Get Voice pricing based on Country
+     *
+     * @throws ClientExceptionInterface
+     * @throws ClientRequestException
+     * @throws ClientException\Exception
+     * @throws ClientException\Server
+     */
+    public function getVoicePrice(string $country): VoicePrice
     {
         $body = $this->makePricingRequest($country, 'voice');
         $voicePrice = new VoicePrice();
-        $voicePrice->jsonUnserialize($body);
+        $voicePrice->fromArray($body);
+
         return $voicePrice;
     }
 
     /**
+     * @throws ClientRequestException
+     * @throws ClientException\Exception
+     * @throws ClientException\Server
+     * @throws ClientExceptionInterface
+     *
      * @todo This should return an empty result instead of throwing an Exception on no results
      */
-    protected function makePricingRequest($country, $pricingType)
+    protected function makePricingRequest($country, $pricingType): array
     {
-        $queryString = http_build_query([
-            'country' => $country
-        ]);
+        $api = $this->getAccountAPI();
+        $api->setBaseUri('/account/get-pricing/outbound/' . $pricingType);
+        $results = $api->search(new KeyValueFilter(['country' => $country]));
+        $data = $results->getPageData();
 
-        $request = new Request(
-            $this->getClient()->getRestUrl() . '/account/get-pricing/outbound/'.$pricingType.'?'.$queryString,
-            'GET',
-            'php://temp'
-        );
-
-        $response = $this->client->send($request);
-        $rawBody = $response->getBody()->getContents();
-
-        if ($rawBody === '') {
-            throw new Exception\Server('No results found');
+        if (is_null($data)) {
+            throw new ClientException\Server('No results found');
         }
 
-        return json_decode($rawBody, true);
+        return $data;
     }
 
     /**
+     * Gets the accounts current balance in Euros
+     *
+     * @throws ClientExceptionInterface
+     * @throws ClientException\Exception
+     * @throws ClientException\Server
+     *
      * @todo This needs further investigated to see if '' can even be returned from this endpoint
      */
-    public function getBalance()
+    public function getBalance(): Balance
     {
-        $request = new Request(
-            $this->getClient()->getRestUrl() . '/account/get-balance',
-            'GET',
-            'php://temp'
-        );
+        $data = $this->getAccountAPI()->get('get-balance', [], ['accept' => 'application/json']);
 
-        $response = $this->client->send($request);
-        $rawBody = $response->getBody()->getContents();
-
-        if ($rawBody === '') {
-            throw new Exception\Server('No results found');
+        if (is_null($data)) {
+            throw new ClientException\Server('No results found');
         }
 
-        $body = json_decode($rawBody, true);
-
-        $balance = new Balance($body['value'], $body['autoReload']);
-        return $balance;
+        return new Balance($data['value'], $data['autoReload']);
     }
 
-    public function topUp($trx)
+    /**
+     * @throws ClientExceptionInterface
+     * @throws ClientException\Exception
+     */
+    public function topUp($trx): void
     {
-        $body = [
-            'trx' => $trx
-        ];
-
-        $request = new Request(
-            $this->getClient()->getRestUrl() . '/account/top-up',
-            'POST',
-            'php://temp',
-            ['content-type' => 'application/x-www-form-urlencoded']
-        );
-
-        $request->getBody()->write(http_build_query($body));
-        $response = $this->client->send($request);
-
-        if ($response->getStatusCode() != '200') {
-            throw $this->getException($response);
-        }
+        $api = $this->getAccountAPI();
+        $api->setBaseUri('/account/top-up');
+        $api->submit(['trx' => $trx]);
     }
 
-    public function getConfig()
+    /**
+     * Return the account settings
+     *
+     * @throws ClientExceptionInterface
+     * @throws ClientException\Exception
+     * @throws ClientException\Server
+     */
+    public function getConfig(): Config
     {
-        $request = new Request(
-            $this->getClient()->getRestUrl() . '/account/settings',
-            'POST',
-            'php://temp'
-        );
+        $api = $this->getAccountAPI();
+        $api->setBaseUri('/account/settings');
+        $body = $api->submit();
 
-        $response = $this->client->send($request);
-        $rawBody = $response->getBody()->getContents();
-
-        if ($rawBody === '') {
-            throw new Exception\Server('Response was empty');
+        if ($body === '') {
+            throw new ClientException\Server('Response was empty');
         }
 
-        $body = json_decode($rawBody, true);
+        $body = json_decode($body, true);
 
-        $config = new Config(
+        return new Config(
             $body['mo-callback-url'],
             $body['dr-callback-url'],
             $body['max-outbound-request'],
             $body['max-inbound-request'],
             $body['max-calls-per-second']
         );
-        return $config;
     }
 
-    public function updateConfig($options)
+    /**
+     * Update account config
+     *
+     * @throws ClientExceptionInterface
+     * @throws ClientException\Exception
+     * @throws ClientException\Server
+     */
+    public function updateConfig(array $options): Config
     {
         // supported options are SMS Callback and DR Callback
         $params = [];
+
         if (isset($options['sms_callback_url'])) {
             $params['moCallBackUrl'] = $options['sms_callback_url'];
         }
@@ -183,140 +262,108 @@ class Client implements ClientAwareInterface
             $params['drCallBackUrl'] = $options['dr_callback_url'];
         }
 
-        $request = new Request(
-            $this->getClient()->getRestUrl() . '/account/settings',
-            'POST',
-            'php://temp',
-            ['content-type' => 'application/x-www-form-urlencoded']
-        );
+        $api = $this->getAccountAPI();
+        $api->setBaseUri('/account/settings');
 
-        $request->getBody()->write(http_build_query($params));
-        $response = $this->client->send($request);
-
-        if ($response->getStatusCode() != '200') {
-            throw $this->getException($response);
-        }
-
-        $rawBody = $response->getBody()->getContents();
+        $rawBody = $api->submit($params);
 
         if ($rawBody === '') {
-            throw new Exception\Server('Response was empty');
+            throw new ClientException\Server('Response was empty');
         }
 
         $body = json_decode($rawBody, true);
 
-        $config = new Config(
+        return new Config(
             $body['mo-callback-url'],
             $body['dr-callback-url'],
             $body['max-outbound-request'],
             $body['max-inbound-request'],
             $body['max-calls-per-second']
         );
-        return $config;
-    }
-
-    public function listSecrets($apiKey)
-    {
-        $body = $this->get($this->getClient()->getApiUrl() . '/accounts/'.$apiKey.'/secrets');
-        return SecretCollection::fromApi($body);
-    }
-
-    public function getSecret($apiKey, $secretId)
-    {
-        $body = $this->get($this->getClient()->getApiUrl() . '/accounts/'.$apiKey.'/secrets/'. $secretId);
-        return Secret::fromApi($body);
-    }
-
-    public function createSecret($apiKey, $newSecret)
-    {
-        $body = [
-            'secret' => $newSecret
-        ];
-
-        $request = new Request(
-            $this->getClient()->getApiUrl() . '/accounts/'.$apiKey.'/secrets',
-            'POST',
-            'php://temp',
-            ['content-type' => 'application/json']
-        );
-
-        $request->getBody()->write(json_encode($body));
-        $response = $this->client->send($request);
-
-        $rawBody = $response->getBody()->getContents();
-        $responseBody = json_decode($rawBody, true);
-        ApiErrorHandler::check($responseBody, $response->getStatusCode());
-
-        return Secret::fromApi($responseBody);
-    }
-
-    public function deleteSecret($apiKey, $secretId)
-    {
-        $request = new Request(
-            $this->getClient()->getApiUrl() . '/accounts/'.$apiKey.'/secrets/'. $secretId,
-            'DELETE',
-            'php://temp',
-            ['content-type' => 'application/json']
-        );
-
-        $response = $this->client->send($request);
-        $rawBody = $response->getBody()->getContents();
-        $body = json_decode($rawBody, true);
-
-        // This will throw an exception on any error
-        ApiErrorHandler::check($body, $response->getStatusCode());
-
-        // This returns a 204, so no response body
-    }
-
-    protected function get($url)
-    {
-        $request = new Request(
-            $url,
-            'GET',
-            'php://temp',
-            ['content-type' => 'application/json']
-        );
-
-        $response = $this->client->send($request);
-        $rawBody = $response->getBody()->getContents();
-        $body = json_decode($rawBody, true);
-
-        // This will throw an exception on any error
-        ApiErrorHandler::check($body, $response->getStatusCode());
-
-        return $body;
     }
 
     /**
-     * Generates an appropriate Exception message and object based on HTTP response
-     * This has a bit of logic to it since different error messages have a different
-     * reponse format.
+     * @deprecated use the Vonage\Secrets\Client::list method
      *
-     * @return Exception
+     * @throws ClientExceptionInterface
+     * @throws ClientException\Exception
+     * @throws InvalidResponseException
      */
-    protected function getException(ResponseInterface $response, $application = null)
+    public function listSecrets(string $apiKey): SecretCollection
     {
-        $body = json_decode($response->getBody()->getContents(), true);
-        $status = $response->getStatusCode();
+        trigger_error('Vonage\Account\Client::listSecrets is deprecated, please use the Vonage\Secrets\Client::list method', E_USER_DEPRECATED);
+        $api = $this->getSecretsAPI();
 
-        $errorMessage = "Unexpected HTTP Status Code";
-        if (array_key_exists('error_title', $body)) {
-            $errorMessage = $body['error_title'];
-        } elseif (array_key_exists('error-code-label', $body)) {
-            $errorMessage = $body['error-code-label'];
+        $data = $api->get($apiKey . '/secrets');
+        return new SecretCollection($data['_embedded']['secrets'], $data['_links']);
+    }
+
+    /**
+     * @deprecated use the Vonage\Secrets\Client::get method
+     *
+     * @throws ClientExceptionInterface
+     * @throws ClientException\Exception
+     * @throws InvalidResponseException
+     */
+    public function getSecret(string $apiKey, string $secretId): Secret
+    {
+        trigger_error('Vonage\Account\Client::getSecret is deprecated, please use the Vonage\Secrets\Client::get method', E_USER_DEPRECATED);
+        $api = $this->getSecretsAPI();
+
+        $data = $api->get($apiKey . '/secrets/' . $secretId);
+        return new Secret($data);
+    }
+
+    /**
+     * Create a new account secret
+     *
+     * @deprecated use the Vonage\Secrets\Client::create method
+     *
+     * @throws ClientExceptionInterface
+     * @throws ClientRequestException
+     * @throws ClientException\Exception
+     * @throws InvalidResponseException
+     * @throws ClientValidationException
+     */
+    public function createSecret(string $apiKey, string $newSecret): Secret
+    {
+        trigger_error('Vonage\Account\Client::createSecret is deprecated, please use the Vonage\Secrets\Client::create method', E_USER_DEPRECATED);
+        $api = $this->getSecretsAPI();
+        $api->setBaseUri('/accounts/' . $apiKey . '/secrets');
+
+        try {
+            $response = $api->create(['secret' => $newSecret]);
+        } catch (ClientRequestException $e) {
+            // @deprecated Throw a Validation exception to preserve old behavior
+            // This will change to a general Request exception in the future
+            $rawResponse = json_decode(@$e->getResponse()->getBody()->getContents(), true);
+
+            if (array_key_exists('invalid_parameters', $rawResponse)) {
+                throw new ClientValidationException(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    null,
+                    $rawResponse['invalid_parameters']
+                );
+            }
+
+            throw $e;
         }
 
-        $e = new Exception\Exception($errorMessage);
-        if ($status >= 400 && $status < 500) {
-            $e = new Exception\Request($errorMessage, $status);
-        } elseif ($status >= 500 && $status < 600) {
-            $e = new Exception\Server($errorMessage, $status);
-        }
+        return new Secret($response);
+    }
 
-        $response->getBody()->rewind();
-        $e->setEntity($response);
-
-        return $e;
+    /**
+     * @deprecated use the Vonage\Secrets\Client::revoke method
+     *
+     * @throws ClientExceptionInterface
+     * @throws ClientException\Exception
+     */
+    public function deleteSecret(string $apiKey, string $secretId): void
+    {
+        trigger_error('Vonage\Account\Client::deleteSecret is deprecated, please use the Vonage\Secrets\Client::revoke method', E_USER_DEPRECATED);
+        $api = $this->getSecretsAPI();
+        $api->setBaseUri('/accounts/' . $apiKey . '/secrets');
+        $api->delete($secretId);
     }
 }

@@ -80,7 +80,7 @@
                                             <div class="col-xs-12 col-md-8" style="margin: 5px">
                                             <label for="name" class="form-label">@lang('support.client_name')<b class="text-danger">*</b></label>
                                             <div class="form-group">
-                                                <select class="form-control select2" id="main_department">
+                                                <select class="form-control select2" id="client_id">
                                                     <option>@lang('messages.please_select')</option>
                                                     @if(count($users))
                                                         @foreach($users as $user)
@@ -140,9 +140,7 @@
                                     <div class="col-xs-12 col-md-12" style="margin: 5px">
                                         <div class="form-group mb-3">
                                             <label for="color" class="form-label">@lang('support.status_desc')<b class="text-danger">*</b></label>
-                                            <textarea name="description" class="form-control">
-
-                                            </textarea>
+                                            <textarea name="description" class="form-control"></textarea>
                                             @if($errors->has('description'))
                                                 <p class="text text-danger">
                                                     {{$errors->first('description')}}
@@ -155,7 +153,7 @@
                                         <div class="form-group mb-3">
                                             <div class="mb-3">
                                                 <label for="formFile" class="form-label">@lang('support.upload_file')</label>
-                                                <input class="form-control" name="file" type="file" id="formFile">
+                                                <input class="form-control" name="file" type="file" id="formFile" multiple>
                                             </div>
                                         </div>
                                     </div>

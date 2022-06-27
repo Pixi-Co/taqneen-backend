@@ -27,7 +27,7 @@
                         <div class="col-md-4">
                             <div class="form-group mb-3">
                             <label for="computer_number" class="form-label">@lang('support.computer_number')<b class="text-danger">*</b></label>
-                            <input type="text" name="computer_num" class="form-control" id="computer_number" placeholder="700xxxxxxxxxxx">
+                            <input type="text" name="computer_num" value="{{$ip}}" class="form-control" id="computer_number" placeholder="700xxxxxxxxxxx">
                             @if($errors->has('computer_number'))
                                 <div class="text text-danger">
                                     {{$errors->first('computer_number')}}
@@ -56,6 +56,18 @@
                                 </div>
                             @endif
                         </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="name" class="form-label">@lang('support.mobile')</label>
+                                <input type="text" name="mobile" value="{{isset($authedUser)?$authedUser->mobile:''}}" class="form-control" id="name">
+                                @if($errors->has('mobile'))
+                                    <div class="text text-danger">
+                                        {{$errors->first('mobile')}}
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
                     <br>

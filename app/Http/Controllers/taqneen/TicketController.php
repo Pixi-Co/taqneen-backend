@@ -46,7 +46,7 @@ class TicketController extends Controller
                 })
 
                 ->editColumn('agent.first_name', function ($ticket) {
-                    return $ticket->agent->first_name??$ticket->client_name;
+                    return $ticket->agent->first_name." ". $ticket->agent->last_name??$ticket->client_name;
                 })
 
                 ->editColumn('agent.custom_field_1', function ($ticket) {
@@ -78,14 +78,14 @@ class TicketController extends Controller
                             $search = $request->get('client_name');
                             $w->where('first_name', 'LIKE', "%$search%")
                                 ->orWhere('last_name', 'LIKE', "%$search%");
-                        })->orWhere('client_name',"LIKE","%".$request->get('client_name')."%");
+                        });
                     }
 
                     if (!empty($request->get('computer_num'))) {
                         $instance->whereHas('agent',function($w) use($request){
                             $search = $request->get('computer_num');
                             $w->where('custom_field_1', $search);
-                        })->orWhere('computer_num',$request->get('computer_num'));
+                        });
                     }
                 })
                 ->rawColumns(['action'])
@@ -110,7 +110,8 @@ class TicketController extends Controller
         $departments = TicketDepartment::all();
         $mainDepartments = $departments->where('parent_id',null);
         $subDepartments =$departments->where('parent_id','!==',null);
-        return view('taqneen.ticket.guest-create',compact('mainDepartments','subDepartments'));
+        $ip = request()->ip();
+        return view('taqneen.ticket.guest-create',compact('mainDepartments','subDepartments','ip'));
     }
 
 
@@ -129,18 +130,17 @@ class TicketController extends Controller
                 'description'=>$request->description,
                 'department_id'=>$request->sub_department,
                 'created_by'=>auth()->user()->id??$agent_id,
-                'computer_num'=>$request->computer_num,
-                'client_email'=>$request->client_email,
-                'client_name'=>$request->client_name,
             ];
             if($request->file('file')) {
-                $file = $request->file('file');
-                $filename = time().'_'.$file->getClientOriginalName();
-                // File upload location
-                $location = 'tickets/files';
-                // Upload file
-                $file->move($location,$filename);
-                $data['file'] = $filename;
+                foreach ($request->file('file') as $file)
+                {
+                    $filename = time().'_'.$file->getClientOriginalName();
+                    // File upload location
+                    $location = 'tickets/files';
+                    // Upload file
+                    $file->move($location,$filename);
+                    $data['file'] = $filename;
+                }
             }
 
             $ticket = Ticket::create($data);
@@ -174,6 +174,7 @@ class TicketController extends Controller
         }
 
     }
+
     public function show($id)
     {
         $auth_user = auth()->user();
@@ -188,7 +189,6 @@ class TicketController extends Controller
 
     public function printTicket($id)
     {
-        $auth_user = auth()->user();
         $ticket = Ticket::with(['user','agent','department','priority','status'])->findOrFail($id);
         $ticket = $this->prepareTicketData($ticket);
         $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with('user')->latest()->get();
@@ -198,6 +198,14 @@ class TicketController extends Controller
 
     public function edit($id)
     {
+        $ticket = Ticket::with(['agent'=>function($q){
+            $q->select('id','first_name','last_name','email');
+        }])->findOrFail($id);
+        $departments = TicketDepartment::all();
+        $users = User::where('user_type',UserType::$USERCUSTOMER)->get();
+        $mainDepartments = $departments->where('parent_id',null);
+        $subDepartments =$departments->where('parent_id','!==',null);
+        return view('taqneen.ticket.edit',compact('mainDepartments','subDepartments','users','ticket'));
 
     }
 
@@ -206,25 +214,6 @@ class TicketController extends Controller
 
     }
 
-    public function activateAll($id)
-    {
-        DepartmentUser::where('ticket_id',$id)->update(['is_active'=>1]);
-        $output = [
-            "success" => 1,
-            "msg" => __('done')
-        ];
-        return back()->with('status', $output);
-    }
-
-    public function deactivateAll($id)
-    {
-        DepartmentUser::where('ticket_id',$id)->update(['is_active'=>0]);
-        $output = [
-            "success" => 1,
-            "msg" => __('done')
-        ];
-        return back()->with('status', $output);
-    }
 
     public function status($id)
     {
@@ -238,12 +227,6 @@ class TicketController extends Controller
         return back()->with('status', $output);
     }
 
-    public function delateAllForDepartment($id)
-    {
-        DepartmentUser::where('ticket_id',$id)->delete();
-        return responseJson(1, __('done'));
-
-    }
 
     public function destory($id)
     {
@@ -264,6 +247,31 @@ class TicketController extends Controller
                return $usersTicketsCount->first()->user_id;
            return $users->first();
        }
+
+    }
+
+
+    private function createUserForGuestByComputerNumber(Request $request)
+    {
+        try {
+            $contact = Contact::firstOrCreate([
+                "custom_field1" => $request->computer_num,//computer number
+            ],[
+                "mobile" => $request->mobile,
+                "email" => $request->email,
+                "state" => "egypt",
+                "name" => 'client'.$request->ip(),
+                "business_id" => session('business.id'),
+                "created_by" => session('user.id'),
+                "type" => 'customer',
+            ]);
+
+            $request->roles = "customer#19";
+            $user = $this->createOrUpdateUser($contact, $request);
+            return $user;
+        } catch (\Exception $th) {
+
+        }
 
     }
 
@@ -333,4 +341,47 @@ class TicketController extends Controller
     {
         return (boolean) (EmailTemplate::where('template_for',$status)->first());
     }
+
+    public function createOrUpdateUser(Contact $customer, Request $request)
+    {
+        $user = $customer->loginUser;
+        try {
+
+            if ($user) {
+                // update
+                $data = [
+                    "first_name" => $customer->name,
+                    "last_name" => $customer->name,
+                    "email" => $customer->email,
+                    "contact_number" => $request->contact_number,
+                    "address" => $request->address_line_1,
+                    "password" => bcrypt($request->ip()),
+                    'contact_id'=>$customer->id,
+                ];
+
+                $user->update($data);
+                $user->assignRole("customer");
+            } else {
+                // create
+                $user = User::create([
+                    "first_name" => $customer->name,
+                    "last_name" => $customer->name,
+                    "email" => $customer->email,
+                    "password" => bcrypt($request->ip()),
+                    "business_id" => session('business.id'),
+                    "user_type" => 'user_customer',
+                    "custom_field_1" => $customer->custom_field1,
+                    "contact_id"=>$customer->id
+                ]);
+                $user->assignRole("customer");
+                $customer->converted_by = $user->id;
+                $customer->update();
+            }
+        } catch (\Exception $th) {
+            //throw $th;
+        }
+        return $user;
+    }
+
+
 }
