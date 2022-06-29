@@ -57,6 +57,17 @@
                             @endif
                         </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label for="name" class="form-label">@lang('support.phone')</label>
+                                <input type="text" name="client_phone" class="form-control" id="name">
+                                @if($errors->has('client_phone'))
+                                    <div class="text text-danger">
+                                        {{$errors->first('client_phone')}}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                     <br>
                     <div class="row">
@@ -64,13 +75,11 @@
                             <label for="name" class="form-label">@lang('support.ticket_department')<b class="text-danger">*</b></label>
                             <div class="form-group">
                                 <select class="form-control" id="main_department">
-                                    <option>@lang('messages.please_select')</option>
+                                    <option disabled selected>@lang('messages.please_select')</option>
                                     @if(count($mainDepartments))
                                         @foreach($mainDepartments as $mainDepartment)
                                             <option value="{{$mainDepartment->id}}">{{$mainDepartment->name}}</option>
                                         @endforeach
-                                    @else
-                                        <option>@lang('messages.please_select')</option>
                                     @endif
 
                                 </select>
@@ -80,13 +89,11 @@
                             <label for="name" class="form-label">@lang('support.sub_department')<b class="text-danger">*</b></label>
                             <div class="form-group">
                                 <select class="form-control sub_departments" name="sub_department">
-                                    <option>@lang('messages.please_select')</option>
+                                    <option disabled selected>@lang('messages.please_select')</option>
                                     @if(count($subDepartments))
                                         @foreach($subDepartments as $sub_department)
                                             <option class="{{$sub_department->parent_id}}" value="{{$sub_department->id}}">{{$sub_department->name}}</option>
                                         @endforeach
-                                    @else
-                                        <option>@lang('messages.please_select')</option>
                                     @endif
 
                                 </select>
@@ -122,7 +129,7 @@
                     </div>
 
                     <div class="row justify-content-end">
-                        <div class="form-group col-sm-6"> <button type="submit" class="btn-block btn-primary">{{__('messages.save')}}</button> </div>
+                        <div class="form-group col-sm-6"> <button type="submit" class="btn-block btn-primary pull-right">{{__('messages.save')}}</button> </div>
                     </div>
                 </form>
             </div>

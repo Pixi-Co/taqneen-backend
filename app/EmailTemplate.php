@@ -9,7 +9,7 @@ class EmailTemplate extends Model
 {
 
     protected $table = "notification_templates";
-    
+
     public static $TRIGERS = [
         "NEW_SUBSCRIPTION" => "add new subscription",
         "CHANGE_SUBSCRIPTION_STATUS" => "change subscription status",
@@ -31,7 +31,7 @@ class EmailTemplate extends Model
         $statues = TicketStatus::where('is_send_mail',1)->pluck('name','name')->toArray();
         foreach ($statues as $key=>$value)
         {
-            self::$TRIGERS[strtoupper($key)] = $value;
+            self::$TRIGERS[strtoupper($key)] = "Ticket status ".$value;
         }
     }
 
@@ -57,6 +57,7 @@ class EmailTemplate extends Model
         '{subscription_note}' => "note",
         '{ticket_id}' => "id",
         '{ticket_status}' => "status_id",
+        '{ticket_url}' => "/support/guest/tickets/reply/",
     ];
     
     public static function getTemplate($triger) {

@@ -12,15 +12,15 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.ticket_statues')</h3>
+    <h3>@lang('support.add_ticket')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
     <li class="breadcrumb-item">
-        <a href="{{route('tickets.statues')}}">@lang('support.ticket_statues')</a>
+        <a href="{{route('tickets')}}">@lang('support.all_tickets')</a>
     </li>
-    <li class="breadcrumb-item active">@lang('support.add_ticket_statuses')</li>
+    <li class="breadcrumb-item active">@lang('support.add_ticket')</li>
 @endsection
 
 @section('content')
@@ -80,17 +80,20 @@
                                             <div class="col-xs-12 col-md-8" style="margin: 5px">
                                             <label for="name" class="form-label">@lang('support.client_name')<b class="text-danger">*</b></label>
                                             <div class="form-group">
-                                                <select class="form-control select2" id="main_department">
-                                                    <option>@lang('messages.please_select')</option>
+                                                <select class="form-control select2" name ="agent_id">
+                                                    <option disabled selected>@lang('messages.please_select')</option>
                                                     @if(count($users))
                                                         @foreach($users as $user)
                                                             <option value="{{$user->id}}">{{$user->full_name}}</option>
                                                         @endforeach
-                                                    @else
-                                                        <option>@lang('messages.please_select')</option>
                                                     @endif
 
                                                 </select>
+                                                @if($errors->has('agent_id'))
+                                                    <div class="text text-danger">
+                                                        {{$errors->first('agent_id')}}
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     @endif

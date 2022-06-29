@@ -37,6 +37,7 @@ class CreateTicketsTable extends Migration
             $table->string('client_email')->nullable();
             $table->string('computer_num')->nullable();
             $table->string('client_name')->nullable();
+            $table->string('client_phone')->nullable();
 
             $table->longText('description');
             $table->string('file')->nullable();

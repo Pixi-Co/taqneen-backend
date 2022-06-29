@@ -38,7 +38,11 @@ class TicketController extends Controller
         $priorities = TicketPriority::all();
         $ticketStatues = TicketStatus::all();
         if ($request->ajax()) {
-            $data = Ticket::with(['user','agent','department','priority','status'])->select('*');
+            if ($this->commonUtil->is_admin(auth()->user()))
+                $data = Ticket::with(['user','agent','department','priority','status'])->select('*');
+            else
+                $data =  Ticket::where('agent_id',auth()->id())->orWhere('computer_num',$request->ip())->with(['user','agent','department','priority','status'])->select('*');
+
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($ticket) {
@@ -132,15 +136,20 @@ class TicketController extends Controller
                 'computer_num'=>$request->computer_num,
                 'client_email'=>$request->client_email,
                 'client_name'=>$request->client_name,
+                'client_phone'=>$request->client_phone,
             ];
-            if($request->file('file')) {
-                $file = $request->file('file');
-                $filename = time().'_'.$file->getClientOriginalName();
-                // File upload location
-                $location = 'tickets/files';
-                // Upload file
-                $file->move($location,$filename);
-                $data['file'] = $filename;
+            if($request->file('files')) {
+                $files = $request->file('files');
+                foreach ($files as $file)
+                {
+                    $file = $request->file('file');
+                    $filename = time().'_'.$file->getClientOriginalName();
+                    // File upload location
+                    $location = 'tickets/files';
+                    // Upload file
+                    $file->move($location,$filename);
+                    $data['file'] = $filename;
+                }
             }
 
             $ticket = Ticket::create($data);
@@ -186,9 +195,16 @@ class TicketController extends Controller
         return view('taqneen.ticket.show',compact('ticket','cannedReplies','ticketStatuses','users','ticketsReplies','auth_user'));
     }
 
+    public function getGuestReply($id)
+    {
+        $ticket = Ticket::with(['user','agent','department','priority','status'])->findOrFail($id);
+        $ticket = $this->prepareTicketData($ticket);
+        $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with('user')->latest()->get();
+        return view('taqneen.ticket.reply-guest',compact('ticket','ticketsReplies'));
+    }
+
     public function printTicket($id)
     {
-        $auth_user = auth()->user();
         $ticket = Ticket::with(['user','agent','department','priority','status'])->findOrFail($id);
         $ticket = $this->prepareTicketData($ticket);
         $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with('user')->latest()->get();

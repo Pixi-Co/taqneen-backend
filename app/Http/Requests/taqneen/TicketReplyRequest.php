@@ -36,7 +36,7 @@ class TicketReplyRequest extends FormRequest
             'reply'=>'required|string',
             'status_id'=>[
                 'nullable',Rule::requiredIf(function (){
-                    $this->user->customer_type = UserType::$USERCUSTOMER;
+                    $this->user->customer_type = UserType::$USER;
                 })
             ],
             'ticket_id'=>'required',

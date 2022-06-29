@@ -100,6 +100,8 @@ Route::middleware(['setData'])->group(function () {
 
     Route::get('support/guest/tickets/create', 'taqneen\TicketController@createGuestTicket')->name('tickets.guest.create');
     Route::post('support/guest/tickets/create', 'taqneen\TicketController@store')->name('tickets.guest.create');
+    Route::get('support/guest/tickets/reply/{id}', 'taqneen\TicketController@getGuestReply')->name('tickets.guest.reply');
+    Route::post('support/guest/tickets/reply/{id}', 'taqneen\TicketReplyController@storeGuestReply')->name('tickets.guest.reply');
 
 
     Route::get('/quick_access', function()

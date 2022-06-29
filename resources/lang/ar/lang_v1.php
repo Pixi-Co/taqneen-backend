@@ -1168,7 +1168,15 @@ return [
 "default_credit_limit"=>"حد الائتمان الافتراضي",
 "price_calculation_type"=>"نوع حساب السعر",
 "show_pricing_on_product_sugesstion"=>"عرض التسعير على تلميح اقتراح المنتج",
-"profile_updated_successfully" => "تم تحديث الملف الشخصي بنجاح",
-
+"add_new_subscription" => "اضافة اشتراك جديد",
+"change_subscription_status" => "تغير حالة الاشتراك",
+"renew_subscription" => "تجديد الاشتراك",
+"expire_subscription_before_3_week" => "انتهاء الاشتراك قبل 3 اسابيع",
+"expire_subscription_before_2_week" => "انتهاء الاشتراك قبل 2 اسابيع",
+"expire_subscription_before_1_week" => "انتهاء الاشتراك قبل 1 اسابيع",
+"expire_subscription_day" => "انتهاء يوم الاشتراك",
+"expire_subscription_after_3_week" => "انتهاء الاشتراك بعد 3 اسابيع",
+"expire_subscription_after_2_week" => "انتهاء الاشتراك بعد 2 اسابيع",
+"expire_subscription_after_1_week" => "انتهاء الاشتراك بعد 1 اسابيع",
 
 ];

@@ -50,6 +50,13 @@ class TicketRequest extends FormRequest
 
                 }),
             ],
+
+            'client_phone'=>[
+                Rule::requiredIf(function (){
+                    return (is_null($this->user) or $this->user->user_type==UserType::$USERCUSTOMER) ;
+
+                }),
+            ],
             'agent_id'=>[
                 Rule::requiredIf(function (){
                     return (isset($this->user) && $this->user->user_type ==UserType::$USER);

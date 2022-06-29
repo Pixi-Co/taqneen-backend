@@ -19,7 +19,7 @@ class CreateTicketRepliesTable extends Migration
 
             $table->string('file')->nullable();
 
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->unsignedBigInteger('ticket_id');

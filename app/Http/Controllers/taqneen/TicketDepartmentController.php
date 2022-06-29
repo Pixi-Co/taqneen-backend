@@ -36,7 +36,7 @@ class TicketDepartmentController extends Controller
                   'name'=>$departTitle,
                   'priority_id'=>$request->titles_priorities[$key]
                 ];
-                $mainDepartment->parentDepartment()->create($insertedData);
+                $mainDepartment->subDepartments()->create($insertedData);
             }
 
 

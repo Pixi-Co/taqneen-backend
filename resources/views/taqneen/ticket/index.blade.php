@@ -46,14 +46,12 @@
                                                         <div class="mb-3 col-md-4 col-sm-6 ">
                                                             <div class="form-group">
                                                                 <label for="formFile" class="form-label">@lang('support.ticket_titles')</label>
-                                                                <select class="form-control sub_departments" id="sub_department" name="sub_department">
+                                                                <select class="form-control sub_departments select2" id="sub_department" name="sub_department">
                                                                     <option disabled selected>@lang('messages.please_select')</option>
                                                                     @if(count($subDepartments))
                                                                         @foreach($subDepartments as $sub_department)
                                                                             <option class="{{$sub_department->parent_id}}" value="{{$sub_department->id}}" {{$sub_department->parent_id==old('sub_department')?'selected':''}}>{{$sub_department->name}}</option>
                                                                         @endforeach
-                                                                    @else
-                                                                        <option disabled>@lang('messages.please_select')</option>
                                                                     @endif
 
                                                                 </select>
@@ -218,8 +216,8 @@
                     {data: 'id', name: 'id'},
                     {data: 'department.name', name: 'sub_department_id'},
                     {data: 'department.department.name', name: 'main_department_id'},
-                    {data: 'agent.first_name', name: 'customer_name'},
-                    {data: 'agent.custom_field_1', name: 'computer_number'},
+                    {data: 'client_name', name: 'customer_name'},
+                    {data: 'computer_num', name: 'computer_number'},
                     {data: 'priority.name', name: 'priority_id'},
                     {data: 'user.first_name', name: 'user_name'},
                     {data: 'status.name', name: 'status_id'},
@@ -241,11 +239,9 @@
                         data.priority = null,
                         data.computer_number = null,
                         data.sub_department = null;
-                    table.DataTable().ajax.reload();
                     return false;
                 })
-
-
+                table.draw();
             });
 
         });
