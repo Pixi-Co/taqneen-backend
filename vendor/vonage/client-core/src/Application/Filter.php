@@ -1,40 +1,23 @@
 <?php
+
 /**
- * Nexmo Client Library for PHP
+ * Vonage Client Library for PHP
  *
- * @copyright Copyright (c) 2016 Nexmo, Inc. (http://nexmo.com)
- * @license   https://github.com/Nexmo/nexmo-php/blob/master/LICENSE.txt MIT License
+ * @copyright Copyright (c) 2016-2020 Vonage, Inc. (http://vonage.com)
+ * @license https://github.com/Vonage/vonage-php-sdk-core/blob/master/LICENSE.txt Apache License 2.0
  */
 
-namespace Nexmo\Application;
+declare(strict_types=1);
 
-use Nexmo\Entity\FilterInterface;
+namespace Vonage\Application;
+
+use Vonage\Entity\Filter\DateFilter;
 
 /**
  * Simple value object for application filtering.
+ *
+ * @deprecated Please use Vonage\Entity\Filter\DateFilter instead
  */
-class Filter implements FilterInterface
+class Filter extends DateFilter
 {
-    const FORMAT = 'Y:m:d:H:i:s';
-
-    protected $start;
-    protected $end;
-
-    public function __construct(\DateTime $start, \DateTime $end)
-    {
-        if ($start < $end) {
-            $this->start = $start;
-            $this->end = $end;
-        } else {
-            $this->start = $end;
-            $this->end = $start;
-        }
-    }
-
-    public function getQuery()
-    {
-        return [
-            'date' => $this->start->format(self::FORMAT) . '-' . $this->end->format(self::FORMAT)
-        ];
-    }
 }

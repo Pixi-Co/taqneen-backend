@@ -1,25 +1,39 @@
 <?php
+
 /**
- * Nexmo Client Library for PHP
+ * Vonage Client Library for PHP
  *
- * @copyright Copyright (c) 2018 Nexmo, Inc. (http://nexmo.com)
- * @license   https://github.com/Nexmo/nexmo-php/blob/master/LICENSE.txt MIT License
+ * @copyright Copyright (c) 2016-2020 Vonage, Inc. (http://vonage.com)
+ * @license https://github.com/Vonage/vonage-php-sdk-core/blob/master/LICENSE.txt Apache License 2.0
  */
 
-namespace Nexmo\User;
+declare(strict_types=1);
 
-use Nexmo\Client\ClientAwareInterface;
-use Nexmo\Client\ClientAwareTrait;
-use Nexmo\Entity\CollectionInterface;
-use Nexmo\Entity\CollectionTrait;
-use Nexmo\Entity\JsonResponseTrait;
-use Nexmo\Entity\JsonSerializableTrait;
-use Nexmo\Entity\NoRequestResponseTrait;
+namespace Vonage\User;
+
+use ArrayAccess;
+use Exception;
+use Laminas\Diactoros\Request;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Request;
-use Nexmo\Client\Exception;
+use RuntimeException;
+use Vonage\Client\ClientAwareInterface;
+use Vonage\Client\ClientAwareTrait;
+use Vonage\Client\Exception as ClientException;
+use Vonage\Entity\CollectionInterface;
+use Vonage\Entity\CollectionTrait;
+use Vonage\Entity\JsonResponseTrait;
+use Vonage\Entity\JsonSerializableTrait;
+use Vonage\Entity\NoRequestResponseTrait;
 
-class Collection implements ClientAwareInterface, CollectionInterface, \ArrayAccess
+use function is_null;
+use function json_decode;
+use function json_encode;
+
+/**
+ * @deprecated This will be removed in a future version, as this API is still considered Beta
+ */
+class Collection implements ClientAwareInterface, CollectionInterface, ArrayAccess
 {
     use ClientAwareTrait;
     use CollectionTrait;
@@ -27,16 +41,22 @@ class Collection implements ClientAwareInterface, CollectionInterface, \ArrayAcc
     use NoRequestResponseTrait;
     use JsonResponseTrait;
 
-    public static function getCollectionName()
+    public static function getCollectionName(): string
     {
         return 'users';
     }
 
-    public static function getCollectionPath()
+    public static function getCollectionPath(): string
     {
         return '/beta/' . self::getCollectionName();
     }
 
+    /**
+     * @param $data
+     * @param $idOrUser
+     *
+     * @return mixed|User
+     */
     public function hydrateEntity($data, $idOrUser)
     {
         if (!($idOrUser instanceof User)) {
@@ -49,7 +69,10 @@ class Collection implements ClientAwareInterface, CollectionInterface, \ArrayAcc
         return $idOrUser;
     }
 
-    public function hydrateAll($users)
+    /**
+     * @param $users
+     */
+    public function hydrateAll($users): array
     {
         $hydrated = [];
         foreach ($users as $u) {
@@ -67,10 +90,9 @@ class Collection implements ClientAwareInterface, CollectionInterface, \ArrayAcc
     }
 
     /**
-     * @param null $user
-     * @return $this|User
+     * @return $this
      */
-    public function __invoke(Filter $filter = null)
+    public function __invoke($filter = null)
     {
         if (!is_null($filter)) {
             $this->setFilter($filter);
@@ -79,18 +101,35 @@ class Collection implements ClientAwareInterface, CollectionInterface, \ArrayAcc
         return $this;
     }
 
-    public function fetch()
+    public function fetch(): array
     {
         $this->fetchPage(self::getCollectionPath());
         return $this->hydrateAll($this->page);
     }
 
-    public function create($user)
+    /**
+     * @param $user
+     *
+     * @throws ClientException\Exception
+     * @throws ClientException\Request
+     * @throws ClientException\Server
+     * @throws ClientExceptionInterface
+     */
+    public function create($user): User
     {
         return $this->post($user);
     }
 
-    public function post($user)
+    /**
+     * @param $user
+     *
+     * @throws ClientException\Exception
+     * @throws ClientException\Request
+     * @throws ClientException\Server
+     * @throws ClientExceptionInterface
+     * @throws Exception
+     */
+    public function post($user): User
     {
         if ($user instanceof User) {
             $body = $user->getRequestData();
@@ -99,7 +138,7 @@ class Collection implements ClientAwareInterface, CollectionInterface, \ArrayAcc
         }
 
         $request = new Request(
-            $this->getClient()->getApiUrl() . $this->getCollectionPath(),
+            $this->getClient()->getApiUrl() . self::getCollectionPath(),
             'POST',
             'php://temp',
             ['content-type' => 'application/json']
@@ -108,7 +147,7 @@ class Collection implements ClientAwareInterface, CollectionInterface, \ArrayAcc
         $request->getBody()->write(json_encode($body));
         $response = $this->client->send($request);
 
-        if ($response->getStatusCode() != '200') {
+        if ((int)$response->getStatusCode() !== 200) {
             throw $this->getException($response);
         }
 
@@ -120,7 +159,15 @@ class Collection implements ClientAwareInterface, CollectionInterface, \ArrayAcc
         return $user;
     }
 
-    public function get($user)
+    /**
+     * @param $user
+     *
+     * @throws ClientExceptionInterface
+     * @throws ClientException\Exception
+     * @throws ClientException\Request
+     * @throws ClientException\Server
+     */
+    public function get($user): User
     {
         if (!($user instanceof User)) {
             $user = new User($user);
@@ -132,17 +179,18 @@ class Collection implements ClientAwareInterface, CollectionInterface, \ArrayAcc
         return $user;
     }
 
+    /**
+     * @throws ClientException\Exception
+     *
+     * @return ClientException\Request|ClientException\Server
+     */
     protected function getException(ResponseInterface $response)
     {
         $body = json_decode($response->getBody()->getContents(), true);
-        $status = $response->getStatusCode();
+        $status = (int)$response->getStatusCode();
 
         // This message isn't very useful, but we shouldn't ever see it
-        $errorTitle = 'Unexpected error';
-
-        if (isset($body['code'])) {
-            $errorTitle = $body['code'];
-        }
+        $errorTitle = $body['code'] ?? 'Unexpected error';
 
         if (isset($body['description']) && $body['description']) {
             $errorTitle = $body['description'];
@@ -152,28 +200,24 @@ class Collection implements ClientAwareInterface, CollectionInterface, \ArrayAcc
             $errorTitle = $body['error_title'];
         }
 
-        if ($status >= 400 and $status < 500) {
-            $e = new Exception\Request($errorTitle, $status);
-        } elseif ($status >= 500 and $status < 600) {
-            $e = new Exception\Server($errorTitle, $status);
+        if ($status >= 400 && $status < 500) {
+            $e = new ClientException\Request($errorTitle, $status);
+        } elseif ($status >= 500 && $status < 600) {
+            $e = new ClientException\Server($errorTitle, $status);
         } else {
-            $e = new Exception\Exception('Unexpected HTTP Status Code');
+            $e = new ClientException\Exception('Unexpected HTTP Status Code');
             throw $e;
         }
 
         return $e;
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return true;
     }
 
-    /**
-     * @param mixed $user
-     * @return User
-     */
-    public function offsetGet($user)
+    public function offsetGet($user): User
     {
         if (!($user instanceof User)) {
             $user = new User($user);
@@ -183,13 +227,88 @@ class Collection implements ClientAwareInterface, CollectionInterface, \ArrayAcc
         return $user;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
-        throw new \RuntimeException('can not set collection properties');
+        throw new RuntimeException('can not set collection properties');
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
-        throw new \RuntimeException('can not unset collection properties');
+        throw new RuntimeException('can not unset collection properties');
+    }
+
+    /**
+     * Handle pagination automatically (unless configured not to).
+     */
+    public function valid(): bool
+    {
+        //can't be valid if there's not a page (rewind sets this)
+        if (!isset($this->page)) {
+            return false;
+        }
+
+        if (isset($this->page['_embedded'])) {
+            //all hal collections have an `_embedded` object, we expect there to be a property matching the collection name
+            if (!isset($this->page['_embedded'][static::getCollectionName()])) {
+                return false;
+            }
+
+            //if we have a page with no items, we've gone beyond the end of the collection
+            if (!count($this->page['_embedded'][static::getCollectionName()])) {
+                return false;
+            }
+
+            //index the start of a page at 0
+            if (is_null($this->current)) {
+                $this->current = 0;
+            }
+
+            //if our current index is past the current page, fetch the next page if possible and reset the index
+            if (!isset($this->page['_embedded'][static::getCollectionName()][$this->current])) {
+                if (isset($this->page['_links']['next'])) {
+                    $this->fetchPage($this->page['_links']['next']['href']);
+                    $this->current = 0;
+
+                    return true;
+                }
+
+                return false;
+            }
+        } else {
+            if (!isset($this->page)) {
+                return false;
+            }
+
+            //index the start of a page at 0
+            if (is_null($this->current)) {
+                $this->current = 0;
+            }
+
+            //if our current index is past the current page, fetch the next page if possible and reset the index
+            if (!isset($this->page[$this->current])) {
+                if (isset($this->page['_links']['next'])) {
+                    $this->fetchPage($this->page['_links']['next']['href']);
+                    $this->current = 0;
+
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Return the current item, expects concrete collection to handle creating the object.
+     */
+    public function current(): User
+    {
+        if (isset($this->page['_embedded'])) {
+            return $this->hydrateEntity($this->page['_embedded'][static::getCollectionName()][$this->current], $this->key());
+        } else {
+            return $this->hydrateEntity($this->page[$this->current], $this->key());
+        }
     }
 }

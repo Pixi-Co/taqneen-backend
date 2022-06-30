@@ -1,16 +1,28 @@
 <?php
+
 /**
- * Nexmo Client Library for PHP
+ * Vonage Client Library for PHP
  *
- * @copyright Copyright (c) 2016 Nexmo, Inc. (http://nexmo.com)
- * @license   https://github.com/Nexmo/nexmo-php/blob/master/LICENSE.txt MIT License
+ * @copyright Copyright (c) 2016-2020 Vonage, Inc. (http://vonage.com)
+ * @license https://github.com/Vonage/vonage-php-sdk-core/blob/master/LICENSE.txt Apache License 2.0
  */
 
-namespace Nexmo\Entity;
+declare(strict_types=1);
 
+namespace Vonage\Entity;
+
+use Laminas\Diactoros\Request;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Request;
-use Nexmo\Application\Application;
+use RuntimeException;
+use Vonage\Entity\Filter\EmptyFilter;
+use Vonage\Entity\Filter\FilterInterface;
+
+use function array_merge;
+use function count;
+use function http_build_query;
+use function is_null;
+use function json_decode;
+use function strpos;
 
 /**
  * Common code for iterating over a collection, and using the collection class to discover the API path.
@@ -19,30 +31,35 @@ trait CollectionTrait
 {
     /**
      * Index of the current resource of the current page
+     *
      * @var int
      */
     protected $current;
 
     /**
      * Current page data.
+     *
      * @var array
      */
     protected $page;
 
     /**
      * Last API Response
+     *
      * @var ResponseInterface
      */
     protected $response;
 
     /**
      * User set page index.
+     *
      * @var int
      */
     protected $index;
 
     /**
-     * User set pgge sixe.
+     * User set page size.
+     *
      * @var int
      */
     protected $size;
@@ -52,47 +69,51 @@ trait CollectionTrait
      */
     protected $filter;
 
-    abstract public function getCollectionName();
-    abstract public function getCollectionPath();
+    abstract public static function getCollectionName(): string;
+
+    abstract public static function getCollectionPath(): string;
+
+    /**
+     * @param $data
+     * @param $id
+     */
     abstract public function hydrateEntity($data, $id);
 
     /**
      * Return the current item, expects concrete collection to handle creating the object.
-     * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
-        return $this->hydrateEntity($this->page['_embedded'][$this->getCollectionName()][$this->current], $this->key());
+        return $this->hydrateEntity($this->page['_embedded'][static::getCollectionName()][$this->current], $this->key());
     }
 
     /**
      * No checks here, just advance the index.
      */
-    public function next()
+    public function next(): void
     {
         $this->current++;
     }
 
     /**
      * Return the ID of the resource, in some cases this is `id`, in others `uuid`.
-     * @return string
+     *
+     * @return string|int
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
-        if (isset($this->page['_embedded'][$this->getCollectionName()][$this->current]['id'])) {
-            return $this->page['_embedded'][$this->getCollectionName()][$this->current]['id'];
-        } elseif (isset($this->page['_embedded'][$this->getCollectionName()][$this->current]['uuid'])) {
-            return $this->page['_embedded'][$this->getCollectionName()][$this->current]['uuid'];
-        }
-
-        return $this->current;
+        return
+            $this->page['_embedded'][static::getCollectionName()][$this->current]['id'] ??
+            $this->page['_embedded'][static::getCollectionName()][$this->current]['uuid'] ??
+            $this->current;
     }
 
     /**
      * Handle pagination automatically (unless configured not to).
-     * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         //can't be valid if there's not a page (rewind sets this)
         if (!isset($this->page)) {
@@ -100,12 +121,12 @@ trait CollectionTrait
         }
 
         //all hal collections have an `_embedded` object, we expect there to be a property matching the collection name
-        if (!isset($this->page['_embedded']) or !isset($this->page['_embedded'][$this->getCollectionName()])) {
+        if (!isset($this->page['_embedded'][static::getCollectionName()])) {
             return false;
         }
 
         //if we have a page with no items, we've gone beyond the end of the collection
-        if (!count($this->page['_embedded'][$this->getCollectionName()])) {
+        if (!count($this->page['_embedded'][static::getCollectionName()])) {
             return false;
         }
 
@@ -115,8 +136,8 @@ trait CollectionTrait
         }
 
         //if our current index is past the current page, fetch the next page if possible and reset the index
-        if (!isset($this->page['_embedded'][$this->getCollectionName()][$this->current])) {
-            if (isset($this->page['_links']) and isset($this->page['_links']['next'])) {
+        if (!isset($this->page['_embedded'][static::getCollectionName()][$this->current])) {
+            if (isset($this->page['_links']['next'])) {
                 $this->fetchPage($this->page['_links']['next']['href']);
                 $this->current = 0;
 
@@ -132,28 +153,39 @@ trait CollectionTrait
     /**
      * Fetch the initial page
      */
-    public function rewind()
+    public function rewind(): void
     {
-        $this->fetchPage($this->getCollectionPath());
+        $this->fetchPage(static::getCollectionPath());
     }
 
     /**
      * Count of total items
-     * @return integer
-     */
-    public function count()
+     */#
+    #[\ReturnTypeWillChange]
+    public function count(): ?int
     {
         if (isset($this->page)) {
-            return (int) $this->page['count'];
+            return (int)$this->page['count'];
         }
+
+        return null;
     }
 
-    public function setPage($index)
+    /**
+     * @param $index
+     *
+     * @return $this
+     */
+    public function setPage($index): CollectionTrait
     {
-        $this->index = (int) $index;
+        $this->index = (int)$index;
+
         return $this;
     }
 
+    /**
+     * @return int|mixed
+     */
     public function getPage()
     {
         if (isset($this->page)) {
@@ -164,9 +196,12 @@ trait CollectionTrait
             return $this->index;
         }
 
-        throw new \RuntimeException('page not set');
+        throw new RuntimeException('page not set');
     }
 
+    /**
+     * @return int|mixed
+     */
     public function getSize()
     {
         if (isset($this->page)) {
@@ -177,28 +212,34 @@ trait CollectionTrait
             return $this->size;
         }
 
-        throw new \RuntimeException('size not set');
+        throw new RuntimeException('size not set');
     }
 
-    public function setSize($size)
+    /**
+     * @param $size
+     *
+     * @return $this
+     */
+    public function setSize($size): CollectionTrait
     {
-        $this->size = (int) $size;
+        $this->size = (int)$size;
+
         return $this;
     }
 
     /**
      * Filters reduce to query params and include paging settings.
      *
-     * @param FilterInterface $filter
      * @return $this
      */
-    public function setFilter(FilterInterface $filter)
+    public function setFilter(FilterInterface $filter): self
     {
         $this->filter = $filter;
+
         return $this;
     }
 
-    public function getFilter()
+    public function getFilter(): FilterInterface
     {
         if (!isset($this->filter)) {
             $this->setFilter(new EmptyFilter());
@@ -212,7 +253,7 @@ trait CollectionTrait
      *
      * @param $absoluteUri
      */
-    protected function fetchPage($absoluteUri)
+    protected function fetchPage($absoluteUri): void
     {
         //use filter if no query provided
         if (false === strpos($absoluteUri, '?')) {
@@ -233,7 +274,6 @@ trait CollectionTrait
             $absoluteUri .= '?' . http_build_query($query);
         }
 
-        //
         $request = new Request(
             $this->getClient()->getApiUrl() . $absoluteUri,
             'GET'
@@ -241,7 +281,7 @@ trait CollectionTrait
 
         $response = $this->client->send($request);
 
-        if ($response->getStatusCode() != '200') {
+        if ((int)$response->getStatusCode() !== 200) {
             throw $this->getException($response);
         }
 
