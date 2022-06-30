@@ -1,30 +1,27 @@
 <?php
+
 /**
- * Nexmo Client Library for PHP
+ * Vonage Client Library for PHP
  *
- * @copyright Copyright (c) 2016 Nexmo, Inc. (http://nexmo.com)
- * @license   https://github.com/Nexmo/nexmo-php/blob/master/LICENSE.txt MIT License
+ * @copyright Copyright (c) 2016-2020 Vonage, Inc. (http://vonage.com)
+ * @license https://github.com/Vonage/vonage-php-sdk-core/blob/master/LICENSE.txt Apache License 2.0
  */
 
-namespace Nexmo\Client\Factory;
+declare(strict_types=1);
+
+namespace Vonage\Client\Factory;
 
 /**
  * Interface FactoryInterface
  *
- * Factor create API clients (clients specific to single API, that leverages Nexmo\Client for HTTP communication and
+ * Factor create API clients (clients specific to single API, that leverages Vonage\Client for HTTP communication and
  * common functionality).
  */
 interface FactoryInterface
 {
-    /**
-     * @param $api
-     * @return bool
-     */
-    public function hasApi($api);
+    public function hasApi(string $api): bool;
 
-    /**
-     * @param $api
-     * @return mixed
-     */
-    public function getApi($api);
+    public function getApi(string $api);
+
+    public function make(string $key);
 }

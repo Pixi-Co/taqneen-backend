@@ -1,5 +1,5 @@
 <?php return [
- "account" => "test changes",
+ "account" => "الحسابات",
  "manage_your_account" => "ادارة الحسابات",
  "all_accounts" => "جميع الحسابات",
  "account_number" => "رقم حساب",

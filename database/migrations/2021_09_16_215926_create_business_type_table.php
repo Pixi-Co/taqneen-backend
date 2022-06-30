@@ -13,7 +13,7 @@ class CreateBusinessTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('businesstypes', function (Blueprint $table) {
+        Schema::create('business_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('icon');

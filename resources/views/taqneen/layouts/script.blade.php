@@ -100,7 +100,7 @@
                     };
                     $.post(link, $.param(data), function(res) {
                         toastr.success(res.msg);
-                        if (res.success == 1) {
+                        if (res.success == 1 || res.status) {
                             window.location.reload();
                         }
                     });
@@ -143,7 +143,7 @@
             allow_dismiss: true,
             delay: 2000,
             showProgressbar: true,
-            timer: 300,
+            timer: 500,
             animate:{
             enter:'animated fadeInDown',
             exit:'animated fadeOutUp'

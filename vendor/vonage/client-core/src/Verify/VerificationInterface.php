@@ -1,22 +1,35 @@
 <?php
+
 /**
- * Nexmo Client Library for PHP
+ * Vonage Client Library for PHP
  *
- * @copyright Copyright (c) 2016 Nexmo, Inc. (http://nexmo.com)
- * @license   https://github.com/Nexmo/nexmo-php/blob/master/LICENSE.txt MIT License
+ * @copyright Copyright (c) 2016-2020 Vonage, Inc. (http://vonage.com)
+ * @license https://github.com/Vonage/vonage-php-sdk-core/blob/master/LICENSE.txt Apache License 2.0
  */
 
-namespace Nexmo\Verify;
+declare(strict_types=1);
 
-interface VerificationInterface extends \Nexmo\Entity\EntityInterface
+namespace Vonage\Verify;
+
+use Vonage\Entity\EntityInterface;
+
+interface VerificationInterface extends EntityInterface
 {
     public function getNumber();
+
     public function setCountry($country);
+
     public function setSenderId($id);
+
     public function setCodeLength($length);
+
     public function setLanguage($language);
+
     public function setRequireType($type);
+
     public function setPinExpiry($time);
+
     public function setWaitTime($time);
+
     public function setWorkflowId($workflow_id);
 }

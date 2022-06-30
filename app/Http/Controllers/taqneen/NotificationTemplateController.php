@@ -20,7 +20,8 @@ class NotificationTemplateController extends Controller
     }
 
 
-    public function form() { 
+    public function form() {
+        EmailTemplate::getStatusAllowSendMail();
         $trigers = EmailTemplate::$TRIGERS;
         $tags = EmailTemplate::$TAGS;
         $instance = EmailTemplate::class;
@@ -60,7 +61,7 @@ class NotificationTemplateController extends Controller
 
         return [
             "success" => 1,
-            "msg" => __('doen'),
+            "msg" => __('done'),
         ]; 
     }
 }

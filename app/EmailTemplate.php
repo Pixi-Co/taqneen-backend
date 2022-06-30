@@ -9,7 +9,7 @@ class EmailTemplate extends Model
 {
 
     protected $table = "notification_templates";
-    
+
     public static $TRIGERS = [
         "NEW_SUBSCRIPTION" => "add new subscription",
         "CHANGE_SUBSCRIPTION_STATUS" => "change subscription status",
@@ -25,6 +25,15 @@ class EmailTemplate extends Model
         "ADD_CUSTOMER_FORM" => "add customer form",
         "ADD_SUBSCRIPTION_NOTE" => "add subscription note",
     ];
+
+    public static function getStatusAllowSendMail()
+    {
+        $statues = TicketStatus::where('is_send_mail',1)->pluck('name','name')->toArray();
+        foreach ($statues as $key=>$value)
+        {
+            self::$TRIGERS[strtoupper($key)] = "Ticket status ".$value;
+        }
+    }
 
     public static $TAGS = [
         '{status}' => "status",
@@ -45,7 +54,10 @@ class EmailTemplate extends Model
         '{customer_form_pdf}' => "customer_form_pdf",
         '{customer_form_upload_page}' => "customer_form_upload_page",
         '{user_triger_email}' => "user_triger_email",
-        '{subscription_note}' => "note"
+        '{subscription_note}' => "note",
+        '{ticket_id}' => "id",
+        '{ticket_status}' => "status_id",
+        '{ticket_url}' => "/support/guest/tickets/reply/",
     ];
     
     public static function getTemplate($triger) {
@@ -85,7 +97,7 @@ class EmailTemplate extends Model
 
     public static function getEmail($triger, $subscription) {
         $resources = DB::table('notification_templates')
-            ->where('business_id', session('business.id'))
+//            ->where('business_id', session('business.id'))
             ->where('template_for', $triger)
             ->get();
         
@@ -153,4 +165,3 @@ class EmailTemplate extends Model
     }
 }
 
- 

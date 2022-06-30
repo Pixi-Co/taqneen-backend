@@ -1,316 +1,254 @@
 <?php
+
 /**
- * Nexmo Client Library for PHP
+ * Vonage Client Library for PHP
  *
- * @copyright Copyright (c) 2016 Nexmo, Inc. (http://nexmo.com)
- * @license   https://github.com/Nexmo/nexmo-php/blob/master/LICENSE.txt MIT License
+ * @copyright Copyright (c) 2016-2020 Vonage, Inc. (http://vonage.com)
+ * @license https://github.com/Vonage/vonage-php-sdk-core/blob/master/LICENSE.txt Apache License 2.0
  */
 
-namespace Nexmo\Application;
+declare(strict_types=1);
 
-use Nexmo\ApiErrorHandler;
-use Nexmo\Client\ClientAwareInterface;
-use Nexmo\Client\ClientAwareTrait;
-use Nexmo\Entity\CollectionInterface;
-use Nexmo\Entity\ModernCollectionTrait;
-use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Request;
-use Nexmo\Client\Exception;
+namespace Vonage\Application;
 
-class Client implements ClientAwareInterface, CollectionInterface
+use Exception;
+use Psr\Http\Client\ClientExceptionInterface;
+use Vonage\Client\APIClient;
+use Vonage\Client\APIResource;
+use Vonage\Client\ClientAwareInterface;
+use Vonage\Client\ClientAwareTrait;
+use Vonage\Client\Exception\Exception as ClientException;
+use Vonage\Entity\CollectionInterface;
+use Vonage\Entity\Hydrator\ArrayHydrator;
+use Vonage\Entity\Hydrator\HydratorInterface;
+use Vonage\Entity\IterableAPICollection;
+use Vonage\Entity\IterableServiceShimTrait;
+
+use function is_null;
+use function trigger_error;
+
+class Client implements ClientAwareInterface, CollectionInterface, APIClient
 {
     use ClientAwareTrait;
-    use ModernCollectionTrait;
+    use IterableServiceShimTrait;
 
-    public static function getCollectionName()
+    /**
+     * @var APIResource
+     */
+    protected $api;
+
+    /**
+     * @var HydratorInterface
+     */
+    protected $hydrator;
+
+    public function __construct(APIResource $api = null, HydratorInterface $hydrator = null)
+    {
+        $this->api = $api;
+        $this->hydrator = $hydrator;
+
+        // Shim to handle BC with old constructor
+        // Will remove in v3
+        if (is_null($this->hydrator)) {
+            $this->hydrator = new Hydrator();
+        }
+    }
+
+    /**
+     * Shim to handle older instantiations of this class
+     * Will change in v3 to just return the required API object
+     */
+    public function getApiResource(): APIResource
+    {
+        if (is_null($this->api)) {
+            $api = new APIResource();
+            $api->setClient($this->getClient())
+                ->setBaseUri('/v2/applications')
+                ->setCollectionName('applications');
+            $this->api = $api;
+        }
+
+        return $this->api;
+    }
+
+    /**
+     * @deprecated Use an IterableAPICollection object instead
+     */
+    public static function getCollectionName(): string
     {
         return 'applications';
     }
 
-    public static function getCollectionPath()
+    /**
+     * @deprecated Use an IterableAPICollection object instead
+     */
+    public static function getCollectionPath(): string
     {
         return '/v2/' . self::getCollectionName();
     }
 
-    public function hydrateEntity($data, $id)
+    /**
+     * Returns the specified application
+     *
+     * @throws ClientExceptionInterface
+     * @throws ClientException
+     */
+    public function get($application): Application
     {
-        $application = new Application($id);
-        $application->jsonUnserialize($data);
+        if ($application instanceof Application) {
+            trigger_error(
+                "Passing a Application object to Vonage\\Application\\Client::get is deprecated, ' .
+                 'please pass the String ID instead.",
+                E_USER_DEPRECATED
+            );
+            $application = $application->getId();
+        }
+
+        $data = $this->getApiResource()->get($application);
+        $application = new Application();
+        $application->fromArray($data);
+
         return $application;
     }
 
-    public function get($application)
+    public function getAll(): IterableAPICollection
+    {
+        $response = $this->api->search();
+        $response->setApiResource(clone $this->api);
+
+        $hydrator = new ArrayHydrator();
+        $hydrator->setPrototype(new Application());
+
+        $response->setHydrator($hydrator);
+        return $response;
+    }
+
+    /**
+     * Creates and saves a new Application
+     *
+     * @throws ClientExceptionInterface
+     * @throws ClientException
+     * @throws Exception
+     */
+    public function create($application): Application
     {
         if (!($application instanceof Application)) {
-            $application = new Application($application);
+            trigger_error(
+                'Passing an array to Vonage\Application\Client::create() is deprecated, ' .
+                'please pass an Application object instead.',
+                E_USER_DEPRECATED
+            );
+            $application = $this->fromArray($application);
         }
 
-        $request = new Request(
-            $this->getClient()->getApiUrl() . $this->getCollectionPath() . '/' . $application->getId(),
-            'GET',
-            'php://memory',
-            ['Content-Type' => 'application/json']
+        // Avoids a mishap in the API where an ID can be set during creation
+        $data = $application->toArray();
+        unset($data['id']);
+
+        $response = $this->getApiResource()->create($data);
+        $application = $this->hydrator->hydrate($response);
+
+        return $application;
+    }
+
+    /**
+     * @throws ClientExceptionInterface
+     * @throws ClientException
+     *
+     * @deprecated Use `create()` instead
+     */
+    public function post($application): Application
+    {
+        trigger_error(
+            'Vonage\Application\Client::post() has been deprecated in favor of the create() method',
+            E_USER_DEPRECATED
         );
 
-        $application->setRequest($request);
-        $response = $this->client->send($request);
-        $application->setResponse($response);
-
-        if ($response->getStatusCode() != '200') {
-            throw $this->getException($response, $application);
-        }
-
-        return $application;
+        return $this->create($application);
     }
 
-    public function create($application)
-    {
-        return $this->post($application);
-    }
-
-    public function post($application)
+    /**
+     * Saves an existing application
+     *
+     * @throws ClientExceptionInterface
+     * @throws ClientException
+     * @throws Exception
+     */
+    public function update($application, ?string $id = null): Application
     {
         if (!($application instanceof Application)) {
-            $application = $this->createFromArray($application);
-        }
+            trigger_error(
+                'Passing an array to Vonage\Application\Client::update() is deprecated, ' .
+                'please pass an Application object instead.',
+                E_USER_DEPRECATED
+            );
 
-        $body = $application->getRequestData(false);
-
-        $request = new Request(
-            $this->getClient()->getApiUrl() . $this->getCollectionPath(),
-            'POST',
-            'php://temp',
-            ['Content-Type' => 'application/json']
-        );
-
-        $request->getBody()->write(json_encode($body));
-        $application->setRequest($request);
-        $response = $this->client->send($request);
-        $application->setResponse($response);
-
-        if ($response->getStatusCode() != '201') {
-            throw $this->getException($response, $application);
-        }
-
-        return $application;
-    }
-
-    public function update($application, $id = null)
-    {
-        return $this->put($application, $id);
-    }
-
-    public function put($application, $id = null)
-    {
-        if (!($application instanceof Application)) {
-            $application = $this->createFromArray($application);
+            $application = $this->fromArray($application);
         }
 
         if (is_null($id)) {
             $id = $application->getId();
+        } else {
+            trigger_error(
+                'Passing an ID to Vonage\Application\Client::update() is deprecated ' .
+                'and will be removed in a future release',
+                E_USER_DEPRECATED
+            );
         }
 
-        $body = $application->getRequestData(false);
-
-        $request = new Request(
-            $this->getClient()->getApiUrl() . $this->getCollectionPath() . '/' . $id,
-            'PUT',
-            'php://temp',
-            ['Content-Type' => 'application/json']
-        );
-
-        $request->getBody()->write(json_encode($body));
-        $application->setRequest($request);
-        $response = $this->client->send($request);
-        $application->setResponse($response);
-
-        if ($response->getStatusCode() != '200') {
-            throw $this->getException($response, $application);
-        }
+        $data = $this->getApiResource()->update($id, $application->toArray());
+        $application = $this->hydrator->hydrate($data);
 
         return $application;
     }
 
-    public function delete($application)
+    /**
+     * @throws ClientExceptionInterface
+     * @throws ClientException
+     *
+     * @deprecated Use `update()` instead
+     */
+    public function put($application, ?string $id = null): Application
     {
-        if (($application instanceof Application)) {
+        trigger_error(
+            'Vonage\Application\Client::put() has been deprecated in favor of the update() method',
+            E_USER_DEPRECATED
+        );
+
+        return $this->update($application, $id);
+    }
+
+    /**
+     * Deletes an application from the Vonage account
+     *
+     * @throws ClientExceptionInterface
+     * @throws ClientException
+     */
+    public function delete($application): bool
+    {
+        if ($application instanceof Application) {
+            trigger_error(
+                'Passing an Application to Vonage\Application\Client::delete() is deprecated, ' .
+                'please pass a string ID instead',
+                E_USER_DEPRECATED
+            );
             $id = $application->getId();
         } else {
             $id = $application;
         }
 
-        $request = new Request(
-            $this->getClient()->getApiUrl(). $this->getCollectionPath() . '/' . $id,
-            'DELETE',
-            'php://temp',
-            ['Content-Type' => 'application/json']
-        );
-
-        if ($application instanceof Application) {
-            $application->setRequest($request);
-        }
-
-        $response = $this->client->send($request);
-
-        if ($application instanceof Application) {
-            $application->setResponse($response);
-        }
-
-        if ($response->getStatusCode() != '204') {
-            throw $this->getException($response, $application);
-        }
+        $this->getApiResource()->delete($id);
 
         return true;
     }
 
-    protected function getException(ResponseInterface $response, $application = null)
+    /**
+     * @throws Exception
+     *
+     * @deprecated Use Vonage\Application\Hydrator directly instead
+     */
+    protected function fromArray(array $array): Application
     {
-        $body = json_decode($response->getBody()->getContents(), true);
-        $status = $response->getStatusCode();
-
-        // Handle new style errors
-        $e = null;
-        try {
-            ApiErrorHandler::check($body, $status);
-        } catch (Exception\Exception $e) {
-            //todo use interfaces here
-            if (($application instanceof Application) and (($e instanceof Exception\Request) or ($e instanceof Exception\Server))) {
-                $e->setEntity($application);
-            }
-        }
-
-        return $e;
-    }
-
-    protected function createFromArray($array)
-    {
-        if (isset($array['answer_url']) || isset($array['event_url'])) {
-            return $this->createFromArrayV1($array);
-        }
-
-        return $this->createFromArrayV2($array);
-    }
-
-    protected function createFromArrayV1($array)
-    {
-        if (!is_array($array)) {
-            throw new \RuntimeException('application must implement `' . ApplicationInterface::class . '` or be an array`');
-        }
-
-        foreach (['name',] as $param) {
-            if (!isset($array[$param])) {
-                throw new \InvalidArgumentException('missing expected key `' . $param . '`');
-            }
-        }
-
-        $application = new Application();
-        $application->setName($array['name']);
-
-        // Public key?
-        if (isset($array['public_key'])) {
-            $application->setPublicKey($array['public_key']);
-        }
-
-        // Voice
-        foreach (['event', 'answer'] as $type) {
-            if (isset($array[$type . '_url'])) {
-                $method = isset($array[$type . '_method']) ? $array[$type . '_method'] : null;
-                $application->getVoiceConfig()->setWebhook($type . '_url', new Webhook($array[$type . '_url'], $method));
-            }
-        }
-
-        // Messages
-        foreach (['status', 'inbound'] as $type) {
-            if (isset($array[$type . '_url'])) {
-                $method = isset($array[$type . '_method']) ? $array[$type . '_method'] : null;
-                $application->getMessagesConfig()->setWebhook($type . '_url', new Webhook($array[$type . '_url'], $method));
-            }
-        }
-
-        // RTC
-        foreach (['event'] as $type) {
-            if (isset($array[$type . '_url'])) {
-                $method = isset($array[$type . '_method']) ? $array[$type . '_method'] : null;
-                $application->getRtcConfig()->setWebhook($type . '_url', new Webhook($array[$type . '_url'], $method));
-            }
-        }
-
-        // VBC
-        if (isset($array['vbc']) && $array['vbc']) {
-            $application->getVbcConfig()->enable();
-        }
-
-        return $application;
-    }
-
-    protected function createFromArrayV2($array)
-    {
-        if (!is_array($array)) {
-            throw new \RuntimeException('application must implement `' . ApplicationInterface::class . '` or be an array`');
-        }
-
-        foreach (['name',] as $param) {
-            if (!isset($array[$param])) {
-                throw new \InvalidArgumentException('missing expected key `' . $param . '`');
-            }
-        }
-
-        $application = new Application();
-        $application->setName($array['name']);
-
-        // Is there a public key?
-        if (isset($array['keys']['public_key'])) {
-            $application->setPublicKey($array['keys']['public_key']);
-        }
-
-        // How about capabilities?
-        if (!isset($array['capabilities'])) {
-            return $application;
-        }
-
-        $capabilities = $array['capabilities'];
-
-        // Handle voice
-        if (isset($capabilities['voice'])) {
-            $voiceCapabilities = $capabilities['voice']['webhooks'];
-
-            foreach (['answer', 'event'] as $type) {
-                $application->getVoiceConfig()->setWebhook($type.'_url', new Webhook(
-                    $voiceCapabilities[$type.'_url']['address'],
-                    $voiceCapabilities[$type.'_url']['http_method']
-                ));
-            }
-        }
-
-        // Handle messages
-        if (isset($capabilities['messages'])) {
-            $messagesCapabilities = $capabilities['messages']['webhooks'];
-
-            foreach (['status', 'inbound'] as $type) {
-                $application->getMessagesConfig()->setWebhook($type.'_url', new Webhook(
-                    $messagesCapabilities[$type.'_url']['address'],
-                    $messagesCapabilities[$type.'_url']['http_method']
-                ));
-            }
-        }
-
-        // Handle RTC
-        if (isset($capabilities['rtc'])) {
-            $rtcCapabilities = $capabilities['rtc']['webhooks'];
-
-            foreach (['event'] as $type) {
-                $application->getRtcConfig()->setWebhook($type.'_url', new Webhook(
-                    $rtcCapabilities[$type.'_url']['address'],
-                    $rtcCapabilities[$type.'_url']['http_method']
-                ));
-            }
-        }
-
-        // Handle VBC
-        if (isset($capabilities['vbc'])) {
-            $application->getVbcConfig()->enable();
-        }
-
-        return $application;
+        return $this->hydrator->hydrate($array);
     }
 }

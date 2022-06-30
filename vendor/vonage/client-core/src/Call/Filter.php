@@ -1,74 +1,107 @@
 <?php
+
 /**
- * Nexmo Client Library for PHP
+ * Vonage Client Library for PHP
  *
- * @copyright Copyright (c) 2016 Nexmo, Inc. (http://nexmo.com)
- * @license   https://github.com/Nexmo/nexmo-php/blob/master/LICENSE.txt MIT License
+ * @copyright Copyright (c) 2016-2020 Vonage, Inc. (http://vonage.com)
+ * @license https://github.com/Vonage/vonage-php-sdk-core/blob/master/LICENSE.txt Apache License 2.0
  */
 
-namespace Nexmo\Call;
+declare(strict_types=1);
 
-use Nexmo\Conversations\Conversation;
-use Nexmo\Entity\FilterInterface;
+namespace Vonage\Call;
 
+use DateTime;
+use DateTimeZone;
+use Vonage\Conversations\Conversation;
+use Vonage\Entity\Filter\FilterInterface;
+
+use function trigger_error;
+
+/**
+ * @deprecated Use Vonage\Voice\Filter\VoiceFilter
+ */
 class Filter implements FilterInterface
 {
+    /**
+     * @var array
+     */
     protected $query = [];
 
-    public function getQuery()
+    public function __construct()
+    {
+        trigger_error(
+            'Vonage\Call\Filter is deprecated, please use Vonage\Voice\Filter\VoiceFilter instead',
+            E_USER_DEPRECATED
+        );
+    }
+
+    public function getQuery(): array
     {
         return $this->query;
     }
 
-    public function sortAscending()
+    public function sortAscending(): self
     {
         return $this->setOrder('asc');
     }
 
-    public function sortDescending()
+    public function sortDescending(): self
     {
         return $this->setOrder('desc');
     }
 
-    public function setStatus($status)
+    public function setStatus($status): self
     {
-        $this->query['status'] = (string) $status;
+        $this->query['status'] = (string)$status;
+
         return $this;
     }
 
-    public function setStart(\DateTime $start)
+    public function setStart(DateTime $start): self
     {
-        $start->setTimezone(new \DateTimeZone("UTC"));
+        $start->setTimezone(new DateTimeZone("UTC"));
         $this->query['date_start'] = $start->format('Y-m-d\TH:i:s\Z');
+
         return $this;
     }
 
-    public function setEnd(\DateTime $end)
+    public function setEnd(DateTime $end): self
     {
-        $end->setTimezone(new \DateTimeZone("UTC"));
+        $end->setTimezone(new DateTimeZone("UTC"));
         $this->query['date_end'] = $end->format('Y-m-d\TH:i:s\Z');
+
         return $this;
     }
 
-    public function setSize($size)
+    /**
+     * @param string|int $size
+     */
+    public function setSize($size): self
     {
-        $this->query['page_size'] = (int) $size;
+        $this->query['page_size'] = (int)$size;
+
         return $this;
     }
 
-    public function setIndex($index)
+    /**
+     * @param string|int $index
+     */
+    public function setIndex($index): self
     {
-        $this->query['record_index'] = (int) $index;
+        $this->query['record_index'] = (int)$index;
+
         return $this;
     }
 
-    public function setOrder($order)
+    public function setOrder(string $order): self
     {
-        $this->query['order'] = (string) $order;
+        $this->query['order'] = $order;
+
         return $this;
     }
 
-    public function setConversation($conversation)
+    public function setConversation($conversation): self
     {
         if ($conversation instanceof Conversation) {
             $conversation = $conversation->getId();

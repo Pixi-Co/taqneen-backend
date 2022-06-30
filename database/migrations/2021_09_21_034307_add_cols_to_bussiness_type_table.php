@@ -14,8 +14,8 @@ class AddColsToBussinessTypeTable extends Migration
     public function up()
     {
         Schema::table('business_types', function (Blueprint $table) {
-            $table->string('icon');
-            $table->string('description');
+//            $table->string('icon');
+//            $table->string('description');
         });
     }
 

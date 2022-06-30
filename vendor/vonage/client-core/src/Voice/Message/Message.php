@@ -1,20 +1,32 @@
 <?php
+
 /**
- * Nexmo Client Library for PHP
+ * Vonage Client Library for PHP
  *
- * @copyright Copyright (c) 2016 Nexmo, Inc. (http://nexmo.com)
- * @license   https://github.com/Nexmo/nexmo-php/blob/master/LICENSE.txt MIT License
+ * @copyright Copyright (c) 2016-2020 Vonage, Inc. (http://vonage.com)
+ * @license https://github.com/Vonage/vonage-php-sdk-core/blob/master/LICENSE.txt Apache License 2.0
  */
 
-namespace Nexmo\Voice\Message;
+declare(strict_types=1);
 
-use Nexmo\Client\Request\AbstractRequest;
-use Nexmo\Client\Request\RequestInterface;
+namespace Vonage\Voice\Message;
 
-class Message extends AbstractRequest implements RequestInterface
+use Vonage\Client\Request\AbstractRequest;
+
+use function is_null;
+
+/**
+ * @deprecated This objects are no longer viable and will be removed in a future version
+ */
+class Message extends AbstractRequest
 {
-    protected $params = array();
+    protected $params;
 
+    /**
+     * @param $text
+     * @param $to
+     * @param $from
+     */
     public function __construct($text, $to, $from = null)
     {
         $this->params['text'] = $text;
@@ -22,26 +34,52 @@ class Message extends AbstractRequest implements RequestInterface
         $this->params['from'] = $from;
     }
 
-    public function setLanguage($lang)
+    /**
+     * @param $lang
+     *
+     * @return $this
+     */
+    public function setLanguage($lang): self
     {
         $this->params['lg'] = $lang;
+
         return $this;
     }
 
-    public function setVoice($voice)
+    /**
+     * @param $voice
+     *
+     * @return $this
+     */
+    public function setVoice($voice): self
     {
         $this->params['voice'] = $voice;
+
         return $this;
     }
 
-    public function setRepeat($count)
+    /**
+     * @param $count
+     *
+     * @return $this
+     */
+    public function setRepeat($count): self
     {
-        $this->params['repeat'] = (int) $count;
+        $this->params['repeat'] = (int)$count;
+
         return $this;
     }
-    public function setCallback($url, $method = null)
+
+    /**
+     * @param $url
+     * @param $method
+     *
+     * @return $this
+     */
+    public function setCallback($url, $method = null): self
     {
         $this->params['callback'] = $url;
+
         if (!is_null($method)) {
             $this->params['callback_method'] = $method;
         } else {
@@ -51,11 +89,18 @@ class Message extends AbstractRequest implements RequestInterface
         return $this;
     }
 
-    public function setMachineDetection($hangup = true, $timeout = null)
+    /**
+     * @param bool $hangup
+     * @param $timeout
+     *
+     * @return $this
+     */
+    public function setMachineDetection($hangup = true, $timeout = null): self
     {
         $this->params['machine_detection'] = ($hangup ? 'hangup' : 'true');
+
         if (!is_null($timeout)) {
-            $this->params['machine_timeout'] = (int) $timeout;
+            $this->params['machine_timeout'] = (int)$timeout;
         } else {
             unset($this->params['machine_timeout']);
         }
@@ -63,10 +108,7 @@ class Message extends AbstractRequest implements RequestInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getURI()
+    public function getURI(): string
     {
         return '/tts/json';
     }

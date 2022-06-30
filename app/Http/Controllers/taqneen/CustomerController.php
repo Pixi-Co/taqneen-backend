@@ -139,12 +139,14 @@ class CustomerController extends Controller
         // dd($request->all());
         $this->validate($request, [
             'password' => 'required|same:confirm_password',
+            'custom_field1' => 'required|unique:contacts',
+            'mobile' => 'required',
         ]);
 
         try {
             $data = [
                 "supplier_business_name" => $request->supplier_business_name,
-                "custom_field1" => $request->custom_field1,
+                "custom_field1" => $request->custom_field1,//computer number
                 "mobile" => $request->mobile,
                 "email" => $request->email,
                 "state" => $request->state,
@@ -182,11 +184,6 @@ class CustomerController extends Controller
 
     public function update(Request $request, $id)
     {
-        // $this->validate($request, [
-        //     'password' => 'required|same:confirm_password',
-        //     'roles' => 'required',
-        // ]);
-
         if ($request->profile == 'profile') {
 
             try {
@@ -288,9 +285,10 @@ class CustomerController extends Controller
                     "first_name" => $request->first_name,
                     "last_name" => $request->last_name,
                     "email" => $request->email,
-                    "contact_number" => $request->contact_number,
+                    "contact_number" => $customer->mobile,
                     "address" => $request->address_line_1, 
                     "password" => $request->password ? bcrypt($request->password) : '',
+                    'contact_id'=>$customer->id,
                 ];
 
                 $user->update($data);
@@ -303,11 +301,13 @@ class CustomerController extends Controller
                     "first_name" => $request->first_name,
                     "last_name" => $request->last_name,
                     "email" => $request->email,
-                    "contact_number" => $request->contact_number,
+                    "contact_number" => $customer->mobile,
                     "address" => $request->address_line_1,
                     "password" => bcrypt($request->password),
                     "business_id" => session('business.id'),
                     "user_type" => 'user_customer',
+                    "custom_field_1" => $customer->custom_field1,
+                    "contact_id"=>$customer->id
                 ]);
                 $user->assignRole("customer");
                 $customer->converted_by = $user->id;

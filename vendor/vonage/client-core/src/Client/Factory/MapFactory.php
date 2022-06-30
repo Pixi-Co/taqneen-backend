@@ -1,16 +1,26 @@
 <?php
+
 /**
- * Nexmo Client Library for PHP
+ * Vonage Client Library for PHP
  *
- * @copyright Copyright (c) 2016 Nexmo, Inc. (http://nexmo.com)
- * @license   https://github.com/Nexmo/nexmo-php/blob/master/LICENSE.txt MIT License
+ * @copyright Copyright (c) 2016-2020 Vonage, Inc. (http://vonage.com)
+ * @license https://github.com/Vonage/vonage-php-sdk-core/blob/master/LICENSE.txt Apache License 2.0
  */
 
-namespace Nexmo\Client\Factory;
+declare(strict_types=1);
 
-use Nexmo\Client;
+namespace Vonage\Client\Factory;
 
-class MapFactory implements FactoryInterface
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
+use RuntimeException;
+use Vonage\Client;
+use Vonage\Logger\LoggerAwareInterface;
+
+use function is_callable;
+use function sprintf;
+
+class MapFactory implements FactoryInterface, ContainerInterface
 {
     /**
      * Map of api namespaces to classes.
@@ -27,7 +37,7 @@ class MapFactory implements FactoryInterface
     protected $cache = [];
 
     /**
-     * Nexmo Client
+     * Vonage Client
      *
      * @var Client
      */
@@ -39,31 +49,91 @@ class MapFactory implements FactoryInterface
         $this->client = $client;
     }
 
-    public function hasApi($api)
+    /**
+     * @param string $id
+     *
+     * @noinspection PhpMissingParamTypeInspection
+     */
+    public function has($id): bool
     {
-        return isset($this->map[$api]);
+        return isset($this->map[$id]);
     }
 
-    public function getApi($api)
+    /**
+     * @deprecated Use has() instead
+     */
+    public function hasApi(string $api): bool
     {
-        if (isset($this->cache[$api])) {
-            return $this->cache[$api];
+        return $this->has($api);
+    }
+
+    /**
+     * @param string $id
+     *
+     * @noinspection PhpMissingParamTypeInspection
+     */
+    public function get($id)
+    {
+        if (isset($this->cache[$id])) {
+            return $this->cache[$id];
         }
 
-        if (!$this->hasApi($api)) {
-            throw new \RuntimeException(sprintf(
-                'no map defined for `%s`',
-                $api
-            ));
+        $instance = $this->make($id);
+        $this->cache[$id] = $instance;
+
+        return $instance;
+    }
+
+    public function getClient(): Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * @deprecated Use get() instead
+     */
+    public function getApi(string $api)
+    {
+        return $this->get($api);
+    }
+
+    public function make($key)
+    {
+        if (!$this->has($key)) {
+            throw new RuntimeException(
+                sprintf(
+                    'no map defined for `%s`',
+                    $key
+                )
+            );
         }
 
-        $class = $this->map[$api];
+        if (is_callable($this->map[$key])) {
+            $instance = $this->map[$key]($this);
+        } else {
+            $class = $this->map[$key];
+            $instance = new $class();
+            if (is_callable($instance)) {
+                $instance = $instance($this);
+            }
+        }
 
-        $instance = new $class();
         if ($instance instanceof Client\ClientAwareInterface) {
             $instance->setClient($this->client);
         }
-        $this->cache[$api] = $instance;
+
+        if ($instance instanceof LoggerAwareInterface && $this->has(LoggerInterface::class)) {
+            $instance->setLogger($this->get(LoggerInterface::class));
+        }
+
         return $instance;
+    }
+
+    public function set($key, $value): void
+    {
+        $this->map[$key] = $value;
+        if (!is_callable($value)) {
+            $this->cache[$key] = $value;
+        }
     }
 }

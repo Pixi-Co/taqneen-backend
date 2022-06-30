@@ -14,7 +14,7 @@ class AddWoocommerceWhPcSecretColumnToBusiness extends Migration
     public function up()
     {
         Schema::table('business', function (Blueprint $table) {
-            $table->string('woocommerce_wh_pc_secret')->nullable()->after('woocommerce_wh_oc_secret');
+            $table->string('woocommerce_wh_pc_secret')->nullable();
         });
     }
 
