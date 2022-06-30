@@ -97,7 +97,7 @@ class EmailTemplate extends Model
 
     public static function getEmail($triger, $subscription) {
         $resources = DB::table('notification_templates')
-            ->where('business_id', session('business.id'))
+//            ->where('business_id', session('business.id'))
             ->where('template_for', $triger)
             ->get();
         

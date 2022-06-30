@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\taqneen;
 
+use App\EmailTemplate;
 use App\Http\Requests\taqneen\TicketReplyRequest;
 use App\Ticket;
 use App\TicketReply;
 use App\TicketStatus;
+use App\Triger;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -36,7 +38,14 @@ class TicketReplyController extends Controller
                 $ticket =Ticket::findOrFail($data['ticket_id']);
                 $ticket->update(['status_id'=>$data['status_id']]);
             }
-            TicketReply::create($data);
+            $ticketReply = TicketReply::create($data);
+            if ($ticketReply && isset($data['status_id']))
+            {
+                $status = TicketStatus::find($data['status_id']);
+                $checkTrigger = $this->checkStatusTrigger(strtoupper($status->name));
+                if ($checkTrigger)
+                    Triger::fire2(strtoupper($status->name), $ticket);
+            }
             $output = [
                 "success" => 1,
                 "msg" => __('done')
@@ -73,8 +82,8 @@ class TicketReplyController extends Controller
                     $data['file'] = $filename;
                 }
             }
-            $data['user_id'] = auth()->id()??null;
             $data['ticket_id'] = $id;
+            $data['status_id'] = TicketStatus::where('is_default',1)->first()->id;
             if (isset($data['status_id']))
             {
                 $ticket =Ticket::findOrFail($data['ticket_id']);
@@ -98,14 +107,9 @@ class TicketReplyController extends Controller
 
     }
 
-    public function update(TicketStatusRequest $request,$id)
+    public function checkStatusTrigger($status)
     {
-
-    }
-
-    public function destory($id)
-    {
-
+        return (boolean) (EmailTemplate::where('template_for',$status)->first());
     }
 
 }

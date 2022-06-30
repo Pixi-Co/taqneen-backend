@@ -124,15 +124,16 @@ class TicketController extends Controller
             $priority_id = $this->getTicketPriorty($request->sub_department);
             $user_id = $this->getAssignedUser($request->sub_department);
             $status = $this->getDefaultTicketStatus();
-            $agent_id = auth()->check()?auth()->user()->user_type==UserType::$USERCUSTOMER?auth()->user()->id:$request->agent_id:null;
+            $agent = $this->getAgent();
+//            $agent_id = auth()->check()?auth()->user()->user_type==UserType::$USERCUSTOMER?auth()->user()->id:$request->agent_id:null;
             $data = [
-                "agent_id"=>$agent_id,
+                "agent_id"=>$agent->id,
                 'user_id'=>$user_id,
                 'priority_id'=>$priority_id,
                 'status_id'=>$status->id,
                 'description'=>$request->description,
                 'department_id'=>$request->sub_department,
-                'created_by'=>auth()->user()->id??$agent_id,
+                'created_by'=>$agent->id,
                 'computer_num'=>$request->computer_num,
                 'client_email'=>$request->client_email,
                 'client_name'=>$request->client_name,
@@ -190,7 +191,7 @@ class TicketController extends Controller
         $ticket = $this->prepareTicketData($ticket);
         $cannedReplies = CannedReply::all();
         $ticketStatuses = TicketStatus::all();
-        $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with('user')->latest()->get();
+        $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with(['user','ticket'])->latest()->get();
         $users = User::where('user_type',UserType::$USERCUSTOMER)->get();
         return view('taqneen.ticket.show',compact('ticket','cannedReplies','ticketStatuses','users','ticketsReplies','auth_user'));
     }
@@ -210,36 +211,6 @@ class TicketController extends Controller
         $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with('user')->latest()->get();
         return view('taqneen.ticket.print-ticket',compact('ticket','ticketsReplies'));
 
-    }
-
-    public function edit($id)
-    {
-
-    }
-
-    public function update(Request $request,$id)
-    {
-
-    }
-
-    public function activateAll($id)
-    {
-        DepartmentUser::where('ticket_id',$id)->update(['is_active'=>1]);
-        $output = [
-            "success" => 1,
-            "msg" => __('done')
-        ];
-        return back()->with('status', $output);
-    }
-
-    public function deactivateAll($id)
-    {
-        DepartmentUser::where('ticket_id',$id)->update(['is_active'=>0]);
-        $output = [
-            "success" => 1,
-            "msg" => __('done')
-        ];
-        return back()->with('status', $output);
     }
 
     public function status($id)
@@ -263,8 +234,8 @@ class TicketController extends Controller
 
     public function destory($id)
     {
-        $departmentUser = DepartmentUser::findOrFail($id);
-        $departmentUser->delete();
+        $ticket = Ticket::findOrFail($id);
+        $ticket->delete();
         return responseJson(1, __('done'));
     }
 
@@ -348,5 +319,19 @@ class TicketController extends Controller
     public function checkStatusTrigger($status)
     {
         return (boolean) (EmailTemplate::where('template_for',$status)->first());
+    }
+
+    public function getAgent()
+    {
+        if (request()->has('agent_id'))
+            return  User::find(request()->get('agent_id'));
+        else if (auth()->check())
+            return auth()->user();
+        else
+        {
+            $customerFormController= new CustomerFormController();
+            $customer = $customerFormController->preAccount();
+            return $customer->loginUser;
+        }
     }
 }

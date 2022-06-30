@@ -343,7 +343,7 @@
                     <div class="comment-author-ava"><img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Avatar"></div>
                     <div class="comment-body">
                         <p class="comment-text">{{$ticketReply->reply}}</p>
-                        <div class="comment-footer"><span class="comment-meta">{{$ticket->user->full_name??$ticket['client_name']}}</span></div>
+                        <div class="comment-footer"><span class="comment-meta">{{$ticket->user->full_name??$ticket['customer']}}</span></div>
                     </div>
                 </div>
             @endforeach

@@ -28,6 +28,11 @@ class Ticket extends Model
         return $this->belongsTo(User::class,'agent_id','id')->with('contactInfo');
     }
 
+    public function contact()
+    {
+        return $this->belongsTo(User::class,'agent_id','id')->with('contactInfo');
+    }
+
     public function priority()
     {
         return $this->belongsTo(TicketPriority::class,'priority_id','id');

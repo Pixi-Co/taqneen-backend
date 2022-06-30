@@ -199,7 +199,7 @@
                                                             <div class="user d-flex flex-row align-items-center">
                                                                 <p>
                                                                     <img src="{{ asset('images/avatar.png') }}" width="30" class="user-img rounded-circle mr-2">
-                                                                    <span>{{$ticketReply->user->first_name." ".$ticketReply->user->last_name}}</span>
+                                                                    <span>{{$ticketReply->user->full_name??$ticketReply->ticket->client_name}}</span>
                                                                 </p>
                                                                 <span class="p-r-15"><b class="font-weight-bold">{{$ticketReply->reply}}</b></span>
                                                             </div>
@@ -213,7 +213,7 @@
                                                                 </div>
 
                                                                 <div class="icons align-items-center">
-                                                                    <a><i class="fa fa-download text-info"></i><small>download</small></a>
+                                                                    <a><i class="fa fa-download text-info"></i><small>@lang('support.download')</small></a>
                                                                 </div>
 
                                                             </div>

@@ -442,7 +442,8 @@ class CustomerFormController extends Controller
         $user = $this->createUser($customer, $userData);
         $customer->converted_by = $user->id;
         $customer->update();
-
+        $customer = $customer->refresh();
         Auth::login($user);
+        return $customer ;
     }
 }
