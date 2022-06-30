@@ -54,7 +54,7 @@ class TicketController extends Controller
                 })
 
                 ->editColumn('agent.custom_field_1', function ($ticket) {
-                    return $ticket->agent->custom_field_1??$ticket->computer_num;
+                    return $ticket->contact->custom_field1??$ticket->computer_num;
                 })
 
                 ->filter(function ($instance) use ($request) {
