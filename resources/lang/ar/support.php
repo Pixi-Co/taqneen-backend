@@ -1,6 +1,7 @@
 <?php
 return [
      "support" => "الدعم",
+     "send_ticket" => "ارسال التذكره",
      "ticket_details" => "التفاصيل",
      "date" => "تاريخ",
      "ticket_priorities" => "الالويات",

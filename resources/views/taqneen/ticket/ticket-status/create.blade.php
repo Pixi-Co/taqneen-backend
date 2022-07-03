@@ -12,15 +12,15 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.ticket_statues')</h3>
+    <h3>@trans('ticket_statues')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
     <li class="breadcrumb-item">
-        <a href="{{route('tickets.statues')}}">@lang('support.ticket_statues')</a>
+        <a href="{{route('tickets.statues')}}">@trans('ticket_statues')</a>
     </li>
-    <li class="breadcrumb-item active">@lang('support.add_ticket_statuses')</li>
+    <li class="breadcrumb-item active">@trans('add_ticket_statuses')</li>
 @endsection
 
 @section('content')
@@ -43,7 +43,7 @@
 
                                     <div class="card-body">
                                         <div class="form-group mb-3">
-                                            <label for="name" class="form-label">@lang('support.name')</label>
+                                            <label for="name" class="form-label">@trans('name')</label>
                                             <input type="text" name="name" value="{{old('name')}}" class="form-control" id="name">
                                             @if($errors->has('name'))
                                                 <div class="text text-danger">
@@ -56,7 +56,7 @@
                                             <div class="form-check">
                                                 <input class="form-check-input" name="is_send_mail"  type="checkbox" id="flexCheckDefault" {{old('is_send_mail')!==null? 'checked':''}}>
                                                 <label class="form-check-label" for="flexCheckDefault">
-                                                    @lang('support.send_mail')
+                                                    @trans('send_mail')
                                                 </label>
                                             </div>
                                             @if($errors->has('is_send_mail'))
@@ -70,7 +70,7 @@
                                             <div class="form-check">
                                                 <input class="form-check-input" name="is_default"  type="checkbox" id="flexCheckisDefault" {{old('is_default')!==null? 'checked':''}}>
                                                 <label class="form-check-label" for="flexCheckisDefault">
-                                                    @lang('support.is_default')
+                                                    @trans('is_default')
                                                 </label>
                                             </div>
                                         </div>

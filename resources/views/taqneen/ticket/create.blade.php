@@ -12,7 +12,7 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.add_ticket')</h3>
+    <h3>@trans('add_ticket')</h3>
 @endsection
 
 @section('breadcrumb-items')

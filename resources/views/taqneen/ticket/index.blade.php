@@ -14,12 +14,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.all_tickets')</h3>
+    <h3>@trans('all_tickets')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
-    <li class="breadcrumb-item active">@lang('support.all_tickets')</li>
+    <li class="breadcrumb-item active">@trans('all_tickets')</li>
 @endsection
 
 @section('content')
@@ -45,7 +45,7 @@
                                                     <div class="row">
                                                         <div class="mb-3 col-md-4 col-sm-6 ">
                                                             <div class="form-group">
-                                                                <label for="formFile" class="form-label">@lang('support.ticket_titles')</label>
+                                                                <label for="formFile" class="form-label">@trans('ticket_titles')</label>
                                                                 <select class="form-control sub_departments select2" id="sub_department" name="sub_department">
                                                                     <option disabled selected>@lang('messages.please_select')</option>
                                                                     @if(count($subDepartments))
@@ -60,15 +60,15 @@
 
                                                         <div class="mb-3 col-md-4 col-sm-6 ">
                                                             <div class="form-group">
-                                                                <label for="formFile" class="form-label">@lang('support.ticket_priorities')</label>
+                                                                <label for="formFile" class="form-label">@trans('ticket_priorities')</label>
                                                                 <select class="form-control" name="priority" id="priority">
                                                                     @if(count($priorities))
-                                                                        <option disabled selected>@lang('support.ticket_priorities')</option>
+                                                                        <option disabled selected>@trans('ticket_priorities')</option>
                                                                         @foreach($priorities as $priority)
                                                                             <option value="{{$priority->id}}" {{$priority->id==old('priority')?'selected':''}}>{{$priority->name}}</option>
                                                                         @endforeach
                                                                     @else
-                                                                        <option disabled>@lang('support.select_priority')</option>
+                                                                        <option disabled>@trans('select_priority')</option>
                                                                     @endif
 
                                                                 </select>
@@ -77,15 +77,15 @@
 
                                                         <div class="mb-3 col-md-4 col-sm-6 ">
                                                             <div class="form-group">
-                                                                <label for="formFile" class="form-label">@lang('support.status')</label>
+                                                                <label for="formFile" class="form-label">@trans('status')</label>
                                                                 <select class="form-control" id="status" name="status">
                                                                     @if(count($ticketStatues))
-                                                                        <option disabled selected>@lang('support.status')</option>
+                                                                        <option disabled selected>@trans('status')</option>
                                                                         @foreach($ticketStatues as $ticketStatue)
                                                                             <option value="{{$ticketStatue->id}}" {{$ticketStatue->id == old('status')?'selected':''}}>{{$ticketStatue->name}}</option>
                                                                         @endforeach
                                                                     @else
-                                                                        <option disabled>@lang('support.status')</option>
+                                                                        <option disabled>@trans('status')</option>
                                                                     @endif
 
                                                                 </select>
@@ -94,21 +94,21 @@
 
                                                         <div class="form-group mb-3 col-md-4 col-sm-6 ">
                                                             <div>
-                                                                <label for="computer_number" class="form-label">@lang('support.computer_num')</label>
+                                                                <label for="computer_number" class="form-label">@trans('computer_num')</label>
                                                                 <input class="form-control" name="computer_number" type="text" id="computer_number">
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group mb-3 col-md-4 col-sm-6 ">
                                                             <div>
-                                                                <label for="user_name" class="form-label">@lang('support.user_name')</label>
+                                                                <label for="user_name" class="form-label">@trans('user_name')</label>
                                                                 <input class="form-control" name="user_name" value="{{old('user_name')}}" type="text" id="user_name">
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group mb-3 col-md-4 col-sm-6 ">
                                                             <div>
-                                                                <label for="client_name" class="form-label">@lang('support.client_name')</label>
+                                                                <label for="client_name" class="form-label">@trans('client_name')</label>
                                                                 <input class="form-control" value="{{old('client_name')}}" name="client_name" type="text" id="client_name">
                                                             </div>
                                                         </div>
@@ -133,13 +133,13 @@
                                                     <tr>
                                                         <th>@lang('id')</th>
                                                         <th>@trans('title')</th>
-                                                        <th>@lang('support.department')</th>
-                                                        <th>@lang('support.customer')</th>
-                                                        <th>@lang('support.computer_num')</th>
-                                                        <th>@lang('support.priority')</th>
-                                                        <th>@lang('support.user')</th>
-                                                        <th>@lang('support.status')</th>
-                                                        <th>@lang('support.created_at')</th>
+                                                        <th>@trans('department')</th>
+                                                        <th>@trans('customer')</th>
+                                                        <th>@trans('computer_num')</th>
+                                                        <th>@trans('priority')</th>
+                                                        <th>@trans('user')</th>
+                                                        <th>@trans('status')</th>
+                                                        <th>@trans('created_at')</th>
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                     </thead>

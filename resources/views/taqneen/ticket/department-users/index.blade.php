@@ -14,12 +14,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.department_users')</h3>
+    <h3>@trans('department_users')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
-    <li class="breadcrumb-item active">@lang('support.department_users')</li>
+    <li class="breadcrumb-item active">@trans('department_users')</li>
 @endsection
 
 @section('content')
@@ -50,9 +50,9 @@
                                                 <table class="display table table-striped dataTable">
                                                     <thead class="text-center">
                                                     <tr>
-                                                        <th>@lang('support.department')</th>
+                                                        <th>@trans('department')</th>
                                                         <th>@trans('name')</th>
-                                                        <th>@lang('support.status')</th>
+                                                        <th>@trans('status')</th>
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                     </thead>
@@ -64,9 +64,9 @@
                                                             <td>
                                                                 <span  class="badge" style="background-color: {{$department_user->is_active==1?'#2BAD68':"#AD2B52"}}">
                                                                     @if($department_user->is_active==1)
-                                                                        @lang('support.active')
+                                                                        @trans('active')
                                                                     @else
-                                                                        @lang('support.not_active')
+                                                                        @trans('not_active')
                                                                     @endif
                                                                 </span>
                                                             </td>

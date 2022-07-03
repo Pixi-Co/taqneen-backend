@@ -12,15 +12,15 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.department_users')</h3>
+    <h3>@trans('department_users')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
     <li class="breadcrumb-item">
-        <a href="{{route('department.users')}}">@lang('support.department_users')</a>
+        <a href="{{route('department.users')}}">@trans('department_users')</a>
     </li>
-    <li class="breadcrumb-item active">@lang('support.add_department_users')</li>
+    <li class="breadcrumb-item active">@trans('add_department_users')</li>
 @endsection
 
 @section('content')
@@ -53,7 +53,7 @@
                                         <div class="card-body">
 
                                             <div class="col-xs-12 col-md-8" style="margin: 5px">
-                                                <label for="name" class="form-label">@lang('support.ticket_department')</label>
+                                                <label for="name" class="form-label">@trans('ticket_department')</label>
                                                 <div class="form-group">
                                                     <select class="form-control" id="main_department">
                                                         <option>@lang('messages.please_select')</option>
@@ -70,7 +70,7 @@
                                             </div>
 
                                             <div class="col-xs-12 col-md-8" style="margin: 5px">
-                                                <label for="name" class="form-label">@lang('support.sub_department')</label>
+                                                <label for="name" class="form-label">@trans('sub_department')</label>
                                                 <div class="form-group">
                                                     <select class="form-control sub_departments" name="sub_department">
                                                         <option>@lang('messages.please_select')</option>
@@ -87,7 +87,7 @@
                                             </div>
 
                                             <div class="col-xs-12 col-md-8" style="margin: 5px">
-                                                <label for="name" class="form-label">@lang('support.users')</label>
+                                                <label for="name" class="form-label">@trans('users')</label>
                                                 <div class="form-group">
                                                     <select class="form-control select2" name="users[]" multiple="multiple">
                                                         @if(count($users))

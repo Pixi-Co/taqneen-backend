@@ -12,15 +12,15 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.canned_reply')</h3>
+    <h3>@trans('canned_reply')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
     <li class="breadcrumb-item">
-        <a href="{{route('canned-reply')}}">@lang('support.canned_reply')</a>
+        <a href="{{route('canned-reply')}}">@trans('canned_reply')</a>
     </li>
-    <li class="breadcrumb-item active">@lang('support.add_canned_reply')</li>
+    <li class="breadcrumb-item active">@trans('add_canned_reply')</li>
 @endsection
 
 @section('content')
@@ -43,7 +43,7 @@
 
                                     <div class="card-body">
                                         <div class="form-group mb-3">
-                                            <label for="name" class="form-label">@lang('support.name')</label>
+                                            <label for="name" class="form-label">@trans('name')</label>
                                             <input type="text" name="title" value="{{old('name')}}" class="form-control" id="name">
                                             @if($errors->has('title'))
                                                 <div class="text text-danger">
@@ -53,7 +53,7 @@
                                         </div>
 
                                         <div class="form-group mb-3">
-                                            <label for="color" class="form-label">@lang('support.status_desc')</label>
+                                            <label for="color" class="form-label">@trans('status_desc')</label>
                                             <textarea name="message" class="form-control">
 
                                             </textarea>

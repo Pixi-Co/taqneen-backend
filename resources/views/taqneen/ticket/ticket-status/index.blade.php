@@ -14,12 +14,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.ticket_statues')</h3>
+    <h3>@trans('ticket_statues')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
-    <li class="breadcrumb-item active">@lang('support.ticket_statues')</li>
+    <li class="breadcrumb-item active">@trans('ticket_statues')</li>
 @endsection
 
 @section('content')
@@ -52,8 +52,8 @@
                                                     <tr>
                                                         <th>#</th>
                                                         <th>@trans('name')</th>
-                                                        <th>@lang('support.send_mail')</th>
-                                                        <th>@lang('support.is_default')</th>
+                                                        <th>@trans('send_mail')</th>
+                                                        <th>@trans('is_default')</th>
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                     </thead>
@@ -65,12 +65,12 @@
                                                             <td>
                                                                 @if( $status->is_send_mail==1)
                                                                     <span  class="badge" style="background-color: #2BAD71">
-                                                                        @lang('support.yes')
+                                                                        @trans('yes')
                                                                      </span>
 
                                                                 @else
                                                                     <span  class="badge" style="background-color: #AD2B52">
-                                                                      @lang('support.no')
+                                                                      @trans('no')
                                                                     </span>
                                                                 @endif
 
@@ -78,12 +78,12 @@
                                                             <td>
                                                                 @if( $status->is_default==1)
                                                                     <span  class="badge" style="background-color: #2BAD71">
-                                                                        @lang('support.yes')
+                                                                        @trans('yes')
                                                                      </span>
 
                                                                 @else
                                                                     <span  class="badge" style="background-color: #AD2B52">
-                                                                      @lang('support.no')
+                                                                      @trans('no')
                                                                     </span>
                                                                 @endif
 

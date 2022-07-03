@@ -82,7 +82,7 @@
                                             <div class="form-check">
                                                 <input class="form-check-input" name="is_default"  type="checkbox" id="flexCheckisDefault" {{$status->is_default==1? 'checked':''}}>
                                                 <label class="form-check-label" for="flexCheckisDefault">
-                                                    @lang('support.is_default')
+                                                    @trans('is_default')
                                                 </label>
                                             </div>
                                             @if($errors->has('is_default'))

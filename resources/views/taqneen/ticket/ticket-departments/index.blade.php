@@ -14,7 +14,7 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.ticket_department')</h3>
+    <h3>@trans('ticket_department')</h3>
 @endsection
 
 @section('breadcrumb-items')

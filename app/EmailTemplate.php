@@ -11,19 +11,19 @@ class EmailTemplate extends Model
     protected $table = "notification_templates";
 
     public static $TRIGERS = [
-        "NEW_SUBSCRIPTION" => "add new subscription",
-        "CHANGE_SUBSCRIPTION_STATUS" => "change subscription status",
-        "RENEW_SUBSCRIPTION" => "renew subscription", 
-        "EXPIRE_SUBSCRIPTION_BEFORE_3_WEEKS" => "expire subscription before 3 week",
-        "EXPIRE_SUBSCRIPTION_BEFORE_2_WEEKS" => "expire subscription before 2 week",
-        "EXPIRE_SUBSCRIPTION_BEFORE_1_WEEKS" => "expire subscription before 1 week",
-        "EXPIRE_SUBSCRIPTION_DAY" => "expire subscription day",
-        "EXPIRE_SUBSCRIPTION_AFTER_3_WEEKS" => "expire subscription after 3 week",
-        "EXPIRE_SUBSCRIPTION_AFTER_2_WEEKS" => "expire subscription after 2 week",
-        "EXPIRE_SUBSCRIPTION_AFTER_1_WEEKS" => "expire subscription after 1 week",
-        "ADD_OPPORTUNITY" => "add opportunities",
-        "ADD_CUSTOMER_FORM" => "add customer form",
-        "ADD_SUBSCRIPTION_NOTE" => "add subscription note",
+        "NEW_SUBSCRIPTION" => "إضافة اشتراك جديد",
+        "CHANGE_SUBSCRIPTION_STATUS" => "تغيير حالة الاشتراك",
+        "RENEW_SUBSCRIPTION" => "تجديد الاشتراك",
+        "EXPIRE_SUBSCRIPTION_BEFORE_3_WEEKS" => "الاشتراك ينتهي قبل 3 اسابيع",
+        "EXPIRE_SUBSCRIPTION_BEFORE_2_WEEKS" => "تنتهي صلاحية الاشتراك قبل أسبوعين",
+        "EXPIRE_SUBSCRIPTION_BEFORE_1_WEEKS" => "تنتهي صلاحية الاشتراك قبل أسبوع واحد",
+        "EXPIRE_SUBSCRIPTION_DAY" => "يوم انتهاء الاشتراك",
+        "EXPIRE_SUBSCRIPTION_AFTER_3_WEEKS" => "الاشتراك ينتهي بعد 3 اسابيع",
+        "EXPIRE_SUBSCRIPTION_AFTER_2_WEEKS" => "الاشتراك ينتهي بعد اسبوعين",
+        "EXPIRE_SUBSCRIPTION_AFTER_1_WEEKS" => "تنتهي صلاحية الاشتراك بعد أسبوع واحد",
+        "ADD_OPPORTUNITY" => "أضافة الفرص",
+        "ADD_CUSTOMER_FORM" => "إضافة نموذج العميل",
+        "ADD_SUBSCRIPTION_NOTE" => "إضافة ملاحظة الاشتراك",
     ];
 
     public static function getStatusAllowSendMail()
@@ -57,9 +57,9 @@ class EmailTemplate extends Model
         '{subscription_note}' => "note",
         '{ticket_id}' => "id",
         '{ticket_status}' => "status_id",
-        '{ticket_url}' => "/support/guest/tickets/reply/",
+        '{ticket_url}' => "https://portal.taqneen.com/support/guest/tickets/reply/",
     ];
-    
+
     public static function getTemplate($triger) {
         $resource = DB::table('notification_templates')
             ->where('business_id', session('business.id'))

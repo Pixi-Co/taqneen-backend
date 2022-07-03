@@ -138,29 +138,34 @@
                         </a> 
                         <ul class="sidebar-submenu"  >
 
-                            @can(find_or_create_p('support.supportboard'))
-                                <li><a  href="{{url('/support/canned-reply')}}" >@lang('support.canned_reply')</a></li>
+                            @can(find_or_create_p('support.canned_reply'))
+                                <li><a  href="{{url('/support/canned-reply')}}" >{{ trans('canned_reply') }}</a></li>
                             @endcan
 
-                            @can(find_or_create_p('support.supportboard'))
-                                <li><a  href="{{url('/support/ticket/priorities')}}" >@lang('support.ticket_priorities')</a></li>
+                            @can(find_or_create_p('support.ticket_priorities'))
+                                <li><a  href="{{url('/support/ticket/priorities')}}" >{{ trans('ticket_priorities') }}</a></li>
                             @endcan
 
-                                @can(find_or_create_p('support.supportboard'))
-                                    <li><a  href="{{url('/support/ticket/statues')}}">@lang('support.ticket_statues')</a></li>
+                                @can(find_or_create_p('support.ticket_statuses'))
+                                    <li><a  href="{{url('/support/ticket/statues')}}">{{ trans('ticket_statues') }}</a></li>
                                 @endcan
 
-                            @can(find_or_create_p('support.supportboard'))
-                                <li><a  href="{{url('/support/ticket/departments')}}" >@lang('support.ticket_department')</a></li>
+                            @can(find_or_create_p('support.ticket_departments'))
+                                <li><a  href="{{url('/support/ticket/departments')}}" >{{ trans('ticket_department') }}</a></li>
+                            @endcan
+
+                            @can(find_or_create_p('support.department_users'))
+                                <li><a  href="{{url('/support/department/users')}}" >{{ trans('department_users') }}</a></li>
+                            @endcan
+
+                            @can(find_or_create_p('support.view_tickets'))
+                                <li><a  href="{{url('/support/tickets')}}" >{{trans('all_tickets')}}</a></li>
                             @endcan
 
                             @can(find_or_create_p('support.supportboard'))
-                                <li><a  href="{{url('/support/department/users')}}" >@lang('support.department_users')</a></li>
+                                <li><a  href="{{url('/support')}}" >@trans('supportboard')</a></li>
                             @endcan
 
-{{--                            @can(find_or_create_p('support.supportboard'))--}}
-                                <li><a  href="{{url('/support/tickets')}}" >@lang('support.all_tickets')</a></li>
-{{--                            @endcan--}}
 
                             @can(find_or_create_p('support.ticket'))
                             <li><a target="_blank" href="https://taqneen.com/open-a-ticket/" >@trans('ticket')</a></li> 

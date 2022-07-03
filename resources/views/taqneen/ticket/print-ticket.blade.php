@@ -44,7 +44,7 @@
             <div class="card">
                 <div class="card-header">
                     <div style="float: right">
-                        @lang('support.ticket_num')
+                        @trans('ticket_num')
                         <strong>#{{$ticket['id']." | ".$ticket['description']}}</strong>
                     </div>
                 </div>
@@ -52,26 +52,26 @@
                     <div class="row mb-4">
                         <div class="col-md-6 col-sm-6">
                            <div class="row">
-                               <div class="col-md-3 col-sm-3">@lang('support.department')</div>
+                               <div class="col-md-3 col-sm-3">@trans('department')</div>
                                <div class="col-md-4 col-sm-4">{{$ticket['department']}}</div>
                            </div>
                             <div class="row">
-                                <div class="col-md-3 col-sm-3">@lang('support.sub_department')</div>
+                                <div class="col-md-3 col-sm-3">@trans('sub_department')</div>
                                 <div class="col-md-4 col-sm-4">{{$ticket['title']}}</div>
                                 <hr>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 col-sm-3">@lang('support.status')</div>
+                                <div class="col-md-3 col-sm-3">@trans('status')</div>
                                 <div class="col-md-4 col-sm-4">{{$ticket['status']}}</div>
                                 <hr>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 col-sm-3">@lang('support.priority')</div>
+                                <div class="col-md-3 col-sm-3">@trans('priority')</div>
                                 <div class="col-md-4 col-sm-4"><span class="badge" style="background-color: {{$ticket['priority_color']}}">{{$ticket['priority']}}</span></div>
                                 <hr>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 col-sm-3">@lang('support.created_at')</div>
+                                <div class="col-md-3 col-sm-3">@trans('created_at')</div>
                                 <div class="col-md-4 col-sm-4">{{$ticket['created_at']}}</div>
                             </div>
                         </div>
@@ -79,19 +79,19 @@
                         <div class="col-sm-6">
                             <table class="table table-striped">
                                 <tr>
-                                    <td>@lang('support.customer')</td>
+                                    <td>@trans('customer')</td>
                                     <td>{{$ticket['customer']}}</td>
                                 </tr>
                                 <tr>
-                                    <td>@lang('support.computer_num')</td>
+                                    <td>@trans('computer_num')</td>
                                     <td>{{$ticket['computer_num']??"لا يوجد"}}</td>
                                 </tr>
                                 <tr>
-                                    <td>@lang('support.customer_email')</td>
+                                    <td>@trans('customer_email')</td>
                                     <td>{{$ticket['customer_email']}}</td>
                                 </tr>
                                 <tr>
-                                    <td>@lang('support.user')</td>
+                                    <td>@trans('user')</td>
                                     <td>{{$ticket['user']}}</td>
                                 </tr>
                             </table>
@@ -102,9 +102,9 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th class="center">@lang('support.name')</th>
-                                <th>@lang('support.reply')</th>
-                                <th>@lang('support.date')</th>
+                                <th class="center">@trans('name')</th>
+                                <th>@trans('reply')</th>
+                                <th>@trans('date')</th>
                             </tr>
                             </thead>
                             <tbody>

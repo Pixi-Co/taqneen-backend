@@ -1,6 +1,8 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"/>
 <style>
+
+
     body{margin-top:20px;}
 
     .user-info-wrapper {
@@ -10,15 +12,15 @@
         padding-top: 90px;
         padding-bottom: 30px;
         border: 1px solid #e1e7ec;
-        border-top-left-radius: 7px;
         border-top-right-radius: 7px;
+        border-top-left-radius: 7px;
         overflow: hidden
     }
 
     .user-info-wrapper .user-cover {
         position: absolute;
         top: 0;
-        left: 0;
+        right: 0;
         width: 100%;
         height: 120px;
         background-position: center;
@@ -37,7 +39,7 @@
         display: block;
         position: absolute;
         top: 18px;
-        right: 18px;
+        left: 18px;
         height: 26px;
         padding: 0 12px;
         border-radius: 13px;
@@ -51,7 +53,7 @@
 
     .user-info-wrapper .info-label>i {
         display: inline-block;
-        margin-right: 3px;
+        margin-left: 3px;
         font-size: 1.2em;
         vertical-align: middle
     }
@@ -86,7 +88,7 @@
         display: block;
         position: absolute;
         top: -2px;
-        right: 2px;
+        left: 2px;
         width: 36px;
         height: 36px;
         transition: opacity .3s;
@@ -113,7 +115,7 @@
 
     .user-info-wrapper .user-info .user-data {
         padding-top: 48px;
-        padding-left: 12px
+        padding-right: 12px
     }
 
     .user-info-wrapper .user-info .user-data h4 {
@@ -134,12 +136,12 @@
         border-radius: 0;
     }
     .list-group-item:first-child {
-        border-top-left-radius: 7px;
         border-top-right-radius: 7px;
+        border-top-left-radius: 7px;
     }
     .list-group-item:first-child {
-        border-top-left-radius: .25rem;
         border-top-right-radius: .25rem;
+        border-top-left-radius: .25rem;
     }
     a.list-group-item {
         padding-top: .87rem;
@@ -152,7 +154,7 @@
     }
     .with-badge {
         position: relative;
-        padding-right: 3.3rem;
+        padding-left: 3.3rem;
     }
     .list-group-item {
         border-color: #e1e7ec;
@@ -174,14 +176,14 @@
     .with-badge .badge {
         position: absolute;
         top: 50%;
-        right: 1.15rem;
+        left: 1.15rem;
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
     }
     .list-group-item i {
         margin-top: -4px;
-        margin-right: 8px;
+        margin-left: 8px;
         font-size: 1.1em;
     }
 
@@ -191,14 +193,14 @@
         display: block;
         position: relative;
         margin-bottom: 30px;
-        padding-left: 66px
+        padding-right: 66px
     }
 
     .comment .comment-author-ava {
         display: block;
         position: absolute;
         top: 0;
-        left: 0;
+        right: 0;
         width: 50px;
         border-radius: 50%;
         overflow: hidden
@@ -221,7 +223,7 @@
     .comment .comment-body::before {
         position: absolute;
         top: 12px;
-        right: 100%;
+        left: 100%;
         width: 0;
         height: 0;
         border: solid transparent;
@@ -232,14 +234,14 @@
     .comment .comment-body::after {
         border-width: 9px;
         border-color: transparent;
-        border-right-color: #fff
+        border-left-color: #fff
     }
 
     .comment .comment-body::before {
         margin-top: -1px;
         border-width: 10px;
         border-color: transparent;
-        border-right-color: #e1e7ec
+        border-left-color: #e1e7ec
     }
 
     .comment .comment-title {
@@ -264,7 +266,7 @@
     }
 
     .comment .comment-footer>.column:last-child {
-        text-align: right
+        text-align: left
     }
 
     .comment .comment-meta {
@@ -285,7 +287,7 @@
     .comment .reply-link>i {
         display: inline-block;
         margin-top: -3px;
-        margin-right: 4px;
+        margin-left: 4px;
         vertical-align: middle
     }
 
@@ -300,7 +302,7 @@
 
     @media (max-width: 576px) {
         .comment {
-            padding-left: 0
+            padding-right: 0
         }
         .comment .comment-author-ava {
             display: none

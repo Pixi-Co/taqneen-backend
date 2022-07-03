@@ -12,7 +12,7 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.tickets')</h3>
+    <h3>@trans('tickets')</h3>
 @endsection
 
 @section('breadcrumb-items')
@@ -42,7 +42,7 @@
                                     @if(!empty(auth()->user())&&auth()->user()->user_type==\App\Enum\UserType::$USERCUSTOMER)
                                         <div class="col-md-4">
                                             <div class="form-group mb-3">
-                                                <label for="computer_number" class="form-label">@lang('support.computer_number')<b class="text-danger">*</b></label>
+                                                <label for="computer_number" class="form-label">@trans('computer_number')<b class="text-danger">*</b></label>
                                                 <input type="text" name="computer_num" value="{{isset($authedUser)?$authedUser->custom_field1:''}}" class="form-control" id="computer_number" placeholder="700xxxxxxxxxxx">
                                                 @if($errors->has('computer_number'))
                                                     <div class="text text-danger">
@@ -53,7 +53,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb-3">
-                                                <label for="name" class="form-label">@lang('support.email')</label>
+                                                <label for="name" class="form-label">@trans('email')</label>
                                                 <input type="text" name="client_email" value="{{isset($authedUser)?$authedUser->email:''}}" class="form-control">
                                                 @if($errors->has('client_email'))
                                                     <div class="text text-danger">
@@ -64,7 +64,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb-3">
-                                                <label for="name" class="form-label">@lang('support.name')</label>
+                                                <label for="name" class="form-label">@trans('name')</label>
                                                 <input type="text" name="client_name" value="{{isset($authedUser)?$authedUser->name:''}}" class="form-control" id="name">
                                                 @if($errors->has('client_name'))
                                                     <div class="text text-danger">
@@ -78,7 +78,7 @@
 
                                     @if(!empty(auth()->user())&&auth()->user()->user_type==\App\Enum\UserType::$USER)
                                         <div class="col-xs-12 col-md-8" style="margin: 5px">
-                                            <label for="name" class="form-label">@lang('support.client_name')<b class="text-danger">*</b></label>
+                                            <label for="name" class="form-label">@trans('client_name')<b class="text-danger">*</b></label>
                                             <div class="form-group">
                                                 <select class="form-control select2">
                                                     <option>@lang('messages.please_select')</option>
@@ -97,7 +97,7 @@
                                 </div><br>
                                 <div class="row">
                                     <div class="col-xs-6 col-md-6">
-                                        <label for="name" class="form-label">@lang('support.ticket_department')<b class="text-danger">*</b></label>
+                                        <label for="name" class="form-label">@trans('ticket_department')<b class="text-danger">*</b></label>
                                         <div class="form-group">
                                             <select class="form-control" id="main_department">
                                                 <option>@lang('messages.please_select')</option>
@@ -114,7 +114,7 @@
                                     </div>
 
                                     <div class="col-xs-6 col-md-6">
-                                        <label for="name" class="form-label">@lang('support.sub_department')<b class="text-danger">*</b></label>
+                                        <label for="name" class="form-label">@trans('sub_department')<b class="text-danger">*</b></label>
                                         <div class="form-group">
                                             <select class="form-control sub_departments" name="sub_department">
                                                 <option>@lang('messages.please_select')</option>
@@ -139,7 +139,7 @@
                                 <div class="row">
                                     <div class="col-xs-12 col-md-12" style="margin: 5px">
                                         <div class="form-group mb-3">
-                                            <label for="color" class="form-label">@lang('support.status_desc')<b class="text-danger">*</b></label>
+                                            <label for="color" class="form-label">@trans('status_desc')<b class="text-danger">*</b></label>
                                             <textarea name="description" class="form-control">{{$ticket->description}}</textarea>
                                             @if($errors->has('description'))
                                                 <p class="text text-danger">
@@ -152,7 +152,7 @@
                                     <div class="col-xs-12 col-md-8" style="margin: 5px">
                                         <div class="form-group mb-3">
                                             <div class="mb-3">
-                                                <label for="formFile" class="form-label">@lang('support.upload_file')</label>
+                                                <label for="formFile" class="form-label">@trans('upload_file')</label>
                                                 <input class="form-control" name="file" type="file" id="formFile">
                                             </div>
                                         </div>

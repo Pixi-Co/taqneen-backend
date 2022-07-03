@@ -14,12 +14,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>@lang('support.ticket_priorities')</h3>
+    <h3>@trans('ticket_priorities')</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">@trans('dashboard_')</li>
-    <li class="breadcrumb-item active">@lang('support.ticket_priorities')</li>
+    <li class="breadcrumb-item active">@trans('ticket_priorities')</li>
 @endsection
 
 @section('content')
@@ -52,7 +52,7 @@
                                                     <tr>
                                                         <th>#</th>
                                                         <th>@trans('name')</th>
-                                                        <th>@lang('support.preview')</th>
+                                                        <th>@trans('preview')</th>
                                                         <th>@trans('actions')</th>
                                                     </tr>
                                                     </thead>
