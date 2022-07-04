@@ -42,7 +42,7 @@ class Ticket extends Model
     }
 
     public function getTagValue($tag) {
-        $resource = $this;
-        return $resource->$tag ? "https://portal.taqneen.com/support/guest/tickets/reply/".$resource->$tag:"";
+        $this->ticket_url = url('/support/guest/tickets/reply/'.$this->id);
+        return $this->$tag;
     }
 }

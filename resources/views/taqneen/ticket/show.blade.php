@@ -133,15 +133,15 @@
                                         <input type="hidden" name="ticket_id" value="{{$ticket['id']}}">
                                         <div class="card-body">
                                             <div class="row">
-                                                @if(auth()->user()->user_type==\App\Enum\UserType::$USER)
+                                                @if(auth()->user()->user_type=='user')
                                                     <div class="form-group mb-3">
-                                                    <select class="form-control" id="canned_reply">
-                                                        <option disabled selected>@lang('support.canned_reply')</option>
-                                                        @foreach($cannedReplies as $canned_reply)
-                                                            <option value="{{$canned_reply->message}}">{{$canned_reply->title}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
+                                                        <select class="form-control" id="canned_reply">
+                                                            <option disabled selected>@lang('support.canned_reply')</option>
+                                                            @foreach($cannedReplies as $canned_reply)
+                                                                <option value="{{$canned_reply->message}}">{{$canned_reply->title}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 @endif
 
                                                 <div class="form-group mb-3">
@@ -161,7 +161,7 @@
                                                     </div>
                                                 </div>
 
-                                                    @if(auth()->user()->isAdmin())
+                                                    @if(auth()->user()->user_type=='user')
                                                         <div class="form-group mb-3">
                                                             <label for="status" class="form-label">@lang('support.status')</label>
                                                            <div class="row">
