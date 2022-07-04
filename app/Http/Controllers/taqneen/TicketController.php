@@ -104,7 +104,7 @@ class TicketController extends Controller
     {
         $authedUser = auth()->user()->contactInfo()->get(['id','name','email','custom_field1'])->first();
         $query = TicketDepartment::query();
-        $users = User::where('user_type',UserType::$USERCUSTOMER)->get();
+        $users = User::where('user_type',UserType::$USERCUSTOMER)->take(1000)->get();
         $query2 = clone $query;
         $mainDepartments = $query->where('parent_id',null)->get();
         $subDepartments =$query2->where('parent_id','!=',null)->get();
