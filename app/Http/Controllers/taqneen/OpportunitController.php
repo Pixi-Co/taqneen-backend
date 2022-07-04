@@ -24,7 +24,7 @@ class OpportunitController extends Controller
             "done" => __('done'), 
             "another_provider" => __('another_provider'), 
         ];
-        $users = User::forDropdown(session('business.id'));
+        $users = User::where('user_type', 'user')->pluck('first_name', 'id')->toArray();
         $query = Contact::where('type','opportunity')->where('business_id', session('business.id'))
         ->latest();
 

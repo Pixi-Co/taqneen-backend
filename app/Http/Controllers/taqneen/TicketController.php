@@ -103,10 +103,12 @@ class TicketController extends Controller
     public function create()
     {
         $authedUser = auth()->user()->contactInfo()->get(['id','name','email','custom_field1'])->first();
-        $departments = TicketDepartment::all();
+        $query = TicketDepartment::query();
         $users = User::where('user_type',UserType::$USERCUSTOMER)->get();
-        $mainDepartments = $departments->where('parent_id',null);
-        $subDepartments =$departments->where('parent_id','!==',null);
+        $query2 = clone $query;
+        $mainDepartments = $query->where('parent_id',null)->get();
+        $subDepartments =$query2->where('parent_id','!=',null)->get();
+
         return view('taqneen.ticket.create',compact('mainDepartments','subDepartments','users','authedUser'));
     }
 

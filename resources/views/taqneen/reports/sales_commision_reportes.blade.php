@@ -142,9 +142,9 @@
                                                                 <td>{{ number_format($resource->sum, 2) }} SAR</td> 
                                                                 <td>
                                                                 @if($resource->custom_field_2 == 'fixed')
-                                                                {{ $resource->custom_field_2 }} SAR
+                                                                    {{ $resource->custom_field_3 }} SAR
                                                                 @else
-                                                                {{ $resource->custom_field_2 }} %
+                                                                    {{ $resource->custom_field_3 }} %
                                                                 @endif    
                                                                 </td> 
                                                                 <td> 
@@ -155,7 +155,7 @@
                                                                     {{ $cp }}
                                                                     @else
                                                                     @php
-                                                                        $cp = $resource->total * ($resource->custom_field_3 / 100);
+                                                                        $cp = $resource->sum * ($resource->custom_field_3 / 100);
                                                                     @endphp
                                                                     {{ $cp }}
                                                                     @endif SAR
