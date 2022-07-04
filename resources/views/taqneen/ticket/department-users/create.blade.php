@@ -78,8 +78,6 @@
                                                             @foreach($subDepartments as $sub_department)
                                                                 <option class="{{$sub_department->parent_id}}" value="{{$sub_department->id}}">{{$sub_department->name}}</option>
                                                             @endforeach
-                                                        @else
-                                                            <option>@lang('messages.please_select')</option>
                                                         @endif
 
                                                     </select>

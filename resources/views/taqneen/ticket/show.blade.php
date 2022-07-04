@@ -161,7 +161,7 @@
                                                     </div>
                                                 </div>
 
-                                                    @if(auth()->user()->user_type==\App\Enum\UserType::$USER)
+                                                    @if(auth()->user()->isAdmin())
                                                         <div class="form-group mb-3">
                                                             <label for="status" class="form-label">@lang('support.status')</label>
                                                            <div class="row">
@@ -250,7 +250,7 @@
                                             <div class="col-md-3 col-sm-6">{{$ticket['status']}}</div>
                                         </div>
                                         <hr>
-                                        @if(auth()->user()->user_type==\App\Enum\UserType::$USER)
+                                        @if(auth()->user()->user_type!=\App\Enum\UserType::$USERCUSTOMER)
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-6">@trans('priority')</div>
                                                 <div class="col-md-6 col-sm-6"><span class="badge" style="background-color: {{$ticket['priority_color']}}">{{$ticket['priority']}}</span></div>
@@ -278,7 +278,7 @@
                                     <div class="card-header">
                                         <div class="row">
                                             <div class="col-md-4 col-sm-12">@trans('assigned_agent')</div>
-                                            @if(auth()->user()->user_type==\App\Enum\UserType::$USER)
+                                            @if(auth()->user()->isAdmin())
                                                 <div class="col-md-6 col-sm-12">
                                                     <button id="reassign_user" role="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-repeat"></i>@trans('re_assign')</button>
                                                 </div>
@@ -321,8 +321,6 @@
                                        @foreach($users as $user)
                                            <option value="{{$user->id}}">{{$user->first_name}}</option>
                                        @endforeach
-                                   @else
-                                       <option>please select user</option>
                                    @endif
 
                                </select>

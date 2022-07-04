@@ -23,10 +23,11 @@ class DepartmentUserController extends Controller
 
     public function create()
     {
-        $users = User::where('user_type','user_customer')->get();
-        $departments = TicketDepartment::all();
-        $mainDepartments = $departments->where('parent_id',null);
-        $subDepartments =$departments->where('parent_id','!==',null);
+        $users = User::where('user_type','user')->get();
+        $query = TicketDepartment::query();
+        $query2 = clone $query;
+        $mainDepartments = $query->where('parent_id',null)->get();
+        $subDepartments =$query2->where('parent_id','!=',null)->get();
         return view('taqneen.ticket.department-users.create',compact('mainDepartments','subDepartments','users'));
     }
 

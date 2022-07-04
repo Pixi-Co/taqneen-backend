@@ -192,7 +192,7 @@ class TicketController extends Controller
         $cannedReplies = CannedReply::all();
         $ticketStatuses = TicketStatus::all();
         $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with(['user','ticket'])->latest()->get();
-        $users = User::where('user_type',UserType::$USERCUSTOMER)->get();
+        $users = User::where('user_type',UserType::$USER)->get();
         return view('taqneen.ticket.show',compact('ticket','cannedReplies','ticketStatuses','users','ticketsReplies','auth_user'));
     }
 

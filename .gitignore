@@ -5,6 +5,7 @@
 /storage/*.key
 /public/supportboard/uploads/*.key
 public/lang/*.key
+/public/lang/*.key
 /storage/framework/*.key
 /storage/logs/*.key
 /.idea
