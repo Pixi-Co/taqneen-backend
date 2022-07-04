@@ -43,6 +43,7 @@ class Ticket extends Model
 
     public function getTagValue($tag) {
         $this->ticket_url = url('/support/guest/tickets/reply/'.$this->id);
+        $this->ticket_status = optional($this->status)->name;
         return $this->$tag;
     }
 }

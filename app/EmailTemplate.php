@@ -56,7 +56,8 @@ class EmailTemplate extends Model
         '{user_triger_email}' => "user_triger_email",
         '{subscription_note}' => "note",
         '{ticket_id}' => "id",
-        '{ticket_url}' => "status_id",
+        '{ticket_status}' => "ticket_status",
+        '{ticket_url}' => "ticket_url",
     ];
 
     public static function getTemplate($triger) {
