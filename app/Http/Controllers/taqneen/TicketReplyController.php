@@ -71,7 +71,7 @@ class TicketReplyController extends Controller
             $data = $request->validate([
                 'reply' => 'required|string',
                 'file' => 'nullable|file',
-                'file.*'=>'file|mimes:ppt,pptx,doc,docx,pdf,xls,xlsx,jpg,png,gif,jpeg,|max:204800',
+                'file.*'=>'file|mimes:ppt,pptx,doc,docx,pdf,xls,xlsx,jpg,png,gif,jpeg,|max:5000',
             ]);
             if($request->file('files')) {
                 $files = $request->file('files');

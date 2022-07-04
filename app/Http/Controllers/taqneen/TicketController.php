@@ -206,17 +206,17 @@ class TicketController extends Controller
            if (count($ticket->file) >1 )
            {
                $zip = new ZipArchive;
-               if ($zip->open($full_path .'\\'. $archiveName, ZipArchive::CREATE) === TRUE) {
+               if ($zip->open($full_path .'/'. $archiveName, ZipArchive::CREATE) === TRUE) {
                    foreach ($ticket->file as $file_name) {
                        $isFile =  \File::isFile($full_path.'/files/'.$file_name);
                        if($isFile){
-                           $filePath = public_path('tickets\files\\'.$file_name);
+                           $filePath = public_path('tickets/files/'.$file_name);
                            $zip->addFile($filePath,$file_name);
                        }
                    }
                    $zip->close();
                }
-               return response()->download($full_path."\\".$archiveName)->deleteFileAfterSend(true);
+               return response()->download($full_path."/".$archiveName)->deleteFileAfterSend(true);
            }else
                return response()->download($full_path.'/files/'.$ticket->file[0]);
 

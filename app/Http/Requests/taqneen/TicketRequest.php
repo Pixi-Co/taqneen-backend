@@ -60,7 +60,7 @@ class TicketRequest extends FormRequest
             'sub_department'=>'required|integer',
             'description'=>'required',
             'files'=>'nullable',
-            'files.*'=>'mimes:ppt,pptx,doc,docx,pdf,xls,xlsx,jpg,png,gif,jpeg,|max:204800',
+            'files.*'=>'mimes:ppt,pptx,doc,docx,pdf,xls,xlsx,jpg,png,gif,jpeg,|max:5000',
         ];
     }
 
