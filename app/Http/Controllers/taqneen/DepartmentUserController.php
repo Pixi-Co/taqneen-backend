@@ -23,7 +23,7 @@ class DepartmentUserController extends Controller
 
     public function create()
     {
-        $users = User::where('user_type','user')->get();
+        $users = User::where('user_type','user')->take(500)->get();
         $query = TicketDepartment::query();
         $query2 = clone $query;
         $mainDepartments = $query->where('parent_id',null)->get();
