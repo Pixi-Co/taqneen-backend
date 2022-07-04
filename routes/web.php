@@ -195,9 +195,11 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         Route::post('tickets/delete/{id}', 'taqneen\TicketController@delete')->name('tickets.delete');
         Route::post('tickets/change/user', 'taqneen\TicketController@changeTicketUser')->name('tickets.changeTicketUser');
         Route::get('tickets/print/{id}', 'taqneen\TicketController@printTicket')->name('tickets.print');
+        Route::get('tickets/files/download/{id}', 'taqneen\TicketController@downloadTicketFiles')->name('tickets.files.download');
 
 //        ticket replies
         Route::post('tickets/reply','taqneen\TicketReplyController@store')->name('tickets.reply.store');
+        Route::get('tickets/reply/download/files/{id}','taqneen\TicketReplyController@downloadTicketReplyFiles')->name('tickets.reply.download.files');
         Route::delete('tickets/reply/delete/{id}','taqneen\TicketReplyController@delete')->name('tickets.reply.delete');
         Route::delete('tickets/reply/edit/{id}','taqneen\TicketReplyController@delete')->name('tickets.reply.edit');
 

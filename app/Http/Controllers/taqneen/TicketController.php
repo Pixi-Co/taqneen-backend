@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use ZipArchive;
 
 
 class TicketController extends Controller
@@ -50,11 +51,11 @@ class TicketController extends Controller
                 })
 
                 ->editColumn('agent.first_name', function ($ticket) {
-                    return $ticket->agent->first_name??$ticket->client_name;
+                    return $ticket->agent->full_name??$ticket->client_name;
                 })
 
                 ->editColumn('agent.custom_field_1', function ($ticket) {
-                    return $ticket->contact->custom_field1??$ticket->computer_num;
+                    return $ticket->agent->custom_field_1??$ticket->computer_num;
                 })
 
                 ->filter(function ($instance) use ($request) {
@@ -125,7 +126,6 @@ class TicketController extends Controller
             $user_id = $this->getAssignedUser($request->sub_department);
             $status = $this->getDefaultTicketStatus();
             $agent = $this->getAgent();
-//            $agent_id = auth()->check()?auth()->user()->user_type==UserType::$USERCUSTOMER?auth()->user()->id:$request->agent_id:null;
             $data = [
                 "agent_id"=>$agent->id,
                 'user_id'=>$user_id,
@@ -139,20 +139,20 @@ class TicketController extends Controller
                 'client_name'=>$request->client_name,
                 'client_phone'=>$request->client_phone,
             ];
-            if($request->file('files')) {
+
+            if ($request->hasFile('files'))
+            {
                 $files = $request->file('files');
                 foreach ($files as $file)
                 {
-                    $file = $request->file('file');
                     $filename = time().'_'.$file->getClientOriginalName();
                     // File upload location
                     $location = 'tickets/files';
                     // Upload file
                     $file->move($location,$filename);
-                    $data['file'] = $filename;
+                    $data['file'][] = $filename;
                 }
             }
-
             $ticket = Ticket::create($data);
             if ($ticket)
             {
@@ -194,6 +194,34 @@ class TicketController extends Controller
         $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with(['user','ticket'])->latest()->get();
         $users = User::where('user_type',UserType::$USERCUSTOMER)->get();
         return view('taqneen.ticket.show',compact('ticket','cannedReplies','ticketStatuses','users','ticketsReplies','auth_user'));
+    }
+
+    public function downloadTicketFiles($id)
+    {
+        $ticket = Ticket::findOrFail($id);
+        if ($ticket && !is_null($ticket->file))
+        {
+            $archiveName = 'ticket-files'.time().".zip";
+            $full_path = public_path('tickets');
+           if (count($ticket->file) >1 )
+           {
+               $zip = new ZipArchive;
+               if ($zip->open($full_path .'\\'. $archiveName, ZipArchive::CREATE) === TRUE) {
+                   foreach ($ticket->file as $file_name) {
+                       $isFile =  \File::isFile($full_path.'/files/'.$file_name);
+                       if($isFile){
+                           $filePath = public_path('tickets\files\\'.$file_name);
+                           $zip->addFile($filePath,$file_name);
+                       }
+                   }
+                   $zip->close();
+               }
+               return response()->download($full_path."\\".$archiveName)->deleteFileAfterSend(true);
+           }else
+               return response()->download($full_path.'/files/'.$ticket->file[0]);
+
+        }
+
     }
 
     public function getGuestReply($id)
@@ -313,6 +341,7 @@ class TicketController extends Controller
             "priority_color"=>$ticket->priority->color,
             "user"=>$ticket->user->full_name,
             "created_at"=>$ticket->created_at,
+            "files"=> (bool)$ticket->file
         ];
     }
 

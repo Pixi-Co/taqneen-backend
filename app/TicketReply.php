@@ -8,6 +8,10 @@ class TicketReply extends Model
 {
     protected $fillable =['user_id','file','reply','ticket_id'];
 
+    protected $casts = [
+        'file'=>'array'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class,'user_id','id')->select(['id','first_name','last_name','email']);
@@ -17,8 +21,4 @@ class TicketReply extends Model
     {
         return $this->belongsTo(Ticket::class,'ticket_id');
     }
-
-    protected $casts =[
-        'file'=>'array'
-    ];
 }

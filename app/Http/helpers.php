@@ -2,6 +2,7 @@
 
 use App\TransKey;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\File;
 
 if (!function_exists('uploadImg')) {
     function uploadImg($file, $folder = '/', $action, $oldPath = null)
@@ -685,3 +686,19 @@ if (!function_exists('trans_lang')) {
         }
     }
 }
+
+if (!function_exists('makeZipFile')) {
+    function makeZipFile($full_path, $file_name,$filePathes=[])
+    {
+        $zip = new ZipArchive;
+        if ($zip->open($full_path . $file_name, ZipArchive::CREATE) === TRUE) {
+            foreach ($filePathes as $value) {
+                $relativeName = basename($value);
+                $zip->addFile($value, $relativeName);
+            }
+            $zip->close();
+        }
+    }
+}
+
+

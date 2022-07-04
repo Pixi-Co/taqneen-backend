@@ -116,12 +116,14 @@
                                 <div class="card card-primary">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-3" style="font-size: 13px; font-weight: bold">
-                                                @lang('support.ticket_desc')
-                                            </div>
-                                            <div class="col-md-7" style="font-size: 13px; font-weight: bold">
+                                            <div class="col-md-9" style="font-size: 13px; font-weight: bold">
                                                 #{{$ticket['id'] . " | " .$ticket['description']}}
                                             </div>
+                                            @if($ticket['files'])
+                                                <div class="col-md-3">
+                                                    <a role="button" href="{{route('tickets.files.download',$ticket['id'])}}" calss="btn btn-primary btn-sm pull-left"><i class="fa fa-download"></i>@trans('download')</a>
+                                                </div>
+                                            @endif
                                         </div><hr>
                                     </div>
                                 </div>
@@ -155,7 +157,7 @@
                                                 <div class="form-group mb-3">
                                                     <div class="mb-3">
                                                         <label for="formFile" class="form-label">@lang('support.upload_file')</label>
-                                                        <input class="form-control" name="file" type="file" id="formFile" multiple>
+                                                        <input class="form-control" name="files[]" type="file" id="formFile" multiple>
                                                     </div>
                                                 </div>
 
@@ -208,12 +210,11 @@
 
                                                         @if(!empty($ticketReply->file))
                                                             <div class="action d-flex justify-content-between mt-2 align-items-center">
-
                                                                 <div class="reply px-4">
                                                                 </div>
 
                                                                 <div class="icons align-items-center">
-                                                                    <a><i class="fa fa-download text-info"></i><small>@lang('support.download')</small></a>
+                                                                    <a role="button" href="{{route('tickets.reply.download.files',$ticketReply->id)}}"><i class="fa fa-download text-info"></i><small>@trans('download')</small></a>
                                                                 </div>
 
                                                             </div>
@@ -230,45 +231,45 @@
                             <div class="col-md-5 col-sm-12">
                                 <div class="card card-primary">
                                     <div class="card-header">
-                                        @lang('support.ticket_details')
+                                        @trans('ticket_details')
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-6 col-sm-6">@lang('support.department')</div>
+                                            <div class="col-md-6 col-sm-6">@trans('department')</div>
                                             <div class="col-md-6 col-sm-6">{{$ticket['department']}}</div>
                                         </div>
                                         <hr>
                                         <div class="row">
-                                            <div class="col-md-6 col-sm-6">@lang('support.sub_department')</div>
+                                            <div class="col-md-6 col-sm-6">@trans('sub_department')</div>
                                             <div class="col-md-6 col-sm-6">{{$ticket['title']}}</div>
                                         </div>
                                         <hr>
 
                                         <div class="row bg-gray-active">
-                                            <div class="col-md-3 col-sm-6">@lang('support.status')</div>
+                                            <div class="col-md-3 col-sm-6">@trans('status')</div>
                                             <div class="col-md-3 col-sm-6">{{$ticket['status']}}</div>
                                         </div>
                                         <hr>
                                         @if(auth()->user()->user_type==\App\Enum\UserType::$USER)
                                             <div class="row">
-                                                <div class="col-md-6 col-sm-6">@lang('support.priority')</div>
+                                                <div class="col-md-6 col-sm-6">@trans('priority')</div>
                                                 <div class="col-md-6 col-sm-6"><span class="badge" style="background-color: {{$ticket['priority_color']}}">{{$ticket['priority']}}</span></div>
                                             </div><hr>
                                         @endif
                                         <div class="row">
 {{--                                            اسم العميل اللي عمل التيكت او التيكت خاصه به--}}
-                                            <div class="col-md-6 col-sm-6">@lang('support.client_name')</div>
+                                            <div class="col-md-6 col-sm-6">@trans('client_name')</div>
                                             <div class="col-md-6 col-sm-6">{{$ticket['customer']}}</div>
                                         </div>
                                         <hr>
 
                                         <div class="row">
-                                            <div class="col-md-6 col-sm-6">@lang('support.computer_num')</div>
+                                            <div class="col-md-6 col-sm-6">@trans('computer_num')</div>
                                             <div class="col-md-6 col-sm-6">{{$ticket['computer_num']}}</div>
                                         </div>
                                         <hr>
                                         <div class="row">
-                                            <div class="col-md-6 col-sm-6">@lang('support.created_at')</div>
+                                            <div class="col-md-6 col-sm-6">@trans('created_at')</div>
                                             <div class="col-md-6 col-sm-6">{{$ticket['created_at']}}</div>
                                         </div>
                                     </div>
@@ -276,10 +277,10 @@
                                 <div class="card card-primary">
                                     <div class="card-header">
                                         <div class="row">
-                                            <div class="col-md-4 col-sm-12">@lang('support.assigned_agent')</div>
+                                            <div class="col-md-4 col-sm-12">@trans('assigned_agent')</div>
                                             @if(auth()->user()->user_type==\App\Enum\UserType::$USER)
                                                 <div class="col-md-6 col-sm-12">
-                                                    <button id="reassign_user" role="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-repeat"></i>@lang('support.re_assign')</button>
+                                                    <button id="reassign_user" role="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-repeat"></i>@trans('re_assign')</button>
                                                 </div>
                                             @endif
                                         </div>
@@ -306,14 +307,14 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">@lang('support.re_assign')</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">@trans('re_assign')</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                    <form method="post" action="{{route('tickets.changeTicketUser')}}">
                        @csrf
                        <input type="hidden" name="ticket_id" value="{{$ticket['id']}}">
                        <div class="modal-body">
-                           <label for="name" class="form-label">@lang('support.users')</label>
+                           <label for="name" class="form-label">@trans('users')</label>
                            <div class="form-group">
                                <select class="form-control select2" name="user_id">
                                    @if(count($users))
@@ -334,7 +335,7 @@
                        </div>
                        <div class="modal-footer">
                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                           <button type="submit" class="btn btn-primary">@lang('support.save')</button>
+                           <button type="submit" class="btn btn-primary">@trans('save')</button>
                        </div>
                    </form>
                 </div>

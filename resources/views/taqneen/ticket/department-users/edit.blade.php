@@ -104,7 +104,7 @@
 
                                             <div class="form-group mb-3">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" name="is_active"  type="checkbox" id="flexCheckisDefault" {{$departmentUser->isactive==1?"checked":""}}>
+                                                    <input class="form-check-input" name="is_active"  type="checkbox" id="flexCheckisDefault" {{$targetDepartment->isactive==1?"checked":""}}>
                                                     <label class="form-check-label" for="flexCheckisDefault">
                                                         @trans('is_default')
                                                     </label>

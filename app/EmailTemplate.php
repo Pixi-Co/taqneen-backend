@@ -56,8 +56,7 @@ class EmailTemplate extends Model
         '{user_triger_email}' => "user_triger_email",
         '{subscription_note}' => "note",
         '{ticket_id}' => "id",
-        '{ticket_status}' => "status_id",
-        '{ticket_url}' => "https://portal.taqneen.com/support/guest/tickets/reply/",
+        '{ticket_url}' => "status_id",
     ];
 
     public static function getTemplate($triger) {

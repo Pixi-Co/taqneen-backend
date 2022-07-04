@@ -40,8 +40,8 @@ class TicketReplyRequest extends FormRequest
                 })
             ],
             'ticket_id'=>'required',
-            'file'=>'nullable|array|min:1',
-            'file.*'=>'file|mimes:ppt,pptx,doc,docx,pdf,xls,xlsx,jpg,png,gif,jpeg,|max:204800',
+            'files'=>'nullable|array|min:1',
+            'files.*'=>'mimes:ppt,pptx,doc,docx,pdf,xls,xlsx,jpg,png,gif,jpeg,|max:204800',
         ];
     }
 }

@@ -183,7 +183,7 @@
                                         </div> 
                                         <button class="btn btn-primary btn-block" type="submit">{{ __('Sign in') }}</button>
                                         <a class="btn btn-primary btn-block" href="{{ url('/register') }}" type="submit">{{ __('sign_up') }}</a>
-                                        <a class="btn btn-primary btn-block" href="{{ route('tickets.guest.create') }}">{{ __('create ticket') }}</a>
+{{--                                        <a class="btn btn-primary btn-block" href="{{ route('tickets.guest.create') }}">{{ __('create ticket') }}</a>--}}
                                     </div>
                                     <div class="social mt-4 hidden">
                                         

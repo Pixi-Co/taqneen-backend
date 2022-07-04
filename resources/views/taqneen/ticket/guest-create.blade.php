@@ -31,9 +31,9 @@
                             <div class="form-group mb-3">
                             <label for="computer_number" class="form-label">@trans('computer_number')<b class="text-danger">*</b></label>
                             <input type="text" name="computer_num" class="form-control" id="computer_number" placeholder="700xxxxxxxxxxx">
-                            @if($errors->has('computer_number'))
+                            @if($errors->has('computer_num'))
                                 <div class="text text-danger">
-                                    {{$errors->first('computer_number')}}
+                                    {{$errors->first('computer_num')}}
                                 </div>
                             @endif
                         </div>

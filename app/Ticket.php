@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
-    protected $fillable = ['status_id','department_id','user_id','agent_id','description','completed_at','priority_id','created_by','computer_num','client_email','client_name','client_phone'];
+    protected $fillable = ['status_id','department_id','user_id','agent_id','description','completed_at','priority_id','created_by','computer_num','client_email','client_name','client_phone','file'];
 
+    protected $casts = [
+        'file'=>'array'
+    ];
     public function status()
     {
         return $this->belongsTo(TicketStatus::class,'status_id','id');
@@ -40,6 +43,6 @@ class Ticket extends Model
 
     public function getTagValue($tag) {
         $resource = $this;
-        return $resource->$tag;
+        return $resource->$tag ? "https://portal.taqneen.com/support/guest/tickets/reply/".$resource->$tag:"";
     }
 }
