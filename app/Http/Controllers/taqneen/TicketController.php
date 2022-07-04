@@ -42,7 +42,7 @@ class TicketController extends Controller
             if ($this->commonUtil->is_admin(auth()->user()))
                 $data = Ticket::with(['user','agent','department','priority','status'])->select('*');
             else
-                $data =  Ticket::where('agent_id',auth()->id())->orWhere('computer_num',$request->ip())->with(['user','agent','department','priority','status'])->select('*');
+                $data =  Ticket::where('user_id',auth()->id())->orWhere('computer_num',$request->ip())->with(['user','agent','department','priority','status'])->select('*');
 
             return Datatables::of($data)
                 ->addIndexColumn()
@@ -125,7 +125,7 @@ class TicketController extends Controller
             $priority_id = $this->getTicketPriorty($request->sub_department);
             $user_id = $this->getAssignedUser($request->sub_department);
             $status = $this->getDefaultTicketStatus();
-            $agent = $this->getAgent();
+            $agent = $this->getAgent($request);
             $data = [
                 "agent_id"=>$agent->id,
                 'user_id'=>$user_id,
@@ -350,7 +350,7 @@ class TicketController extends Controller
         return (boolean) (EmailTemplate::where('template_for',$status)->first());
     }
 
-    public function getAgent()
+    public function getAgent($request)
     {
         if (request()->has('agent_id'))
             return  User::find(request()->get('agent_id'));
@@ -359,7 +359,7 @@ class TicketController extends Controller
         else
         {
             $customerFormController= new CustomerFormController();
-            $customer = $customerFormController->preAccount();
+            $customer = $customerFormController->preAccountForGuest($request);
             return $customer->loginUser;
         }
     }

@@ -446,4 +446,41 @@ class CustomerFormController extends Controller
         Auth::login($user);
         return $customer ;
     }
+
+    public function preAccountForGuest($request)
+    {
+        $ip = request()->ip();
+        $email = $request->client_email;
+        $password = "123456789";
+
+        $customer = Contact::where('email', $email)->orWhere('custom_field1',$ip)->first();
+
+        if (!$customer)
+            $customer = Contact::create([
+                "supplier_business_name" => $ip,
+                "custom_field1" => $request->computer_num,
+                "mobile" => $request->client_phone,
+                "email" => $email,
+                "state" => '-',
+                "address_line_1" => '-',
+                "zip_code" => '-',
+                "first_name" => $request->client_name,
+                "last_name" => $request->client_name,
+                "name" =>  $request->client_name,
+                "business_id" => 19,
+                "created_by" => optional(User::first())->id,
+                "type" => 'customer',
+            ]);
+        $customer = $customer->refresh();
+        $userData = [
+            "password" => $password,
+            "role" => "customer"
+        ];
+        $user = $this->createUser($customer, $userData);
+        $customer->converted_by = $user->id;
+        $customer->update();
+        $customer = $customer->refresh();
+        Auth::login($user);
+        return $customer ;
+    }
 }
