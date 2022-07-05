@@ -40,7 +40,7 @@
                                 <div class="col-sm-12">
                                     <div class="card card-primary">
                                         <div class="card-body">
-                                                <form action="{{route('tickets')}}" method="get" enctype="multipart/form-data">
+                                                <form action="{{route('tickets')}}" id="ticketFilterForm" method="get" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="row">
                                                         <div class="mb-3 col-md-4 col-sm-6 ">
@@ -231,6 +231,7 @@
             });
 
             $('#reset').on('click',function(){
+                $('#ticketFilterForm')[0].reset();
                 table.on('preXhr.dt',function (e,settings,data){
                     data.status = null,
                         data.priority = null,

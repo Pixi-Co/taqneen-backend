@@ -134,7 +134,9 @@ Route::middleware(['setData'])->group(function () {
 
 //Routes for authenticated users only
 Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'CheckUserLogin'])->group(function () {
-     
+
+
+    Route::get('/select2-autocomplete-ajax', 'taqneen\Select2AutoCompeleteController@dataAjax');
 
     // customer forms
     
@@ -208,7 +210,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         Route::post('canned-reply/create', 'taqneen\CannedReplyController@store')->name('canned-reply.store');
         Route::get('canned-reply/edit/{id}', 'taqneen\CannedReplyController@edit')->name('canned-reply.edit');
         Route::post('canned-reply/edit/{id}', 'taqneen\CannedReplyController@update')->name('canned-reply.update');
-        Route::post('canned-reply/delete/{id}', 'taqneen\CannedReplyController@delete')->name('canned-reply.delete');
+        Route::delete('canned-reply/delete/{id}', 'taqneen\CannedReplyController@delete')->name('canned-reply.delete');
 
 
         Route::get('/ticket/priorities','taqneen\TicketPriorityController@index')->name('tickets.priorities');
@@ -216,7 +218,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         Route::post('ticket/priorities/create', 'taqneen\TicketPriorityController@store')->name('tickets.priorities.store');
         Route::get('ticket/priorities/edit/{id}', 'taqneen\TicketPriorityController@edit')->name('tickets.priorities.edit');
         Route::post('ticket/priorities/edit/{id}', 'taqneen\TicketPriorityController@update')->name('tickets.priorities.update');
-        Route::post('ticket/priorities/delete/{id}', 'taqneen\TicketPriorityController@delete')->name('tickets.priorities.delete');
+        Route::delete('ticket/priorities/delete/{id}', 'taqneen\TicketPriorityController@delete')->name('tickets.priorities.delete');
 
 
         Route::get('/ticket/statues','taqneen\TicketStatusController@index')->name('tickets.statues');
@@ -224,7 +226,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         Route::post('ticket/statues/create', 'taqneen\TicketStatusController@store')->name('tickets.statues.store');
         Route::get('ticket/statues/edit/{id}', 'taqneen\TicketStatusController@edit')->name('tickets.statues.edit');
         Route::post('ticket/statues/edit/{id}', 'taqneen\TicketStatusController@update')->name('tickets.statues.update');
-        Route::post('ticket/statues/delete/{id}', 'taqneen\TicketStatusController@delete')->name('tickets.statues.delete');
+        Route::delete('ticket/statues/delete/{id}', 'taqneen\TicketStatusController@delete')->name('tickets.statues.delete');
 
 
         Route::get('ticket/departments','taqneen\TicketDepartmentController@index')->name('tickets.departments');
@@ -243,7 +245,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         Route::get('main/department/users/active/{id}', 'taqneen\DepartmentUserController@activateAll')->name('main.department.users.active');
         Route::get('department/users/stop/{id}', 'taqneen\DepartmentUserController@status')->name('department.users.stop');
         Route::delete('main/department/users/delete/{id}', 'taqneen\DepartmentUserController@delateAllForDepartment')->name('main.department.users.delete');
-        Route::delete('department/users/delete/{id}', 'taqneen\DepartmentUserController@destory')->name('department.users.delete');
+        Route::delete('department/users/delete/{id}', 'taqneen\DepartmentUserController@delete')->name('department.users.delete');
 
 
     });

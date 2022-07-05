@@ -71,7 +71,7 @@ class CannedReplyController extends Controller
 
     }
 
-    public function destory($id)
+    public function delete($id)
     {
         $cannedReply = CannedReply::findOrFail($id);
         $cannedReply->delete();

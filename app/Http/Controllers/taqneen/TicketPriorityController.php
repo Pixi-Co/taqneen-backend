@@ -66,10 +66,16 @@ class TicketPriorityController extends Controller
         return redirect()->route('tickets.priorities')->with('status', $output);
     }
 
-    public function destory($id)
+    public function delete($id)
     {
-        $ticketPriority = TicketPriority::findOrFail($id);
-        $ticketPriority->delete();
-        return responseJson(1, __('done'));
+        try {
+            $ticketPriority = TicketPriority::findOrFail($id);
+            $ticketPriority->delete();
+            return responseJson(1, __('done'));
+        }catch (\Exception $exception)
+        {
+            return responseJson(1, __('cannot_be_deleted_related_to_others'));
+        }
+
     }
 }

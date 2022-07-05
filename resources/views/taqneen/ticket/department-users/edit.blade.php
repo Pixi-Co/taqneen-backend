@@ -61,9 +61,7 @@
                                                             @foreach($mainDepartments as $mainDepartment)
                                                                 <option value="{{$mainDepartment->id}}" {{$mainDepartment->id==$targetDepartment->department->parent_id?'selected':''}}>{{$mainDepartment->name}}</option>
                                                             @endforeach
-                                                        @else
-                                                            <option>@lang('messages.please_select')</option>
-                                                        @endif
+                                                    @endif
 
                                                     </select>
                                                 </div>
@@ -78,8 +76,6 @@
                                                             @foreach($subDepartments as $sub_department)
                                                                 <option class="{{$sub_department->parent_id}}" {{$sub_department->id==$targetDepartment->department_id?'selected':''}} value="{{$sub_department->id}}">{{$sub_department->name}}</option>
                                                             @endforeach
-                                                        @else
-                                                            <option>@lang('messages.please_select')</option>
                                                         @endif
 
                                                     </select>
@@ -90,13 +86,8 @@
                                                 <label for="name" class="form-label">@trans('users')</label>
                                                 <div class="form-group">
                                                     <select class="form-control select2" name="user">
-                                                        @if(count($users))
-                                                            @foreach($users as $user)
-                                                                <option value="{{$user->id}}" {{$user->id==$targetDepartment->user_id?'selected':''}}>{{$user->first_name}}</option>
-                                                            @endforeach
-                                                        @else
-                                                            <option>please select one/more user</option>
-                                                        @endif
+                                                        <option value="{{$user->id}}">{{$user->full_name}}</option>
+                                                    @endif
 
                                                     </select>
                                                 </div>
@@ -135,23 +126,9 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/js/chart/chartist/chartist.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/chartist/chartist-plugin-tooltip.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/knob/knob.min.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/knob/knob-chart.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/apex-chart/apex-chart.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/apex-chart/stock-prices.js') }}"></script>
     <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard/default.js') }}"></script>
     <script src="{{ asset('assets/js/notify/index.js') }}"></script>
-    <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.js') }}"></script>
-    <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
-    <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/handlebars.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/typeahead.bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/typeahead.custom.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead-search/handlebars.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
     <script>
         $( document ).ready(function() {
 
@@ -159,6 +136,32 @@
             $('#main_department').on('change', function() {
                 $('select[name="sub_department"] option').not(':first').hide();
                 $('.'+this.value+'').show();
+            });
+
+            $('.select2').select2({
+                placeholder: 'search in users',
+                ajax: {
+                    url: '/select2-autocomplete-ajax',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term,
+                            user_type:'user'
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results:  $.map(data, function (item) {
+                                return {
+                                    text: item.first_name +""+ item.last_name,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
             });
         });
     </script>

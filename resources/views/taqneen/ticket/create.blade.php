@@ -2,15 +2,6 @@
 
 @section('title', 'Default')
 
-@section('css')
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/chartist.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/date-picker.css') }}">
-@endsection
-
-@section('style')
-@endsection
-
 @section('breadcrumb-title')
     <h3>@trans('add_ticket')</h3>
 @endsection
@@ -81,13 +72,7 @@
                                             <label for="name" class="form-label">@trans('client_name')<b class="text-danger">*</b></label>
                                             <div class="form-group">
                                                 <select class="form-control select2" name ="agent_id">
-                                                    <option disabled selected>@lang('messages.please_select')</option>
-                                                    @if(count($users))
-                                                        @foreach($users as $user)
-                                                            <option value="{{$user->id}}">{{$user->full_name}}</option>
-                                                        @endforeach
-                                                    @endif
-
+                                                    <option disabled selected>@trans('select_client')</option>
                                                 </select>
                                                 @if($errors->has('agent_id'))
                                                     <div class="text text-danger">
@@ -196,6 +181,31 @@
             $('#main_department').on('change', function() {
                 $('select[name="sub_department"] option').not(':first').hide();
                 $('.'+this.value+'').show();
+            });
+            $('.select2').select2({
+                placeholder: 'search in users',
+                ajax: {
+                url: '/select2-autocomplete-ajax',
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term,
+                        user_type:'user_customer'
+                    };
+                },
+                processResults: function (data) {
+                return {
+                    results:  $.map(data, function (item) {
+                        return {
+                            text: item.first_name +" "+ item.last_name,
+                            id: item.id
+                        }
+                    })
+                };
+            },
+                cache: true
+            }
             });
         });
     </script>

@@ -2,12 +2,6 @@
 
 @section('title', 'Default')
 
-@section('css')
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/chartist.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/date-picker.css') }}">
-@endsection
-
 @section('style')
     <style>
         .select2-container--open{
@@ -317,12 +311,7 @@
                            <label for="name" class="form-label">@trans('users')</label>
                            <div class="form-group">
                                <select class="form-control select2" name="user_id">
-                                   @if(count($users))
-                                       @foreach($users as $user)
-                                           <option value="{{$user->id}}">{{$user->first_name}}</option>
-                                       @endforeach
-                                   @endif
-
+                                   <option selected disabled>@trans('sellect_user')</option>
                                </select>
                                @if($errors->has('user_id'))
                                    <p class="text text-danger">
@@ -350,29 +339,41 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/js/chart/chartist/chartist.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/chartist/chartist-plugin-tooltip.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/knob/knob.min.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/knob/knob-chart.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/apex-chart/apex-chart.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/apex-chart/stock-prices.js') }}"></script>
     <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard/default.js') }}"></script>
     <script src="{{ asset('assets/js/notify/index.js') }}"></script>
-    <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.js') }}"></script>
-    <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
-    <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/handlebars.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/typeahead.bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/typeahead.custom.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead-search/handlebars.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
     <script>
         $(document).ready(function (){
 
             $("#canned_reply").change(function () {
                 var message =  $(this).val();
                 $("#message").val(message);
+            });
+
+            $('.select2').select2({
+                placeholder: 'search in users',
+                ajax: {
+                    url: '/select2-autocomplete-ajax',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term,
+                            user_type:'user'
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results:  $.map(data, function (item) {
+                                return {
+                                    text: item.first_name +" "+ item.last_name,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
             });
         });
     </script>

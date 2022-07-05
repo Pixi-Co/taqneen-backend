@@ -61,12 +61,11 @@ class DepartmentUserController extends Controller
 
     public function edit($id)
     {
-        $users = User::where('user_type','user_customer')->get();
         $targetDepartment = DepartmentUser::with('department')->findOrFail($id);
         $departments = TicketDepartment::all();
         $mainDepartments = $departments->where('parent_id',null);
         $subDepartments =$departments->where('parent_id','!==',null);
-        return view('taqneen.ticket.department-users.edit',compact('mainDepartments','subDepartments','users','targetDepartment'));
+        return view('taqneen.ticket.department-users.edit',compact('mainDepartments','subDepartments','targetDepartment'));
 
     }
 
@@ -124,7 +123,7 @@ class DepartmentUserController extends Controller
 
     }
 
-    public function destory($id)
+    public function delete($id)
     {
         try {
             $departmentUser = DepartmentUser::findOrFail($id);
