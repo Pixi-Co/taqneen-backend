@@ -54,8 +54,8 @@ class TicketController extends Controller
                     return $ticket->agent->full_name??$ticket->client_name;
                 })
 
-                ->editColumn('agent.custom_field_1', function ($ticket) {
-                    return $ticket->agent->custom_field_1??$ticket->computer_num;
+                ->editColumn('agent.custom_field1', function ($ticket) {
+                    return $ticket->agent->custom_field1??$ticket->computer_num;
                 })
 
                 ->filter(function ($instance) use ($request) {
@@ -82,14 +82,15 @@ class TicketController extends Controller
                         $instance->whereHas('agent',function($w) use($request){
                             $search = $request->get('client_name');
                             $w->where('first_name', 'LIKE', "%$search%")
-                                ->orWhere('last_name', 'LIKE', "%$search%");
+                                ->orWhere('last_name', 'LIKE', "%$search%")
+                                ->orWhere('name', 'LIKE', "%$search%");
                         })->orWhere('client_name',"LIKE","%".$request->get('client_name')."%");
                     }
 
                     if (!empty($request->get('computer_num'))) {
                         $instance->whereHas('agent',function($w) use($request){
                             $search = $request->get('computer_num');
-                            $w->where('custom_field_1', $search);
+                            $w->where('custom_field1', $search);
                         })->orWhere('computer_num',$request->get('computer_num'));
                     }
                 })
@@ -102,7 +103,7 @@ class TicketController extends Controller
 
     public function create()
     {
-        $authedUser = auth()->user()->contactInfo()->get(['id','name','email','custom_field1'])->first();
+        $authedUser = auth()->user()->agent()->get(['id','name','email','custom_field1'])->first();
         $query = TicketDepartment::query();
         $query2 = clone $query;
         $mainDepartments = $query->where('parent_id',null)->get();
@@ -201,8 +202,7 @@ class TicketController extends Controller
         $cannedReplies = CannedReply::all();
         $ticketStatuses = TicketStatus::all();
         $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with(['user','ticket'])->orderBy('id','desc')->get();
-        $users = User::where('user_type',UserType::$USER)->take(500)->get();
-        return view('taqneen.ticket.show',compact('ticket','cannedReplies','ticketStatuses','users','ticketsReplies','auth_user'));
+        return view('taqneen.ticket.show',compact('ticket','cannedReplies','ticketStatuses','ticketsReplies','auth_user'));
     }
 
     public function downloadTicketFiles($id)
@@ -343,7 +343,7 @@ class TicketController extends Controller
             "department"=>$ticket->department->department->name,
             "description"=>$ticket->description,
             "customer"=>$ticket->agent->full_name??$ticket->client_name,
-            "computer_num"=>$ticket->agent->custom_field_1??$ticket->computer_num,
+            "computer_num"=>$ticket->agent->custom_field1??$ticket->computer_num,
             "customer_email"=>$ticket->agent->email??$ticket->client_email,
             "status"=>$ticket->status->name,
             "priority"=>$ticket->priority->name,

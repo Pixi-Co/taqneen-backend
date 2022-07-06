@@ -51,8 +51,7 @@ class SubscriptionController extends Controller
         $query = Subscription::join(
             "contacts", "contacts.id", "=", "transactions.contact_id"
         )
-        ->where('transactions.business_id', $business_id)
-        /*->where('is_renew', '0')*/;
+        ->where('transactions.business_id', $business_id);
  
 
         if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions')) && !auth()->user()->isAdmin()) {
@@ -86,18 +85,18 @@ class SubscriptionController extends Controller
 
         if (request()->register_date_start && request()->register_date_end) {
             $dates = [
-                request()->register_date_start . " 00:00:00",
-                request()->register_date_end . " 23:59:00"
+                request()->register_date_start,
+                request()->register_date_end
             ];
-            $query->whereBetween('transactions.shipping_custom_field_1', $dates);
+            $query->whereBetween(DB::raw('DATE(transactions.shipping_custom_field_1)'), $dates);
         }
 
         if (request()->transaction_date_start && request()->transaction_date_end) {
             $dates = [
-                request()->transaction_date_start . " 00:00:00",
-                request()->transaction_date_end . " 23:59:00"
+                request()->transaction_date_start,
+                request()->transaction_date_end
             ];
-            $query->whereBetween('transactions.transaction_date', $dates);
+            $query->whereBetween(DB::raw('DATE(transactions.transaction_date)'), $dates);
         }
 
         if (request()->expire_date_start && request()->expire_date_end) {
@@ -105,13 +104,13 @@ class SubscriptionController extends Controller
                 request()->expire_date_start,
                 request()->expire_date_end
             ];
-            $query->whereBetween('transactions.expire_date', $dates);
+            $query->whereBetween(DB::raw('DATE(transactions.expire_date)'), $dates);
         }
 
         if (request()->payment_date_start && request()->payment_date_end) {
             $dates = [
-                request()->payment_date_start . " 00:00:00",
-                request()->payment_date_end . " 23:59:00"
+                request()->payment_date_start,
+                request()->payment_date_end
             ];
             $ids = DB::table('transaction_payments')
                 ->where('business_id', session('business.id'))
@@ -122,13 +121,11 @@ class SubscriptionController extends Controller
                 ->pluck('transaction_id')->toArray();
             $query->whereIn("transactions.id", $ids);
         }
-  
-
         $query->select(
             "*",
             "transactions.id as id",
             "transactions.created_by as created_by",
-            "transactions.business_id as business_id",
+            "transactions.business_id as business_id"
         );
 
         return $query;
@@ -137,7 +134,7 @@ class SubscriptionController extends Controller
     public function data()
     {
         $query = $this->getQuery();
- 
+
         return DataTables::of($query)
             ->addColumn('action', function ($row) { 
                 $payment_methods = [
@@ -149,7 +146,7 @@ class SubscriptionController extends Controller
                     "paid" => __('paid'),
                     "not_paid" => __('not_paid')
                 ];
-                $payment = TransactionPayment::where('transaction_id', $row->id)->latest()->first(); 
+                $payment = TransactionPayment::where('transaction_id', $row->id)->latest()->first();
                 return view('taqneen.subscription.actions', compact('row', 'payment_methods', 'payment_status', 'payment'));
             })  
             ->editColumn('created_by', function ($row) {
@@ -312,7 +309,7 @@ class SubscriptionController extends Controller
             "payment_status",
             "roles",
             "editCourier",
-            "subscriptionPhoneDisabled",
+            "subscriptionPhoneDisabled"
         ));
     }
 
@@ -392,7 +389,7 @@ class SubscriptionController extends Controller
             "customerObject",
             "payment_status",
             "roles",
-            "subscriptionPhoneDisabled",
+            "subscriptionPhoneDisabled"
         ));
     }
 

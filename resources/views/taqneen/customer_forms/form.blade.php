@@ -73,7 +73,7 @@
         </style>
     <div class="container" id="form" >
         @php
-            $users = App\User::couriers()
+                    $users = App\User::couriers()
             ->get()
             ->pluck('user_full_name', 'id')
             ->toArray();

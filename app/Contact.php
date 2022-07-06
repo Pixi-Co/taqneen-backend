@@ -351,7 +351,9 @@ class Contact extends Authenticatable
         
         return $query->whereIn('id', $ids);
     }
-    
+    public function getFullNameAttribute() {
+        return $this->name ?? $this->first_name . " ". $this->middle_name . " ".$this->last_name;
+    }
     
     public function getTagValue($tag) {  
         $resource = $this; 

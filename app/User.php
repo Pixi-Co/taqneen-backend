@@ -383,6 +383,11 @@ class User extends Authenticatable
         return (new BusinessUtil)->is_admin(auth()->user());
     }
 
+    public function agent()
+    {
+        return $this->hasOne(Contact::class,'converted_by');
+    }
+
     public function subscriptionQueryReport() {
         $query = Subscription::query();
 
@@ -438,7 +443,7 @@ class User extends Authenticatable
     }
 
     public static function couriers() {
-        $role = Role::find(127);
+        $role = Role::find(41);
         return $role->users();
     }
 }

@@ -95,12 +95,12 @@ class OpportunitController extends Controller
         $opportunity = new Contact();
         $disabled = "";
         $services = Category::forDropdown(session('user.business_id'), "service"); 
-        $packages = ServicePackage::where('business_id', session('user.business_id'))->pluck("name", "id")->toArray(); 
-//        $users = User::forDropdown(session('business.id'));
-        $users = User::where('user_type', 'user')->pluck('first_name', 'id')->toArray();
+        $packages = ServicePackage::where('business_id', session('user.business_id'))->pluck("name", "id")->toArray();
+        $users = User::couriers()->where('user_type', 'user')->pluck('first_name', 'id')->toArray();
         $packageResources = ServicePackage::where('business_id', session('user.business_id'))->get();
         return view('taqneen.opportunities.form',compact('packageResources', 'opportunity','services','packages', 'users','status', 'disabled'));
-    }//end create
+    }
+    //end create
 
 
     public function edit($id){
@@ -116,7 +116,7 @@ class OpportunitController extends Controller
         $opportunity = Contact::find($id);
         $services = Category::forDropdown(session('user.business_id'), "service"); 
         $packages = ServicePackage::where('business_id', session('user.business_id'))->pluck("name", "id")->toArray();
-        $users = User::where('user_type', 'user')->pluck('first_name', 'id')->toArray();
+        $users = User::couriers()->where('user_type', 'user')->pluck('first_name', 'id')->toArray();
         $disabled = auth()->user()->isAdmin()? "" : "disabled";
         $packageResources = ServicePackage::where('business_id', session('user.business_id'))->get();
         return view('taqneen.opportunities.form',compact('packageResources', 'opportunity','services','packages', 'users','status', 'disabled'));
@@ -239,9 +239,8 @@ class OpportunitController extends Controller
         return  response()->download($files);
     }
 
-    public function opportunitImportFile(Request $request){
-        
-       
+    public function opportunitImportFile(Request $request)
+    {
         //return redirect('/customers');  
 
         try { 
