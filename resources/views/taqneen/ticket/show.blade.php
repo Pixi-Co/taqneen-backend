@@ -4,6 +4,9 @@
 
 @section('style')
     <style>
+        .select2-container{
+            z-index:100000;
+        }
         .select2-container--open{
             z-index:9999999
         }
@@ -349,8 +352,8 @@
                 var message =  $(this).val();
                 $("#message").val(message);
             });
-
-            $('.select2').select2({
+            $('.modal .select2').select2({
+                dropdownParent: $('.modal'),
                 placeholder: 'search in users',
                 ajax: {
                     url: '/select2-autocomplete-ajax',
@@ -375,6 +378,10 @@
                     cache: true
                 }
             });
+
+            // $('.select2').select2({
+            //
+            // });
         });
     </script>
 @endsection

@@ -114,6 +114,9 @@
         $('.dateranger').each(function(){
             var self = this;
             $(this).daterangepicker({
+                locale: {
+                    format: 'YYYY-MM-DD'
+                },
                 opens: 'left',
                 ranges: {
                     //"Today": [moment(), moment()],

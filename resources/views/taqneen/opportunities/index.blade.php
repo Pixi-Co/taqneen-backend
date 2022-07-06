@@ -4,13 +4,8 @@
 
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/chartist.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/date-picker.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/datatables.css') }}">
-@endsection
-
-@section('style')
-
 @endsection
 
 @section('breadcrumb-title')
@@ -55,7 +50,7 @@
                                                 </button>
                                             @endcan
                                             <div class="table-responsive pt-3">
-                                                <table class="display" id="advance-4">
+                                                <table class="display data-table">
                                                     <thead>
                                                         <tr>
                                                             <th>#</th>
@@ -70,65 +65,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach ($opportunities as $item)
-                                                            <tr>
-                                                                <td>{{ $loop->iteration }}</td>
-                                                                <td>{{ $item->name }}</td>
-                                                                <td>{{ $item->mobile }}</td>
-                                                                <td>{{ $item->email }}</td>
-                                                                <td>{{ optional($item->service)->name }}</td> 
-                                                                <td>  
-                                                                    @if ($item->custom_field4 == 'new')
-                                                                        <label
-                                                                            class="badge w3-indigo">{{ __($item->custom_field4) }}</label>
-                                                                    @elseif ($item->custom_field4 == 'follow')
-                                                                        <label
-                                                                            class="badge w3-orange">{{ __($item->custom_field4) }}</label>
-                                                                    @elseif ($item->custom_field4 == 'no_need')
-                                                                        <label
-                                                                            class="badge w3-yellow">{{ __($item->custom_field4) }}</label>
-                                                                    @elseif ($item->custom_field4 == 'no_reach')
-                                                                        <label
-                                                                            class="badge w3-red">{{ __($item->custom_field4) }}</label>
-                                                                    @elseif ($item->custom_field4 == 'done')
-                                                                        <label
-                                                                            class="badge w3-green">{{ __($item->custom_field4) }}</label>
-                                                                    @elseif ($item->custom_field4 == 'another_provider')
-                                                                        <label
-                                                                            class="badge w3-blue">{{ __($item->custom_field4) }}</label>
-                                                                    @else
-                                                                        <label
-                                                                            class="badge w3-dark-gray">{{ __($item->custom_field4) }}</label>
-                                                                    @endif
-                                                                </td>
-                                                                <td>{{ optional($item->oppUser)->first_name }}</td>
-                                                                <td>{{ $item->dob }}</td>
-
-                                                                <td class="d-flex">
-                                                                    @can(find_or_create_p('opportunity.edit'))
-                                                                        <a role="button"
-                                                                            href="/opportunities/{{ $item->id }}/edit"
-                                                                            class="m-1 btn btn-primary btn-sm">@trans('edit')</a>
-                                                                    @endcan
-                                                                    @can(find_or_create_p('opportunity.delete'))
-                                                                        <button
-                                                                            onclick="destroy('/opportunities/{{ $item->id }}')"
-                                                                            class="m-1 btn btn-danger bt-sm">@trans('remove')</button>
-                                                                    @endcan
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
                                                     </tbody>
-                                                    {{-- <tfoot>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>@trans('name')</th>
-                                                        <th>@trans('description')</th>
-                                                        <th>@trans('parent package')</th>
-                                                        <th>@trans('created_by')</th>
-                                                        <th>@trans('actions')</th>
-                                                    </tr>
-                                                </tfoot> --}}
                                                 </table>
                                             </div>
                                         </div>
@@ -211,44 +148,94 @@
 
 
 @section('script')
-    <script src="{{ asset('assets/js/chart/chartist/chartist.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/chartist/chartist-plugin-tooltip.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/knob/knob.min.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/knob/knob-chart.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/apex-chart/apex-chart.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/apex-chart/stock-prices.js') }}"></script>
     <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard/default.js') }}"></script>
     <script src="{{ asset('assets/js/notify/index.js') }}"></script>
     <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.js') }}"></script>
     <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
     <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/handlebars.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/typeahead.bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/typeahead.custom.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead-search/handlebars.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
 
 
     <script>
-        function setDate() { 
-            $('input[name=publish_date_start]').val($('.publish_date').attr('data-start'));
-            $('input[name=publish_date_end]').val($('.publish_date').attr('data-end'));
-        }
-
         $(document).ready(function() {
             initDateRanger();
+            $('#dob').val('');
 
-            $('#next').click(function() {
-                $('#staticBackdrop').hide();
-                $('#staticBackdrop2').show();
+            $('.select2').select2({
+                placeholder: 'search in users',
+                ajax: {
+                    url: '/select2-autocomplete-ajax',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term,
+                            user_type:'user'
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results:  $.map(data, function (item) {
+                                return {
+                                    text: item.first_name +" "+ item.last_name,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
             });
-            $('#back').click(function() {
-                $('#staticBackdrop2').hide();
-                $('#staticBackdrop').show();
+
+            var table = $('.data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                "autoWidth": true,
+                ajax: {
+                    url: "/opportunities",
+                    data: function (data) {
+                        data.status = $('#status').val(),
+                            data.created_by = $('#user_id').val(),
+                            data.data_rang = $('#dob').val()
+                    }
+                },
+                columnDefs: [
+                    {
+                        targets: '_all',
+                        defaultContent: '-'
+                    }
+                ],
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'mobile', name: 'mobile'},
+                    {data: 'email', name: 'email'},
+                    {data: 'service.name', name: 'service_name'},
+                    {data: 'custom_field4', name: 'status'},
+                    {data: 'oppUser.first_name', name: 'priority_id'},
+                    {data: 'dob', name: 'dob'},
+                    { data: 'action', name: 'action' }
+                ]
             });
+            $('#search').on('click',function(){
+                table.draw();
+            });
+
+            $('#reset').on('click',function(){
+                $('#dob').val('');
+                $('#user_id').val('');
+                $('#status').val('');
+                table.on('preXhr.dt',function (e,settings,data){
+                    data.status = null,
+                        data.created_by = null,
+                        data.date_rang = null
+                    return false;
+                })
+                table.draw();
+            });
+
         })
     </script>
 @endsection

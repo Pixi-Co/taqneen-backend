@@ -12,10 +12,11 @@ use App\Triger;
 use App\User;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Yajra\DataTables\Facades\DataTables;
 
 class OpportunitController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $status = [
             "new" => __('new'), 
             "follow" => __('follow'), 
@@ -24,26 +25,61 @@ class OpportunitController extends Controller
             "done" => __('done'), 
             "another_provider" => __('another_provider'), 
         ];
-        $users = User::where('user_type', 'user')->pluck('first_name', 'id')->toArray();
-        $query = Contact::where('type','opportunity')->where('business_id', session('business.id'))
-        ->latest();
+        if ($request->ajax()) {
+            return $this->data($request);
+        }
+        return view('taqneen.opportunities.index',compact('status'));
+    }
 
-        if (!auth()->user()->isAdmin()) {
-            $query->where('converted_by', auth()->user()->id);
-        }
+    private function data(Request $request)
+    {
 
-        if (request()->publish_date_start && request()->publish_date_end) {
-            $query->whereBetween('dob', [request()->publish_date_start, request()->publish_date_end]);
-        }
-        if(request()->created_by){
-            $query->where('created_by',request()->created_by)->get();
-        }
-        if(request()->custom_field4){
-            $query->where('custom_field4',request()->custom_field4)->get();
-        }
-        $opportunities = $query->get();
+        $data = Contact::with(['service','oppUser'])->where('type','opportunity')->where('business_id', session('business.id'))
+            ->orderBy('id','desc');
+        if (!auth()->user()->isAdmin())
+            $data->where('converted_by', auth()->user()->id);
 
-        return view('taqneen.opportunities.index',compact('opportunities','users','status'));
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function ($opportunit) {
+                return view('taqneen.opportunities.actions', compact('opportunit'));
+            })
+            ->editColumn('custom_field4', function($opportunit) {
+                if ($opportunit->custom_field4 == 'new')
+                   return '<label class="badge w3-indigo">'.__($opportunit->custom_field4).'</label>';
+                else if ($opportunit->custom_field4 == 'follow')
+                    return '<label class="badge w3-indigo">'.__($opportunit->custom_field4).'</label>';
+
+                else if ($opportunit->custom_field4 == 'no_need')
+                    return '<label class="badge w3-orange">'.__($opportunit->custom_field4).'</label>';
+
+                else if ($opportunit->custom_field4 == 'no_reach')
+                    return '<label class="badge w3-red">'.__($opportunit->custom_field4).'</label>';
+
+                else if ($opportunit->custom_field4 == 'done')
+                    return '<label class="badge w3-green">'.__($opportunit->custom_field4).'</label>';
+                else if ($opportunit->custom_field4 == 'another_provider')
+                     return '<label class="badge  w3-blue">'.__($opportunit->custom_field4).'</label>';
+
+                else
+                    return '<label class="badge w3-dark-gray">'.__($opportunit->custom_field4).'</label>';
+
+            })
+            ->filter(function ($instance) use ($request) {
+                if ($request->get('created_by') !== null ){
+                    $instance->where('created_by', $request->get('created_by'));
+                }
+
+                if ($request->get('publish_date_start') !== null && $request->get('publish_date_end') !== null ){
+                    $instance->whereBetween('dob', [$request->get('publish_date_start'), $request->get('publish_date_end')]);
+                }
+
+                if ($request->get('status') !== null ){
+                    $instance->where('custom_field4', $request->get('status'));
+                }
+            })
+            ->rawColumns(['action','custom_field4'])
+            ->make(true);
     }
 
     public function create() {

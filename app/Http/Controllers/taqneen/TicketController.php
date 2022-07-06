@@ -127,6 +127,14 @@ class TicketController extends Controller
             $user_id = $this->getAssignedUser($request->sub_department);
             $status = $this->getDefaultTicketStatus();
             $agent = $this->getAgent($request);
+            if (empty($priority_id) || empty($user_id) || empty($status) || empty($agent))
+            {
+                $output = [
+                    "success" => 0,
+                    "msg" => __('there_is_an_error')
+                ];
+                return back()->with('status', $output);
+            }
             $data = [
                 "agent_id"=>$agent->id,
                 'user_id'=>$user_id,
@@ -237,7 +245,7 @@ class TicketController extends Controller
     {
         $ticket = Ticket::with(['user','agent','department','priority','status'])->findOrFail($id);
         $ticket = $this->prepareTicketData($ticket);
-        $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with('user')->latest()->get();
+        $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with('user')->orderBy('id','desc')->get();
         return view('taqneen.ticket.print-ticket',compact('ticket','ticketsReplies'));
 
     }
