@@ -83,38 +83,26 @@ class SubscriptionController extends Controller
             $query->where('transactions.shipping_custom_field_2', request()->payment_status);
         }
 
-        if (request()->register_date_start && request()->register_date_end) {
-            $dates = [
-                request()->register_date_start,
-                request()->register_date_end
-            ];
-            $query->whereBetween(DB::raw('DATE(transactions.shipping_custom_field_1)'), $dates);
+        if (request()->register_date!==null) {
+            $dates = explode(' - ',request()->register_date);
+            $query->whereBetween(DB::raw('DATE(transactions.shipping_custom_field_1)'), [$dates[0],$dates[1]]);
         }
 
-        if (request()->transaction_date_start && request()->transaction_date_end) {
-            $dates = [
-                request()->transaction_date_start,
-                request()->transaction_date_end
-            ];
-            $query->whereBetween(DB::raw('DATE(transactions.transaction_date)'), $dates);
+        if (request()->transaction_date!==null) {
+            $dates = explode(' - ',request()->transaction_date);
+            $query->whereBetween(DB::raw('DATE(transactions.transaction_date)'), [$dates[0],$dates[1]]);
         }
 
-        if (request()->expire_date_start && request()->expire_date_end) {
-            $dates = [
-                request()->expire_date_start,
-                request()->expire_date_end
-            ];
-            $query->whereBetween(DB::raw('DATE(transactions.expire_date)'), $dates);
+        if (request()->expire_date!==null) {
+            $dates =explode(' - ',request()->expire_date);
+            $query->whereBetween(DB::raw('DATE(transactions.expire_date)'),[ $dates[0],$dates[1]]);
         }
 
-        if (request()->payment_date_start && request()->payment_date_end) {
-            $dates = [
-                request()->payment_date_start,
-                request()->payment_date_end
-            ];
+        if (request()->payment_date!==null) {
+            $dates = explode(' - ',request()->payment_date);
             $ids = DB::table('transaction_payments')
                 ->where('business_id', session('business.id'))
-                ->whereBetween('paid_on', $dates)
+                ->whereBetween('paid_on', [$dates[0],$dates[1]])
                 ->whereNotNull('transaction_id')
                 ->select('transaction_id')
                 ->distinct()

@@ -198,7 +198,7 @@
                     data: function (data) {
                         data.status = $('#status').val(),
                             data.created_by = $('#user_id').val(),
-                            data.data_rang = $('#dob').val()
+                            data.date_range = $('#dob').val()
                     }
                 },
                 columnDefs: [
@@ -230,7 +230,8 @@
                 table.on('preXhr.dt',function (e,settings,data){
                     data.status = null,
                         data.created_by = null,
-                        data.date_rang = null
+                        data.publish_date_start = null
+                        data.publish_date_end = null
                     return false;
                 })
                 table.draw();

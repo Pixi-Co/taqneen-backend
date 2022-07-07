@@ -33,7 +33,6 @@ class OpportunitController extends Controller
 
     private function data(Request $request)
     {
-
         $data = Contact::with(['service','oppUser'])->where('type','opportunity')->where('business_id', session('business.id'))
             ->orderBy('id','desc');
         if (!auth()->user()->isAdmin())
@@ -70,8 +69,9 @@ class OpportunitController extends Controller
                     $instance->where('created_by', $request->get('created_by'));
                 }
 
-                if ($request->get('publish_date_start') !== null && $request->get('publish_date_end') !== null ){
-                    $instance->whereBetween('dob', [$request->get('publish_date_start'), $request->get('publish_date_end')]);
+                if ($request->get('date_range') !== null){
+                    $date = explode(' - ',$request->date_range);
+                    $instance->whereBetween('dob', [$date[0], $date[1]]);
                 }
 
                 if ($request->get('status') !== null ){
