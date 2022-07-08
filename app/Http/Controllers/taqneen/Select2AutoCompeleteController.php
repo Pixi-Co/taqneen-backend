@@ -11,14 +11,14 @@ class Select2AutoCompeleteController extends Controller
 {
     public function dataAjax(Request $request)
     {
-        $data = [];
+        $data = []; 
         if ($request->has('q')) {
             $search = $request->q;
             $data = User::couriers()->select(
                 "id",
                 "first_name",
                 "last_name",
-                DB::raw('(CONCAT(first_name, " ", last_name, " ", custom_field_1)) as search_field')
+                DB::raw('CONCAT(IFNULL(first_name, ""), " ", IFNULL(last_name, ""), " ", IFNULL(custom_field_1, "")) as search_field')
             )
             ->where('user_type', $request->user_type)
             ->having('search_field', 'LIKE', "%$search%")
