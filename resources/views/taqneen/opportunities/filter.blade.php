@@ -13,7 +13,7 @@
                 <div class="form-group">
                     <label for="">@trans('users')</label>
                     <select class="form-select select2" id="user_id" name="created_by">
-                        <option selected disabled>@trans('select_users')</option>
+                        <option selected >@trans('select_users')</option> 
                     </select>
 {{--                    {!! Form::select("created_by", $users, request()->created_by, ["class" => "form-select"]) !!}--}}
                 </div>
