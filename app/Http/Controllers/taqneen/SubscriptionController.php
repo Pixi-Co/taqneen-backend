@@ -101,11 +101,12 @@ class SubscriptionController extends Controller
         if (request()->payment_date!==null) {
             $dates = explode(' - ',request()->payment_date);
             $ids = DB::table('transaction_payments')
+                ->latest()
                 ->where('business_id', session('business.id'))
                 ->whereBetween('paid_on', [$dates[0],$dates[1]])
                 ->whereNotNull('transaction_id')
                 ->select('transaction_id')
-                ->distinct()
+                ->distinct() 
                 ->pluck('transaction_id')->toArray();
             $query->whereIn("transactions.id", $ids);
         }

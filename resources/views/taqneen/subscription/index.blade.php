@@ -244,7 +244,7 @@ var session_layout = '{{ session()->get('layout') }}';
     }
 
     function exportExcel() {
-        var data = {
+        /*var data = {
             service_id: $('.service_id').val(),
             user_id: $('.user_id').val(),
             subscription_type: $('.subscription_type').val(),
@@ -259,6 +259,17 @@ var session_layout = '{{ session()->get('layout') }}';
 
             register_date_end: $('.register_date').attr('data-end'),
             register_date_start: $('.register_date').attr('data-start'),
+        };*/
+        var data = {
+            service_id: $('.service_id').val(),
+            user_id: $('.user_id').val(),
+            subscription_type: $('.subscription_type').val(),
+            payment_status: $('.payment_status').val(),
+            transaction_date: $('.transaction_date').val(),
+            expire_date: $('.expire_date').val(),
+            
+            payment_date: $('.payment_date').val(),
+            register_date: $('.register_date').val(),
         };
  
         var href = "{{ url('/subscriptions-export') }}?" + $.param(data);
