@@ -204,10 +204,7 @@
 
 @section('script')
    
-<script src="{{asset('assets/js/chart/chartist/chartist.js')}}"></script>
 <script src="{{asset('assets/js/chart/chartist/chartist-plugin-tooltip.js')}}"></script>
-<script src="{{asset('assets/js/chart/knob/knob.min.js')}}"></script>
-<script src="{{asset('assets/js/chart/knob/knob-chart.js')}}"></script>
 <script src="{{asset('assets/js/chart/apex-chart/apex-chart.js')}}"></script>
 <script src="{{asset('assets/js/chart/apex-chart/stock-prices.js')}}"></script>
 <script src="{{asset('assets/js/notify/bootstrap-notify.min.js')}}"></script>
@@ -253,12 +250,9 @@
                 service_id: $('.service_id').val(),
                 user_id: $('.user_id').val(),
                 subscription_type: $('.subscription_type').val(),
-                transaction_date_start: $('.transaction_date').attr('data-start'),
-                transaction_date_end: $('.transaction_date').attr('data-end'),
-                expire_date_end: $('.expire_date').attr('data-end'),
-                expire_date_start: $('.expire_date').attr('data-start'),
-                payment_date_end: $('.payment_date').attr('data-end'),
-                payment_date_start: $('.payment_date').attr('data-start'),
+                transaction_date: $('.transaction_date').val(),
+                expire_date: $('.expire_date').val(),
+                payment_date: $('.payment_date').val(),
             };
             subscriptionTable.ajax.url('/subscriptions?' + $.param(data));
             subscriptionTable.ajax.reload();
@@ -269,16 +263,10 @@
             $('.subscription_type').val('');
 
             $('.transaction_date').val('');
-            $('.transaction_date').attr('data-start', '');
-            $('.transaction_date').attr('data-end', '');
 
             $('.expire_date').val('');
-            $('.expire_date').attr('data-start', '');
-            $('.expire_date').attr('data-end', '');
 
             $('.payment_date').val('');
-            $('.payment_date').attr('data-start', '');
-            $('.payment_date').attr('data-end', '');
 
             $('.user_id').val('');
             subscriptionTable.ajax.url('/subscriptions');

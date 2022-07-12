@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\taqneen;
 
 use App\Category;
-use App\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Subscription;
@@ -16,7 +15,8 @@ class ReportController extends Controller
 {
     public function services()
     {
-        $business_id = request()->session()->get('user.business_id');
+        $defaultTaqneenSessionId = 19;
+        $business_id = request()->session()->get('user.business_id') ?? $defaultTaqneenSessionId;
 
         $query = Subscription::query()
         ->where('transactions.business_id', $business_id);
@@ -32,18 +32,19 @@ class ReportController extends Controller
 
         if (request()->register_date_start && request()->register_date_end) {
             $dates = [
-                request()->register_date_start . " 01:00:00",
-                request()->register_date_end . " 00:00:00"
+                request()->register_date_start,
+                request()->register_date_end
             ];
-            $query->whereBetween('transactions.shipping_custom_field_1', $dates);
+            $query->whereBetween(DB::raw('date(transactions.shipping_custom_field_1)'), $dates);
         }
 
         if (request()->transaction_date_start && request()->transaction_date_end) {
             $dates = [
-                request()->transaction_date_start . " 01:00:00",
-                request()->transaction_date_end . " 00:00:00"
+                request()->transaction_date_start ,
+                request()->transaction_date_end
             ];
-            $query->whereBetween('transactions.transaction_date', $dates);
+            $query->whereBetween(DB::raw('date(transactions.transaction_date)'), $dates);
+
         }
 
         if (request()->expire_date_start && request()->expire_date_end) {
@@ -56,12 +57,12 @@ class ReportController extends Controller
 
         if (request()->payment_date_start && request()->payment_date_end) {
             $dates = [
-                request()->payment_date_start . " 01:00:00",
-                request()->payment_date_end . " 00:00:00"
+                request()->payment_date_start,
+                request()->payment_date_end
             ];
             $ids = DB::table('transaction_payments')
                 ->where('business_id', session('business.id'))
-                ->whereBetween('paid_on', $dates)
+                ->whereBetween(DB::raw('date(paid_on)'), $dates)
                 ->whereNotNull('transaction_id')
                 ->select('transaction_id')
                 ->distinct()
@@ -82,16 +83,16 @@ class ReportController extends Controller
         if (request()->user_id > 0) {
             $query->where('transactions.created_by', request()->user_id);
         }
-        
-        $resources = Category::where('business_id', session('user.business_id'))->where('category_type', 'service')->get(); 
- 
+
+        $resources = Category::where('business_id', session('user.business_id'))->where('category_type', 'service')->get();
+
         foreach($resources as $resource) {
             $queryClone = clone $query;
             $ids = DB::table('subscription_lines')
                 ->where('service_id', $resource->id)
                 ->select('transaction_id')
                 ->distinct()
-                ->pluck('transaction_id')->toArray(); 
+                ->pluck('transaction_id')->toArray();
 
             $resource->number = $queryClone->whereIn("transactions.id", $ids)->count();
             $resource->sum = $queryClone->whereIn("transactions.id", $ids)->sum('final_total');
@@ -225,7 +226,8 @@ class ReportController extends Controller
 
     public function dataOfSubscription()
     {
-        $business_id = request()->session()->get('user.business_id');
+        $defaultBusinessId = 19 ;
+        $business_id = request()->session()->get('user.business_id')??$defaultBusinessId;
 
         $query = Subscription::where('business_id', $business_id);
 
@@ -245,30 +247,21 @@ class ReportController extends Controller
                 $query->where('is_renew', '1');
         }
 
-        if (request()->transaction_date_start && request()->transaction_date_end) {
-            $dates = [
-                request()->transaction_date_start . " 01:00:00",
-                request()->transaction_date_end . " 00:00:00"
-            ];
-            $query->whereBetween('transaction_date', $dates);
+        if (request()->transaction_date) {
+            $dates = explode(' - ',request()->transaction_date);
+            $query->whereBetween(DB::raw('date(transaction_date)'), [$dates[0],$dates[1]]);
         }
 
-        if (request()->expire_date_start && request()->expire_date_end) {
-            $dates = [
-                request()->expire_date_start,
-                request()->expire_date_end
-            ];
-            $query->whereBetween('expire_date', $dates);
+        if (request()->expire_date) {
+            $dates = explode(' - ',request()->expire_date);
+            $query->whereBetween('expire_date', [$dates[0],$dates[1]]);
         }
 
-        if (request()->payment_date_start && request()->payment_date_end) {
-            $dates = [
-                request()->payment_start . " 01:00:00",
-                request()->payment_date_end . " 00:00:00"
-            ];
+        if (request()->payment_date) {
+            $dates = explode(' - ',request()->payment_date);
             $ids = DB::table('transaction_payments')
                 ->where('business_id', session('business.id'))
-                ->whereBetween('paid_on', $dates)
+                ->whereBetween(DB::raw('date(paid_on)'),[ $dates[0],$dates[1]])
                 ->whereNotNull('transaction_id')
                 ->select('transaction_id')
                 ->distinct()
