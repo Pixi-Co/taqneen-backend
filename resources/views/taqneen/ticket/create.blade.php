@@ -71,7 +71,7 @@
                                             <div class="col-xs-12 col-md-8" style="margin: 5px">
                                             <label for="name" class="form-label">@trans('client_name')<b class="text-danger">*</b></label>
                                             <div class="form-group">
-                                                <select class="form-control select2" name ="agent_id">
+                                                <select class="form-control select2" id="agent_id" name ="agent_id">
                                                     <option disabled selected>@trans('select_client')</option>
                                                 </select>
                                                 @if($errors->has('agent_id'))
@@ -126,9 +126,7 @@
                                     <div class="col-xs-12 col-md-12" style="margin: 5px">
                                         <div class="form-group mb-3">
                                             <label for="color" class="form-label">@trans('status_desc')<b class="text-danger">*</b></label>
-                                            <textarea name="description" class="form-control">
-
-                                            </textarea>
+                                            <textarea name="description" class="form-control"></textarea>
                                             @if($errors->has('description'))
                                                 <p class="text text-danger">
                                                     {{$errors->first('description')}}
@@ -180,7 +178,7 @@
                 $('select[name="sub_department"] option').not(':first').hide();
                 $('.'+this.value+'').show();
             });
-            $('.select2').select2({
+            $('#agent_id').select2({
                 placeholder: 'search in users',
                 ajax: {
                 url: '/select2-autocomplete-ajax',
