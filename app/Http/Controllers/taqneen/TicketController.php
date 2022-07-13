@@ -54,8 +54,8 @@ class TicketController extends Controller
                     return view('taqneen.ticket.actions', compact('ticket'));
                 })
 
-                ->editColumn('agent.first_name', function ($ticket) {
-                    return $ticket->agent->full_name??$ticket->client_name;
+                ->editColumn('agent.supplier_business_name', function ($ticket) {
+                    return $ticket->agent->supplier_business_name??$ticket->client_name;
                 })
 
                 ->editColumn('agent.custom_field1', function ($ticket) {
