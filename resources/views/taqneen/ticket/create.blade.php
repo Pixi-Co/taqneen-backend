@@ -196,8 +196,8 @@
                 return {
                     results:  $.map(data, function (item) {
                         return {
-                            text: item.first_name +" "+ item.last_name,
-                            id: item.id
+                            text: item.supplier_business_name +" / "+ item.name,
+                            id: item.converted_by
                         }
                     })
                 };
