@@ -118,12 +118,6 @@
 
 
 @section('script')
-    <script src="{{asset('assets/js/chart/chartist/chartist.js')}}"></script>
-    <script src="{{asset('assets/js/chart/chartist/chartist-plugin-tooltip.js')}}"></script>
-    <script src="{{asset('assets/js/chart/knob/knob.min.js')}}"></script>
-    <script src="{{asset('assets/js/chart/knob/knob-chart.js')}}"></script>
-    <script src="{{asset('assets/js/chart/apex-chart/apex-chart.js')}}"></script>
-    <script src="{{asset('assets/js/chart/apex-chart/stock-prices.js')}}"></script>
     <script src="{{asset('assets/js/notify/bootstrap-notify.min.js')}}"></script>
     <script src="{{asset('assets/js/dashboard/default.js')}}"></script>
     <script src="{{asset('assets/js/notify/index.js')}}"></script>
@@ -138,6 +132,8 @@
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('assets/js/datatable/datatables/datatable.custom.js')}}"></script>
     <script>
-        $(".dataTable").DataTable();
+        $(".dataTable").DataTable({
+            "ordering": false
+        });
     </script>
 @endsection
