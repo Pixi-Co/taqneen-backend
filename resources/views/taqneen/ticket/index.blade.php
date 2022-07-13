@@ -82,8 +82,6 @@
                                                                         @foreach($ticketStatues as $ticketStatue)
                                                                             <option value="{{$ticketStatue->id}}" {{$ticketStatue->id == old('status')?'selected':''}}>{{$ticketStatue->name}}</option>
                                                                         @endforeach
-                                                                    @else
-                                                                        <option disabled>@trans('status')</option>
                                                                     @endif
 
                                                                 </select>
@@ -100,14 +98,21 @@
                                                         <div class="form-group mb-3 col-md-4 col-sm-6 ">
                                                             <div>
                                                                 <label for="user_name" class="form-label">@trans('user_name')</label>
-                                                                <input class="form-control" name="user_name" value="{{old('user_name')}}" type="text" id="user_name">
+                                                                <select class="form-control select2" id="user_name" name="user_name">
+                                                                    <option disabled selected>@trans('select_user_name')</option>
+                                                                    @foreach($users as $user)
+                                                                        <option value="{{$user->id}}">{{$user->full_name}}</option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group mb-3 col-md-4 col-sm-6 ">
                                                             <div>
                                                                 <label for="client_name" class="form-label">@trans('client_name')</label>
-                                                                <input class="form-control" value="{{old('client_name')}}" name="client_name" type="text" id="client_name">
+                                                                <select class="form-control select2" id="agent_id" name ="agent_id">
+                                                                    <option disabled selected>@trans('select_client')</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -149,10 +154,7 @@
                                     </div>
                                 </div>
                             </div><!-- /.row -->
-                        </div><!-- /.container-fluid -->
-
                     </section>
-
                 </section>
             </div>
 
@@ -177,7 +179,6 @@
     <script src="{{asset('assets/js/datatable/datatables/datatable.custom.js')}}"></script>
     <script type="text/javascript">
         $(function () {
-
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
@@ -188,7 +189,7 @@
                         data.status = $('#status').val(),
                             data.priority = $('#priority').val(),
                             data.user_name = $('#user_name').val(),
-                            data.client_name = $('#client_name').val(),
+                            data.client_id = $('#agent_id').val(),
                             data.computer_number = $('#computer_number').val(),
                             data.sub_department = $('#sub_department').val();
                     }
@@ -223,13 +224,39 @@
                     data.status = null,
                         data.priority = null,
                         data.user_name = null,
-                        data.client_name = null,
+                        data.client_id = null,
                         data.priority = null,
                         data.computer_number = null,
                         data.sub_department = null;
                     return false;
                 })
                 table.draw();
+            });
+
+            $('#agent_id').select2({
+                placeholder: 'search in users',
+                ajax: {
+                    url: '/select2-autocomplete-ajax',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term,
+                            searchInContacts:true,
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results:  $.map(data, function (item) {
+                                return {
+                                    text: item.supplier_business_name +" / "+ item.name,
+                                    id: item.converted_by
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
             });
 
         });

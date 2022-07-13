@@ -337,11 +337,6 @@ class User extends Authenticatable
         return $this->belongsTo(\Modules\Crm\Entities\CrmContact::class, 'crm_contact_id');
     }
 
-    public function contactInfo()
-    {
-        return $this->belongsTo(Contact::class, 'contact_id');
-    }
-
     /**
      * Get the contact for the user.
      */

@@ -38,6 +38,7 @@ class TicketController extends Controller
         $subDepartments  = TicketDepartment::whereNotNull('parent_id')->get();
         $priorities = TicketPriority::all();
         $ticketStatues = TicketStatus::all();
+        $users =  User::role(['courier','Service staff#19'])->get();
         if ($request->ajax()) {
             if ($this->commonUtil->is_admin(auth()->user()))
                 $data = Ticket::with(['user','agent','department','priority','status'])->select('*');
@@ -78,13 +79,8 @@ class TicketController extends Controller
                         });
                     }
 
-                    if (!empty($request->get('client_name'))) {
-                        $instance->whereHas('agent',function($w) use($request){
-                            $search = $request->get('client_name');
-                            $w->where('first_name', 'LIKE', "%$search%")
-                                ->orWhere('last_name', 'LIKE', "%$search%")
-                                ->orWhere('name', 'LIKE', "%$search%");
-                        })->orWhere('client_name',"LIKE","%".$request->get('client_name')."%");
+                    if (!empty($request->get('client_id'))) {
+                        $instance->where('agent_id',$request->get('client_id'));
                     }
 
                     if (!empty($request->get('computer_num'))) {
@@ -97,7 +93,7 @@ class TicketController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('taqneen.ticket.index',compact('subDepartments','priorities','ticketStatues'));
+        return view('taqneen.ticket.index',compact('subDepartments','priorities','ticketStatues','users'));
     }
 
 

@@ -162,32 +162,8 @@
         $(document).ready(function() {
             initDateRanger();
             $('#dob').val('');
-
-            $('.select2').select2({
-                placeholder: 'search in users',
-                ajax: {
-                    url: '/select2-autocomplete-ajax',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function (params) {
-                        return {
-                            q: params.term,
-                            user_type:'user'
-                        };
-                    },
-                    processResults: function (data) {
-                        return {
-                            results:  $.map(data, function (item) {
-                                return {
-                                    text: item.first_name +" "+ item.last_name,
-                                    id: item.id
-                                }
-                            })
-                        };
-                    },
-                    cache: true
-                }
-            });
+            $('#status').val('');
+            $('#user_id').val('');
 
             var table = $('.data-table').DataTable({
                 processing: true,

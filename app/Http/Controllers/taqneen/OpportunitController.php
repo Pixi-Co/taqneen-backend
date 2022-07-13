@@ -25,10 +25,11 @@ class OpportunitController extends Controller
             "done" => __('done'), 
             "another_provider" => __('another_provider'), 
         ];
+        $users = User::couriers()->pluck('first_name', 'id')->toArray();
         if ($request->ajax()) {
             return $this->data($request);
         }
-        return view('taqneen.opportunities.index',compact('status'));
+        return view('taqneen.opportunities.index',compact('status','users'));
     }
 
     private function data(Request $request)

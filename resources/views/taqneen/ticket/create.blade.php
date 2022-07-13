@@ -93,8 +93,6 @@
                                                     @foreach($mainDepartments as $mainDepartment)
                                                         <option value="{{$mainDepartment->id}}">{{$mainDepartment->name}}</option>
                                                     @endforeach
-                                                @else
-                                                    <option>@lang('messages.please_select')</option>
                                                 @endif
 
                                             </select>
@@ -191,7 +189,7 @@
                 data: function (params) {
                     return {
                         q: params.term,
-                        user_type:'user_customer'
+                        searchInContacts:true,
                     };
                 },
                 processResults: function (data) {

@@ -13,7 +13,10 @@
                 <div class="form-group">
                     <label for="">@trans('users')</label>
                     <select class="form-select select2" id="user_id" name="created_by">
-                        <option selected >@trans('select_users')</option> 
+                        <option disabled>@trans('select_status')</option>
+                        @foreach($users as $key=>$user)
+                            <option value="{{$key}}">{{$user}}</option>
+                        @endforeach
                     </select>
 {{--                    {!! Form::select("created_by", $users, request()->created_by, ["class" => "form-select"]) !!}--}}
                 </div>
@@ -23,7 +26,7 @@
                 <div class="form-group">
                     <label for="">@trans('status')</label>
                     <select class="form-select" id="status" name="custom_field4">
-                        <option selected disabled>@trans('select_status')</option>
+                        <option disabled>@trans('select_status')</option>
                         @foreach($status as $key=>$myStatus)
                             <option value="{{$key}}">{{$myStatus}}</option>
                         @endforeach
