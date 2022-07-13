@@ -38,7 +38,10 @@ class TicketController extends Controller
         $subDepartments  = TicketDepartment::whereNotNull('parent_id')->get();
         $priorities = TicketPriority::all();
         $ticketStatues = TicketStatus::all();
-        $users =  User::role(['courier','Service staff#19'])->get();
+        $users =User::whereHas("roles", function($q)
+        {
+            $q->whereIn("id", [40,41]);
+        })->get();
         if ($request->ajax()) {
             if ($this->commonUtil->is_admin(auth()->user()))
                 $data = Ticket::with(['user','agent','department','priority','status'])->select('*');
