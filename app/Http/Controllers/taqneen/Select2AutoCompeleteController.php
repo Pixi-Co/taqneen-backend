@@ -14,7 +14,6 @@ class Select2AutoCompeleteController extends Controller
     {
 
         if($request->has('q') && !$request->has('searchInContacts')){
-            dd('test1');
             $search = $request->q;
             $data =User::select("id","first_name","last_name")
                 ->where('user_type',$request->user_type)
@@ -28,7 +27,7 @@ class Select2AutoCompeleteController extends Controller
         if ($request->has('q') && $request->has('searchInContacts'))
         {
             $search = $request->q;
-            $data =Contact::select("id","supplier_business_name",'mobile',"name",'first_name','last_name','converted_by')
+            $data =Contact::select("id","supplier_business_name",'mobile',"name",'first_name','last_name','converted_by','custom_field1')
                 ->where('supplier_business_name','LIKE',"%$search%")
                 ->orWhere('name','LIKE',"%$search%")
                 ->orWhere('first_name','LIKE',"%$search%")

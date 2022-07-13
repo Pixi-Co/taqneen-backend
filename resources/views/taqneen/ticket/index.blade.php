@@ -249,7 +249,7 @@
                         return {
                             results:  $.map(data, function (item) {
                                 return {
-                                    text: item.supplier_business_name +" / "+ item.name,
+                                    text: item.supplier_business_name +" / "+ item.custom_field1,
                                     id: item.converted_by
                                 }
                             })
