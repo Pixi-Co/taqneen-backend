@@ -22,20 +22,21 @@ use DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
-use Yajra\DataTables\Facades\DataTables; 
+use Yajra\DataTables\Facades\DataTables;
+use function foo\func;
 
 class SubscriptionController extends Controller
 {
 
     public function index()
-    { 
+    {
         if (request()->ajax()) {
             return $this->data();
         }
 
         $business_id = session('business.id');
-        $services = Category::where("business_id", $business_id)->where('category_type', 'service')->get(); 
-          
+        $services = Category::where("business_id", $business_id)->where('category_type', 'service')->get();
+
         $users = User::couriers()->get()->pluck('user_full_name', 'id')->toArray();
         $payment_status = [
             "paid" => __('paid'),
@@ -46,13 +47,14 @@ class SubscriptionController extends Controller
     }
 
     public function getQuery() {
-        $business_id = request()->session()->get('user.business_id');
+        $defaultBusinessForTaqneen =19;
+        $business_id = request()->session()->get('user.business_id')??$defaultBusinessForTaqneen;
 
         $query = Subscription::join(
             "contacts", "contacts.id", "=", "transactions.contact_id"
         )
-        ->where('transactions.business_id', $business_id);
- 
+            ->where('transactions.business_id', $business_id);
+
 
         if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions')) && !auth()->user()->isAdmin()) {
             $query->where('transactions.created_by', auth()->user()->id);
@@ -100,15 +102,11 @@ class SubscriptionController extends Controller
 
         if (request()->payment_date!==null) {
             $dates = explode(' - ',request()->payment_date);
-            $ids = DB::table('transaction_payments')
-                ->latest()
-                ->where('business_id', session('business.id'))
-                ->whereBetween('paid_on', [$dates[0],$dates[1]])
-                ->whereNotNull('transaction_id')
-                ->select('transaction_id')
-                ->distinct() 
-                ->pluck('transaction_id')->toArray();
-            $query->whereIn("transactions.id", $ids);
+            $query->leftJoin('transaction_payments',function ($query) use($defaultBusinessForTaqneen,$dates){
+                $query->on('transactions.id','=','transaction_payments.transaction_id');
+                $query->where('transactions.business_id', $defaultBusinessForTaqneen);
+                $query->whereBetween(DB::raw('DATE(transaction_payments.paid_on)'), [$dates[0],$dates[1]]);
+            });
         }
         $query->select(
             "*",
@@ -116,7 +114,6 @@ class SubscriptionController extends Controller
             "transactions.created_by as created_by",
             "transactions.business_id as business_id"
         );
-
         return $query;
     }
 
@@ -403,7 +400,7 @@ class SubscriptionController extends Controller
         $resource = Subscription::find($id);
         $resourceData = $resource->toArray();
         unset($resourceData['token']);
-        // copy 
+        // copy
         $newSubscription = Subscription::create($resourceData);
         $newSubscription = $newSubscription->refresh();
         $newSubscription->custom_field_4 = $request->custom_field_4;
@@ -546,7 +543,7 @@ class SubscriptionController extends Controller
                 "notes" => $request->notes
             ]);
 
-            // insert payment 
+            // insert payment
             DB::table('transaction_payments')->insert([
                 "transaction_id" => $resource->id,
                 "transaction_no" => $resource->id,
@@ -568,7 +565,7 @@ class SubscriptionController extends Controller
                 $resource->update();
             }
 
-            // create token 
+            // create token
             $resource->getTokenAttribute();
 
 
@@ -665,7 +662,7 @@ class SubscriptionController extends Controller
                 Triger::fire(Triger::$CHANGE_SUBSCRIPTION_STATUS, $resource->id);
             }
 
-            // insert payment  
+            // insert payment
             // remove old payment
             TransactionPayment::where('transaction_id', $id)->delete();
 
@@ -799,7 +796,7 @@ class SubscriptionController extends Controller
     {
 
 
-        //return redirect('/customers');  
+        //return redirect('/customers');
 
         try {
             if ($request->hasFile('import_file')) {
