@@ -254,7 +254,7 @@
                 expire_date: $('.expire_date').val(),
                 payment_date: $('.payment_date').val(),
             };
-            subscriptionTable.ajax.url('/subscriptions?' + $.param(data));
+            subscriptionTable.ajax.url('/reports/subscriptions?' + $.param(data));
             subscriptionTable.ajax.reload();
         }
 
@@ -269,7 +269,7 @@
             $('.payment_date').val('');
 
             $('.user_id').val('');
-            subscriptionTable.ajax.url('/subscriptions');
+            subscriptionTable.ajax.url('/reports/subscriptions');
             subscriptionTable.ajax.reload();
         }
 

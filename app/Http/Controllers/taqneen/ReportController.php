@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\taqneen;
 
 use App\Category;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Subscription;
@@ -209,8 +210,6 @@ class ReportController extends Controller
         $business_id = session('business.id');
         $services = Category::where("business_id", $business_id)->where('category_type', 'service')->get();
 
-        //dd(DB::table('transactions')->where("business_id", $business_id)->where('expire_date', "<=", date('Y-m-d'))->get()->toArray());
-
         $expire_date = date('Y-m-d', strtotime(date('Y-m-d'). ' + 31 days'));
         $data = [
             'subscription_total' => Transaction::where('business_id', session('business.id'))->sum('final_total'),
@@ -254,7 +253,8 @@ class ReportController extends Controller
 
         if (request()->expire_date) {
             $dates = explode(' - ',request()->expire_date);
-            $query->whereBetween('expire_date', [$dates[0],$dates[1]]);
+            $dateTo = Carbon::parse($dates[1])->addYear()->format('Y-m-d');
+            $query->whereBetween('expire_date', [$dates[0],$dateTo]);
         }
 
         if (request()->payment_date) {

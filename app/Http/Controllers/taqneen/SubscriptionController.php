@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
-use function foo\func;
 
 class SubscriptionController extends Controller
 {
@@ -47,8 +46,7 @@ class SubscriptionController extends Controller
     }
 
     public function getQuery() {
-        $defaultBusinessForTaqneen =19;
-        $business_id = request()->session()->get('user.business_id')??$defaultBusinessForTaqneen;
+        $business_id = request()->session()->get('user.business_id');
 
         $query = Subscription::join(
             "contacts", "contacts.id", "=", "transactions.contact_id"
@@ -102,11 +100,15 @@ class SubscriptionController extends Controller
 
         if (request()->payment_date!==null) {
             $dates = explode(' - ',request()->payment_date);
-            $query->leftJoin('transaction_payments',function ($query) use($defaultBusinessForTaqneen,$dates){
-                $query->on('transactions.id','=','transaction_payments.transaction_id');
-                $query->where('transactions.business_id', $defaultBusinessForTaqneen);
-                $query->whereBetween(DB::raw('DATE(transaction_payments.paid_on)'), [$dates[0],$dates[1]]);
-            });
+            $ids = DB::table('transaction_payments')
+                ->latest()
+                ->where('business_id', session('business.id'))
+                ->whereBetween('paid_on', [$dates[0],$dates[1]])
+                ->whereNotNull('transaction_id')
+                ->select('transaction_id')
+                ->distinct()
+                ->pluck('transaction_id')->toArray();
+            $query->whereIn("transactions.id", $ids);
         }
         $query->select(
             "*",
@@ -816,7 +818,7 @@ class SubscriptionController extends Controller
         }
         //dd($output);
 
-        return back()->with('status', $output);;
+        return back()->with('status', $output);
     }
 
     public function export() { 
