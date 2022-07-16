@@ -253,8 +253,9 @@ class ReportController extends Controller
 
         if (request()->expire_date) {
             $dates = explode(' - ',request()->expire_date);
+            $dateFrom = Carbon::parse($dates[0])->addYear()->format('Y-m-d');
             $dateTo = Carbon::parse($dates[1])->addYear()->format('Y-m-d');
-            $query->whereBetween('expire_date', [$dates[0],$dateTo]);
+            $query->whereBetween('expire_date', [$dateFrom,$dateTo]);
         }
 
         if (request()->payment_date) {
