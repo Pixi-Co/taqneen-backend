@@ -236,7 +236,7 @@ class TicketController extends Controller
     {
         $ticket = Ticket::with(['user','agent','department','priority','status'])->findOrFail($id);
         $ticket = $this->prepareTicketData($ticket);
-        $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with('user')->latest()->get();
+        $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with('user')->orderBy('id','desc')->get();
         return view('taqneen.ticket.reply-guest',compact('ticket','ticketsReplies'));
     }
 

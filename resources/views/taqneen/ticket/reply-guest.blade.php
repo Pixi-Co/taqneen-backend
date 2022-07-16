@@ -3,7 +3,10 @@
 <style>
 
 
-    body{margin-top:20px;}
+    body{
+        margin-top:20px;
+        background-color: #f1ebe6;
+    }
 
     .user-info-wrapper {
         position: relative;
@@ -252,7 +255,8 @@
     }
 
     .comment .comment-text {
-        margin-bottom: 12px
+        margin-bottom: 12px;
+        float: right;
     }
 
     .comment .comment-footer {
@@ -271,7 +275,8 @@
 
     .comment .comment-meta {
         color: #9da9b9;
-        font-size: 13px
+        font-size: 13px;
+        float: right;
     }
 
     .comment .reply-link {
@@ -318,7 +323,7 @@
 </style>
 <div class="container padding-bottom-3x mb-2">
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-md-11">
             <div class="padding-top-2x mt-2 hidden-lg-up"></div>
             <div class="table-responsive margin-bottom-2x">
                 <table class="table margin-bottom-none">
@@ -353,7 +358,7 @@
                 <h6 class="alert alert-danger">{{__('support.no_replies')}}</h6>
             @endif
             <!-- Reply Form-->
-            <h5 class="mb-30 padding-top-1x">@lang('support.message')</h5>
+            <h5 class="mb-30 padding-top-1x">@trans('support.message')</h5>
             @if(session('status'))
                 <h6 class="info">{{session('status')}}</h6>
             @endif
@@ -369,7 +374,7 @@
                     </div>
                 </div>
                 <div class="text-right mb-3">
-                    <button class="btn btn-outline-primary" type="submit">{{__('support.send')}}</button>
+                    <button class="btn btn-outline-primary" type="submit">@trans('support.send')</button>
                 </div>
             </form>
         </div>
