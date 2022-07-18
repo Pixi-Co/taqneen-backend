@@ -197,7 +197,7 @@
                                                         <div class="d-flex justify-content-between">
                                                             <div class="user d-flex flex-row align-items-center">
                                                                 <p>
-                                                                    <img src="{{ asset('images/avatar.png') }}" width="30" class="user-img rounded-circle mr-2">
+                                                                    <img src="{{ asset('images/reply_avatar.png') }}" width="30" class="user-img rounded-circle mr-2">
                                                                     <span>{{$ticketReply->user->full_name??$ticketReply->ticket->client_name}}</span>
                                                                 </p>
                                                                 <span class="p-r-15"><b class="font-weight-bold">{{$ticketReply->reply}}</b></span>
@@ -287,7 +287,7 @@
                                             <div class="col-md-3 col-sm-12">
                                                 <div>
                                                     <img class="img-fluid img-sm" style="width: 40px;height: 40px;border-radius: 50%"
-                                                         src="{{ asset('images/avatar.png') }}" alt="">
+                                                         src="{{url('/images/reply_avatar.png')}}" alt="">
                                                 </div>
                                             </div>
                                             <div class="col-md-7 col-sm-12">{{$ticket['user']}}</div>
