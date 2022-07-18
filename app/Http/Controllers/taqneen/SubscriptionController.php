@@ -95,7 +95,12 @@ class SubscriptionController extends Controller
 
         if (request()->expire_date!==null) {
             $dates =explode(' - ',request()->expire_date);
-            $query->whereBetween(DB::raw('DATE(transactions.expire_date)'),[ $dates[0],$dates[1]]);
+            $query->where(function($q) use ($dates){
+                $q
+                ->whereBetween(DB::raw('DATE(transactions.expire_date)'),[ $dates[0],$dates[1]])
+                ->orWhereBetween(DB::raw('(select expire_date from transactions tr where tr.id = transactions.transfer_parent_id)'),[ $dates[0],$dates[1]])
+                ->orWhereBetween(DB::raw("(select expire_date from transactions t where t.contact_id = transactions.contact_id and t.id < transactions.id  limit 1)"), [$dates[0],$dates[1]]);
+            });
         }
 
         if (request()->payment_date!==null) {
@@ -112,6 +117,8 @@ class SubscriptionController extends Controller
         }
         $query->select(
             "*",
+            //DB::raw("(select expire_date from transactions t where t.id = transactions.transfer_parent_id) as old_expire_date"),
+            //DB::raw("(select expire_date from transactions t where t.contact_id = transactions.contact_id and t.id < transactions.id  limit 1) as old_expire_date"),
             "transactions.id as id",
             "transactions.created_by as created_by",
             "transactions.business_id as business_id"
@@ -408,6 +415,7 @@ class SubscriptionController extends Controller
         $newSubscription->custom_field_4 = $request->custom_field_4;
         $newSubscription->shipping_custom_field_2 = $request->shipping_custom_field_2;
         $newSubscription->status = Subscription::$ACTIVE; 
+        $newSubscription->transfer_parent_id = $resource->id; 
         /*$newSubscription->created_by = session('user.id');*/
         if ($resource->isExpire()) {
             $newSubscription->transaction_date = $request->pay_date;  
