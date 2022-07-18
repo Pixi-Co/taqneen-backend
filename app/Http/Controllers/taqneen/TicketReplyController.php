@@ -73,17 +73,17 @@ class TicketReplyController extends Controller
                 'file' => 'nullable|file',
                 'file.*'=>'file|mimes:ppt,pptx,doc,docx,pdf,xls,xlsx,jpg,png,gif,jpeg,|max:5000',
             ]);
-            if($request->file('files')) {
+            if ($request->hasFile('files'))
+            {
                 $files = $request->file('files');
                 foreach ($files as $file)
                 {
-                    $file = $request->file('file');
                     $filename = time().'_'.$file->getClientOriginalName();
                     // File upload location
                     $location = 'tickets/files/replies';
                     // Upload file
                     $file->move($location,$filename);
-                    $data['file'] = $filename;
+                    $data['file'][] = $filename;
                 }
             }
             $data['ticket_id'] = $id;
@@ -139,9 +139,7 @@ class TicketReplyController extends Controller
                 return response()->download($full_path."/".$archiveName)->deleteFileAfterSend(true);
             }else
                 return response()->download($full_path.'/files/replies/'.$ticket->file[0]);
-
         }
-
     }
 
 }

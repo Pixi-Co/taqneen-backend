@@ -13,10 +13,12 @@
 
 <div class="container-fluid px-1 py-5 mx-auto">
     <div class="row d-flex justify-content-center">
-        <div class="col-xl-7 col-lg-8 col-md-9 col-11">
+        <div class="col-lg-8 col-md-8">
             <div class="card">
-                <div class="row">
-                    <h4>@trans('send_your_ticket')</h4>
+                <div class="row" style="background-color: #114272;color: #fff">
+                    <div class="col-md-12">
+                        <h4 class="text-center">@trans('send_your_ticket')</h4>
+                    </div>
                 </div>
                 <hr>
                 @if(!empty(session('done')))
@@ -27,7 +29,7 @@
                 <form method="post" action="{{route('tickets.guest.create')}}" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group mb-3">
                             <label for="computer_number" class="form-label">@trans('computer_number')<b class="text-danger">*</b></label>
                             <input type="text" name="computer_num" class="form-control" id="computer_number" placeholder="700xxxxxxxxxxx">
@@ -38,7 +40,7 @@
                             @endif
                         </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group mb-3">
                             <label for="name" class="form-label">@trans('email')</label>
                             <input type="text" name="client_email" class="form-control">
@@ -49,7 +51,7 @@
                             @endif
                         </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group mb-3">
                             <label for="name" class="form-label">@trans('name')</label>
                             <input type="text" name="client_name" value="{{isset($authedUser)?$authedUser->name:''}}" class="form-control" id="name">
@@ -60,7 +62,7 @@
                             @endif
                         </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label for="name" class="form-label">@trans('phone')</label>
                                 <input type="text" name="client_phone" class="form-control" id="name">
@@ -78,7 +80,7 @@
                             <label for="name" class="form-label">@trans('ticket_department')<b class="text-danger">*</b></label>
                             <div class="form-group">
                                 <select class="form-control" id="main_department">
-                                    <option disabled selected>@lang('messages.please_select')</option>
+                                    <option disabled selected>@trans('please_select')</option>
                                     @if(count($mainDepartments))
                                         @foreach($mainDepartments as $mainDepartment)
                                             <option value="{{$mainDepartment->id}}">{{$mainDepartment->name}}</option>
@@ -92,7 +94,7 @@
                             <label for="name" class="form-label">@trans('sub_department')<b class="text-danger">*</b></label>
                             <div class="form-group">
                                 <select class="form-control sub_departments" name="sub_department">
-                                    <option disabled selected>@lang('messages.please_select')</option>
+                                    <option disabled selected>@trans('please_select')</option>
                                     @if(count($subDepartments))
                                         @foreach($subDepartments as $sub_department)
                                             <option class="{{$sub_department->parent_id}}" value="{{$sub_department->id}}">{{$sub_department->name}}</option>
@@ -125,14 +127,16 @@
                             <div class="form-group mb-3">
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label">@trans('upload_file')</label>
-                                    <input class="form-control" name="file" type="file" id="formFile">
+                                    <input class="form-control" name="files[]" multiple type="file" id="formFile">
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row justify-content-end">
-                        <div class="form-group col-sm-10"> <button type="submit" class="btn-block btn-primary pull-right">@trans('messages.save')</button> </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-block pull-right" style="background-color: #114272;color: #fff">@trans('messages.save')</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -142,3 +146,12 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('select[name="sub_department"] option').not(':first').hide();
+        $('#main_department').on('change', function() {
+            $('select[name="sub_department"] option').not(':first').hide();
+            $('.'+this.value+'').show();
+        });
+    });
+</script>

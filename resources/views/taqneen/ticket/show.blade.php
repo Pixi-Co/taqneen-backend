@@ -165,7 +165,7 @@
                                                                @foreach($ticketStatuses as $key=>$ticketStatus)
                                                                    <div class="col-md-4 col-sm-4">
                                                                        <div class="form-check">
-                                                                           <input class="form-check-input" value="{{$ticketStatus->id}}" type="radio" name="status_id" id="flexRadioDefault{{$key}}">
+                                                                           <input class="form-check-input" value="{{$ticketStatus->id}}" {{$ticketStatus->is_default==1?'checked':''}} type="radio" name="status_id" id="flexRadioDefault{{$key}}">
                                                                            <label class="form-check-label" for="flexRadioDefault{{$key}}">
                                                                                {{$ticketStatus->name}}
                                                                            </label>
@@ -315,6 +315,9 @@
                            <div class="form-group">
                                <select class="form-control select2" name="user_id">
                                    <option selected disabled>@trans('sellect_user')</option>
+                                   @foreach($users as $user)
+                                       <option value="{{$user->id}}">{{$user->full_name}}</option>
+                                   @endforeach
                                </select>
                                @if($errors->has('user_id'))
                                    <p class="text text-danger">
@@ -352,36 +355,7 @@
                 var message =  $(this).val();
                 $("#message").val(message);
             });
-            $('.modal .select2').select2({
-                dropdownParent: $('.modal'),
-                placeholder: 'search in users',
-                ajax: {
-                    url: '/select2-autocomplete-ajax',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function (params) {
-                        return {
-                            q: params.term,
-                            user_type:'user'
-                        };
-                    },
-                    processResults: function (data) {
-                        return {
-                            results:  $.map(data, function (item) {
-                                return {
-                                    text: item.first_name +" "+ item.last_name,
-                                    id: item.id
-                                }
-                            })
-                        };
-                    },
-                    cache: true
-                }
-            });
-
-            // $('.select2').select2({
-            //
-            // });
+            $('.select2').select2();
         });
     </script>
 @endsection

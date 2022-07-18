@@ -195,13 +195,16 @@ class TicketController extends Controller
     }
     public function show($id)
     {
-        $auth_user = auth()->user();
+        $users = User::whereHas("roles", function($q)
+        {
+            $q->whereIn("id", [40,41]);
+        })->get();
         $ticket = Ticket::with(['user','agent','department','priority','status'])->findOrFail($id);
         $ticket = $this->prepareTicketData($ticket);
         $cannedReplies = CannedReply::all();
         $ticketStatuses = TicketStatus::all();
         $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with(['user','ticket'])->orderBy('id','desc')->get();
-        return view('taqneen.ticket.show',compact('ticket','cannedReplies','ticketStatuses','ticketsReplies','auth_user'));
+        return view('taqneen.ticket.show',compact('ticket','cannedReplies','ticketStatuses','ticketsReplies','users'));
     }
 
     public function downloadTicketFiles($id)
@@ -234,9 +237,8 @@ class TicketController extends Controller
 
     public function getGuestReply($id)
     {
-        $ticket = Ticket::with(['user','agent','department','priority','status'])->findOrFail($id);
-        $ticket = $this->prepareTicketData($ticket);
-        $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with('user')->orderBy('id','desc')->get();
+        $ticket = Ticket::with(['department','priority','status'])->findOrFail($id);
+        $ticketsReplies = TicketReply::where('ticket_id',$ticket['id'])->with(['ticket','user'])->orderBy('id','desc')->get();
         return view('taqneen.ticket.reply-guest',compact('ticket','ticketsReplies'));
     }
 

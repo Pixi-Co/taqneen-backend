@@ -45,7 +45,7 @@
                                                             <div class="form-group">
                                                                 <label for="formFile" class="form-label">@trans('ticket_titles')</label>
                                                                 <select class="form-control sub_departments select2" id="sub_department" name="sub_department">
-                                                                    <option disabled selected>@lang('messages.please_select')</option>
+                                                                    <option disabled selected>@trans('messages.please_select')</option>
                                                                     @if(count($subDepartments))
                                                                         @foreach($subDepartments as $sub_department)
                                                                             <option class="{{$sub_department->parent_id}}" value="{{$sub_department->id}}" {{$sub_department->parent_id==old('sub_department')?'selected':''}}>{{$sub_department->name}}</option>
@@ -65,8 +65,6 @@
                                                                         @foreach($priorities as $priority)
                                                                             <option value="{{$priority->id}}" {{$priority->id==old('priority')?'selected':''}}>{{$priority->name}}</option>
                                                                         @endforeach
-                                                                    @else
-                                                                        <option disabled>@trans('select_priority')</option>
                                                                     @endif
 
                                                                 </select>
@@ -134,7 +132,7 @@
                                                 <table class="display data-table">
                                                     <thead class="text-center">
                                                     <tr>
-                                                        <th>@lang('id')</th>
+                                                        <th>@trans('id')</th>
                                                         <th>@trans('title')</th>
                                                         <th>@trans('department')</th>
                                                         <th>@trans('customer')</th>
