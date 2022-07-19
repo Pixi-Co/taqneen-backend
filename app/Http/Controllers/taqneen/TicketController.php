@@ -127,14 +127,14 @@ class TicketController extends Controller
             $user_id = $this->getAssignedUser($request->sub_department);
             $status = $this->getDefaultTicketStatus();
             $agent = $this->getAgent($request);
-            if (empty($priority_id) || empty($user_id) || empty($status) || empty($agent))
-            {
-                $output = [
-                    "success" => 0,
-                    "msg" => __('there_is_an_error')
-                ];
-                return back()->with('status', $output);
-            }
+//            if (empty($priority_id) || empty($user_id) || empty($status) || empty($agent))
+//            {
+//                $output = [
+//                    "success" => 0,
+//                    "msg" => __('there_is_an_error')
+//                ];
+//                return back()->with('status', $output);
+//            }
             $data = [
                 "agent_id"=>$agent->id,
                 'user_id'=>$user_id,
