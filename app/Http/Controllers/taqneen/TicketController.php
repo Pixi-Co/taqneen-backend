@@ -185,6 +185,7 @@ class TicketController extends Controller
         }catch (\Exception $th)
         {
             DB::rollBack();
+            dd($th);
             $output = [
                 "success" => 0,
                 "msg" => $th->getMessage()
