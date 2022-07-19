@@ -50,7 +50,7 @@
 
                                                     @if(isset($ticketReply->file))
                                                         <div class="d-flex flex-row">
-                                                            <a role="button" class="btn btn-sm" href="{{route('tickets.reply.download.files',$ticketReply->id)}}"><i class="fa fa-download text-info"></i><small> @trans('download')</small></a>
+                                                            <a role="button" class="btn btn-sm" href="{{route('reply.download.files',$ticketReply->id)}}"><i class="fa fa-download text-info"></i><small> @trans('download')</small></a>
                                                         </div>
                                                     @endif
                                                 </div>
