@@ -36,7 +36,7 @@
                                                     <p class="mb-0">{{$ticketReply->created_at->diffForHumans()}}</p>
                                                     <h6 class="text-primary fw-bold mb-0">
                                                         <span class="text-dark ms-2">{{$ticketReply->reply}}</span>
-                                                        {{isset($ticketReply->user)?$ticketReply->user->full_name:$ticketReply->ticket->client_name??$ticketReply->ticket->agent->supplier_business_name}} <img class="rounded-circle shadow-1-strong" style="margin-left: 8px"
+                                                        {{isset($ticketReply->user)?$ticketReply->user->full_name:$ticketReply->ticket->client_name??$ticketReply->ticket->agent->full_name}} <img class="rounded-circle shadow-1-strong" style="margin-left: 8px"
                                                                           src="{{url('/images/reply_avatar.png')}}" alt="avatar" width="40"
                                                                           height="40" />
                                                     </h6>

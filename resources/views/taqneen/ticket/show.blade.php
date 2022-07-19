@@ -198,7 +198,7 @@
                                                             <div class="user d-flex flex-row align-items-center">
                                                                 <p>
                                                                     <img src="{{ asset('images/reply_avatar.png') }}" width="30" class="user-img rounded-circle mr-2">
-                                                                    <span>{{$ticketReply->user->full_name??$ticketReply->ticket->client_name}}</span>
+                                                                    <span>{{isset($ticketReply->user)?$ticketReply->user->full_name:$ticketReply->ticket->client_name??$ticketReply->ticket->agent->full_name}}</span>
                                                                 </p>
                                                                 <span class="p-r-15"><b class="font-weight-bold">{{$ticketReply->reply}}</b></span>
                                                             </div>
