@@ -19,6 +19,6 @@ class TicketReply extends Model
 
     public function ticket()
     {
-        return $this->belongsTo(Ticket::class,'ticket_id');
+        return $this->belongsTo(Ticket::class,'ticket_id')->with('agent');
     }
 }
