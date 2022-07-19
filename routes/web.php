@@ -102,7 +102,7 @@ Route::middleware(['setData'])->group(function () {
     Route::post('support/guest/tickets/create', 'taqneen\TicketController@store')->name('tickets.guest.create');
     Route::get('support/guest/tickets/reply/{id}', 'taqneen\TicketController@getGuestReply')->name('tickets.guest.reply');
     Route::post('support/guest/tickets/reply/{id}', 'taqneen\TicketReplyController@storeGuestReply')->name('tickets.guest.reply');
-    Route::get('tickets/reply/download/files/{id}','taqneen\TicketReplyController@downloadTicketReplyFiles')->name('tickets.reply.download.files');
+    Route::get('support/tickets/reply/download/files/{id}','taqneen\TicketReplyController@downloadTicketReplyFiles')->name('tickets.reply.download.files');
 
 
     Route::get('/quick_access', function()
