@@ -253,9 +253,12 @@ class ReportController extends Controller
 
         if (request()->expire_date) {
             $dates = explode(' - ',request()->expire_date);
-            $dateFrom = Carbon::parse($dates[0])->addYear()->format('Y-m-d');
-            $dateTo = Carbon::parse($dates[1])->addYear()->format('Y-m-d');
-            $query->whereBetween('expire_date', [$dateFrom,$dateTo]);
+            $query->where(function($q) use ($dates){
+                $q
+                    ->whereBetween(DB::raw('DATE(transactions.expire_date)'),[ $dates[0],$dates[1]])
+                    ->orWhereBetween(DB::raw('(select expire_date from transactions tr where tr.id = transactions.transfer_parent_id)'),[ $dates[0],$dates[1]])
+                    ->orWhereBetween(DB::raw("(select expire_date from transactions t where t.contact_id = transactions.contact_id and t.id < transactions.id  limit 1)"), [$dates[0],$dates[1]]);
+            });
         }
 
         if (request()->payment_date) {
