@@ -2,30 +2,21 @@
 
 @section('title', 'Default')
 
-@section('css')
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/chartist.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/date-picker.css') }}">
-@endsection
-
-@section('style')
-@endsection
-
 @section('breadcrumb-title')
-    <h3>{{__('support.ticket_departments')}}</h3>
+    <h3>@lang('support.ticket_departments')</h3>
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">@trans('dashboard_')</li>
+    <li class="breadcrumb-item">@trans('dashboard')</li>
     <li class="breadcrumb-item">
-        <a href="{{__('support.ticket_departments')}}">{{__('support.ticket_departments')}}</a>
+        <a href="{{route('tickets.departments')}}">@trans('support.ticket_departments')</a>
     </li>
-    <li class="breadcrumb-item active">{{__('support.add_ticket_departments)}}</li>
+    <li class="breadcrumb-item active">@trans('support.edit_ticket_departments')</li>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <form action="{{ route('tickets.departments.store')}}" method="post" >
+        <form action="{{route('tickets.departments.update',$ticketDepartment->id)}}" method="post" >
             @csrf
             <div class="row">
                 <!-- Content Wrapper. Contains page content -->
@@ -52,8 +43,8 @@
                                         @endif
                                         <div class="card-body">
                                             <div class="form-group mb-3">
-                                                <label for="name" class="form-label">{{__('support.department_name')}}</label>
-                                                <input type="text" name="name" class="form-control" id="name" value="{{old('name')}}" placeholder="{{__('support.ticket_priority_name')}}">
+                                                <label for="name" class="form-label">@trans('support.department_name')</label>
+                                                <input type="text" name="name" class="form-control" id="name" value="{{$ticketDepartment->name}}">
                                                 @if($errors->has('name'))
                                                     <div class="text text-danger">
                                                         {{$errors->first('name')}}
@@ -61,54 +52,51 @@
                                                 @endif
                                             </div>
 
-                                            <div class="form-group mb-3">
-                                                <label for="name" class="form-label text-bold text-info">{{__('support.department_titles')}}</label>
-                                                <fieldset class="ticket-titles" style="border: 1px dashed #e88446">
-                                                    <div class="row targetDiv" id="div0">
-                                                        <div class="col-md-12">
-                                                            <div id="group1" class="title_duplicate">
-                                                                <div class="row entry">
-                                                                    <div class="col-xs-12 col-md-4" style="margin: 5px">
-                                                                        <div class="form-group">
-                                                                            <input class="form-control" name="department_titles[]" value="{{old('department_titles')}}" type="text" placeholder="department-title">
-                                                                        </div>
-                                                                    </div>
+                                            @if(isset($ticketDepartment->subDepartmentsWithPriorty))
+                                                <div class="form-group mb-3">
+                                                    <label for="name" class="form-label text-bold text-info">@trans('support.department_titles')</label>
+                                                    <fieldset class="ticket-titles" style="border: 1px dashed #e88446">
+                                                        <div class="row targetDiv" id="div0">
+                                                            <div class="col-md-12">
+                                                                <div id="group1" class="title_duplicate">
+                                                                    @foreach($ticketDepartment->subDepartmentsWithPriorty as $row)
+                                                                        <div class="row entry">
+                                                                            <div class="col-xs-12 col-md-4" style="margin: 5px">
+                                                                                <div class="form-group">
+                                                                                    <input class="form-control" name="department_titles[]" value="{{$row->name}}" type="text" placeholder="department-title">
+                                                                                </div>
+                                                                            </div>
 
-                                                                    <div class="col-xs-12 col-md-3" style="margin: 5px">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control" name="titles_priorities[]">
-                                                                                @if(count($priorities))
-                                                                                    @foreach($priorities as $priority)
-                                                                                        <option value="{{$priority->id}}">{{$priority->name}}</option>
-                                                                                    @endforeach
-                                                                                @else
-                                                                                    <option>please select priority</option>
-                                                                                @endif
-
-                                                                            </select>
+                                                                            <div class="col-xs-12 col-md-3" style="margin: 5px">
+                                                                                <div class="form-group">
+                                                                                    <select class="form-control" name="titles_priorities[]">
+                                                                                        @foreach($periorites as $periorty)
+                                                                                            <option value="{{$row->priority_id}}" {{$periorty->id==$row->priority_id?'selected':''}}>{{$periorty->name}}</option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-md-1" style="margin: 5px">
+                                                                                <div class="form-group">
+                                                                                    <button type="button" class="btn-xs btn-success btn-sm btn-add">
+                                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-
-                                                                    <div class="col-xs-12 col-md-1" style="margin: 5px">
-                                                                        <div class="form-group">
-                                                                            <button type="button" class="btn-xs btn-success btn-sm btn-add">
-                                                                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
+                                                                    @endforeach
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </fieldset>
-                                            </div>
+                                                    </fieldset>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
                     </section>
                 </div>
-
             </div>
             <div class="row">
                 <div class="col-12 my-3">
@@ -127,23 +115,6 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/js/chart/chartist/chartist.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/chartist/chartist-plugin-tooltip.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/knob/knob.min.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/knob/knob-chart.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/apex-chart/apex-chart.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/apex-chart/stock-prices.js') }}"></script>
-    <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dashboard/default.js') }}"></script>
-    <script src="{{ asset('assets/js/notify/index.js') }}"></script>
-    <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.js') }}"></script>
-    <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
-    <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/handlebars.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/typeahead.bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/typeahead.custom.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead-search/handlebars.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
     <script>
         $( document ).ready(function() {
 

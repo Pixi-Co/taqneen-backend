@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\taqneen;
 
 use App\Http\Requests\taqneen\TicketDepartmentRequest;
+use App\Http\Requests\taqneen\TicketDepartmentUpdateRequest;
 use App\TicketDepartment;
 use App\TicketPriority;
 use App\User;
@@ -58,16 +59,53 @@ class TicketDepartmentController extends Controller
 
     public function edit($id)
     {
+        $ticketDepartment = TicketDepartment::with('subDepartmentsWithPriorty')->findOrFail($id);
+        $periorites = TicketPriority::all();
+        return view('taqneen.ticket.ticket-departments.edit',compact('ticketDepartment','periorites'));
+
 
     }
 
-    public function update(Request $request,$id)
+    public function update(TicketDepartmentUpdateRequest $request,$id)
     {
 
+        try {
+            DB::beginTransaction();
+            $mainDepartment = TicketDepartment::findOrFail($id);
+            $mainDepartment->subDepartments()->delete();
+            $mainDepartment->update(['name'=>$request->name]);
+            if (isset($request->department_titles))
+            foreach ($request->department_titles as $key => $departTitle){
+                $insertedData =[
+                    'name'=>$departTitle,
+                    'priority_id'=>$request->titles_priorities[$key],
+                    'parent_id'=>$id
+                ];
+                $mainDepartment->subDepartments()->updateOrCreate($insertedData);
+            }
+            $output = [
+                "success" => 1,
+                "msg" => __('done')
+            ];
+            DB::commit();
+        }catch (\Exception $th)
+        {
+            DB::rollBack();
+            $output = [
+                "success" => 0,
+                "msg" => trans('canot_remove_some_departments_as_it_linked_to_other_rows')
+            ];
+        }
+        return redirect()->route('tickets.departments')->with('status', $output);
     }
 
-    public function destory($id)
+    public function delete($id)
     {
 
+        $ticketDepartment =TicketDepartment::where('id',$id)->with('subDepartments')->delete();
+        if ($ticketDepartment)
+            return response()->json(['success' => true,
+                'msg' => trans("deleted_success")
+            ]);
     }
 }

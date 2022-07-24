@@ -23,4 +23,9 @@ class TicketDepartment extends Model
         return $this->belongsTo(TicketPriority::class,'priority_id','id');
     }
 
+    public function subDepartmentsWithPriorty()
+    {
+        return $this->subDepartments()->with('priority');
+    }
+
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests\taqneen;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TicketDepartmentRequest extends FormRequest
+class TicketDepartmentUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class TicketDepartmentRequest extends FormRequest
     {
         return [
             'name'=>'required|string',
-            'department_titles.*'=>'required',
+            'department_titles'=>'sometimes|required|array',
             'titles_priorities.*'=>'required|exists:ticket_priorities,id',
         ];
     }

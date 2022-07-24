@@ -61,11 +61,15 @@ class DepartmentUserController extends Controller
 
     public function edit($id)
     {
-        $targetDepartment = DepartmentUser::with('department')->findOrFail($id);
+        $targetDepartment = DepartmentUser::with('user')->findOrFail($id);
         $departments = TicketDepartment::all();
         $mainDepartments = $departments->where('parent_id',null);
         $subDepartments =$departments->where('parent_id','!==',null);
-        return view('taqneen.ticket.department-users.edit',compact('mainDepartments','subDepartments','targetDepartment'));
+        $users = User::whereHas("roles", function($q)
+        {
+            $q->whereIn("id", [40,41]);
+        })->get();
+        return view('taqneen.ticket.department-users.edit',compact('mainDepartments','subDepartments','targetDepartment','users'));
 
     }
 
@@ -131,7 +135,7 @@ class DepartmentUserController extends Controller
             return responseJson(1, __('done'));
         }catch (\Exception $exception)
         {
-            return responseJson(1, __('support.fail'));
+            return responseJson(1, trans('support.fail'));
         }
     }
 }

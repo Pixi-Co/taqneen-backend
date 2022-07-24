@@ -2,15 +2,6 @@
 
 @section('title', 'Default')
 
-@section('css')
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/chartist.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/date-picker.css') }}">
-@endsection
-
-@section('style')
-@endsection
-
 @section('breadcrumb-title')
     <h3>@trans('department_users')</h3>
 @endsection
@@ -56,7 +47,7 @@
                                                 <label for="name" class="form-label">@trans('ticket_department')</label>
                                                 <div class="form-group">
                                                     <select class="form-control" id="main_department">
-                                                        <option>@lang('messages.please_select')</option>
+                                                        <option>@trans('messages.please_select')</option>
                                                     @if(count($mainDepartments))
                                                             @foreach($mainDepartments as $mainDepartment)
                                                                 <option value="{{$mainDepartment->id}}" {{$mainDepartment->id==$targetDepartment->department->parent_id?'selected':''}}>{{$mainDepartment->name}}</option>
@@ -71,7 +62,7 @@
                                                 <label for="name" class="form-label">@trans('sub_department')</label>
                                                 <div class="form-group">
                                                     <select class="form-control sub_departments" name="sub_department">
-                                                        <option>@lang('messages.please_select')</option>
+                                                        <option>@trans('messages.please_select')</option>
                                                         @if(count($subDepartments))
                                                             @foreach($subDepartments as $sub_department)
                                                                 <option class="{{$sub_department->parent_id}}" {{$sub_department->id==$targetDepartment->department_id?'selected':''}} value="{{$sub_department->id}}">{{$sub_department->name}}</option>
@@ -86,9 +77,15 @@
                                                 <label for="name" class="form-label">@trans('users')</label>
                                                 <div class="form-group">
                                                     <select class="form-control select2" name="user">
-                                                        <option value="{{$user->id}}">{{$user->full_name}}</option>
-                                                    @endif
-
+                                                        @if(count($users))
+                                                            @foreach($users as $user)
+                                                                <option value="{{$user->id}}" {{$targetDepartment->user->id == $user->id?'selcted':''}}>
+                                                                    {{$user->full_name}}
+                                                                </option>
+                                                            @endforeach
+                                                        @else
+                                                            <option value="{{$targetDepartment->user->id}}">{{$targetDepartment->user->full_name}}</option>
+                                                        @endif
                                                     </select>
                                                 </div>
                                             </div>
@@ -138,31 +135,31 @@
                 $('.'+this.value+'').show();
             });
 
-            $('.select2').select2({
-                placeholder: 'search in users',
-                ajax: {
-                    url: '/select2-autocomplete-ajax',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function (params) {
-                        return {
-                            q: params.term,
-                            user_type:'user'
-                        };
-                    },
-                    processResults: function (data) {
-                        return {
-                            results:  $.map(data, function (item) {
-                                return {
-                                    text: item.first_name +""+ item.last_name,
-                                    id: item.id
-                                }
-                            })
-                        };
-                    },
-                    cache: true
-                }
-            });
+            // $('.select2').select2({
+            //     placeholder: 'search in users',
+            //     ajax: {
+            //         url: '/select2-autocomplete-ajax',
+            //         dataType: 'json',
+            //         delay: 250,
+            //         data: function (params) {
+            //             return {
+            //                 q: params.term,
+            //                 user_type:'user'
+            //             };
+            //         },
+            //         processResults: function (data) {
+            //             return {
+            //                 results:  $.map(data, function (item) {
+            //                     return {
+            //                         text: item.first_name +""+ item.last_name,
+            //                         id: item.id
+            //                     }
+            //                 })
+            //             };
+            //         },
+            //         cache: true
+            //     }
+            // });
         });
     </script>
 @endsection
