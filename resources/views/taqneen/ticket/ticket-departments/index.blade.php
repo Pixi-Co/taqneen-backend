@@ -63,11 +63,11 @@
                                                             <th>-</th>
                                                             <th>{{  $department->created_at   }}</th>
                                                             <th class="d-flex">
-                                                                @can(find_or_create_p('user.edit'))
-                                                                    <a role="button" href="/userstaq/{{ $department->id }}/edit" class="m-1 btn btn-warning-gradien btn-sm" ><i class="fa fa-edit"></i></a>
+                                                                @can(find_or_create_p('ticket_departments.edit'))
+                                                                    <a role="button" href="{{route('tickets.departments.edit',$department->id)}}" class="m-1 btn btn-warning-gradien btn-sm" ><i class="fa fa-edit"></i></a>
                                                                 @endcan
-                                                                @can(find_or_create_p('user.delete'))
-                                                                    <button onclick="destroy('/userstaq/{{ $department->id }}')" class="m-1 btn btn-danger-gradien bt-sm" ><i class="fa fa-trash"></i></button>
+                                                                @can(find_or_create_p('ticket_departments.delete'))
+                                                                    <button onclick="destroy('{{route('tickets.departments.delete',$department->id)}}')" class="m-1 btn btn-danger-gradien bt-sm" ><i class="fa fa-trash"></i></button>
                                                                 @endcan
                                                             </th>
                                                         </tr>
@@ -83,10 +83,10 @@
                                                                     <td>{{  $department->created_at   }}</td>
                                                                     <td class="d-flex">
                                                                         @can(find_or_create_p('ticket_departments.edit'))
-                                                                            <a role="button" href="{{route('tickets.departments.edit',$department->id)}}" class="m-1 btn btn-warning-gradien btn-sm"><i class="fa fa-edit"></i></a>
+                                                                            <a role="button" href="{{route('tickets.departments.edit',$sub_department->id)}}" class="m-1 btn btn-warning-gradien btn-sm"><i class="fa fa-edit"></i></a>
                                                                         @endcan
                                                                         @can(find_or_create_p('ticket_departments.delete'))
-                                                                            <button onclick="destroy('{{route('tickets.departments.edit',$department->id)}}')" class="m-1 btn btn-danger-gradien bt-sm"><i class="fa fa-trash"></i></button>
+                                                                            <button onclick="destroy('{{route('tickets.departments.delete',$sub_department->id)}}')" class="m-1 btn btn-danger-gradien bt-sm"><i class="fa fa-trash"></i></button>
                                                                         @endcan
                                                                     </td>
                                                                 </tr>
