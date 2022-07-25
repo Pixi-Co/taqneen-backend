@@ -28,4 +28,9 @@ class TicketDepartment extends Model
         return $this->subDepartments()->with('priority');
     }
 
+    public function departmentUser()
+    {
+        return $this->hasMany(DepartmentUser::class,'department_id')->has('user');
+    }
+
 }

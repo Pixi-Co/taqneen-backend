@@ -167,11 +167,6 @@ var session_layout = '{{ session()->get('layout') }}';
 <script src="{{asset('assets/js/datepicker/date-picker/datepicker.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-picker/datepicker.en.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-picker/datepicker.custom.js')}}"></script>
-<script src="{{asset('assets/js/typeahead/handlebars.js')}}"></script>
-<script src="{{asset('assets/js/typeahead/typeahead.bundle.js')}}"></script>
-<script src="{{asset('assets/js/typeahead/typeahead.custom.js')}}"></script>
-<script src="{{asset('assets/js/typeahead-search/handlebars.js')}}"></script>
-<script src="{{asset('assets/js/typeahead-search/typeahead-custom.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatables/datatable.custom.js')}}"></script>
 

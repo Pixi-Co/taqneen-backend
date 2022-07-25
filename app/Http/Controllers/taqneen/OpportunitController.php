@@ -36,8 +36,9 @@ class OpportunitController extends Controller
     {
         $data = Contact::with(['service','oppUser'])->where('type','opportunity')->where('business_id', session('business.id'))
             ->orderBy('id','desc');
+
         if (!auth()->user()->isAdmin())
-            $data->where('converted_by', auth()->user()->id);
+            $data->where('converted_by', auth()->id());
 
         return Datatables::of($data)
             ->addIndexColumn()
@@ -63,6 +64,10 @@ class OpportunitController extends Controller
 
                 else
                     return '<label class="badge w3-dark-gray">'.__($opportunit->custom_field4).'</label>';
+
+            })
+            ->editColumn('oppUser.first_name', function($opportunit) {
+                return $opportunit->oppUser->full_name;
 
             })
             ->filter(function ($instance) use ($request) {

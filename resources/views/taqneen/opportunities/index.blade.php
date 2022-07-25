@@ -190,7 +190,7 @@
                     {data: 'email', name: 'email'},
                     {data: 'service.name', name: 'service_name'},
                     {data: 'custom_field4', name: 'status'},
-                    {data: 'oppUser.first_name', name: 'priority_id'},
+                    {data: 'oppUser.first_name', name: 'first_name'},
                     {data: 'dob', name: 'dob'},
                     { data: 'action', name: 'action' }
                 ]

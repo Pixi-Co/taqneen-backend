@@ -20,12 +20,12 @@ class ReportController extends Controller
         $business_id = request()->session()->get('user.business_id') ?? $defaultTaqneenSessionId;
 
         $query = Subscription::query()
-        ->where('transactions.business_id', $business_id);
- 
+            ->where('transactions.business_id', $business_id);
+
 
         if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions')) && !auth()->user()->isAdmin()) {
             $query->where('transactions.created_by', auth()->user()->id);
-        }  
+        }
 
         if (request()->payment_status) {
             $query->where('transactions.shipping_custom_field_2', request()->payment_status);
@@ -103,22 +103,22 @@ class ReportController extends Controller
         if (request()->ajax()) {
             return responseJson(1, count($resources) . " " . __('data_found'), view('taqneen.reports.services_report', compact('resources', 'users'))->render());
         }
- 
+
         return view('taqneen.reports.services_report', compact('resources', 'users'));
     }
 
     public function salesComissions()
     {
-        
+
         $business_id = request()->session()->get('user.business_id');
 
         $query = Subscription::query()
-        ->where('transactions.business_id', $business_id);
- 
+            ->where('transactions.business_id', $business_id);
+
 
         if (auth()->user()->can(find_or_create_p('subscriptions.own_data', 'subscriptions')) && !auth()->user()->isAdmin()) {
             $query->where('transactions.created_by', auth()->user()->id);
-        }  
+        }
 
         if (request()->payment_status) {
             $query->where('transactions.shipping_custom_field_2', request()->payment_status);
@@ -175,7 +175,7 @@ class ReportController extends Controller
         if (request()->user_id > 0) {
             $query->where('transactions.created_by', request()->user_id);
         }
-        
+
         if (request()->subscription_type) {
             if (request()->subscription_type == 'new')
                 $query->where('is_renew', '0');
@@ -184,19 +184,19 @@ class ReportController extends Controller
         }
 
         $resources = User::couriers()->where('user_type','user')->where('business_id', session('business.id'))->latest()->get();
- 
+
         foreach($resources as $resource) {
-            $queryClone = clone $query;  
+            $queryClone = clone $query;
             $resource->number = $queryClone->where("created_by", $resource->id)->count();
             $resource->sum = $queryClone->where("created_by", $resource->id)->sum('final_total');
             $resource->total = $queryClone->where("created_by", $resource->id)->sum('final_total') - $queryClone->where("created_by", $resource->id)->sum('tax_amount');
         }
-        $services = Category::where('business_id', session('user.business_id'))->where('category_type', 'service')->get(); 
+        $services = Category::where('business_id', session('user.business_id'))->where('category_type', 'service')->get();
 
         if (request()->ajax()) {
             return responseJson(1, count($resources) . " " . __('data_found'), view('taqneen.reports.sales_commision_reportes', compact('resources', 'services'))->render());
         }
- 
+
         return view('taqneen.reports.sales_commision_reportes', compact('resources', 'services'));
     }
 
@@ -228,7 +228,9 @@ class ReportController extends Controller
         $defaultBusinessId = 19 ;
         $business_id = request()->session()->get('user.business_id')??$defaultBusinessId;
 
-        $query = Subscription::where('business_id', $business_id);
+        $query = Subscription::join(
+            "contacts", "contacts.id", "=", "transactions.contact_id"
+        )->where('transactions.business_id', $business_id);;
 
         if (request()->service_id > 0) {
             $ids = DB::table('subscription_lines')
@@ -241,18 +243,18 @@ class ReportController extends Controller
 
         if (request()->subscription_type) {
             if (request()->subscription_type == 'new')
-                $query->where('is_renew', '0');
+                $query->where('transactions.is_renew', '0');
             else
-                $query->where('is_renew', '1');
+                $query->where('transactions.is_renew', '1');
         }
 
-        if (request()->transaction_date) {
+        if (request()->transaction_date!==null) {
             $dates = explode(' - ',request()->transaction_date);
-            $query->whereBetween(DB::raw('date(transaction_date)'), [$dates[0],$dates[1]]);
+            $query->whereBetween(DB::raw('DATE(transactions.transaction_date)'), [$dates[0],$dates[1]]);
         }
 
-        if (request()->expire_date) {
-            $dates = explode(' - ',request()->expire_date);
+        if (request()->expire_date!==null) {
+            $dates =explode(' - ',request()->expire_date);
             $query->where(function($q) use ($dates){
                 $q
                     ->whereBetween(DB::raw('DATE(transactions.expire_date)'),[ $dates[0],$dates[1]])
@@ -261,16 +263,17 @@ class ReportController extends Controller
             });
         }
 
-        if (request()->payment_date) {
+        if (request()->payment_date!==null) {
             $dates = explode(' - ',request()->payment_date);
             $ids = DB::table('transaction_payments')
+                ->latest()
                 ->where('business_id', session('business.id'))
-                ->whereBetween(DB::raw('date(paid_on)'),[ $dates[0],$dates[1]])
+                ->whereBetween('paid_on', [$dates[0],$dates[1]])
                 ->whereNotNull('transaction_id')
                 ->select('transaction_id')
                 ->distinct()
                 ->pluck('transaction_id')->toArray();
-            $query->whereIn("id", $ids);
+            $query->whereIn("transactions.id", $ids);
         }
 
         return DataTables::of($query)
@@ -284,19 +287,19 @@ class ReportController extends Controller
                 return view('taqneen.reports.actions', compact('row', 'payment_methods'));
             })
             ->addColumn('supplier_business_name', function ($row) {
-                return optional($row->contact)->supplier_business_name;
+                return optional($row)->supplier_business_name;
             })
             ->addColumn('first_name', function ($row) {
-                return optional($row->contact)->first_name;
+                return optional($row)->first_name;
             })
             ->addColumn('mobile', function ($row) {
-                return optional($row->contact)->mobile;
+                return optional($row)->mobile;
             })
             ->addColumn('mobile', function ($row) {
-                return optional($row->contact)->mobile;
+                return optional($row)->mobile;
             })
             ->editColumn('created_by', function ($row) {
-                return optional($row->user)->first_name;
+                return optional($row)->first_name;
             })
             ->editColumn('final_total', function ($row) {
                 return number_format($row->final_total, 2);
