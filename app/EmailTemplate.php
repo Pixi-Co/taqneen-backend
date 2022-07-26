@@ -31,7 +31,7 @@ class EmailTemplate extends Model
         $statues = TicketStatus::where('is_send_mail',1)->pluck('name','name')->toArray();
         foreach ($statues as $key=>$value)
         {
-            self::$TRIGERS[strtoupper($key)] = "Ticket status ".$value;
+            self::$TRIGERS[strtoupper($key)] = $value."حاله التذكره";
         }
     }
 

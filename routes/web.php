@@ -7,7 +7,8 @@ use App\Http\Controllers\taqneen\CustomerFormController;
 use App\Http\Controllers\taqneen\OpportunitController;
 use App\Http\Controllers\taqneen\SubscriptionController;
 use App\Http\Controllers\taqneen\UserController; 
-use App\User;  
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -309,4 +310,9 @@ Route::middleware(['EcomApi'])->prefix('api/ecom')->group(function () {
 //common route
 Route::middleware(['auth'])->group(function () {
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+});
+
+Route::get('test',function (){
+    \App\Subscription::dialyCheckSubscription();
+    echo "done";
 });
