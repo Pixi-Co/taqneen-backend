@@ -198,6 +198,7 @@ class Subscription extends Transaction
         $year = Carbon::now()->format('Y');
         $transactions = Subscription::whereYear('expire_date', $year)->get();
 
+        dd($transactions);
         foreach($transactions as $item) { 
             $today = Carbon::now();
             $date = Carbon::parse(strtotime($item->expire_date));
