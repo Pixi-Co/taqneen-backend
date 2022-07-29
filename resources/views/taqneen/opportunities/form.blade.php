@@ -87,7 +87,7 @@
                                             -->
                                             <div class="form-group col-md-6 pt-3">
                                                 <b>@trans('publish date ') *</b>
-                                                <input type="date" name="dob" class="form-control" placeholder="@trans('publish data ')" value="{{ $opportunity->dob?? date('Y-m-d') }}"  {{ $disabled }} required>
+                                                <input type="date" name="dob" class="form-control" placeholder="@trans('publish data ')" @isset($opportunity->dob)value="{{$opportunity->dob}}" @endisset required>
                                             </div>
                                             
                                             <div class="form-group col-md-6 pt-3">
