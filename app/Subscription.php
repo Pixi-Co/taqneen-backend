@@ -197,7 +197,7 @@ class Subscription extends Transaction
     public static function dialyCheckSubscription() {
         $year = Carbon::now()->format('Y');
         $transactions = Subscription::whereYear('expire_date', $year);
-        logger(vsprintf(str_replace(['?'], ['\'%s\''], $transactions->toSql()), $transactions->getBindings()));
+        dd(vsprintf(str_replace(['?'], ['\'%s\''], $transactions->toSql()), $transactions->getBindings()));
         dd($transactions);
         foreach($transactions as $item) { 
             $today = Carbon::now();
