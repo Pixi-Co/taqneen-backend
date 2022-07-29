@@ -196,40 +196,38 @@ class Subscription extends Transaction
 
     public static function dialyCheckSubscription() {
         $year = Carbon::now()->format('Y');
-        $transactions = Subscription::whereYear('expire_date', $year)->where('status','active')->get();
+        Subscription::whereYear('expire_date', $year)->where('status','active')->orderBy('id')->chunk(500, function ($transactions) {
+            foreach($transactions as $item) {
+                $today = Carbon::now();
+                $date = Carbon::parse(strtotime($item->expire_date));
+                $diffInWeeks = $today->diffInWeeks($date);
 
-        dd($transactions);
-        foreach($transactions as $item) { 
-            $today = Carbon::now();
-            $date = Carbon::parse(strtotime($item->expire_date));
-            $diffInWeeks = $today->diffInWeeks($date);
+                if ($today->format('Y-m-d') > $item->expire_date)
+                    $isBefore = false;
+                else
+                    $isBefore = true;
+                // today expire triger
+                if ($today->format('Y-m-d') == $item->expire_date)
+                    Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_DAY, $item->id);
 
-            if ($today->format('Y-m-d') > $item->expire_date)
-                $isBefore = false;
-             else
-                $isBefore = true;
-
-            // today expire triger 
-            if ($today->format('Y-m-d') == $item->expire_date)
-                Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_DAY, $item->id);
-
-            switch ($diffInWeeks) {
-                case 1:
-                    $isBefore ?
-                        Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_BEFORE_1_WEEKS, $item->id) :
-                        Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_AFTER_1_WEEKS, $item->id);
-                    break;
-                case 2:
-                    $isBefore ?
-                        Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_BEFORE_2_WEEKS, $item->id) :
-                        Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_AFTER_2_WEEKS, $item->id);
-                    break;
-                case 3:
-                    $isBefore ?
-                        Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_BEFORE_3_WEEKS, $item->id) :
-                        Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_AFTER_3_WEEKS, $item->id);
-                    break;
+                switch ($diffInWeeks) {
+                    case 1:
+                        $isBefore ?
+                            Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_BEFORE_1_WEEKS, $item->id) :
+                            Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_AFTER_1_WEEKS, $item->id);
+                        break;
+                    case 2:
+                        $isBefore ?
+                            Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_BEFORE_2_WEEKS, $item->id) :
+                            Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_AFTER_2_WEEKS, $item->id);
+                        break;
+                    case 3:
+                        $isBefore ?
+                            Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_BEFORE_3_WEEKS, $item->id) :
+                            Triger::fire(Triger::$EXPIRE_SUBSCRIPTION_AFTER_3_WEEKS, $item->id);
+                        break;
+                }
             }
-        }
+        });
     }
 }
